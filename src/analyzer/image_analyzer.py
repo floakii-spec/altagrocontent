@@ -28,6 +28,7 @@ def analyze_post(post: Post, session: Session) -> PostAnalysis:
     """
     existing = session.query(PostAnalysis).filter_by(post_id=post.id).first()
     if existing:
+        logger.debug("Post %s already analyzed, returning cached result.", post.id)
         return existing
 
     follower_count = post.profile.follower_count or 1
@@ -53,7 +54,12 @@ def analyze_post(post: Post, session: Session) -> PostAnalysis:
         max_tokens=300,
     )
 
-    raw = json.loads(response.choices[0].message.content)
+    try:
+        raw = json.loads(response.choices[0].message.content)
+    except json.JSONDecodeError as exc:
+        logger.error("GPT-4o returned invalid JSON for post %s: %s", post.id, exc)
+        raise
+
     score = calculate_virality_score(
         likes=post.likes,
         comments=post.comments,
@@ -71,4 +77,5 @@ def analyze_post(post: Post, session: Session) -> PostAnalysis:
     )
     session.add(analysis)
     session.commit()
+    logger.info("Post %s analyzed: theme=%s, score=%.3f", post.id, analysis.visual_theme, score)
     return analysis

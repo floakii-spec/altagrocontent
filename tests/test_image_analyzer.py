@@ -43,14 +43,12 @@ MOCK_GPT_RESPONSE = {
 def test_analyze_post_creates_analysis(session_with_post):
     session, profile, post = session_with_post
 
+    import json
     mock_choice = MagicMock()
-    mock_choice.message.content = str(MOCK_GPT_RESPONSE).replace("'", '"')
+    mock_choice.message.content = json.dumps(MOCK_GPT_RESPONSE)
 
     mock_response = MagicMock()
     mock_response.choices = [mock_choice]
-
-    import json
-    mock_choice.message.content = json.dumps(MOCK_GPT_RESPONSE)
 
     with patch("src.analyzer.image_analyzer.openai_client") as mock_client:
         mock_client.chat.completions.create.return_value = mock_response
