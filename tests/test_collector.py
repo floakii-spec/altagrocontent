@@ -135,7 +135,8 @@ def test_collect_profile_saves_new_posts(db_session):
     }]
 
     with patch("src.collector.collector.fetch_posts_apify", return_value=fake_posts):
-        collect_profile(profile=profile, session=db_session, apify_token="tok", months_back=6)
+        count = collect_profile(profile=profile, session=db_session, apify_token="tok", months_back=6)
+    assert count == 1
 
     posts = db_session.query(Post).filter_by(profile_id=profile.id).all()
     assert len(posts) == 1
@@ -167,7 +168,8 @@ def test_collect_profile_skips_existing_posts(db_session):
     }]
 
     with patch("src.collector.collector.fetch_posts_apify", return_value=fake_posts):
-        collect_profile(profile=profile, session=db_session, apify_token="tok", months_back=6)
+        count = collect_profile(profile=profile, session=db_session, apify_token="tok", months_back=6)
+    assert count == 0
 
     posts = db_session.query(Post).filter_by(profile_id=profile.id).all()
     assert len(posts) == 1  # não duplicou

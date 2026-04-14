@@ -1,7 +1,10 @@
+import logging
 from sqlalchemy.orm import Session
 from src.models import Profile, Post
 from src.collector.apify_client import fetch_posts_apify
 from src.collector.instaloader_client import fetch_posts_instaloader
+
+logger = logging.getLogger(__name__)
 
 
 def collect_profile(profile: Profile, session: Session, apify_token: str, months_back: int = 6) -> int:
@@ -11,7 +14,8 @@ def collect_profile(profile: Profile, session: Session, apify_token: str, months
     """
     try:
         raw_posts = fetch_posts_apify(handle=profile.handle, token=apify_token, months_back=months_back)
-    except Exception:
+    except Exception as exc:
+        logger.warning("Apify collection failed for %s, falling back to Instaloader: %s", profile.handle, exc)
         raw_posts = fetch_posts_instaloader(handle=profile.handle, months_back=months_back)
 
     existing_ids = {

@@ -9,7 +9,7 @@ _TYPE_MAP = {
 }
 
 
-def fetch_posts_instaloader(handle: str, months_back: int = 6) -> list:
+def fetch_posts_instaloader(handle: str, months_back: int = 6) -> list[dict]:
     """
     Fallback: busca posts via Instaloader (sem token, mas mais lento e com risco de bloqueio).
     Retorna lista de dicts normalizados.
@@ -22,7 +22,7 @@ def fetch_posts_instaloader(handle: str, months_back: int = 6) -> list:
     for post in profile.get_posts():
         published_at = post.date_utc.replace(tzinfo=timezone.utc)
         if published_at < cutoff:
-            break
+            continue
         posts.append({
             "instagram_id": post.shortcode,
             "image_url": post.url,

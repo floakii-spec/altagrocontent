@@ -9,7 +9,7 @@ _TYPE_MAP = {
 }
 
 
-def fetch_posts_apify(handle: str, token: str, months_back: int = 6) -> list:
+def fetch_posts_apify(handle: str, token: str, months_back: int = 6) -> list[dict]:
     """
     Busca posts de um perfil via Apify Instagram Scraper.
     Retorna lista de dicts normalizados prontos para inserção no banco.
@@ -22,7 +22,9 @@ def fetch_posts_apify(handle: str, token: str, months_back: int = 6) -> list:
         "resultsType": "posts",
         "resultsLimit": 200,
     })
-    run.wait_for_finish()
+    finished_run = run.wait_for_finish()
+    if finished_run and finished_run.get("status") not in ("SUCCEEDED", None):
+        raise RuntimeError(f"Apify run failed with status: {finished_run.get('status')}")
     dataset = run.default_dataset()
 
     posts = []
