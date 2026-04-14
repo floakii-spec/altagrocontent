@@ -72,8 +72,8 @@ def test_create_post_analysis(session):
 
 def test_create_weekly_report(session):
     report = WeeklyReport(
-        period_start=datetime(2026, 4, 7),
-        period_end=datetime(2026, 4, 13),
+        period_start=datetime(2026, 4, 7, tzinfo=timezone.utc),
+        period_end=datetime(2026, 4, 13, tzinfo=timezone.utc),
         top_formats={"infográfico": 12},
         top_themes={"maquinário": 8},
         language_patterns={"tom": "direto"},
