@@ -22,13 +22,11 @@ def fetch_posts_apify(handle: str, token: str, months_back: int = 6) -> list[dic
         "resultsType": "posts",
         "resultsLimit": 200,
     })
-    finished_run = run.wait_for_finish()
-    if finished_run and finished_run.get("status") not in ("SUCCEEDED", None):
-        raise RuntimeError(f"Apify run failed with status: {finished_run.get('status')}")
-    dataset = run.default_dataset()
+    if not run or run.get("status") not in ("SUCCEEDED",):
+        raise RuntimeError(f"Apify run failed with status: {run.get('status') if run else 'None'}")
 
     posts = []
-    for item in dataset.iterate_items():
+    for item in client.dataset(run["defaultDatasetId"]).iterate_items():
         published_at = datetime.fromisoformat(item["timestamp"].replace("Z", "+00:00"))
         if published_at < cutoff:
             continue
