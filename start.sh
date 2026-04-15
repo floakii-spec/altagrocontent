@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -ex
 
 export PYTHONPATH=/app:$PYTHONPATH
 
