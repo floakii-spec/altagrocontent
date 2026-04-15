@@ -103,6 +103,10 @@ def render():
                 st.info("← Selecione um post para gerar conteúdo.")
             else:
                 selected_post = session.get(Post, selected_id)
+                if not selected_post:
+                    st.warning("Post não encontrado. Selecione outro.")
+                    st.session_state.pop("selected_post_id", None)
+                    st.stop()
                 raw = selected_post.analysis.raw_analysis if selected_post.analysis else {}
 
                 st.write(f"**Inspiração:** @{selected_post.profile.handle}")
