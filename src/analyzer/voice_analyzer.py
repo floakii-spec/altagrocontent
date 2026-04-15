@@ -68,7 +68,11 @@ def analyze_voice(profile: Profile, session: Session) -> ProfileVoice:
 
     content = response.choices[0].message.content or ""
     content = content.strip().removeprefix("```json").removeprefix("```").removesuffix("```").strip()
-    raw = json.loads(content)
+    try:
+        raw = json.loads(content)
+    except json.JSONDecodeError as exc:
+        logger.error("GPT-4o returned invalid JSON for voice analysis of @%s: %s — raw: %r", profile.handle, exc, content)
+        raise
 
     voice = ProfileVoice(
         profile_id=profile.id,
