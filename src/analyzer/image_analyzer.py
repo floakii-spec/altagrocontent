@@ -12,14 +12,25 @@ logger = logging.getLogger(__name__)
 
 openai_client = OpenAI(api_key=OPENAI_API_KEY)
 
-SYSTEM_PROMPT = """Você é um especialista em marketing digital para agronegócio brasileiro.
-Analise a imagem e legenda do post e retorne um JSON com exatamente estes campos:
+SYSTEM_PROMPT = """Você é um estrategista de conteúdo especialista em agronegócio brasileiro.
+Analise profundamente a imagem e a legenda do post e retorne um JSON com exatamente estes campos:
+
 {
   "visual_theme": "<maquinário|insumo|campo|pessoa|dado|outro>",
-  "visual_format": "<infográfico|foto real|montagem|outro>",
+  "visual_format": "<infográfico|foto real|montagem|carrossel|outro>",
   "emotional_tone": "<inspirador|técnico|humorístico|urgente|educativo|outro>",
   "trigger": "<autoridade|escassez|pertencimento|resultado|outro>",
-  "summary": "<resumo em 1 frase do que torna este post relevante para o público do agro>"
+
+  "hook": "<primeira frase ou elemento visual que prende a atenção — exatamente como está no post>",
+  "main_message": "<a mensagem central completa que o post quer transmitir>",
+  "problem_addressed": "<qual dor, dúvida ou desafio do produtor rural esse post responde>",
+  "solution_presented": "<o que o post oferece como resposta, produto, técnica ou insight>",
+  "data_and_numbers": "<números, porcentagens, datas ou estatísticas usados no post — ou null se não houver>",
+  "narrative_structure": "<como o conteúdo é construído: ex. problema → causa → solução, antes/depois, lista de dicas, prova social + oferta, etc.>",
+  "target_within_agro": "<para qual perfil do agro esse post fala: produtor rural|agrônomo|técnico|revendedor|investidor|outro>",
+  "content_pillar": "<educacional|institucional|promocional|inspiracional|comunidade>",
+  "call_to_action": "<o que o post pede ao leitor no final — ou null se não houver>",
+  "replication_insights": "<o que torna esse post replicável: estrutura, linguagem, formato ou abordagem que pode ser adaptada>"
 }
 Responda APENAS com o JSON, sem markdown."""
 
@@ -62,7 +73,7 @@ def analyze_post(post: Post, session: Session) -> PostAnalysis:
                 ],
             },
         ],
-        max_tokens=300,
+        max_tokens=800,
     )
 
     content = response.choices[0].message.content or ""
