@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from src.database import get_session
 from src.models import Profile, Post
 from src.collector.collector import collect_profile
+from src.config import APIFY_API_TOKEN
 
 
 def render():
@@ -36,7 +37,7 @@ def render():
                 for i, profile in enumerate(profiles):
                     progress.progress((i) / len(profiles), text=f"Coletando @{profile.handle}...")
                     try:
-                        collect_profile(profile.handle, session)
+                        collect_profile(profile, session, APIFY_API_TOKEN)
                     except Exception as e:
                         st.warning(f"@{profile.handle}: {e}")
                 progress.progress(1.0, text="Sincronização concluída!")
