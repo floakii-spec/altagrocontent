@@ -1,3 +1,8 @@
+import os
+os.environ.setdefault("DATABASE_URL", "sqlite:///:memory:")
+os.environ.setdefault("OPENAI_API_KEY", "sk-test")
+os.environ.setdefault("APIFY_API_TOKEN", "apify-test")
+
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session

@@ -31,6 +31,10 @@ def generate_weekly_report(session: Session, period_start: datetime, period_end:
         .all()
     )
 
+    if not analyses:
+        logger.warning("No analyses found for period %s–%s; skipping report generation.", period_start.date(), period_end.date())
+        raise ValueError("No analyses available for the requested period.")
+
     summaries = [
         {
             "post_id": a.post_id,

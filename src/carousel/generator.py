@@ -36,6 +36,11 @@ def generate_carousel(theme: str, session: Session) -> Carousel:
         .first()
     )
 
+    if not voice:
+        logger.warning("No ProfileVoice found — carousel will use neutral defaults.")
+    if not report:
+        logger.warning("No WeeklyReport found — carousel will use no competitive data.")
+
     context = {
         "tema": theme,
         "perfil_de_voz": {
