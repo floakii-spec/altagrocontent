@@ -21,7 +21,7 @@ def fetch_posts_apify(handle: str, token: str, months_back: int = 1) -> list[dic
     run = client.actor("apify/instagram-scraper").call(run_input={
         "directUrls": [f"https://www.instagram.com/{handle}/"],
         "resultsType": "posts",
-        "resultsLimit": 200,
+        "resultsLimit": 30,
     })
     if not run or run.get("status") not in ("SUCCEEDED",):
         raise RuntimeError(f"Apify run failed with status: {run.get('status') if run else 'None'}")
