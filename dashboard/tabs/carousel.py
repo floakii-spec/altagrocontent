@@ -36,7 +36,7 @@ def render():
 def _render_carousel(carousel: Carousel):
     for slide in carousel.slides:
         with st.container(border=True):
-            st.write(f"**Slide {slide['slide_number']}: {slide['title']}**")
-            st.write(slide["copy"])
+            st.write(f"**Slide {slide.get('slide_number', '?')}: {slide.get('title', '')}**")
+            st.write(slide.get("copy", ""))
             if slide.get("cta"):
                 st.success(f"CTA: {slide['cta']}")

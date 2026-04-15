@@ -18,4 +18,5 @@ def render_post_card(post: Post):
                     st.write(f"**Formato:** {post.analysis.visual_format}")
                     st.write(f"**Tom:** {post.analysis.emotional_tone}")
                     st.write(f"**Gatilho:** {post.analysis.trigger}")
-                    st.write(f"**Score de viralidade:** {post.analysis.virality_score:.2%}")
+                    score = post.analysis.virality_score
+                    st.write(f"**Score de viralidade:** {score:.2%}" if score is not None else "**Score de viralidade:** —")
