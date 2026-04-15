@@ -65,10 +65,12 @@ def analyze_post(post: Post, session: Session) -> PostAnalysis:
         max_tokens=300,
     )
 
+    content = response.choices[0].message.content or ""
+    content = content.strip().removeprefix("```json").removeprefix("```").removesuffix("```").strip()
     try:
-        raw = json.loads(response.choices[0].message.content)
+        raw = json.loads(content)
     except json.JSONDecodeError as exc:
-        logger.error("GPT-4o returned invalid JSON for post %s: %s", post.id, exc)
+        logger.error("GPT-4o returned invalid JSON for post %s: %s — raw: %r", post.id, exc, content)
         raise
 
     score = calculate_virality_score(
