@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from src.database import get_session
 from src.models import Profile, Post
 from src.collector.collector import collect_profile
+from src.analyzer.image_analyzer import analyze_post
 
 
 def render():
@@ -35,12 +36,22 @@ def render():
             if st.button("🔄 Sincronizar todos agora", use_container_width=True):
                 progress = st.progress(0, text="Iniciando sincronização...")
                 for i, profile in enumerate(profiles):
-                    progress.progress((i) / len(profiles), text=f"Coletando @{profile.handle}...")
+                    progress.progress(i / len(profiles), text=f"Coletando @{profile.handle}...")
                     try:
                         collect_profile(profile, session, os.environ["APIFY_API_TOKEN"])
                     except Exception as e:
-                        st.warning(f"@{profile.handle}: {e}")
-                progress.progress(1.0, text="Sincronização concluída!")
+                        st.warning(f"Coleta @{profile.handle}: {e}")
+                        continue
+
+                    new_posts = session.query(Post).filter_by(profile_id=profile.id).filter(Post.analysis == None).all()
+                    for j, post in enumerate(new_posts):
+                        progress.progress(i / len(profiles), text=f"Analisando @{profile.handle} ({j+1}/{len(new_posts)})...")
+                        try:
+                            analyze_post(post, session)
+                        except Exception as e:
+                            st.warning(f"Análise post {post.id}: {e}")
+
+                progress.progress(1.0, text="Sincronização e análise concluídas!")
                 st.rerun()
 
         st.divider()

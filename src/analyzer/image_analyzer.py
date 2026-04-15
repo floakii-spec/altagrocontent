@@ -31,6 +31,9 @@ def analyze_post(post: Post, session: Session) -> PostAnalysis:
         logger.debug("Post %s already analyzed, returning cached result.", post.id)
         return existing
 
+    if not post.image_url:
+        raise ValueError(f"Post {post.id} has no image URL")
+
     follower_count = post.profile.follower_count or 1
 
     response = openai_client.chat.completions.create(
