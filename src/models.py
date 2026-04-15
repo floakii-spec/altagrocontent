@@ -70,7 +70,7 @@ class ProfileVoice(Base):
     tone: Mapped[Optional[str]] = mapped_column(String(100))
     dominant_themes: Mapped[list] = mapped_column(JSON, default=list)
     competitor_comparison: Mapped[dict] = mapped_column(JSON, default=dict)
-    voice_summary: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    voice_summary: Mapped[Optional[str]] = mapped_column(Text)
     generated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
     profile: Mapped["Profile"] = relationship(back_populates="voices")
