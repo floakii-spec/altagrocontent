@@ -1,5 +1,7 @@
+import base64
 import json
 import logging
+import httpx
 from openai import OpenAI
 from sqlalchemy.orm import Session
 from src.config import OPENAI_API_KEY
@@ -36,6 +38,12 @@ def analyze_post(post: Post, session: Session) -> PostAnalysis:
 
     follower_count = post.profile.follower_count or 1
 
+    img_response = httpx.get(post.image_url, timeout=20, follow_redirects=True)
+    img_response.raise_for_status()
+    b64_image = base64.b64encode(img_response.content).decode("utf-8")
+    media_type = img_response.headers.get("content-type", "image/jpeg").split(";")[0]
+    data_url = f"data:{media_type};base64,{b64_image}"
+
     response = openai_client.chat.completions.create(
         model="gpt-4o",
         messages=[
@@ -45,7 +53,7 @@ def analyze_post(post: Post, session: Session) -> PostAnalysis:
                 "content": [
                     {
                         "type": "image_url",
-                        "image_url": {"url": post.image_url},
+                        "image_url": {"url": data_url},
                     },
                     {
                         "type": "text",
