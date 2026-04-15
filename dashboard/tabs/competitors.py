@@ -2,6 +2,7 @@ import streamlit as st
 from sqlalchemy.orm import Session
 from src.database import get_session
 from src.models import Profile, Post
+from src.collector.collector import collect_profile
 
 
 def render():
@@ -27,6 +28,19 @@ def render():
                     st.rerun()
         else:
             st.info("Nenhum perfil cadastrado ainda.")
+
+        st.divider()
+        if profiles:
+            if st.button("🔄 Sincronizar todos agora", use_container_width=True):
+                progress = st.progress(0, text="Iniciando sincronização...")
+                for i, profile in enumerate(profiles):
+                    progress.progress((i) / len(profiles), text=f"Coletando @{profile.handle}...")
+                    try:
+                        collect_profile(profile.handle, session)
+                    except Exception as e:
+                        st.warning(f"@{profile.handle}: {e}")
+                progress.progress(1.0, text="Sincronização concluída!")
+                st.rerun()
 
         st.divider()
         st.subheader("Adicionar Perfil")
