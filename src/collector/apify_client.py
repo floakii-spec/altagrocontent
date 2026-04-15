@@ -2,9 +2,10 @@ from datetime import datetime, timezone, timedelta
 from apify_client import ApifyClient
 
 
+_ALLOWED_TYPES = {"Image", "Sidecar"}
+
 _TYPE_MAP = {
     "Image": "feed",
-    "Video": "reel",
     "Sidecar": "carousel",
 }
 
@@ -27,6 +28,8 @@ def fetch_posts_apify(handle: str, token: str, months_back: int = 6) -> list[dic
 
     posts = []
     for item in client.dataset(run["defaultDatasetId"]).iterate_items():
+        if item.get("type") not in _ALLOWED_TYPES:
+            continue
         published_at = datetime.fromisoformat(item["timestamp"].replace("Z", "+00:00"))
         if published_at < cutoff:
             continue

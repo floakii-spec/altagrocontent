@@ -2,9 +2,10 @@ from datetime import datetime, timezone, timedelta
 import instaloader
 
 
+_ALLOWED_TYPES = {"GraphImage", "GraphSidecar"}
+
 _TYPE_MAP = {
     "GraphImage": "feed",
-    "GraphVideo": "reel",
     "GraphSidecar": "carousel",
 }
 
@@ -20,6 +21,8 @@ def fetch_posts_instaloader(handle: str, months_back: int = 6) -> list[dict]:
 
     posts = []
     for post in profile.get_posts():
+        if post.typename not in _ALLOWED_TYPES:
+            continue
         published_at = post.date_utc.replace(tzinfo=timezone.utc)
         if published_at < cutoff:
             continue
