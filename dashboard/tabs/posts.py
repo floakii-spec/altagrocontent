@@ -3,6 +3,7 @@ from datetime import datetime, timezone, timedelta
 from sqlalchemy.orm import Session, joinedload
 from src.database import get_session
 from src.models import Profile, Post, PostAnalysis
+from src.analyzer.image_analyzer import analyze_post
 from dashboard.components.post_card import render_post_card
 
 
@@ -37,7 +38,20 @@ def render():
 
         all_posts = query.order_by(Post.published_at.desc()).limit(50).all()
 
-        st.write(f"{len(all_posts)} posts encontrados")
+        unanalyzed = [p for p in all_posts if p.analysis is None]
+        col_info, col_btn = st.columns([3, 1])
+        col_info.write(f"{len(all_posts)} posts encontrados · {len(unanalyzed)} sem análise")
+        if unanalyzed and col_btn.button("🔍 Analisar posts", use_container_width=True):
+            progress = st.progress(0, text="Iniciando análise...")
+            for i, post in enumerate(unanalyzed):
+                progress.progress(i / len(unanalyzed), text=f"Analisando post {i+1}/{len(unanalyzed)}...")
+                try:
+                    analyze_post(post, session)
+                except Exception as e:
+                    st.warning(f"Post {post.id}: {e}")
+            progress.progress(1.0, text="Análise concluída!")
+            st.rerun()
+
         for post in all_posts:
             render_post_card(post)
     finally:
