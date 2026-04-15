@@ -10,7 +10,7 @@ _TYPE_MAP = {
 }
 
 
-def fetch_posts_instaloader(handle: str, months_back: int = 6) -> list[dict]:
+def fetch_posts_instaloader(handle: str, months_back: int = 1) -> list[dict]:
     """
     Fallback: busca posts via Instaloader (sem token, mas mais lento e com risco de bloqueio).
     Retorna lista de dicts normalizados.

@@ -7,7 +7,7 @@ from src.collector.instaloader_client import fetch_posts_instaloader
 logger = logging.getLogger(__name__)
 
 
-def collect_profile(profile: Profile, session: Session, apify_token: str, months_back: int = 6) -> int:
+def collect_profile(profile: Profile, session: Session, apify_token: str, months_back: int = 1) -> int:
     """
     Coleta posts novos de um perfil. Tenta Apify primeiro, cai para Instaloader em caso de falha.
     Retorna número de novos posts salvos.

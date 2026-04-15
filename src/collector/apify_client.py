@@ -10,7 +10,7 @@ _TYPE_MAP = {
 }
 
 
-def fetch_posts_apify(handle: str, token: str, months_back: int = 6) -> list[dict]:
+def fetch_posts_apify(handle: str, token: str, months_back: int = 1) -> list[dict]:
     """
     Busca posts de um perfil via Apify Instagram Scraper.
     Retorna lista de dicts normalizados prontos para inserção no banco.
