@@ -70,9 +70,24 @@ class ProfileVoice(Base):
     tone: Mapped[Optional[str]] = mapped_column(String(100))
     dominant_themes: Mapped[list] = mapped_column(JSON, default=list)
     competitor_comparison: Mapped[dict] = mapped_column(JSON, default=dict)
+    voice_summary: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     generated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
     profile: Mapped["Profile"] = relationship(back_populates="voices")
+
+
+class GeneratedPost(Base):
+    __tablename__ = "generated_posts"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    source_post_id: Mapped[int] = mapped_column(ForeignKey("posts.id"), nullable=False)
+    hook: Mapped[Optional[str]] = mapped_column(Text)
+    caption: Mapped[Optional[str]] = mapped_column(Text)
+    cta: Mapped[Optional[str]] = mapped_column(Text)
+    status: Mapped[str] = mapped_column(String(20), default="generated")  # generated | approved | discarded
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+
+    source_post: Mapped["Post"] = relationship()
 
 
 class WeeklyReport(Base):
