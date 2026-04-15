@@ -1,5 +1,5 @@
 import streamlit as st
-from dashboard.tabs import competitors, posts, reports, voice, carousel
+from dashboard.tabs import competitors, posts, reports, voice, carousel, content_studio
 
 st.set_page_config(page_title="Agro Intel", layout="wide")
 st.title("Agro Intel — Inteligência Competitiva Instagram")
@@ -7,6 +7,7 @@ st.title("Agro Intel — Inteligência Competitiva Instagram")
 TABS = {
     "concorrentes": "📊 Concorrentes",
     "posts": "🖼️ Posts",
+    "criar": "✍️ Criar Conteúdo",
     "relatorios": "📋 Relatório Semanal",
     "voz": "🎙️ Meu Perfil de Voz",
     "carrossel": "✨ Gerador de Carrossel",
@@ -27,6 +28,8 @@ if active == "concorrentes":
     competitors.render()
 elif active == "posts":
     posts.render()
+elif active == "criar":
+    content_studio.render()
 elif active == "relatorios":
     reports.render()
 elif active == "voz":
