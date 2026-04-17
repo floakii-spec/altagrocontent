@@ -82,7 +82,7 @@ export function DrawerConcorrentes() {
             >
               <div className="w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold shrink-0"
                 style={{ background: '#3b82f618', color: '#3b82f6' }}>
-                {p.handle[0].toUpperCase()}
+                {(p.handle?.[0] ?? '?').toUpperCase()}
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-[12px] font-medium text-white truncate">@{p.handle}</p>
