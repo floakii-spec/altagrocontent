@@ -19,8 +19,9 @@ def test_config_loads_from_env():
 
 
 def test_config_raises_if_missing_key():
-    with patch.dict(os.environ, {}, clear=True):
-        with pytest.raises(KeyError):
-            from importlib import reload
-            import src.config as config
-            reload(config)
+    with patch("dotenv.load_dotenv", return_value=None):
+        with patch.dict(os.environ, {}, clear=True):
+            with pytest.raises(KeyError):
+                from importlib import reload
+                import src.config as config
+                reload(config)

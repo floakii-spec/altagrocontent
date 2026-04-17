@@ -50,9 +50,15 @@ def test_analyze_post_creates_analysis(session_with_post):
     mock_response = MagicMock()
     mock_response.choices = [mock_choice]
 
-    with patch("src.analyzer.image_analyzer.openai_client") as mock_client:
-        mock_client.chat.completions.create.return_value = mock_response
-        analysis = analyze_post(post=post, session=session)
+    mock_img_response = MagicMock()
+    mock_img_response.content = b"fake-image-bytes"
+    mock_img_response.headers = {"content-type": "image/jpeg"}
+    mock_img_response.raise_for_status = MagicMock()
+
+    with patch("src.analyzer.image_analyzer.httpx.get", return_value=mock_img_response):
+        with patch("src.analyzer.image_analyzer.openai_client") as mock_client:
+            mock_client.chat.completions.create.return_value = mock_response
+            analysis = analyze_post(post=post, session=session)
 
     assert analysis.visual_theme == "campo"
     assert analysis.visual_format == "foto real"
