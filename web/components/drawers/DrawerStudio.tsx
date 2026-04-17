@@ -54,8 +54,6 @@ export function DrawerStudio() {
     setTimeout(() => setCopied(false), 2000)
   }
 
-  const selectedPost = posts.find((p) => p.id === selected)
-
   return (
     <div className="p-6 space-y-5">
       <div className="space-y-2">
