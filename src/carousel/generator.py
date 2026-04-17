@@ -64,8 +64,16 @@ def generate_carousel(theme: str, session: Session) -> Carousel:
         max_tokens=1200,
     )
 
+    raw = response.choices[0].message.content or ""
+    raw = raw.strip()
+    if raw.startswith("```"):
+        raw = raw.split("```", 2)[1]
+        if raw.startswith("json"):
+            raw = raw[4:]
+        raw = raw.rstrip("`").strip()
+
     try:
-        slides = json.loads(response.choices[0].message.content)
+        slides = json.loads(raw)
     except json.JSONDecodeError as exc:
         logger.error("GPT-4o returned invalid JSON for carousel theme '%s': %s", theme, exc)
         raise
