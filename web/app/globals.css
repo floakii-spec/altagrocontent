@@ -1,0 +1,64 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-agro: var(--agro);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+}
+
+:root {
+  --background: #000000;
+  --foreground: #ffffff;
+  --card: #0d0d0d;
+  --card-foreground: #ffffff;
+  --border: rgba(255,255,255,0.08);
+  --input: rgba(255,255,255,0.08);
+  --ring: #16a34a;
+  --muted: #111111;
+  --muted-foreground: rgba(255,255,255,0.45);
+  --primary: #16a34a;
+  --primary-foreground: #ffffff;
+  --agro: #16a34a;
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html, body {
+    @apply bg-background text-foreground;
+    overflow: hidden;
+    height: 100%;
+  }
+  #__next, body > div:first-child {
+    height: 100%;
+  }
+}
+
+@keyframes breathe {
+  0%, 100% { box-shadow: 0 0 25px var(--glow), 0 0 50px var(--glow-dim); }
+  50%       { box-shadow: 0 0 42px var(--glow), 0 0 84px var(--glow-dim); }
+}
+@keyframes pulse-out {
+  0%   { transform: translate(-50%, -50%) scale(1);   opacity: 0.5; }
+  100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0;   }
+}
