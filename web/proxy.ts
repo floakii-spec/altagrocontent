@@ -12,6 +12,7 @@ export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl
 
   if (
+    pathname.startsWith('/login') ||
     pathname.startsWith('/api/auth') ||
     pathname.startsWith('/_next') ||
     pathname.startsWith('/favicon')
