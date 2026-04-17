@@ -1,11 +1,15 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react'
 import { TREE, type Module, type Group } from '@/lib/tree-data'
 
 interface OrbitalTreeProps {
   onOpenModule: (module: Module, group: Group) => void
   onStateChange?: (inGroup: boolean) => void
+}
+
+export interface OrbitalTreeHandle {
+  goBack: () => void
 }
 
 const SZ = { center: 80, group: 72, child: 52 } as const
@@ -15,8 +19,15 @@ const FADE = 320
 
 type NodeType = keyof typeof SZ
 
-export function OrbitalTree({ onOpenModule, onStateChange }: OrbitalTreeProps) {
+export const OrbitalTree = forwardRef<OrbitalTreeHandle, OrbitalTreeProps>(function OrbitalTree(
+  { onOpenModule, onStateChange },
+  ref
+) {
   const universeRef = useRef<HTMLDivElement>(null)
+
+  useImperativeHandle(ref, () => ({
+    goBack: () => (universeRef.current as any)?.__goBack?.(),
+  }))
 
   useEffect(() => {
     const universe = universeRef.current!
@@ -327,4 +338,4 @@ export function OrbitalTree({ onOpenModule, onStateChange }: OrbitalTreeProps) {
       ref={universeRef}
     />
   )
-}
+})
