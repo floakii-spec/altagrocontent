@@ -9,7 +9,7 @@
       "source_file": "tests/conftest.py",
       "source_location": "L1",
       "id": "tests_conftest_py",
-      "community": 10,
+      "community": 13,
       "norm_label": "conftest.py"
     },
     {
@@ -18,7 +18,7 @@
       "source_file": "tests/conftest.py",
       "source_location": "L13",
       "id": "conftest_engine",
-      "community": 10,
+      "community": 13,
       "norm_label": "engine()"
     },
     {
@@ -27,7 +27,7 @@
       "source_file": "tests/conftest.py",
       "source_location": "L21",
       "id": "conftest_session",
-      "community": 10,
+      "community": 13,
       "norm_label": "session()"
     },
     {
@@ -45,7 +45,7 @@
       "source_file": "tests/test_weekly_report.py",
       "source_location": "L12",
       "id": "test_weekly_report_session_with_analyses",
-      "community": 0,
+      "community": 1,
       "norm_label": "session_with_analyses()"
     },
     {
@@ -63,7 +63,7 @@
       "source_file": "tests/test_virality.py",
       "source_location": "L1",
       "id": "tests_test_virality_py",
-      "community": 6,
+      "community": 8,
       "norm_label": "test_virality.py"
     },
     {
@@ -72,7 +72,7 @@
       "source_file": "tests/test_virality.py",
       "source_location": "L5",
       "id": "test_virality_test_basic_score",
-      "community": 6,
+      "community": 8,
       "norm_label": "test_basic_score()"
     },
     {
@@ -81,7 +81,7 @@
       "source_file": "tests/test_virality.py",
       "source_location": "L11",
       "id": "test_virality_test_score_clamped_to_one",
-      "community": 6,
+      "community": 8,
       "norm_label": "test_score_clamped_to_one()"
     },
     {
@@ -90,7 +90,7 @@
       "source_file": "tests/test_virality.py",
       "source_location": "L16",
       "id": "test_virality_test_zero_followers_returns_zero",
-      "community": 6,
+      "community": 8,
       "norm_label": "test_zero_followers_returns_zero()"
     },
     {
@@ -99,7 +99,7 @@
       "source_file": "tests/test_virality.py",
       "source_location": "L21",
       "id": "test_virality_test_zero_engagement_returns_zero",
-      "community": 6,
+      "community": 8,
       "norm_label": "test_zero_engagement_returns_zero()"
     },
     {
@@ -108,7 +108,7 @@
       "source_file": "tests/test_carousel_generator.py",
       "source_location": "L1",
       "id": "tests_test_carousel_generator_py",
-      "community": 1,
+      "community": 0,
       "norm_label": "test_carousel_generator.py"
     },
     {
@@ -117,7 +117,7 @@
       "source_file": "tests/test_carousel_generator.py",
       "source_location": "L12",
       "id": "test_carousel_generator_session_with_context",
-      "community": 1,
+      "community": 0,
       "norm_label": "session_with_context()"
     },
     {
@@ -126,8 +126,80 @@
       "source_file": "tests/test_carousel_generator.py",
       "source_location": "L51",
       "id": "test_carousel_generator_test_generate_carousel_returns_slides",
-      "community": 1,
+      "community": 0,
       "norm_label": "test_generate_carousel_returns_slides()"
+    },
+    {
+      "label": "test_gap_analyzer.py",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
+      "source_location": "L1",
+      "id": "users_floakii_claudio_agro_content_tests_test_gap_analyzer_py",
+      "community": 6,
+      "norm_label": "test_gap_analyzer.py"
+    },
+    {
+      "label": "_make_profile()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
+      "source_location": "L7",
+      "id": "test_gap_analyzer_make_profile",
+      "community": 6,
+      "norm_label": "_make_profile()"
+    },
+    {
+      "label": "_make_post_with_analysis()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
+      "source_location": "L14",
+      "id": "test_gap_analyzer_make_post_with_analysis",
+      "community": 6,
+      "norm_label": "_make_post_with_analysis()"
+    },
+    {
+      "label": "test_extract_topics_from_raw_analysis()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
+      "source_location": "L38",
+      "id": "test_gap_analyzer_test_extract_topics_from_raw_analysis",
+      "community": 6,
+      "norm_label": "test_extract_topics_from_raw_analysis()"
+    },
+    {
+      "label": "test_extract_topics_empty()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
+      "source_location": "L45",
+      "id": "test_gap_analyzer_test_extract_topics_empty",
+      "community": 6,
+      "norm_label": "test_extract_topics_empty()"
+    },
+    {
+      "label": "test_compute_gaps_returns_list()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
+      "source_location": "L50",
+      "id": "test_gap_analyzer_test_compute_gaps_returns_list",
+      "community": 6,
+      "norm_label": "test_compute_gaps_returns_list()"
+    },
+    {
+      "label": "test_compute_gaps_identifies_uncovered_topic()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
+      "source_location": "L65",
+      "id": "test_gap_analyzer_test_compute_gaps_identifies_uncovered_topic",
+      "community": 6,
+      "norm_label": "test_compute_gaps_identifies_uncovered_topic()"
+    },
+    {
+      "label": "test_compute_gaps_no_competitors_returns_empty()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
+      "source_location": "L80",
+      "id": "test_gap_analyzer_test_compute_gaps_no_competitors_returns_empty",
+      "community": 6,
+      "norm_label": "test_compute_gaps_no_competitors_returns_empty()"
     },
     {
       "label": "__init__.py",
@@ -135,7 +207,7 @@
       "source_file": "tests/__init__.py",
       "source_location": "L1",
       "id": "tests_init_py",
-      "community": 13,
+      "community": 16,
       "norm_label": "__init__.py"
     },
     {
@@ -144,7 +216,7 @@
       "source_file": "tests/test_voice_profiler.py",
       "source_location": "L1",
       "id": "tests_test_voice_profiler_py",
-      "community": 0,
+      "community": 9,
       "norm_label": "test_voice_profiler.py"
     },
     {
@@ -153,7 +225,7 @@
       "source_file": "tests/test_voice_profiler.py",
       "source_location": "L12",
       "id": "test_voice_profiler_session_with_own_profile",
-      "community": 0,
+      "community": 1,
       "norm_label": "session_with_own_profile()"
     },
     {
@@ -162,107 +234,278 @@
       "source_file": "tests/test_voice_profiler.py",
       "source_location": "L44",
       "id": "test_voice_profiler_test_generate_voice_profile_creates_profile",
-      "community": 0,
+      "community": 9,
       "norm_label": "test_generate_voice_profile_creates_profile()"
+    },
+    {
+      "label": "test_news_monitor.py",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
+      "source_location": "L1",
+      "id": "users_floakii_claudio_agro_content_tests_test_news_monitor_py",
+      "community": 2,
+      "norm_label": "test_news_monitor.py"
+    },
+    {
+      "label": "test_extract_tags_soja()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
+      "source_location": "L13",
+      "id": "test_news_monitor_test_extract_tags_soja",
+      "community": 2,
+      "norm_label": "test_extract_tags_soja()"
+    },
+    {
+      "label": "test_extract_tags_milho()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
+      "source_location": "L19",
+      "id": "test_news_monitor_test_extract_tags_milho",
+      "community": 2,
+      "norm_label": "test_extract_tags_milho()"
+    },
+    {
+      "label": "test_extract_tags_mercado()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
+      "source_location": "L25",
+      "id": "test_news_monitor_test_extract_tags_mercado",
+      "community": 2,
+      "norm_label": "test_extract_tags_mercado()"
+    },
+    {
+      "label": "test_extract_tags_no_match()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
+      "source_location": "L31",
+      "id": "test_news_monitor_test_extract_tags_no_match",
+      "community": 2,
+      "norm_label": "test_extract_tags_no_match()"
+    },
+    {
+      "label": "test_parse_feed_returns_dicts()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
+      "source_location": "L37",
+      "id": "test_news_monitor_test_parse_feed_returns_dicts",
+      "community": 2,
+      "norm_label": "test_parse_feed_returns_dicts()"
+    },
+    {
+      "label": "test_fetch_all_feeds_saves_new_skips_duplicates()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
+      "source_location": "L57",
+      "id": "test_news_monitor_test_fetch_all_feeds_saves_new_skips_duplicates",
+      "community": 2,
+      "norm_label": "test_fetch_all_feeds_saves_new_skips_duplicates()"
+    },
+    {
+      "label": "test_get_recent_news_filters_by_days()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
+      "source_location": "L94",
+      "id": "test_news_monitor_test_get_recent_news_filters_by_days",
+      "community": 2,
+      "norm_label": "test_get_recent_news_filters_by_days()"
+    },
+    {
+      "label": "test_get_recent_news_filters_by_tag()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
+      "source_location": "L108",
+      "id": "test_news_monitor_test_get_recent_news_filters_by_tag",
+      "community": 2,
+      "norm_label": "test_get_recent_news_filters_by_tag()"
     },
     {
       "label": "test_config.py",
       "file_type": "code",
-      "source_file": "tests/test_config.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_config.py",
       "source_location": "L1",
-      "id": "tests_test_config_py",
-      "community": 11,
+      "id": "users_floakii_claudio_agro_content_tests_test_config_py",
+      "community": 14,
       "norm_label": "test_config.py"
     },
     {
       "label": "test_config_loads_from_env()",
       "file_type": "code",
-      "source_file": "tests/test_config.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_config.py",
       "source_location": "L6",
       "id": "test_config_test_config_loads_from_env",
-      "community": 11,
+      "community": 14,
       "norm_label": "test_config_loads_from_env()"
     },
     {
       "label": "test_config_raises_if_missing_key()",
       "file_type": "code",
-      "source_file": "tests/test_config.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_config.py",
       "source_location": "L21",
       "id": "test_config_test_config_raises_if_missing_key",
-      "community": 11,
+      "community": 14,
       "norm_label": "test_config_raises_if_missing_key()"
     },
     {
       "label": "test_models.py",
       "file_type": "code",
-      "source_file": "tests/test_models.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
       "source_location": "L1",
-      "id": "tests_test_models_py",
-      "community": 0,
+      "id": "users_floakii_claudio_agro_content_tests_test_models_py",
+      "community": 1,
       "norm_label": "test_models.py"
     },
     {
       "label": "engine()",
       "file_type": "code",
-      "source_file": "tests/test_models.py",
-      "source_location": "L9",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L10",
       "id": "test_models_engine",
-      "community": 0,
+      "community": 1,
       "norm_label": "engine()"
     },
     {
       "label": "session()",
       "file_type": "code",
-      "source_file": "tests/test_models.py",
-      "source_location": "L17",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L18",
       "id": "test_models_session",
-      "community": 0,
+      "community": 1,
       "norm_label": "session()"
     },
     {
       "label": "test_create_profile()",
       "file_type": "code",
-      "source_file": "tests/test_models.py",
-      "source_location": "L22",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L23",
       "id": "test_models_test_create_profile",
-      "community": 0,
+      "community": 1,
       "norm_label": "test_create_profile()"
     },
     {
       "label": "test_create_post()",
       "file_type": "code",
-      "source_file": "tests/test_models.py",
-      "source_location": "L30",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L31",
       "id": "test_models_test_create_post",
-      "community": 0,
+      "community": 1,
       "norm_label": "test_create_post()"
     },
     {
       "label": "test_create_post_analysis()",
       "file_type": "code",
-      "source_file": "tests/test_models.py",
-      "source_location": "L50",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L51",
       "id": "test_models_test_create_post_analysis",
-      "community": 0,
+      "community": 1,
       "norm_label": "test_create_post_analysis()"
     },
     {
       "label": "test_create_weekly_report()",
       "file_type": "code",
-      "source_file": "tests/test_models.py",
-      "source_location": "L73",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L74",
       "id": "test_models_test_create_weekly_report",
-      "community": 1,
+      "community": 0,
       "norm_label": "test_create_weekly_report()"
     },
     {
       "label": "test_create_carousel()",
       "file_type": "code",
-      "source_file": "tests/test_models.py",
-      "source_location": "L89",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L90",
       "id": "test_models_test_create_carousel",
-      "community": 1,
+      "community": 0,
       "norm_label": "test_create_carousel()"
+    },
+    {
+      "label": "test_post_has_slides_column()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L101",
+      "id": "test_models_test_post_has_slides_column",
+      "community": 1,
+      "norm_label": "test_post_has_slides_column()"
+    },
+    {
+      "label": "test_post_analysis_has_carousel_narrative()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L122",
+      "id": "test_models_test_post_analysis_has_carousel_narrative",
+      "community": 1,
+      "norm_label": "test_post_analysis_has_carousel_narrative()"
+    },
+    {
+      "label": "test_generated_post_strategy_fields()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L146",
+      "id": "test_models_test_generated_post_strategy_fields",
+      "community": 1,
+      "norm_label": "test_generated_post_strategy_fields()"
+    },
+    {
+      "label": "test_news_item_create()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L175",
+      "id": "test_models_test_news_item_create",
+      "community": 1,
+      "norm_label": "test_news_item_create()"
+    },
+    {
+      "label": "test_content_calendar_create()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L191",
+      "id": "test_models_test_content_calendar_create",
+      "community": 1,
+      "norm_label": "test_content_calendar_create()"
+    },
+    {
+      "label": "test_seasonal.py",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_seasonal.py",
+      "source_location": "L1",
+      "id": "users_floakii_claudio_agro_content_tests_test_seasonal_py",
+      "community": 7,
+      "norm_label": "test_seasonal.py"
+    },
+    {
+      "label": "test_returns_string()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_seasonal.py",
+      "source_location": "L5",
+      "id": "test_seasonal_test_returns_string",
+      "community": 7,
+      "norm_label": "test_returns_string()"
+    },
+    {
+      "label": "test_march_april_context()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_seasonal.py",
+      "source_location": "L11",
+      "id": "test_seasonal_test_march_april_context",
+      "community": 7,
+      "norm_label": "test_march_april_context()"
+    },
+    {
+      "label": "test_july_august_context()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_seasonal.py",
+      "source_location": "L19",
+      "id": "test_seasonal_test_july_august_context",
+      "community": 7,
+      "norm_label": "test_july_august_context()"
+    },
+    {
+      "label": "test_november_december_context()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_seasonal.py",
+      "source_location": "L27",
+      "id": "test_seasonal_test_november_december_context",
+      "community": 7,
+      "norm_label": "test_november_december_context()"
     },
     {
       "label": "test_collector.py",
@@ -270,7 +513,7 @@
       "source_file": "tests/test_collector.py",
       "source_location": "L1",
       "id": "tests_test_collector_py",
-      "community": 2,
+      "community": 4,
       "norm_label": "test_collector.py"
     },
     {
@@ -279,7 +522,7 @@
       "source_file": "tests/test_collector.py",
       "source_location": "L31",
       "id": "test_collector_test_fetch_posts_apify_returns_normalized_posts",
-      "community": 2,
+      "community": 4,
       "norm_label": "test_fetch_posts_apify_returns_normalized_posts()"
     },
     {
@@ -288,7 +531,7 @@
       "source_file": "tests/test_collector.py",
       "source_location": "L59",
       "id": "test_collector_test_fetch_posts_apify_maps_video_to_reel",
-      "community": 2,
+      "community": 4,
       "norm_label": "test_fetch_posts_apify_maps_video_to_reel()"
     },
     {
@@ -297,7 +540,7 @@
       "source_file": "tests/test_collector.py",
       "source_location": "L82",
       "id": "test_collector_test_fetch_posts_instaloader_returns_normalized_posts",
-      "community": 2,
+      "community": 4,
       "norm_label": "test_fetch_posts_instaloader_returns_normalized_posts()"
     },
     {
@@ -306,7 +549,7 @@
       "source_file": "tests/test_collector.py",
       "source_location": "L114",
       "id": "test_collector_db_session",
-      "community": 0,
+      "community": 4,
       "norm_label": "db_session()"
     },
     {
@@ -315,7 +558,7 @@
       "source_file": "tests/test_collector.py",
       "source_location": "L121",
       "id": "test_collector_test_collect_profile_saves_new_posts",
-      "community": 2,
+      "community": 1,
       "norm_label": "test_collect_profile_saves_new_posts()"
     },
     {
@@ -324,43 +567,43 @@
       "source_file": "tests/test_collector.py",
       "source_location": "L146",
       "id": "test_collector_test_collect_profile_skips_existing_posts",
-      "community": 0,
+      "community": 1,
       "norm_label": "test_collect_profile_skips_existing_posts()"
     },
     {
       "label": "test_image_analyzer.py",
       "file_type": "code",
-      "source_file": "tests/test_image_analyzer.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_image_analyzer.py",
       "source_location": "L1",
-      "id": "tests_test_image_analyzer_py",
-      "community": 4,
+      "id": "users_floakii_claudio_agro_content_tests_test_image_analyzer_py",
+      "community": 5,
       "norm_label": "test_image_analyzer.py"
     },
     {
       "label": "session_with_post()",
       "file_type": "code",
-      "source_file": "tests/test_image_analyzer.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_image_analyzer.py",
       "source_location": "L11",
       "id": "test_image_analyzer_session_with_post",
-      "community": 0,
+      "community": 1,
       "norm_label": "session_with_post()"
     },
     {
       "label": "test_analyze_post_creates_analysis()",
       "file_type": "code",
-      "source_file": "tests/test_image_analyzer.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_image_analyzer.py",
       "source_location": "L43",
       "id": "test_image_analyzer_test_analyze_post_creates_analysis",
-      "community": 4,
+      "community": 5,
       "norm_label": "test_analyze_post_creates_analysis()"
     },
     {
       "label": "test_analyze_post_skips_already_analyzed()",
       "file_type": "code",
-      "source_file": "tests/test_image_analyzer.py",
-      "source_location": "L66",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_image_analyzer.py",
+      "source_location": "L72",
       "id": "test_image_analyzer_test_analyze_post_skips_already_analyzed",
-      "community": 4,
+      "community": 5,
       "norm_label": "test_analyze_post_skips_already_analyzed()"
     },
     {
@@ -369,7 +612,7 @@
       "source_file": "dashboard/__init__.py",
       "source_location": "L1",
       "id": "dashboard_init_py",
-      "community": 14,
+      "community": 17,
       "norm_label": "__init__.py"
     },
     {
@@ -378,7 +621,7 @@
       "source_file": "dashboard/app.py",
       "source_location": "L1",
       "id": "dashboard_app_py",
-      "community": 15,
+      "community": 18,
       "norm_label": "app.py"
     },
     {
@@ -387,7 +630,7 @@
       "source_file": "dashboard/tabs/content_studio.py",
       "source_location": "L1",
       "id": "dashboard_tabs_content_studio_py",
-      "community": 5,
+      "community": 3,
       "norm_label": "content_studio.py"
     },
     {
@@ -396,7 +639,7 @@
       "source_file": "dashboard/tabs/content_studio.py",
       "source_location": "L10",
       "id": "content_studio_get_voice",
-      "community": 5,
+      "community": 3,
       "norm_label": "_get_voice()"
     },
     {
@@ -405,7 +648,7 @@
       "source_file": "dashboard/tabs/content_studio.py",
       "source_location": "L19",
       "id": "content_studio_get_approved_examples",
-      "community": 5,
+      "community": 3,
       "norm_label": "_get_approved_examples()"
     },
     {
@@ -414,7 +657,7 @@
       "source_file": "dashboard/tabs/content_studio.py",
       "source_location": "L29",
       "id": "content_studio_get_competitor_posts",
-      "community": 5,
+      "community": 3,
       "norm_label": "_get_competitor_posts()"
     },
     {
@@ -423,7 +666,7 @@
       "source_file": "dashboard/tabs/content_studio.py",
       "source_location": "L41",
       "id": "content_studio_render",
-      "community": 5,
+      "community": 3,
       "norm_label": "render()"
     },
     {
@@ -432,7 +675,7 @@
       "source_file": "dashboard/tabs/posts.py",
       "source_location": "L1",
       "id": "dashboard_tabs_posts_py",
-      "community": 4,
+      "community": 5,
       "norm_label": "posts.py"
     },
     {
@@ -441,7 +684,7 @@
       "source_file": "dashboard/tabs/posts.py",
       "source_location": "L10",
       "id": "posts_render",
-      "community": 4,
+      "community": 5,
       "norm_label": "render()"
     },
     {
@@ -450,7 +693,7 @@
       "source_file": "dashboard/tabs/__init__.py",
       "source_location": "L1",
       "id": "dashboard_tabs_init_py",
-      "community": 16,
+      "community": 19,
       "norm_label": "__init__.py"
     },
     {
@@ -522,7 +765,7 @@
       "source_file": "dashboard/tabs/competitors.py",
       "source_location": "L1",
       "id": "dashboard_tabs_competitors_py",
-      "community": 3,
+      "community": 5,
       "norm_label": "competitors.py"
     },
     {
@@ -531,7 +774,7 @@
       "source_file": "dashboard/tabs/competitors.py",
       "source_location": "L10",
       "id": "competitors_render",
-      "community": 3,
+      "community": 5,
       "norm_label": "render()"
     },
     {
@@ -540,7 +783,7 @@
       "source_file": "dashboard/components/post_card.py",
       "source_location": "L1",
       "id": "dashboard_components_post_card_py",
-      "community": 4,
+      "community": 5,
       "norm_label": "post_card.py"
     },
     {
@@ -549,7 +792,7 @@
       "source_file": "dashboard/components/post_card.py",
       "source_location": "L5",
       "id": "post_card_render_post_card",
-      "community": 4,
+      "community": 5,
       "norm_label": "render_post_card()"
     },
     {
@@ -558,7 +801,7 @@
       "source_file": "dashboard/components/__init__.py",
       "source_location": "L1",
       "id": "dashboard_components_init_py",
-      "community": 17,
+      "community": 20,
       "norm_label": "__init__.py"
     },
     {
@@ -567,7 +810,7 @@
       "source_file": "scripts/sync_local.py",
       "source_location": "L1",
       "id": "scripts_sync_local_py",
-      "community": 2,
+      "community": 4,
       "norm_label": "sync_local.py"
     },
     {
@@ -576,7 +819,7 @@
       "source_file": "scripts/sync_local.py",
       "source_location": "L25",
       "id": "sync_local_sync_all",
-      "community": 2,
+      "community": 4,
       "norm_label": "sync_all()"
     },
     {
@@ -585,7 +828,7 @@
       "source_file": "alembic/env.py",
       "source_location": "L1",
       "id": "alembic_env_py",
-      "community": 12,
+      "community": 15,
       "norm_label": "env.py"
     },
     {
@@ -594,7 +837,7 @@
       "source_file": "alembic/env.py",
       "source_location": "L20",
       "id": "env_run_migrations_offline",
-      "community": 12,
+      "community": 15,
       "norm_label": "run_migrations_offline()"
     },
     {
@@ -603,8 +846,44 @@
       "source_file": "alembic/env.py",
       "source_location": "L27",
       "id": "env_run_migrations_online",
-      "community": 12,
+      "community": 15,
       "norm_label": "run_migrations_online()"
+    },
+    {
+      "label": "003_content_strategy.py",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/alembic/versions/003_content_strategy.py",
+      "source_location": "L1",
+      "id": "users_floakii_claudio_agro_content_alembic_versions_003_content_strategy_py",
+      "community": 10,
+      "norm_label": "003_content_strategy.py"
+    },
+    {
+      "label": "upgrade()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/alembic/versions/003_content_strategy.py",
+      "source_location": "L18",
+      "id": "003_content_strategy_upgrade",
+      "community": 10,
+      "norm_label": "upgrade()"
+    },
+    {
+      "label": "downgrade()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/alembic/versions/003_content_strategy.py",
+      "source_location": "L56",
+      "id": "003_content_strategy_downgrade",
+      "community": 10,
+      "norm_label": "downgrade()"
+    },
+    {
+      "label": "content_strategy_engine  Revision ID: 003 Revises: 002 Create Date: 2026-04-17 0",
+      "file_type": "rationale",
+      "source_file": "/Users/floakii/Claudio/agro-content/alembic/versions/003_content_strategy.py",
+      "source_location": "L1",
+      "community": 10,
+      "norm_label": "content_strategy_engine  revision id: 003 revises: 002 create date: 2026-04-17 0",
+      "id": "003_content_strategy_rationale_1"
     },
     {
       "label": "001_initial_schema.py",
@@ -612,7 +891,7 @@
       "source_file": "alembic/versions/001_initial_schema.py",
       "source_location": "L1",
       "id": "alembic_versions_001_initial_schema_py",
-      "community": 8,
+      "community": 11,
       "norm_label": "001_initial_schema.py"
     },
     {
@@ -621,7 +900,7 @@
       "source_file": "alembic/versions/001_initial_schema.py",
       "source_location": "L20",
       "id": "001_initial_schema_upgrade",
-      "community": 8,
+      "community": 11,
       "norm_label": "upgrade()"
     },
     {
@@ -630,7 +909,7 @@
       "source_file": "alembic/versions/001_initial_schema.py",
       "source_location": "L107",
       "id": "001_initial_schema_downgrade",
-      "community": 8,
+      "community": 11,
       "norm_label": "downgrade()"
     },
     {
@@ -638,9 +917,9 @@
       "file_type": "rationale",
       "source_file": "alembic/versions/001_initial_schema.py",
       "source_location": "L1",
-      "id": "001_initial_schema_rationale_1",
-      "community": 8,
-      "norm_label": "initial_schema  revision id: 001 revises: create date: 2026-04-14 00:00:00.00000"
+      "community": 11,
+      "norm_label": "initial_schema  revision id: 001 revises: create date: 2026-04-14 00:00:00.00000",
+      "id": "001_initial_schema_rationale_1"
     },
     {
       "label": "002_content_studio.py",
@@ -648,7 +927,7 @@
       "source_file": "alembic/versions/002_content_studio.py",
       "source_location": "L1",
       "id": "alembic_versions_002_content_studio_py",
-      "community": 9,
+      "community": 12,
       "norm_label": "002_content_studio.py"
     },
     {
@@ -657,7 +936,7 @@
       "source_file": "alembic/versions/002_content_studio.py",
       "source_location": "L18",
       "id": "002_content_studio_upgrade",
-      "community": 9,
+      "community": 12,
       "norm_label": "upgrade()"
     },
     {
@@ -666,7 +945,7 @@
       "source_file": "alembic/versions/002_content_studio.py",
       "source_location": "L35",
       "id": "002_content_studio_downgrade",
-      "community": 9,
+      "community": 12,
       "norm_label": "downgrade()"
     },
     {
@@ -674,9 +953,9 @@
       "file_type": "rationale",
       "source_file": "alembic/versions/002_content_studio.py",
       "source_location": "L1",
-      "id": "002_content_studio_rationale_1",
-      "community": 9,
-      "norm_label": "content_studio  revision id: 002 revises: a1b2c3d4e5f6 create date: 2026-04-15 0"
+      "community": 12,
+      "norm_label": "content_studio  revision id: 002 revises: a1b2c3d4e5f6 create date: 2026-04-15 0",
+      "id": "002_content_studio_rationale_1"
     },
     {
       "label": "config.py",
@@ -684,25 +963,25 @@
       "source_file": "src/config.py",
       "source_location": "L1",
       "id": "src_config_py",
-      "community": 18,
+      "community": 21,
       "norm_label": "config.py"
     },
     {
       "label": "models.py",
       "file_type": "code",
-      "source_file": "src/models.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
       "source_location": "L1",
-      "id": "src_models_py",
-      "community": 1,
+      "id": "users_floakii_claudio_agro_content_src_models_py",
+      "community": 0,
       "norm_label": "models.py"
     },
     {
       "label": "Base",
       "file_type": "code",
-      "source_file": "src/models.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
       "source_location": "L10",
       "id": "models_base",
-      "community": 1,
+      "community": 0,
       "norm_label": "base"
     },
     {
@@ -711,71 +990,89 @@
       "source_file": "",
       "source_location": "",
       "id": "declarativebase",
-      "community": 1,
+      "community": 0,
       "norm_label": "declarativebase"
     },
     {
       "label": "Profile",
       "file_type": "code",
-      "source_file": "src/models.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
       "source_location": "L14",
       "id": "models_profile",
-      "community": 0,
+      "community": 1,
       "norm_label": "profile"
     },
     {
       "label": "Post",
       "file_type": "code",
-      "source_file": "src/models.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
       "source_location": "L29",
       "id": "models_post",
-      "community": 0,
+      "community": 1,
       "norm_label": "post"
     },
     {
       "label": "PostAnalysis",
       "file_type": "code",
-      "source_file": "src/models.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
       "source_location": "L49",
       "id": "models_postanalysis",
-      "community": 4,
+      "community": 1,
       "norm_label": "postanalysis"
     },
     {
       "label": "ProfileVoice",
       "file_type": "code",
-      "source_file": "src/models.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
       "source_location": "L66",
       "id": "models_profilevoice",
-      "community": 7,
+      "community": 0,
       "norm_label": "profilevoice"
     },
     {
       "label": "GeneratedPost",
       "file_type": "code",
-      "source_file": "src/models.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
       "source_location": "L81",
       "id": "models_generatedpost",
-      "community": 1,
+      "community": 0,
       "norm_label": "generatedpost"
     },
     {
       "label": "WeeklyReport",
       "file_type": "code",
-      "source_file": "src/models.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
       "source_location": "L99",
       "id": "models_weeklyreport",
-      "community": 1,
+      "community": 0,
       "norm_label": "weeklyreport"
     },
     {
       "label": "Carousel",
       "file_type": "code",
-      "source_file": "src/models.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
       "source_location": "L114",
       "id": "models_carousel",
-      "community": 1,
+      "community": 0,
       "norm_label": "carousel"
+    },
+    {
+      "label": "NewsItem",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
+      "source_location": "L124",
+      "id": "models_newsitem",
+      "community": 2,
+      "norm_label": "newsitem"
+    },
+    {
+      "label": "ContentCalendar",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
+      "source_location": "L137",
+      "id": "models_contentcalendar",
+      "community": 0,
+      "norm_label": "contentcalendar"
     },
     {
       "label": "database.py",
@@ -810,7 +1107,7 @@
       "source_file": "src/__init__.py",
       "source_location": "L1",
       "id": "src_init_py",
-      "community": 19,
+      "community": 22,
       "norm_label": "__init__.py"
     },
     {
@@ -819,7 +1116,7 @@
       "source_file": "src/reporter/weekly_report.py",
       "source_location": "L1",
       "id": "src_reporter_weekly_report_py",
-      "community": 1,
+      "community": 0,
       "norm_label": "weekly_report.py"
     },
     {
@@ -828,7 +1125,7 @@
       "source_file": "src/reporter/weekly_report.py",
       "source_location": "L25",
       "id": "weekly_report_generate_weekly_report",
-      "community": 1,
+      "community": 0,
       "norm_label": "generate_weekly_report()"
     },
     {
@@ -836,9 +1133,9 @@
       "file_type": "rationale",
       "source_file": "src/reporter/weekly_report.py",
       "source_location": "L26",
-      "id": "weekly_report_rationale_26",
-      "community": 1,
-      "norm_label": "consolida analises da semana em um relatorio via gpt-4o."
+      "community": 0,
+      "norm_label": "consolida analises da semana em um relatorio via gpt-4o.",
+      "id": "weekly_report_rationale_26"
     },
     {
       "label": "__init__.py",
@@ -846,7 +1143,7 @@
       "source_file": "src/reporter/__init__.py",
       "source_location": "L1",
       "id": "src_reporter_init_py",
-      "community": 20,
+      "community": 23,
       "norm_label": "__init__.py"
     },
     {
@@ -855,7 +1152,7 @@
       "source_file": "src/reporter/voice_profiler.py",
       "source_location": "L1",
       "id": "src_reporter_voice_profiler_py",
-      "community": 7,
+      "community": 9,
       "norm_label": "voice_profiler.py"
     },
     {
@@ -864,7 +1161,7 @@
       "source_file": "src/reporter/voice_profiler.py",
       "source_location": "L22",
       "id": "voice_profiler_generate_voice_profile",
-      "community": 7,
+      "community": 9,
       "norm_label": "generate_voice_profile()"
     },
     {
@@ -872,9 +1169,9 @@
       "file_type": "rationale",
       "source_file": "src/reporter/voice_profiler.py",
       "source_location": "L23",
-      "id": "voice_profiler_rationale_23",
-      "community": 7,
-      "norm_label": "analisa os posts do perfil proprio e gera um perfil de voz atualizado."
+      "community": 9,
+      "norm_label": "analisa os posts do perfil proprio e gera um perfil de voz atualizado.",
+      "id": "voice_profiler_rationale_23"
     },
     {
       "label": "collector.py",
@@ -882,7 +1179,7 @@
       "source_file": "src/collector/collector.py",
       "source_location": "L1",
       "id": "src_collector_collector_py",
-      "community": 0,
+      "community": 1,
       "norm_label": "collector.py"
     },
     {
@@ -891,7 +1188,7 @@
       "source_file": "src/collector/collector.py",
       "source_location": "L10",
       "id": "collector_collect_profile",
-      "community": 0,
+      "community": 1,
       "norm_label": "collect_profile()"
     },
     {
@@ -899,9 +1196,9 @@
       "file_type": "rationale",
       "source_file": "src/collector/collector.py",
       "source_location": "L11",
-      "id": "collector_rationale_11",
-      "community": 0,
-      "norm_label": "coleta posts novos de um perfil. tenta apify primeiro, cai para instaloader em c"
+      "community": 1,
+      "norm_label": "coleta posts novos de um perfil. tenta apify primeiro, cai para instaloader em c",
+      "id": "collector_rationale_11"
     },
     {
       "label": "__init__.py",
@@ -909,35 +1206,107 @@
       "source_file": "src/collector/__init__.py",
       "source_location": "L1",
       "id": "src_collector_init_py",
-      "community": 21,
+      "community": 24,
       "norm_label": "__init__.py"
+    },
+    {
+      "label": "news_monitor.py",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/collector/news_monitor.py",
+      "source_location": "L1",
+      "id": "users_floakii_claudio_agro_content_src_collector_news_monitor_py",
+      "community": 2,
+      "norm_label": "news_monitor.py"
+    },
+    {
+      "label": "_extract_tags()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/collector/news_monitor.py",
+      "source_location": "L36",
+      "id": "news_monitor_extract_tags",
+      "community": 2,
+      "norm_label": "_extract_tags()"
+    },
+    {
+      "label": "_parse_feed()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/collector/news_monitor.py",
+      "source_location": "L45",
+      "id": "news_monitor_parse_feed",
+      "community": 2,
+      "norm_label": "_parse_feed()"
+    },
+    {
+      "label": "_fetch_all_raw()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/collector/news_monitor.py",
+      "source_location": "L69",
+      "id": "news_monitor_fetch_all_raw",
+      "community": 2,
+      "norm_label": "_fetch_all_raw()"
+    },
+    {
+      "label": "fetch_all_feeds()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/collector/news_monitor.py",
+      "source_location": "L81",
+      "id": "news_monitor_fetch_all_feeds",
+      "community": 2,
+      "norm_label": "fetch_all_feeds()"
+    },
+    {
+      "label": "get_recent_news()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/collector/news_monitor.py",
+      "source_location": "L98",
+      "id": "news_monitor_get_recent_news",
+      "community": 2,
+      "norm_label": "get_recent_news()"
+    },
+    {
+      "label": "Poll all RSS feeds and save new items. Returns count of new items saved.",
+      "file_type": "rationale",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/collector/news_monitor.py",
+      "source_location": "L82",
+      "community": 2,
+      "norm_label": "poll all rss feeds and save new items. returns count of new items saved.",
+      "id": "news_monitor_rationale_82"
+    },
+    {
+      "label": "Return news items from the last `days` days, optionally filtered by tags.",
+      "file_type": "rationale",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/collector/news_monitor.py",
+      "source_location": "L103",
+      "community": 2,
+      "norm_label": "return news items from the last `days` days, optionally filtered by tags.",
+      "id": "news_monitor_rationale_103"
     },
     {
       "label": "apify_client.py",
       "file_type": "code",
-      "source_file": "src/collector/apify_client.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/collector/apify_client.py",
       "source_location": "L1",
-      "id": "src_collector_apify_client_py",
-      "community": 2,
+      "id": "users_floakii_claudio_agro_content_src_collector_apify_client_py",
+      "community": 4,
       "norm_label": "apify_client.py"
     },
     {
       "label": "fetch_posts_apify()",
       "file_type": "code",
-      "source_file": "src/collector/apify_client.py",
-      "source_location": "L13",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/collector/apify_client.py",
+      "source_location": "L12",
       "id": "apify_client_fetch_posts_apify",
-      "community": 2,
+      "community": 4,
       "norm_label": "fetch_posts_apify()"
     },
     {
       "label": "Busca posts de um perfil via Apify Instagram Scraper.     Retorna lista de dicts",
       "file_type": "rationale",
-      "source_file": "src/collector/apify_client.py",
-      "source_location": "L14",
-      "id": "apify_client_rationale_14",
-      "community": 2,
-      "norm_label": "busca posts de um perfil via apify instagram scraper.     retorna lista de dicts"
+      "source_file": "/Users/floakii/Claudio/agro-content/src/collector/apify_client.py",
+      "source_location": "L13",
+      "community": 4,
+      "norm_label": "busca posts de um perfil via apify instagram scraper.     retorna lista de dicts",
+      "id": "apify_client_rationale_13"
     },
     {
       "label": "instaloader_client.py",
@@ -945,7 +1314,7 @@
       "source_file": "src/collector/instaloader_client.py",
       "source_location": "L1",
       "id": "src_collector_instaloader_client_py",
-      "community": 2,
+      "community": 4,
       "norm_label": "instaloader_client.py"
     },
     {
@@ -954,7 +1323,7 @@
       "source_file": "src/collector/instaloader_client.py",
       "source_location": "L18",
       "id": "instaloader_client_get_loader",
-      "community": 2,
+      "community": 4,
       "norm_label": "_get_loader()"
     },
     {
@@ -963,7 +1332,7 @@
       "source_file": "src/collector/instaloader_client.py",
       "source_location": "L46",
       "id": "instaloader_client_fetch_posts_instaloader",
-      "community": 2,
+      "community": 4,
       "norm_label": "fetch_posts_instaloader()"
     },
     {
@@ -971,9 +1340,9 @@
       "file_type": "rationale",
       "source_file": "src/collector/instaloader_client.py",
       "source_location": "L47",
-      "id": "instaloader_client_rationale_47",
-      "community": 2,
-      "norm_label": "busca posts via instaloader com login para evitar bloqueios.     retorna lista d"
+      "community": 4,
+      "norm_label": "busca posts via instaloader com login para evitar bloqueios.     retorna lista d",
+      "id": "instaloader_client_rationale_47"
     },
     {
       "label": "__init__.py",
@@ -981,7 +1350,7 @@
       "source_file": "src/carousel/__init__.py",
       "source_location": "L1",
       "id": "src_carousel_init_py",
-      "community": 22,
+      "community": 25,
       "norm_label": "__init__.py"
     },
     {
@@ -990,7 +1359,7 @@
       "source_file": "src/carousel/generator.py",
       "source_location": "L1",
       "id": "src_carousel_generator_py",
-      "community": 1,
+      "community": 0,
       "norm_label": "generator.py"
     },
     {
@@ -999,7 +1368,7 @@
       "source_file": "src/carousel/generator.py",
       "source_location": "L26",
       "id": "generator_generate_carousel",
-      "community": 1,
+      "community": 0,
       "norm_label": "generate_carousel()"
     },
     {
@@ -1007,9 +1376,9 @@
       "file_type": "rationale",
       "source_file": "src/carousel/generator.py",
       "source_location": "L27",
-      "id": "generator_rationale_27",
-      "community": 1,
-      "norm_label": "gera carrossel viral com base no tema, voz propria e ultimo relatorio semanal."
+      "community": 0,
+      "norm_label": "gera carrossel viral com base no tema, voz propria e ultimo relatorio semanal.",
+      "id": "generator_rationale_27"
     },
     {
       "label": "__init__.py",
@@ -1017,8 +1386,35 @@
       "source_file": "src/generator/__init__.py",
       "source_location": "L1",
       "id": "src_generator_init_py",
-      "community": 23,
+      "community": 26,
       "norm_label": "__init__.py"
+    },
+    {
+      "label": "seasonal.py",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/generator/seasonal.py",
+      "source_location": "L1",
+      "id": "users_floakii_claudio_agro_content_src_generator_seasonal_py",
+      "community": 7,
+      "norm_label": "seasonal.py"
+    },
+    {
+      "label": "get_seasonal_context()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/generator/seasonal.py",
+      "source_location": "L79",
+      "id": "seasonal_get_seasonal_context",
+      "community": 7,
+      "norm_label": "get_seasonal_context()"
+    },
+    {
+      "label": "Return the current month's agro seasonal context string.",
+      "file_type": "rationale",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/generator/seasonal.py",
+      "source_location": "L80",
+      "community": 7,
+      "norm_label": "return the current month's agro seasonal context string.",
+      "id": "seasonal_rationale_80"
     },
     {
       "label": "content_generator.py",
@@ -1026,7 +1422,7 @@
       "source_file": "src/generator/content_generator.py",
       "source_location": "L1",
       "id": "src_generator_content_generator_py",
-      "community": 5,
+      "community": 0,
       "norm_label": "content_generator.py"
     },
     {
@@ -1035,7 +1431,7 @@
       "source_file": "src/generator/content_generator.py",
       "source_location": "L51",
       "id": "content_generator_build_approved_section",
-      "community": 5,
+      "community": 0,
       "norm_label": "_build_approved_section()"
     },
     {
@@ -1044,7 +1440,7 @@
       "source_file": "src/generator/content_generator.py",
       "source_location": "L61",
       "id": "content_generator_generate_post",
-      "community": 5,
+      "community": 0,
       "norm_label": "generate_post()"
     },
     {
@@ -1052,9 +1448,9 @@
       "file_type": "rationale",
       "source_file": "src/generator/content_generator.py",
       "source_location": "L67",
-      "id": "content_generator_rationale_67",
-      "community": 5,
-      "norm_label": "gera um post adaptado com base no post do concorrente, voz do autor e exemplos a"
+      "community": 0,
+      "norm_label": "gera um post adaptado com base no post do concorrente, voz do autor e exemplos a",
+      "id": "content_generator_rationale_67"
     },
     {
       "label": "image_analyzer.py",
@@ -1062,7 +1458,7 @@
       "source_file": "src/analyzer/image_analyzer.py",
       "source_location": "L1",
       "id": "src_analyzer_image_analyzer_py",
-      "community": 4,
+      "community": 5,
       "norm_label": "image_analyzer.py"
     },
     {
@@ -1071,7 +1467,7 @@
       "source_file": "src/analyzer/image_analyzer.py",
       "source_location": "L38",
       "id": "image_analyzer_analyze_post",
-      "community": 4,
+      "community": 5,
       "norm_label": "analyze_post()"
     },
     {
@@ -1079,9 +1475,9 @@
       "file_type": "rationale",
       "source_file": "src/analyzer/image_analyzer.py",
       "source_location": "L39",
-      "id": "image_analyzer_rationale_39",
-      "community": 4,
-      "norm_label": "analisa um post com gpt-4o vision. se ja analisado, retorna analise existente."
+      "community": 1,
+      "norm_label": "analisa um post com gpt-4o vision. se ja analisado, retorna analise existente.",
+      "id": "image_analyzer_rationale_39"
     },
     {
       "label": "virality.py",
@@ -1089,7 +1485,7 @@
       "source_file": "src/analyzer/virality.py",
       "source_location": "L1",
       "id": "src_analyzer_virality_py",
-      "community": 6,
+      "community": 8,
       "norm_label": "virality.py"
     },
     {
@@ -1098,7 +1494,7 @@
       "source_file": "src/analyzer/virality.py",
       "source_location": "L1",
       "id": "virality_calculate_virality_score",
-      "community": 6,
+      "community": 8,
       "norm_label": "calculate_virality_score()"
     },
     {
@@ -1106,9 +1502,9 @@
       "file_type": "rationale",
       "source_file": "src/analyzer/virality.py",
       "source_location": "L2",
-      "id": "virality_rationale_2",
-      "community": 6,
-      "norm_label": "normaliza engajamento pelo numero de seguidores. retorna valor entre 0 e 1."
+      "community": 8,
+      "norm_label": "normaliza engajamento pelo numero de seguidores. retorna valor entre 0 e 1.",
+      "id": "virality_rationale_2"
     },
     {
       "label": "__init__.py",
@@ -1116,8 +1512,53 @@
       "source_file": "src/analyzer/__init__.py",
       "source_location": "L1",
       "id": "src_analyzer_init_py",
-      "community": 24,
+      "community": 27,
       "norm_label": "__init__.py"
+    },
+    {
+      "label": "gap_analyzer.py",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/gap_analyzer.py",
+      "source_location": "L1",
+      "id": "users_floakii_claudio_agro_content_src_analyzer_gap_analyzer_py",
+      "community": 6,
+      "norm_label": "gap_analyzer.py"
+    },
+    {
+      "label": "_extract_topics()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/gap_analyzer.py",
+      "source_location": "L12",
+      "id": "gap_analyzer_extract_topics",
+      "community": 6,
+      "norm_label": "_extract_topics()"
+    },
+    {
+      "label": "compute_gaps()",
+      "file_type": "code",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/gap_analyzer.py",
+      "source_location": "L20",
+      "id": "gap_analyzer_compute_gaps",
+      "community": 6,
+      "norm_label": "compute_gaps()"
+    },
+    {
+      "label": "Extract topic strings from raw_analysis JSON.",
+      "file_type": "rationale",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/gap_analyzer.py",
+      "source_location": "L13",
+      "community": 1,
+      "norm_label": "extract topic strings from raw_analysis json.",
+      "id": "gap_analyzer_rationale_13"
+    },
+    {
+      "label": "Compare topics covered by competitor posts vs own posts.     Returns list of dic",
+      "file_type": "rationale",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/gap_analyzer.py",
+      "source_location": "L21",
+      "community": 1,
+      "norm_label": "compare topics covered by competitor posts vs own posts.     returns list of dic",
+      "id": "gap_analyzer_rationale_21"
     },
     {
       "label": "voice_analyzer.py",
@@ -1125,7 +1566,7 @@
       "source_file": "src/analyzer/voice_analyzer.py",
       "source_location": "L1",
       "id": "src_analyzer_voice_analyzer_py",
-      "community": 7,
+      "community": 0,
       "norm_label": "voice_analyzer.py"
     },
     {
@@ -1134,7 +1575,7 @@
       "source_file": "src/analyzer/voice_analyzer.py",
       "source_location": "L37",
       "id": "voice_analyzer_analyze_voice",
-      "community": 7,
+      "community": 0,
       "norm_label": "analyze_voice()"
     },
     {
@@ -1142,9 +1583,18 @@
       "file_type": "rationale",
       "source_file": "src/analyzer/voice_analyzer.py",
       "source_location": "L38",
-      "id": "voice_analyzer_rationale_38",
-      "community": 7,
-      "norm_label": "analisa os posts do perfil proprio e gera/atualiza o perfil de voz."
+      "community": 0,
+      "norm_label": "analisa os posts do perfil proprio e gera/atualiza o perfil de voz.",
+      "id": "voice_analyzer_rationale_38"
+    },
+    {
+      "label": "Busca posts de um perfil via Apify Instagram Scraper.     Retorna lista de dicts",
+      "file_type": "rationale",
+      "source_file": "src/collector/apify_client.py",
+      "source_location": "L14",
+      "community": 28,
+      "norm_label": "busca posts de um perfil via apify instagram scraper.     retorna lista de dicts",
+      "id": "apify_client_rationale_14"
     }
   ],
   "links": [
@@ -1439,6 +1889,258 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_tests_test_gap_analyzer_py",
+      "_tgt": "test_gap_analyzer_make_profile",
+      "source": "users_floakii_claudio_agro_content_tests_test_gap_analyzer_py",
+      "target": "test_gap_analyzer_make_profile",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_tests_test_gap_analyzer_py",
+      "_tgt": "test_gap_analyzer_make_post_with_analysis",
+      "source": "users_floakii_claudio_agro_content_tests_test_gap_analyzer_py",
+      "target": "test_gap_analyzer_make_post_with_analysis",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
+      "source_location": "L38",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_tests_test_gap_analyzer_py",
+      "_tgt": "test_gap_analyzer_test_extract_topics_from_raw_analysis",
+      "source": "users_floakii_claudio_agro_content_tests_test_gap_analyzer_py",
+      "target": "test_gap_analyzer_test_extract_topics_from_raw_analysis",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
+      "source_location": "L45",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_tests_test_gap_analyzer_py",
+      "_tgt": "test_gap_analyzer_test_extract_topics_empty",
+      "source": "users_floakii_claudio_agro_content_tests_test_gap_analyzer_py",
+      "target": "test_gap_analyzer_test_extract_topics_empty",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
+      "source_location": "L50",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_tests_test_gap_analyzer_py",
+      "_tgt": "test_gap_analyzer_test_compute_gaps_returns_list",
+      "source": "users_floakii_claudio_agro_content_tests_test_gap_analyzer_py",
+      "target": "test_gap_analyzer_test_compute_gaps_returns_list",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
+      "source_location": "L65",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_tests_test_gap_analyzer_py",
+      "_tgt": "test_gap_analyzer_test_compute_gaps_identifies_uncovered_topic",
+      "source": "users_floakii_claudio_agro_content_tests_test_gap_analyzer_py",
+      "target": "test_gap_analyzer_test_compute_gaps_identifies_uncovered_topic",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
+      "source_location": "L80",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_tests_test_gap_analyzer_py",
+      "_tgt": "test_gap_analyzer_test_compute_gaps_no_competitors_returns_empty",
+      "source": "users_floakii_claudio_agro_content_tests_test_gap_analyzer_py",
+      "target": "test_gap_analyzer_test_compute_gaps_no_competitors_returns_empty",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
+      "source_location": "L51",
+      "weight": 1.0,
+      "_src": "test_gap_analyzer_test_compute_gaps_returns_list",
+      "_tgt": "test_gap_analyzer_make_profile",
+      "source": "test_gap_analyzer_make_profile",
+      "target": "test_gap_analyzer_test_compute_gaps_returns_list",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
+      "source_location": "L66",
+      "weight": 1.0,
+      "_src": "test_gap_analyzer_test_compute_gaps_identifies_uncovered_topic",
+      "_tgt": "test_gap_analyzer_make_profile",
+      "source": "test_gap_analyzer_make_profile",
+      "target": "test_gap_analyzer_test_compute_gaps_identifies_uncovered_topic",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
+      "source_location": "L81",
+      "weight": 1.0,
+      "_src": "test_gap_analyzer_test_compute_gaps_no_competitors_returns_empty",
+      "_tgt": "test_gap_analyzer_make_profile",
+      "source": "test_gap_analyzer_make_profile",
+      "target": "test_gap_analyzer_test_compute_gaps_no_competitors_returns_empty",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_src": "test_gap_analyzer_make_profile",
+      "_tgt": "models_profile",
+      "source": "test_gap_analyzer_make_profile",
+      "target": "models_profile"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
+      "source_location": "L54",
+      "weight": 1.0,
+      "_src": "test_gap_analyzer_test_compute_gaps_returns_list",
+      "_tgt": "test_gap_analyzer_make_post_with_analysis",
+      "source": "test_gap_analyzer_make_post_with_analysis",
+      "target": "test_gap_analyzer_test_compute_gaps_returns_list",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
+      "source_location": "L69",
+      "weight": 1.0,
+      "_src": "test_gap_analyzer_test_compute_gaps_identifies_uncovered_topic",
+      "_tgt": "test_gap_analyzer_make_post_with_analysis",
+      "source": "test_gap_analyzer_make_post_with_analysis",
+      "target": "test_gap_analyzer_test_compute_gaps_identifies_uncovered_topic",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
+      "source_location": "L82",
+      "weight": 1.0,
+      "_src": "test_gap_analyzer_test_compute_gaps_no_competitors_returns_empty",
+      "_tgt": "test_gap_analyzer_make_post_with_analysis",
+      "source": "test_gap_analyzer_make_post_with_analysis",
+      "target": "test_gap_analyzer_test_compute_gaps_no_competitors_returns_empty",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_src": "test_gap_analyzer_make_post_with_analysis",
+      "_tgt": "models_post",
+      "source": "test_gap_analyzer_make_post_with_analysis",
+      "target": "models_post"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
+      "source_location": "L28",
+      "weight": 1.0,
+      "_src": "test_gap_analyzer_make_post_with_analysis",
+      "_tgt": "models_postanalysis",
+      "source": "test_gap_analyzer_make_post_with_analysis",
+      "target": "models_postanalysis"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
+      "source_location": "L40",
+      "weight": 1.0,
+      "_src": "test_gap_analyzer_test_extract_topics_from_raw_analysis",
+      "_tgt": "gap_analyzer_extract_topics",
+      "source": "test_gap_analyzer_test_extract_topics_from_raw_analysis",
+      "target": "gap_analyzer_extract_topics"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
+      "source_location": "L46",
+      "weight": 1.0,
+      "_src": "test_gap_analyzer_test_extract_topics_empty",
+      "_tgt": "gap_analyzer_extract_topics",
+      "source": "test_gap_analyzer_test_extract_topics_empty",
+      "target": "gap_analyzer_extract_topics"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
+      "source_location": "L60",
+      "weight": 1.0,
+      "_src": "test_gap_analyzer_test_compute_gaps_returns_list",
+      "_tgt": "gap_analyzer_compute_gaps",
+      "source": "test_gap_analyzer_test_compute_gaps_returns_list",
+      "target": "gap_analyzer_compute_gaps"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
+      "source_location": "L75",
+      "weight": 1.0,
+      "_src": "test_gap_analyzer_test_compute_gaps_identifies_uncovered_topic",
+      "_tgt": "gap_analyzer_compute_gaps",
+      "source": "test_gap_analyzer_test_compute_gaps_identifies_uncovered_topic",
+      "target": "gap_analyzer_compute_gaps"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
+      "source_location": "L85",
+      "weight": 1.0,
+      "_src": "test_gap_analyzer_test_compute_gaps_no_competitors_returns_empty",
+      "_tgt": "gap_analyzer_compute_gaps",
+      "source": "test_gap_analyzer_test_compute_gaps_no_competitors_returns_empty",
+      "target": "gap_analyzer_compute_gaps"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "tests/test_voice_profiler.py",
       "source_location": "L12",
       "weight": 1.0,
@@ -1511,109 +2213,397 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "tests/test_config.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_tests_test_news_monitor_py",
+      "_tgt": "test_news_monitor_test_extract_tags_soja",
+      "source": "users_floakii_claudio_agro_content_tests_test_news_monitor_py",
+      "target": "test_news_monitor_test_extract_tags_soja",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_tests_test_news_monitor_py",
+      "_tgt": "test_news_monitor_test_extract_tags_milho",
+      "source": "users_floakii_claudio_agro_content_tests_test_news_monitor_py",
+      "target": "test_news_monitor_test_extract_tags_milho",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
+      "source_location": "L25",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_tests_test_news_monitor_py",
+      "_tgt": "test_news_monitor_test_extract_tags_mercado",
+      "source": "users_floakii_claudio_agro_content_tests_test_news_monitor_py",
+      "target": "test_news_monitor_test_extract_tags_mercado",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
+      "source_location": "L31",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_tests_test_news_monitor_py",
+      "_tgt": "test_news_monitor_test_extract_tags_no_match",
+      "source": "users_floakii_claudio_agro_content_tests_test_news_monitor_py",
+      "target": "test_news_monitor_test_extract_tags_no_match",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
+      "source_location": "L37",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_tests_test_news_monitor_py",
+      "_tgt": "test_news_monitor_test_parse_feed_returns_dicts",
+      "source": "users_floakii_claudio_agro_content_tests_test_news_monitor_py",
+      "target": "test_news_monitor_test_parse_feed_returns_dicts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
+      "source_location": "L57",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_tests_test_news_monitor_py",
+      "_tgt": "test_news_monitor_test_fetch_all_feeds_saves_new_skips_duplicates",
+      "source": "users_floakii_claudio_agro_content_tests_test_news_monitor_py",
+      "target": "test_news_monitor_test_fetch_all_feeds_saves_new_skips_duplicates",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
+      "source_location": "L94",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_tests_test_news_monitor_py",
+      "_tgt": "test_news_monitor_test_get_recent_news_filters_by_days",
+      "source": "users_floakii_claudio_agro_content_tests_test_news_monitor_py",
+      "target": "test_news_monitor_test_get_recent_news_filters_by_days",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
+      "source_location": "L108",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_tests_test_news_monitor_py",
+      "_tgt": "test_news_monitor_test_get_recent_news_filters_by_tag",
+      "source": "users_floakii_claudio_agro_content_tests_test_news_monitor_py",
+      "target": "test_news_monitor_test_get_recent_news_filters_by_tag",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_src": "test_news_monitor_test_extract_tags_soja",
+      "_tgt": "news_monitor_extract_tags",
+      "source": "test_news_monitor_test_extract_tags_soja",
+      "target": "news_monitor_extract_tags"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_src": "test_news_monitor_test_extract_tags_milho",
+      "_tgt": "news_monitor_extract_tags",
+      "source": "test_news_monitor_test_extract_tags_milho",
+      "target": "news_monitor_extract_tags"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
+      "source_location": "L27",
+      "weight": 1.0,
+      "_src": "test_news_monitor_test_extract_tags_mercado",
+      "_tgt": "news_monitor_extract_tags",
+      "source": "test_news_monitor_test_extract_tags_mercado",
+      "target": "news_monitor_extract_tags"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
+      "source_location": "L33",
+      "weight": 1.0,
+      "_src": "test_news_monitor_test_extract_tags_no_match",
+      "_tgt": "news_monitor_extract_tags",
+      "source": "test_news_monitor_test_extract_tags_no_match",
+      "target": "news_monitor_extract_tags"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
+      "source_location": "L49",
+      "weight": 1.0,
+      "_src": "test_news_monitor_test_parse_feed_returns_dicts",
+      "_tgt": "news_monitor_parse_feed",
+      "source": "test_news_monitor_test_parse_feed_returns_dicts",
+      "target": "news_monitor_parse_feed"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
+      "source_location": "L58",
+      "weight": 1.0,
+      "_src": "test_news_monitor_test_fetch_all_feeds_saves_new_skips_duplicates",
+      "_tgt": "models_newsitem",
+      "source": "test_news_monitor_test_fetch_all_feeds_saves_new_skips_duplicates",
+      "target": "models_newsitem"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
+      "source_location": "L88",
+      "weight": 1.0,
+      "_src": "test_news_monitor_test_fetch_all_feeds_saves_new_skips_duplicates",
+      "_tgt": "news_monitor_fetch_all_feeds",
+      "source": "test_news_monitor_test_fetch_all_feeds_saves_new_skips_duplicates",
+      "target": "news_monitor_fetch_all_feeds"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
+      "source_location": "L96",
+      "weight": 1.0,
+      "_src": "test_news_monitor_test_get_recent_news_filters_by_days",
+      "_tgt": "models_newsitem",
+      "source": "test_news_monitor_test_get_recent_news_filters_by_days",
+      "target": "models_newsitem"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
+      "source_location": "L103",
+      "weight": 1.0,
+      "_src": "test_news_monitor_test_get_recent_news_filters_by_days",
+      "_tgt": "news_monitor_get_recent_news",
+      "source": "test_news_monitor_test_get_recent_news_filters_by_days",
+      "target": "news_monitor_get_recent_news"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
+      "source_location": "L109",
+      "weight": 1.0,
+      "_src": "test_news_monitor_test_get_recent_news_filters_by_tag",
+      "_tgt": "models_newsitem",
+      "source": "test_news_monitor_test_get_recent_news_filters_by_tag",
+      "target": "models_newsitem"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
+      "source_location": "L116",
+      "weight": 1.0,
+      "_src": "test_news_monitor_test_get_recent_news_filters_by_tag",
+      "_tgt": "news_monitor_get_recent_news",
+      "source": "test_news_monitor_test_get_recent_news_filters_by_tag",
+      "target": "news_monitor_get_recent_news"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_config.py",
       "source_location": "L6",
       "weight": 1.0,
-      "_src": "tests_test_config_py",
+      "_src": "users_floakii_claudio_agro_content_tests_test_config_py",
       "_tgt": "test_config_test_config_loads_from_env",
-      "source": "tests_test_config_py",
+      "source": "users_floakii_claudio_agro_content_tests_test_config_py",
       "target": "test_config_test_config_loads_from_env",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "tests/test_config.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_config.py",
       "source_location": "L21",
       "weight": 1.0,
-      "_src": "tests_test_config_py",
+      "_src": "users_floakii_claudio_agro_content_tests_test_config_py",
       "_tgt": "test_config_test_config_raises_if_missing_key",
-      "source": "tests_test_config_py",
+      "source": "users_floakii_claudio_agro_content_tests_test_config_py",
       "target": "test_config_test_config_raises_if_missing_key",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "tests/test_models.py",
-      "source_location": "L9",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L10",
       "weight": 1.0,
-      "_src": "tests_test_models_py",
+      "_src": "users_floakii_claudio_agro_content_tests_test_models_py",
       "_tgt": "test_models_engine",
-      "source": "tests_test_models_py",
+      "source": "users_floakii_claudio_agro_content_tests_test_models_py",
       "target": "test_models_engine",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "tests/test_models.py",
-      "source_location": "L17",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L18",
       "weight": 1.0,
-      "_src": "tests_test_models_py",
+      "_src": "users_floakii_claudio_agro_content_tests_test_models_py",
       "_tgt": "test_models_session",
-      "source": "tests_test_models_py",
+      "source": "users_floakii_claudio_agro_content_tests_test_models_py",
       "target": "test_models_session",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "tests/test_models.py",
-      "source_location": "L22",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L23",
       "weight": 1.0,
-      "_src": "tests_test_models_py",
+      "_src": "users_floakii_claudio_agro_content_tests_test_models_py",
       "_tgt": "test_models_test_create_profile",
-      "source": "tests_test_models_py",
+      "source": "users_floakii_claudio_agro_content_tests_test_models_py",
       "target": "test_models_test_create_profile",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "tests/test_models.py",
-      "source_location": "L30",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L31",
       "weight": 1.0,
-      "_src": "tests_test_models_py",
+      "_src": "users_floakii_claudio_agro_content_tests_test_models_py",
       "_tgt": "test_models_test_create_post",
-      "source": "tests_test_models_py",
+      "source": "users_floakii_claudio_agro_content_tests_test_models_py",
       "target": "test_models_test_create_post",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "tests/test_models.py",
-      "source_location": "L50",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L51",
       "weight": 1.0,
-      "_src": "tests_test_models_py",
+      "_src": "users_floakii_claudio_agro_content_tests_test_models_py",
       "_tgt": "test_models_test_create_post_analysis",
-      "source": "tests_test_models_py",
+      "source": "users_floakii_claudio_agro_content_tests_test_models_py",
       "target": "test_models_test_create_post_analysis",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "tests/test_models.py",
-      "source_location": "L73",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L74",
       "weight": 1.0,
-      "_src": "tests_test_models_py",
+      "_src": "users_floakii_claudio_agro_content_tests_test_models_py",
       "_tgt": "test_models_test_create_weekly_report",
-      "source": "tests_test_models_py",
+      "source": "users_floakii_claudio_agro_content_tests_test_models_py",
       "target": "test_models_test_create_weekly_report",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "tests/test_models.py",
-      "source_location": "L89",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L90",
       "weight": 1.0,
-      "_src": "tests_test_models_py",
+      "_src": "users_floakii_claudio_agro_content_tests_test_models_py",
       "_tgt": "test_models_test_create_carousel",
-      "source": "tests_test_models_py",
+      "source": "users_floakii_claudio_agro_content_tests_test_models_py",
       "target": "test_models_test_create_carousel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L101",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_tests_test_models_py",
+      "_tgt": "test_models_test_post_has_slides_column",
+      "source": "users_floakii_claudio_agro_content_tests_test_models_py",
+      "target": "test_models_test_post_has_slides_column",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L122",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_tests_test_models_py",
+      "_tgt": "test_models_test_post_analysis_has_carousel_narrative",
+      "source": "users_floakii_claudio_agro_content_tests_test_models_py",
+      "target": "test_models_test_post_analysis_has_carousel_narrative",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L146",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_tests_test_models_py",
+      "_tgt": "test_models_test_generated_post_strategy_fields",
+      "source": "users_floakii_claudio_agro_content_tests_test_models_py",
+      "target": "test_models_test_generated_post_strategy_fields",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L175",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_tests_test_models_py",
+      "_tgt": "test_models_test_news_item_create",
+      "source": "users_floakii_claudio_agro_content_tests_test_models_py",
+      "target": "test_models_test_news_item_create",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L191",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_tests_test_models_py",
+      "_tgt": "test_models_test_content_calendar_create",
+      "source": "users_floakii_claudio_agro_content_tests_test_models_py",
+      "target": "test_models_test_content_calendar_create",
       "confidence_score": 1.0
     },
     {
@@ -1623,8 +2613,8 @@
       "source_file": "tests/test_collector.py",
       "source_location": "L117",
       "weight": 1.0,
-      "_src": "test_collector_db_session",
-      "_tgt": "test_models_session",
+      "_src": "test_models_session",
+      "_tgt": "test_collector_db_session",
       "source": "test_models_session",
       "target": "test_collector_db_session"
     },
@@ -1635,8 +2625,8 @@
       "source_file": "tests/test_image_analyzer.py",
       "source_location": "L14",
       "weight": 1.0,
-      "_src": "test_image_analyzer_session_with_post",
-      "_tgt": "test_models_session",
+      "_src": "test_models_session",
+      "_tgt": "test_image_analyzer_session_with_post",
       "source": "test_models_session",
       "target": "test_image_analyzer_session_with_post"
     },
@@ -1735,6 +2725,222 @@
       "_tgt": "models_carousel",
       "source": "test_models_test_create_carousel",
       "target": "models_carousel"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L102",
+      "weight": 1.0,
+      "_src": "test_models_test_post_has_slides_column",
+      "_tgt": "models_profile",
+      "source": "test_models_test_post_has_slides_column",
+      "target": "models_profile"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L105",
+      "weight": 1.0,
+      "_src": "test_models_test_post_has_slides_column",
+      "_tgt": "models_post",
+      "source": "test_models_test_post_has_slides_column",
+      "target": "models_post"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L123",
+      "weight": 1.0,
+      "_src": "test_models_test_post_analysis_has_carousel_narrative",
+      "_tgt": "models_profile",
+      "source": "test_models_test_post_analysis_has_carousel_narrative",
+      "target": "models_profile"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L126",
+      "weight": 1.0,
+      "_src": "test_models_test_post_analysis_has_carousel_narrative",
+      "_tgt": "models_post",
+      "source": "test_models_test_post_analysis_has_carousel_narrative",
+      "target": "models_post"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L131",
+      "weight": 1.0,
+      "_src": "test_models_test_post_analysis_has_carousel_narrative",
+      "_tgt": "models_postanalysis",
+      "source": "test_models_test_post_analysis_has_carousel_narrative",
+      "target": "models_postanalysis"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L147",
+      "weight": 1.0,
+      "_src": "test_models_test_generated_post_strategy_fields",
+      "_tgt": "models_profile",
+      "source": "test_models_test_generated_post_strategy_fields",
+      "target": "models_profile"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L150",
+      "weight": 1.0,
+      "_src": "test_models_test_generated_post_strategy_fields",
+      "_tgt": "models_post",
+      "source": "test_models_test_generated_post_strategy_fields",
+      "target": "models_post"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L155",
+      "weight": 1.0,
+      "_src": "test_models_test_generated_post_strategy_fields",
+      "_tgt": "models_generatedpost",
+      "source": "test_models_test_generated_post_strategy_fields",
+      "target": "models_generatedpost"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L177",
+      "weight": 1.0,
+      "_src": "test_models_test_news_item_create",
+      "_tgt": "models_newsitem",
+      "source": "test_models_test_news_item_create",
+      "target": "models_newsitem"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
+      "source_location": "L193",
+      "weight": 1.0,
+      "_src": "test_models_test_content_calendar_create",
+      "_tgt": "models_contentcalendar",
+      "source": "test_models_test_content_calendar_create",
+      "target": "models_contentcalendar"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_seasonal.py",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_tests_test_seasonal_py",
+      "_tgt": "test_seasonal_test_returns_string",
+      "source": "users_floakii_claudio_agro_content_tests_test_seasonal_py",
+      "target": "test_seasonal_test_returns_string",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_seasonal.py",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_tests_test_seasonal_py",
+      "_tgt": "test_seasonal_test_march_april_context",
+      "source": "users_floakii_claudio_agro_content_tests_test_seasonal_py",
+      "target": "test_seasonal_test_march_april_context",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_seasonal.py",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_tests_test_seasonal_py",
+      "_tgt": "test_seasonal_test_july_august_context",
+      "source": "users_floakii_claudio_agro_content_tests_test_seasonal_py",
+      "target": "test_seasonal_test_july_august_context",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_seasonal.py",
+      "source_location": "L27",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_tests_test_seasonal_py",
+      "_tgt": "test_seasonal_test_november_december_context",
+      "source": "users_floakii_claudio_agro_content_tests_test_seasonal_py",
+      "target": "test_seasonal_test_november_december_context",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_seasonal.py",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_src": "test_seasonal_test_returns_string",
+      "_tgt": "seasonal_get_seasonal_context",
+      "source": "test_seasonal_test_returns_string",
+      "target": "seasonal_get_seasonal_context"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_seasonal.py",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_src": "test_seasonal_test_march_april_context",
+      "_tgt": "seasonal_get_seasonal_context",
+      "source": "test_seasonal_test_march_april_context",
+      "target": "seasonal_get_seasonal_context"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_seasonal.py",
+      "source_location": "L22",
+      "weight": 1.0,
+      "_src": "test_seasonal_test_july_august_context",
+      "_tgt": "seasonal_get_seasonal_context",
+      "source": "test_seasonal_test_july_august_context",
+      "target": "seasonal_get_seasonal_context"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_seasonal.py",
+      "source_location": "L30",
+      "weight": 1.0,
+      "_src": "test_seasonal_test_november_december_context",
+      "_tgt": "seasonal_get_seasonal_context",
+      "source": "test_seasonal_test_november_december_context",
+      "target": "seasonal_get_seasonal_context"
     },
     {
       "relation": "contains",
@@ -1907,36 +3113,36 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "tests/test_image_analyzer.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_image_analyzer.py",
       "source_location": "L11",
       "weight": 1.0,
-      "_src": "tests_test_image_analyzer_py",
+      "_src": "users_floakii_claudio_agro_content_tests_test_image_analyzer_py",
       "_tgt": "test_image_analyzer_session_with_post",
-      "source": "tests_test_image_analyzer_py",
+      "source": "users_floakii_claudio_agro_content_tests_test_image_analyzer_py",
       "target": "test_image_analyzer_session_with_post",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "tests/test_image_analyzer.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_image_analyzer.py",
       "source_location": "L43",
       "weight": 1.0,
-      "_src": "tests_test_image_analyzer_py",
+      "_src": "users_floakii_claudio_agro_content_tests_test_image_analyzer_py",
       "_tgt": "test_image_analyzer_test_analyze_post_creates_analysis",
-      "source": "tests_test_image_analyzer_py",
+      "source": "users_floakii_claudio_agro_content_tests_test_image_analyzer_py",
       "target": "test_image_analyzer_test_analyze_post_creates_analysis",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "tests/test_image_analyzer.py",
-      "source_location": "L66",
+      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_image_analyzer.py",
+      "source_location": "L72",
       "weight": 1.0,
-      "_src": "tests_test_image_analyzer_py",
+      "_src": "users_floakii_claudio_agro_content_tests_test_image_analyzer_py",
       "_tgt": "test_image_analyzer_test_analyze_post_skips_already_analyzed",
-      "source": "tests_test_image_analyzer_py",
+      "source": "users_floakii_claudio_agro_content_tests_test_image_analyzer_py",
       "target": "test_image_analyzer_test_analyze_post_skips_already_analyzed",
       "confidence_score": 1.0
     },
@@ -2423,6 +3629,42 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/alembic/versions/003_content_strategy.py",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_alembic_versions_003_content_strategy_py",
+      "_tgt": "003_content_strategy_upgrade",
+      "source": "users_floakii_claudio_agro_content_alembic_versions_003_content_strategy_py",
+      "target": "003_content_strategy_upgrade",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/alembic/versions/003_content_strategy.py",
+      "source_location": "L56",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_alembic_versions_003_content_strategy_py",
+      "_tgt": "003_content_strategy_downgrade",
+      "source": "users_floakii_claudio_agro_content_alembic_versions_003_content_strategy_py",
+      "target": "003_content_strategy_downgrade",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/alembic/versions/003_content_strategy.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_src": "003_content_strategy_rationale_1",
+      "_tgt": "users_floakii_claudio_agro_content_alembic_versions_003_content_strategy_py",
+      "source": "users_floakii_claudio_agro_content_alembic_versions_003_content_strategy_py",
+      "target": "003_content_strategy_rationale_1",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "alembic/versions/001_initial_schema.py",
       "source_location": "L20",
       "weight": 1.0,
@@ -2495,103 +3737,127 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "src/models.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
       "source_location": "L10",
       "weight": 1.0,
-      "_src": "src_models_py",
+      "_src": "users_floakii_claudio_agro_content_src_models_py",
       "_tgt": "models_base",
-      "source": "src_models_py",
+      "source": "users_floakii_claudio_agro_content_src_models_py",
       "target": "models_base",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "src/models.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
       "source_location": "L14",
       "weight": 1.0,
-      "_src": "src_models_py",
+      "_src": "users_floakii_claudio_agro_content_src_models_py",
       "_tgt": "models_profile",
-      "source": "src_models_py",
+      "source": "users_floakii_claudio_agro_content_src_models_py",
       "target": "models_profile",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "src/models.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
       "source_location": "L29",
       "weight": 1.0,
-      "_src": "src_models_py",
+      "_src": "users_floakii_claudio_agro_content_src_models_py",
       "_tgt": "models_post",
-      "source": "src_models_py",
+      "source": "users_floakii_claudio_agro_content_src_models_py",
       "target": "models_post",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "src/models.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
       "source_location": "L49",
       "weight": 1.0,
-      "_src": "src_models_py",
+      "_src": "users_floakii_claudio_agro_content_src_models_py",
       "_tgt": "models_postanalysis",
-      "source": "src_models_py",
+      "source": "users_floakii_claudio_agro_content_src_models_py",
       "target": "models_postanalysis",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "src/models.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
       "source_location": "L66",
       "weight": 1.0,
-      "_src": "src_models_py",
+      "_src": "users_floakii_claudio_agro_content_src_models_py",
       "_tgt": "models_profilevoice",
-      "source": "src_models_py",
+      "source": "users_floakii_claudio_agro_content_src_models_py",
       "target": "models_profilevoice",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "src/models.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
       "source_location": "L81",
       "weight": 1.0,
-      "_src": "src_models_py",
+      "_src": "users_floakii_claudio_agro_content_src_models_py",
       "_tgt": "models_generatedpost",
-      "source": "src_models_py",
+      "source": "users_floakii_claudio_agro_content_src_models_py",
       "target": "models_generatedpost",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "src/models.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
       "source_location": "L99",
       "weight": 1.0,
-      "_src": "src_models_py",
+      "_src": "users_floakii_claudio_agro_content_src_models_py",
       "_tgt": "models_weeklyreport",
-      "source": "src_models_py",
+      "source": "users_floakii_claudio_agro_content_src_models_py",
       "target": "models_weeklyreport",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "src/models.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
       "source_location": "L114",
       "weight": 1.0,
-      "_src": "src_models_py",
+      "_src": "users_floakii_claudio_agro_content_src_models_py",
       "_tgt": "models_carousel",
-      "source": "src_models_py",
+      "source": "users_floakii_claudio_agro_content_src_models_py",
       "target": "models_carousel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
+      "source_location": "L124",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_src_models_py",
+      "_tgt": "models_newsitem",
+      "source": "users_floakii_claudio_agro_content_src_models_py",
+      "target": "models_newsitem",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
+      "source_location": "L137",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_src_models_py",
+      "_tgt": "models_contentcalendar",
+      "source": "users_floakii_claudio_agro_content_src_models_py",
+      "target": "models_contentcalendar",
       "confidence_score": 1.0
     },
     {
       "relation": "inherits",
       "confidence": "EXTRACTED",
-      "source_file": "src/models.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
       "source_location": "L10",
       "weight": 1.0,
       "_src": "models_base",
@@ -2603,7 +3869,7 @@
     {
       "relation": "inherits",
       "confidence": "EXTRACTED",
-      "source_file": "src/models.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
       "source_location": "L14",
       "weight": 1.0,
       "_src": "models_profile",
@@ -2615,7 +3881,7 @@
     {
       "relation": "inherits",
       "confidence": "EXTRACTED",
-      "source_file": "src/models.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
       "source_location": "L29",
       "weight": 1.0,
       "_src": "models_post",
@@ -2627,7 +3893,7 @@
     {
       "relation": "inherits",
       "confidence": "EXTRACTED",
-      "source_file": "src/models.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
       "source_location": "L49",
       "weight": 1.0,
       "_src": "models_postanalysis",
@@ -2639,7 +3905,7 @@
     {
       "relation": "inherits",
       "confidence": "EXTRACTED",
-      "source_file": "src/models.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
       "source_location": "L66",
       "weight": 1.0,
       "_src": "models_profilevoice",
@@ -2651,7 +3917,7 @@
     {
       "relation": "inherits",
       "confidence": "EXTRACTED",
-      "source_file": "src/models.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
       "source_location": "L81",
       "weight": 1.0,
       "_src": "models_generatedpost",
@@ -2663,7 +3929,7 @@
     {
       "relation": "inherits",
       "confidence": "EXTRACTED",
-      "source_file": "src/models.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
       "source_location": "L99",
       "weight": 1.0,
       "_src": "models_weeklyreport",
@@ -2675,7 +3941,7 @@
     {
       "relation": "inherits",
       "confidence": "EXTRACTED",
-      "source_file": "src/models.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
       "source_location": "L114",
       "weight": 1.0,
       "_src": "models_carousel",
@@ -2685,16 +3951,64 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
+      "source_location": "L124",
+      "weight": 1.0,
+      "_src": "models_newsitem",
+      "_tgt": "models_base",
+      "source": "models_base",
+      "target": "models_newsitem",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
+      "source_location": "L137",
+      "weight": 1.0,
+      "_src": "models_contentcalendar",
+      "_tgt": "models_base",
+      "source": "models_base",
+      "target": "models_contentcalendar",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/gap_analyzer.py",
+      "source_location": "L7",
+      "weight": 0.8,
+      "_src": "models_profile",
+      "_tgt": "gap_analyzer_rationale_13",
+      "confidence_score": 0.5,
+      "source": "models_profile",
+      "target": "gap_analyzer_rationale_13"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/gap_analyzer.py",
+      "source_location": "L7",
+      "weight": 0.8,
+      "_src": "models_profile",
+      "_tgt": "gap_analyzer_rationale_21",
+      "confidence_score": 0.5,
+      "source": "models_profile",
+      "target": "gap_analyzer_rationale_21"
+    },
+    {
       "relation": "uses",
       "confidence": "INFERRED",
       "source_file": "src/reporter/voice_profiler.py",
       "source_location": "L6",
       "weight": 0.8,
-      "_src": "voice_profiler_rationale_23",
-      "_tgt": "models_profile",
+      "_src": "models_profile",
+      "_tgt": "voice_profiler_rationale_23",
+      "confidence_score": 0.5,
       "source": "models_profile",
-      "target": "voice_profiler_rationale_23",
-      "confidence_score": 0.5
+      "target": "voice_profiler_rationale_23"
     },
     {
       "relation": "uses",
@@ -2702,11 +4016,11 @@
       "source_file": "src/collector/collector.py",
       "source_location": "L3",
       "weight": 0.8,
-      "_src": "collector_rationale_11",
-      "_tgt": "models_profile",
+      "_src": "models_profile",
+      "_tgt": "collector_rationale_11",
+      "confidence_score": 0.5,
       "source": "models_profile",
-      "target": "collector_rationale_11",
-      "confidence_score": 0.5
+      "target": "collector_rationale_11"
     },
     {
       "relation": "uses",
@@ -2714,83 +4028,35 @@
       "source_file": "src/analyzer/voice_analyzer.py",
       "source_location": "L7",
       "weight": 0.8,
-      "_src": "voice_analyzer_rationale_38",
-      "_tgt": "models_profile",
+      "_src": "models_profile",
+      "_tgt": "voice_analyzer_rationale_38",
+      "confidence_score": 0.5,
       "source": "models_profile",
-      "target": "voice_analyzer_rationale_38",
-      "confidence_score": 0.5
+      "target": "voice_analyzer_rationale_38"
     },
     {
       "relation": "uses",
       "confidence": "INFERRED",
-      "source_file": "src/reporter/weekly_report.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/gap_analyzer.py",
       "source_location": "L7",
       "weight": 0.8,
-      "_src": "weekly_report_rationale_26",
-      "_tgt": "models_post",
+      "_src": "models_post",
+      "_tgt": "gap_analyzer_rationale_13",
+      "confidence_score": 0.5,
       "source": "models_post",
-      "target": "weekly_report_rationale_26",
-      "confidence_score": 0.5
+      "target": "gap_analyzer_rationale_13"
     },
     {
       "relation": "uses",
       "confidence": "INFERRED",
-      "source_file": "src/reporter/voice_profiler.py",
-      "source_location": "L6",
-      "weight": 0.8,
-      "_src": "voice_profiler_rationale_23",
-      "_tgt": "models_post",
-      "source": "models_post",
-      "target": "voice_profiler_rationale_23",
-      "confidence_score": 0.5
-    },
-    {
-      "relation": "uses",
-      "confidence": "INFERRED",
-      "source_file": "src/collector/collector.py",
-      "source_location": "L3",
-      "weight": 0.8,
-      "_src": "collector_rationale_11",
-      "_tgt": "models_post",
-      "source": "models_post",
-      "target": "collector_rationale_11",
-      "confidence_score": 0.5
-    },
-    {
-      "relation": "uses",
-      "confidence": "INFERRED",
-      "source_file": "src/generator/content_generator.py",
-      "source_location": "L8",
-      "weight": 0.8,
-      "_src": "content_generator_rationale_67",
-      "_tgt": "models_post",
-      "source": "models_post",
-      "target": "content_generator_rationale_67",
-      "confidence_score": 0.5
-    },
-    {
-      "relation": "uses",
-      "confidence": "INFERRED",
-      "source_file": "src/analyzer/image_analyzer.py",
-      "source_location": "L8",
-      "weight": 0.8,
-      "_src": "image_analyzer_rationale_39",
-      "_tgt": "models_post",
-      "source": "models_post",
-      "target": "image_analyzer_rationale_39",
-      "confidence_score": 0.5
-    },
-    {
-      "relation": "uses",
-      "confidence": "INFERRED",
-      "source_file": "src/analyzer/voice_analyzer.py",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/gap_analyzer.py",
       "source_location": "L7",
       "weight": 0.8,
-      "_src": "voice_analyzer_rationale_38",
-      "_tgt": "models_post",
+      "_src": "models_post",
+      "_tgt": "gap_analyzer_rationale_21",
+      "confidence_score": 0.5,
       "source": "models_post",
-      "target": "voice_analyzer_rationale_38",
-      "confidence_score": 0.5
+      "target": "gap_analyzer_rationale_21"
     },
     {
       "relation": "calls",
@@ -2799,8 +4065,8 @@
       "source_file": "src/collector/collector.py",
       "source_location": "L29",
       "weight": 1.0,
-      "_src": "collector_collect_profile",
-      "_tgt": "models_post",
+      "_src": "models_post",
+      "_tgt": "collector_collect_profile",
       "source": "models_post",
       "target": "collector_collect_profile"
     },
@@ -2810,11 +4076,47 @@
       "source_file": "src/reporter/weekly_report.py",
       "source_location": "L7",
       "weight": 0.8,
-      "_src": "weekly_report_rationale_26",
-      "_tgt": "models_postanalysis",
-      "source": "models_postanalysis",
-      "target": "weekly_report_rationale_26",
-      "confidence_score": 0.5
+      "_src": "models_post",
+      "_tgt": "weekly_report_rationale_26",
+      "confidence_score": 0.5,
+      "source": "models_post",
+      "target": "weekly_report_rationale_26"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/reporter/voice_profiler.py",
+      "source_location": "L6",
+      "weight": 0.8,
+      "_src": "models_post",
+      "_tgt": "voice_profiler_rationale_23",
+      "confidence_score": 0.5,
+      "source": "models_post",
+      "target": "voice_profiler_rationale_23"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/collector/collector.py",
+      "source_location": "L3",
+      "weight": 0.8,
+      "_src": "models_post",
+      "_tgt": "collector_rationale_11",
+      "confidence_score": 0.5,
+      "source": "models_post",
+      "target": "collector_rationale_11"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/generator/content_generator.py",
+      "source_location": "L8",
+      "weight": 0.8,
+      "_src": "models_post",
+      "_tgt": "content_generator_rationale_67",
+      "confidence_score": 0.5,
+      "source": "models_post",
+      "target": "content_generator_rationale_67"
     },
     {
       "relation": "uses",
@@ -2822,11 +4124,47 @@
       "source_file": "src/analyzer/image_analyzer.py",
       "source_location": "L8",
       "weight": 0.8,
-      "_src": "image_analyzer_rationale_39",
-      "_tgt": "models_postanalysis",
+      "_src": "models_post",
+      "_tgt": "image_analyzer_rationale_39",
+      "confidence_score": 0.5,
+      "source": "models_post",
+      "target": "image_analyzer_rationale_39"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/analyzer/voice_analyzer.py",
+      "source_location": "L7",
+      "weight": 0.8,
+      "_src": "models_post",
+      "_tgt": "voice_analyzer_rationale_38",
+      "confidence_score": 0.5,
+      "source": "models_post",
+      "target": "voice_analyzer_rationale_38"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/gap_analyzer.py",
+      "source_location": "L7",
+      "weight": 0.8,
+      "_src": "models_postanalysis",
+      "_tgt": "gap_analyzer_rationale_13",
+      "confidence_score": 0.5,
       "source": "models_postanalysis",
-      "target": "image_analyzer_rationale_39",
-      "confidence_score": 0.5
+      "target": "gap_analyzer_rationale_13"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/gap_analyzer.py",
+      "source_location": "L7",
+      "weight": 0.8,
+      "_src": "models_postanalysis",
+      "_tgt": "gap_analyzer_rationale_21",
+      "confidence_score": 0.5,
+      "source": "models_postanalysis",
+      "target": "gap_analyzer_rationale_21"
     },
     {
       "relation": "calls",
@@ -2835,58 +4173,34 @@
       "source_file": "src/analyzer/image_analyzer.py",
       "source_location": "L93",
       "weight": 1.0,
-      "_src": "image_analyzer_analyze_post",
-      "_tgt": "models_postanalysis",
+      "_src": "models_postanalysis",
+      "_tgt": "image_analyzer_analyze_post",
       "source": "models_postanalysis",
       "target": "image_analyzer_analyze_post"
     },
     {
       "relation": "uses",
       "confidence": "INFERRED",
-      "source_file": "src/reporter/voice_profiler.py",
-      "source_location": "L6",
-      "weight": 0.8,
-      "_src": "voice_profiler_rationale_23",
-      "_tgt": "models_profilevoice",
-      "source": "models_profilevoice",
-      "target": "voice_profiler_rationale_23",
-      "confidence_score": 0.5
-    },
-    {
-      "relation": "uses",
-      "confidence": "INFERRED",
-      "source_file": "src/carousel/generator.py",
-      "source_location": "L6",
-      "weight": 0.8,
-      "_src": "generator_rationale_27",
-      "_tgt": "models_profilevoice",
-      "source": "models_profilevoice",
-      "target": "generator_rationale_27",
-      "confidence_score": 0.5
-    },
-    {
-      "relation": "uses",
-      "confidence": "INFERRED",
-      "source_file": "src/generator/content_generator.py",
-      "source_location": "L8",
-      "weight": 0.8,
-      "_src": "content_generator_rationale_67",
-      "_tgt": "models_profilevoice",
-      "source": "models_profilevoice",
-      "target": "content_generator_rationale_67",
-      "confidence_score": 0.5
-    },
-    {
-      "relation": "uses",
-      "confidence": "INFERRED",
-      "source_file": "src/analyzer/voice_analyzer.py",
+      "source_file": "src/reporter/weekly_report.py",
       "source_location": "L7",
       "weight": 0.8,
-      "_src": "voice_analyzer_rationale_38",
-      "_tgt": "models_profilevoice",
-      "source": "models_profilevoice",
-      "target": "voice_analyzer_rationale_38",
-      "confidence_score": 0.5
+      "_src": "models_postanalysis",
+      "_tgt": "weekly_report_rationale_26",
+      "confidence_score": 0.5,
+      "source": "models_postanalysis",
+      "target": "weekly_report_rationale_26"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/analyzer/image_analyzer.py",
+      "source_location": "L8",
+      "weight": 0.8,
+      "_src": "models_postanalysis",
+      "_tgt": "image_analyzer_rationale_39",
+      "confidence_score": 0.5,
+      "source": "models_postanalysis",
+      "target": "image_analyzer_rationale_39"
     },
     {
       "relation": "calls",
@@ -2895,8 +4209,8 @@
       "source_file": "src/reporter/voice_profiler.py",
       "source_location": "L42",
       "weight": 1.0,
-      "_src": "voice_profiler_generate_voice_profile",
-      "_tgt": "models_profilevoice",
+      "_src": "models_profilevoice",
+      "_tgt": "voice_profiler_generate_voice_profile",
       "source": "models_profilevoice",
       "target": "voice_profiler_generate_voice_profile"
     },
@@ -2907,10 +4221,34 @@
       "source_file": "src/analyzer/voice_analyzer.py",
       "source_location": "L77",
       "weight": 1.0,
-      "_src": "voice_analyzer_analyze_voice",
-      "_tgt": "models_profilevoice",
+      "_src": "models_profilevoice",
+      "_tgt": "voice_analyzer_analyze_voice",
       "source": "models_profilevoice",
       "target": "voice_analyzer_analyze_voice"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/reporter/voice_profiler.py",
+      "source_location": "L6",
+      "weight": 0.8,
+      "_src": "models_profilevoice",
+      "_tgt": "voice_profiler_rationale_23",
+      "confidence_score": 0.5,
+      "source": "models_profilevoice",
+      "target": "voice_profiler_rationale_23"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/carousel/generator.py",
+      "source_location": "L6",
+      "weight": 0.8,
+      "_src": "models_profilevoice",
+      "_tgt": "generator_rationale_27",
+      "confidence_score": 0.5,
+      "source": "models_profilevoice",
+      "target": "generator_rationale_27"
     },
     {
       "relation": "uses",
@@ -2918,11 +4256,23 @@
       "source_file": "src/generator/content_generator.py",
       "source_location": "L8",
       "weight": 0.8,
-      "_src": "content_generator_rationale_67",
-      "_tgt": "models_generatedpost",
-      "source": "models_generatedpost",
-      "target": "content_generator_rationale_67",
-      "confidence_score": 0.5
+      "_src": "models_profilevoice",
+      "_tgt": "content_generator_rationale_67",
+      "confidence_score": 0.5,
+      "source": "models_profilevoice",
+      "target": "content_generator_rationale_67"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/analyzer/voice_analyzer.py",
+      "source_location": "L7",
+      "weight": 0.8,
+      "_src": "models_profilevoice",
+      "_tgt": "voice_analyzer_rationale_38",
+      "confidence_score": 0.5,
+      "source": "models_profilevoice",
+      "target": "voice_analyzer_rationale_38"
     },
     {
       "relation": "calls",
@@ -2931,34 +4281,22 @@
       "source_file": "src/generator/content_generator.py",
       "source_location": "L101",
       "weight": 1.0,
-      "_src": "content_generator_generate_post",
-      "_tgt": "models_generatedpost",
+      "_src": "models_generatedpost",
+      "_tgt": "content_generator_generate_post",
       "source": "models_generatedpost",
       "target": "content_generator_generate_post"
     },
     {
       "relation": "uses",
       "confidence": "INFERRED",
-      "source_file": "src/reporter/weekly_report.py",
-      "source_location": "L7",
+      "source_file": "src/generator/content_generator.py",
+      "source_location": "L8",
       "weight": 0.8,
-      "_src": "weekly_report_rationale_26",
-      "_tgt": "models_weeklyreport",
-      "source": "models_weeklyreport",
-      "target": "weekly_report_rationale_26",
-      "confidence_score": 0.5
-    },
-    {
-      "relation": "uses",
-      "confidence": "INFERRED",
-      "source_file": "src/carousel/generator.py",
-      "source_location": "L6",
-      "weight": 0.8,
-      "_src": "generator_rationale_27",
-      "_tgt": "models_weeklyreport",
-      "source": "models_weeklyreport",
-      "target": "generator_rationale_27",
-      "confidence_score": 0.5
+      "_src": "models_generatedpost",
+      "_tgt": "content_generator_rationale_67",
+      "confidence_score": 0.5,
+      "source": "models_generatedpost",
+      "target": "content_generator_rationale_67"
     },
     {
       "relation": "calls",
@@ -2967,10 +4305,22 @@
       "source_file": "src/reporter/weekly_report.py",
       "source_location": "L66",
       "weight": 1.0,
-      "_src": "weekly_report_generate_weekly_report",
-      "_tgt": "models_weeklyreport",
+      "_src": "models_weeklyreport",
+      "_tgt": "weekly_report_generate_weekly_report",
       "source": "models_weeklyreport",
       "target": "weekly_report_generate_weekly_report"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/reporter/weekly_report.py",
+      "source_location": "L7",
+      "weight": 0.8,
+      "_src": "models_weeklyreport",
+      "_tgt": "weekly_report_rationale_26",
+      "confidence_score": 0.5,
+      "source": "models_weeklyreport",
+      "target": "weekly_report_rationale_26"
     },
     {
       "relation": "uses",
@@ -2978,11 +4328,11 @@
       "source_file": "src/carousel/generator.py",
       "source_location": "L6",
       "weight": 0.8,
-      "_src": "generator_rationale_27",
-      "_tgt": "models_carousel",
-      "source": "models_carousel",
-      "target": "generator_rationale_27",
-      "confidence_score": 0.5
+      "_src": "models_weeklyreport",
+      "_tgt": "generator_rationale_27",
+      "confidence_score": 0.5,
+      "source": "models_weeklyreport",
+      "target": "generator_rationale_27"
     },
     {
       "relation": "calls",
@@ -2991,10 +4341,58 @@
       "source_file": "src/carousel/generator.py",
       "source_location": "L75",
       "weight": 1.0,
-      "_src": "generator_generate_carousel",
-      "_tgt": "models_carousel",
+      "_src": "models_carousel",
+      "_tgt": "generator_generate_carousel",
       "source": "models_carousel",
       "target": "generator_generate_carousel"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "src/carousel/generator.py",
+      "source_location": "L6",
+      "weight": 0.8,
+      "_src": "models_carousel",
+      "_tgt": "generator_rationale_27",
+      "confidence_score": 0.5,
+      "source": "models_carousel",
+      "target": "generator_rationale_27"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/collector/news_monitor.py",
+      "source_location": "L9",
+      "weight": 0.8,
+      "_src": "models_newsitem",
+      "_tgt": "news_monitor_rationale_82",
+      "confidence_score": 0.5,
+      "source": "models_newsitem",
+      "target": "news_monitor_rationale_82"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/collector/news_monitor.py",
+      "source_location": "L9",
+      "weight": 0.8,
+      "_src": "models_newsitem",
+      "_tgt": "news_monitor_rationale_103",
+      "confidence_score": 0.5,
+      "source": "models_newsitem",
+      "target": "news_monitor_rationale_103"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "/Users/floakii/Claudio/agro-content/src/collector/news_monitor.py",
+      "source_location": "L89",
+      "weight": 1.0,
+      "_src": "models_newsitem",
+      "_tgt": "news_monitor_fetch_all_feeds",
+      "source": "models_newsitem",
+      "target": "news_monitor_fetch_all_feeds"
     },
     {
       "relation": "contains",
@@ -3131,25 +4529,145 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "src/collector/apify_client.py",
-      "source_location": "L13",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/collector/news_monitor.py",
+      "source_location": "L36",
       "weight": 1.0,
-      "_src": "src_collector_apify_client_py",
+      "_src": "users_floakii_claudio_agro_content_src_collector_news_monitor_py",
+      "_tgt": "news_monitor_extract_tags",
+      "source": "users_floakii_claudio_agro_content_src_collector_news_monitor_py",
+      "target": "news_monitor_extract_tags",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/collector/news_monitor.py",
+      "source_location": "L45",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_src_collector_news_monitor_py",
+      "_tgt": "news_monitor_parse_feed",
+      "source": "users_floakii_claudio_agro_content_src_collector_news_monitor_py",
+      "target": "news_monitor_parse_feed",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/collector/news_monitor.py",
+      "source_location": "L69",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_src_collector_news_monitor_py",
+      "_tgt": "news_monitor_fetch_all_raw",
+      "source": "users_floakii_claudio_agro_content_src_collector_news_monitor_py",
+      "target": "news_monitor_fetch_all_raw",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/collector/news_monitor.py",
+      "source_location": "L81",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_src_collector_news_monitor_py",
+      "_tgt": "news_monitor_fetch_all_feeds",
+      "source": "users_floakii_claudio_agro_content_src_collector_news_monitor_py",
+      "target": "news_monitor_fetch_all_feeds",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/collector/news_monitor.py",
+      "source_location": "L98",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_src_collector_news_monitor_py",
+      "_tgt": "news_monitor_get_recent_news",
+      "source": "users_floakii_claudio_agro_content_src_collector_news_monitor_py",
+      "target": "news_monitor_get_recent_news",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/collector/news_monitor.py",
+      "source_location": "L57",
+      "weight": 1.0,
+      "_src": "news_monitor_parse_feed",
+      "_tgt": "news_monitor_extract_tags",
+      "source": "news_monitor_extract_tags",
+      "target": "news_monitor_parse_feed",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/collector/news_monitor.py",
+      "source_location": "L73",
+      "weight": 1.0,
+      "_src": "news_monitor_fetch_all_raw",
+      "_tgt": "news_monitor_parse_feed",
+      "source": "news_monitor_parse_feed",
+      "target": "news_monitor_fetch_all_raw",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/collector/news_monitor.py",
+      "source_location": "L83",
+      "weight": 1.0,
+      "_src": "news_monitor_fetch_all_feeds",
+      "_tgt": "news_monitor_fetch_all_raw",
+      "source": "news_monitor_fetch_all_raw",
+      "target": "news_monitor_fetch_all_feeds",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/collector/news_monitor.py",
+      "source_location": "L82",
+      "weight": 1.0,
+      "_src": "news_monitor_rationale_82",
+      "_tgt": "news_monitor_fetch_all_feeds",
+      "source": "news_monitor_fetch_all_feeds",
+      "target": "news_monitor_rationale_82",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/collector/news_monitor.py",
+      "source_location": "L103",
+      "weight": 1.0,
+      "_src": "news_monitor_rationale_103",
+      "_tgt": "news_monitor_get_recent_news",
+      "source": "news_monitor_get_recent_news",
+      "target": "news_monitor_rationale_103",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/collector/apify_client.py",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_src_collector_apify_client_py",
       "_tgt": "apify_client_fetch_posts_apify",
-      "source": "src_collector_apify_client_py",
+      "source": "users_floakii_claudio_agro_content_src_collector_apify_client_py",
       "target": "apify_client_fetch_posts_apify",
       "confidence_score": 1.0
     },
     {
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
-      "source_file": "src/collector/apify_client.py",
-      "source_location": "L14",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/collector/apify_client.py",
+      "source_location": "L13",
       "weight": 1.0,
-      "_src": "apify_client_rationale_14",
+      "_src": "apify_client_rationale_13",
       "_tgt": "apify_client_fetch_posts_apify",
       "source": "apify_client_fetch_posts_apify",
-      "target": "apify_client_rationale_14",
+      "target": "apify_client_rationale_13",
       "confidence_score": 1.0
     },
     {
@@ -3222,6 +4740,30 @@
       "_tgt": "generator_generate_carousel",
       "source": "generator_generate_carousel",
       "target": "generator_rationale_27",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/generator/seasonal.py",
+      "source_location": "L79",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_src_generator_seasonal_py",
+      "_tgt": "seasonal_get_seasonal_context",
+      "source": "users_floakii_claudio_agro_content_src_generator_seasonal_py",
+      "target": "seasonal_get_seasonal_context",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/generator/seasonal.py",
+      "source_location": "L80",
+      "weight": 1.0,
+      "_src": "seasonal_rationale_80",
+      "_tgt": "seasonal_get_seasonal_context",
+      "source": "seasonal_get_seasonal_context",
+      "target": "seasonal_rationale_80",
       "confidence_score": 1.0
     },
     {
@@ -3330,6 +4872,66 @@
       "_tgt": "virality_calculate_virality_score",
       "source": "virality_calculate_virality_score",
       "target": "virality_rationale_2",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/gap_analyzer.py",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_src_analyzer_gap_analyzer_py",
+      "_tgt": "gap_analyzer_extract_topics",
+      "source": "users_floakii_claudio_agro_content_src_analyzer_gap_analyzer_py",
+      "target": "gap_analyzer_extract_topics",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/gap_analyzer.py",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_src": "users_floakii_claudio_agro_content_src_analyzer_gap_analyzer_py",
+      "_tgt": "gap_analyzer_compute_gaps",
+      "source": "users_floakii_claudio_agro_content_src_analyzer_gap_analyzer_py",
+      "target": "gap_analyzer_compute_gaps",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/gap_analyzer.py",
+      "source_location": "L38",
+      "weight": 1.0,
+      "_src": "gap_analyzer_compute_gaps",
+      "_tgt": "gap_analyzer_extract_topics",
+      "source": "gap_analyzer_extract_topics",
+      "target": "gap_analyzer_compute_gaps",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/gap_analyzer.py",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_src": "gap_analyzer_rationale_13",
+      "_tgt": "gap_analyzer_extract_topics",
+      "source": "gap_analyzer_extract_topics",
+      "target": "gap_analyzer_rationale_13",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/gap_analyzer.py",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_src": "gap_analyzer_rationale_21",
+      "_tgt": "gap_analyzer_compute_gaps",
+      "source": "gap_analyzer_compute_gaps",
+      "target": "gap_analyzer_rationale_21",
       "confidence_score": 1.0
     },
     {

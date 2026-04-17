@@ -1,4 +1,6 @@
+import os
 from datetime import datetime, timezone, timedelta
+from typing import Optional
 import instaloader
 
 
@@ -10,12 +12,43 @@ _TYPE_MAP = {
 }
 
 
+_loader: Optional[instaloader.Instaloader] = None
+
+
+def _get_loader() -> instaloader.Instaloader:
+    global _loader
+    if _loader is not None:
+        return _loader
+
+    loader = instaloader.Instaloader(
+        sleep=True,
+        quiet=False,
+        request_timeout=30,
+    )
+    ig_user = os.environ.get("INSTAGRAM_USER")
+    ig_pass = os.environ.get("INSTAGRAM_PASS")
+    session_file = os.path.join(os.path.dirname(__file__), f"../../.ig_session_{ig_user}")
+
+    # Tenta session salva pelo CLI do instaloader (~/.config/instaloader/session-user)
+    cli_session = os.path.expanduser(f"~/.config/instaloader/session-{ig_user}")
+    if ig_user and os.path.exists(cli_session):
+        loader.load_session_from_file(ig_user, cli_session)
+    elif ig_user and os.path.exists(session_file):
+        loader.load_session_from_file(ig_user, session_file)
+    elif ig_user and ig_pass:
+        loader.login(ig_user, ig_pass)
+        loader.save_session_to_file(session_file)
+
+    _loader = loader
+    return _loader
+
+
 def fetch_posts_instaloader(handle: str, months_back: int = 1) -> list[dict]:
     """
-    Fallback: busca posts via Instaloader (sem token, mas mais lento e com risco de bloqueio).
+    Busca posts via Instaloader com login para evitar bloqueios.
     Retorna lista de dicts normalizados.
     """
-    loader = instaloader.Instaloader()
+    loader = _get_loader()
     profile = instaloader.Profile.from_username(loader.context, handle)
     cutoff = datetime.now(timezone.utc) - timedelta(days=months_back * 30)
 
