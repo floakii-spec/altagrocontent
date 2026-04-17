@@ -20,14 +20,15 @@ def override_db():
     with Session(engine) as s:
         yield s
 
-app.dependency_overrides[get_db] = override_db
 client = TestClient(app)
 
 @pytest.fixture(autouse=True)
 def clean_db():
+    app.dependency_overrides[get_db] = override_db
     Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
     yield
+    app.dependency_overrides.pop(get_db, None)
 
 def test_list_reports_empty():
     response = client.get("/reports")
