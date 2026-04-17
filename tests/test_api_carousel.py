@@ -66,3 +66,40 @@ def test_generate_carousel():
     data = response.json()
     assert data["theme"] == "gestão de safra"
     assert len(data["slides"]) == 1
+
+
+from src.models import CarouselSuggestion
+
+
+def test_get_suggestions_empty():
+    response = client.get("/carousel/suggestions")
+    assert response.status_code == 204
+
+
+def test_get_suggestions_returns_latest():
+    with Session(engine) as s:
+        s.add(CarouselSuggestion(
+            themes=[{"title": "Soja alta", "rationale": "gap"}],
+            generated_at=datetime.now(timezone.utc),
+        ))
+        s.add(CarouselSuggestion(
+            themes=[{"title": "Milho baixo", "rationale": "viral"}],
+            generated_at=datetime.now(timezone.utc),
+        ))
+        s.commit()
+    response = client.get("/carousel/suggestions")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["themes"][0]["title"] == "Milho baixo"
+
+
+def test_refresh_suggestions():
+    from unittest.mock import patch, MagicMock
+    mock_suggestion = MagicMock()
+    mock_suggestion.id = 1
+    mock_suggestion.themes = [{"title": "T", "rationale": "R"}]
+    mock_suggestion.generated_at = datetime.now(timezone.utc)
+    with patch("api.routers.carousel.generate_theme_suggestions", return_value=mock_suggestion):
+        response = client.post("/carousel/suggestions/refresh")
+    assert response.status_code == 200
+    assert response.json()["themes"][0]["title"] == "T"
