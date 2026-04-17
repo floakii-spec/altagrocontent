@@ -8,7 +8,7 @@ from unittest.mock import patch, MagicMock
 from datetime import datetime, timezone, timedelta
 from sqlalchemy import create_engine, StaticPool
 from sqlalchemy.orm import Session
-from src.models import Base, CarouselSuggestion, NewsItem, Post, PostAnalysis, Profile
+from src.models import Base, CarouselSuggestion, NewsItem
 
 
 engine = create_engine(
