@@ -47,6 +47,14 @@ export function ModuleDrawer({ module, group, open, onClose }: ModuleDrawerProps
         {/* Header */}
         <SheetHeader className="px-6 pt-6 pb-4 border-b shrink-0" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
           <div className="flex items-center gap-3">
+            <button
+              onClick={onClose}
+              className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-all"
+              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.5)' }}
+              aria-label="Voltar"
+            >
+              ←
+            </button>
             <div
               className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0"
               style={{ background: group.color + '18', border: `1px solid ${group.color}33` }}

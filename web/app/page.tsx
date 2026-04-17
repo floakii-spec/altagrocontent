@@ -23,15 +23,15 @@ export default function HomePage() {
   }, [])
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden" style={{ background: '#000' }}>
-      {/* Sidebar */}
+    <div className="h-screen w-screen overflow-hidden" style={{ background: '#000' }}>
+      {/* Sidebar — fixed overlay, expands on hover */}
       <Sidebar
         activeModuleId={openModule?.module.id ?? null}
         onSelectModule={handleSidebarSelect}
       />
 
-      {/* Main — orbital */}
-      <main className="relative flex-1 overflow-hidden">
+      {/* Main — offset by collapsed sidebar width (48px) */}
+      <main className="absolute inset-0 overflow-hidden" style={{ left: 48 }}>
         {/* Hint */}
         <p
           className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 text-[10px] tracking-[0.5px] whitespace-nowrap select-none pointer-events-none"
