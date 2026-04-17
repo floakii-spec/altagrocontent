@@ -141,3 +141,11 @@ class ContentCalendar(Base):
     week_start: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
     entries: Mapped[list] = mapped_column(JSON, default=list)
     generated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+
+
+class CarouselSuggestion(Base):
+    __tablename__ = "carousel_suggestions"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    themes: Mapped[list] = mapped_column(JSON, default=list)
+    generated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
