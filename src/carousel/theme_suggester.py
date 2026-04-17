@@ -59,10 +59,19 @@ def generate_theme_suggestions(session: Session) -> CarouselSuggestion:
         max_tokens=800,
     )
 
+    raw = response.choices[0].message.content or ""
+    # Strip markdown code fences GPT-4o sometimes adds
+    raw = raw.strip()
+    if raw.startswith("```"):
+        raw = raw.split("```", 2)[1]
+        if raw.startswith("json"):
+            raw = raw[4:]
+        raw = raw.rstrip("`").strip()
+
     try:
-        themes = json.loads(response.choices[0].message.content)
+        themes = json.loads(raw)
     except json.JSONDecodeError as exc:
-        logger.error("GPT-4o returned invalid JSON for theme suggestions: %s", exc)
+        logger.error("GPT-4o returned invalid JSON for theme suggestions. Raw: %r Error: %s", raw, exc)
         raise
 
     suggestion = CarouselSuggestion(themes=themes)
