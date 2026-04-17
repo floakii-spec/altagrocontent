@@ -40,6 +40,7 @@ class Post(Base):
     post_type: Mapped[str] = mapped_column(String(20))  # feed | reel | carousel
     published_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     collected_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+    slides: Mapped[list] = mapped_column(JSON, default=list)
 
     profile: Mapped["Profile"] = relationship(back_populates="posts")
     analysis: Mapped[Optional["PostAnalysis"]] = relationship(back_populates="post", uselist=False)
@@ -56,6 +57,7 @@ class PostAnalysis(Base):
     trigger: Mapped[Optional[str]] = mapped_column(String(50))
     virality_score: Mapped[Optional[float]] = mapped_column(Float)
     raw_analysis: Mapped[dict] = mapped_column(JSON, default=dict)
+    carousel_narrative: Mapped[dict] = mapped_column(JSON, default=dict)
     analyzed_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
     post: Mapped["Post"] = relationship(back_populates="analysis")
@@ -80,14 +82,18 @@ class GeneratedPost(Base):
     __tablename__ = "generated_posts"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    source_post_id: Mapped[int] = mapped_column(ForeignKey("posts.id"), nullable=False)
+    source_post_id: Mapped[Optional[int]] = mapped_column(ForeignKey("posts.id"), nullable=True)
     hook: Mapped[Optional[str]] = mapped_column(Text)
     caption: Mapped[Optional[str]] = mapped_column(Text)
     cta: Mapped[Optional[str]] = mapped_column(Text)
     status: Mapped[str] = mapped_column(String(20), default="generated")  # generated | approved | discarded
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+    funnel_stage: Mapped[Optional[str]] = mapped_column(String(20))
+    format: Mapped[Optional[str]] = mapped_column(String(20))
+    hook_variations: Mapped[dict] = mapped_column(JSON, default=dict)
+    news_item_ids: Mapped[list] = mapped_column(JSON, default=list)
 
-    source_post: Mapped["Post"] = relationship()
+    source_post: Mapped[Optional["Post"]] = relationship()
 
 
 class WeeklyReport(Base):
@@ -112,4 +118,26 @@ class Carousel(Base):
     theme: Mapped[str] = mapped_column(Text, nullable=False)
     slides: Mapped[list] = mapped_column(JSON, default=list)
     based_on_reports: Mapped[list] = mapped_column(JSON, default=list)
+    generated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+
+
+class NewsItem(Base):
+    __tablename__ = "news_items"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    source: Mapped[str] = mapped_column(String(50), nullable=False)
+    title: Mapped[str] = mapped_column(Text, nullable=False)
+    summary: Mapped[Optional[str]] = mapped_column(Text)
+    url: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
+    published_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    tags: Mapped[list] = mapped_column(JSON, default=list)
+    fetched_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+
+
+class ContentCalendar(Base):
+    __tablename__ = "content_calendars"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    week_start: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    entries: Mapped[list] = mapped_column(JSON, default=list)
     generated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
