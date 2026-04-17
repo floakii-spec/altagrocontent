@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 from typing import List, Optional
-from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from src.models import Profile, Post, PostAnalysis
@@ -22,6 +22,18 @@ class ProfileOut(BaseModel):
     follower_count: Optional[int]
     post_count: int
     last_sync: Optional[datetime]
+
+
+class SyncError(BaseModel):
+    handle: str
+    error: str
+    post_id: Optional[int] = None
+
+
+class SyncResponse(BaseModel):
+    synced: int
+    new_posts_analyzed: int
+    errors: List[SyncError]
 
 
 @router.get("", response_model=List[ProfileOut])
@@ -74,12 +86,14 @@ def remove_profile(profile_id: int, db: Session = Depends(get_db)):
     return {"ok": True}
 
 
-@router.post("/sync")
+@router.post("/sync", response_model=SyncResponse)
 def sync_profiles(db: Session = Depends(get_db)):
     from src.collector.collector import collect_profile
     from src.analyzer.image_analyzer import analyze_post
     profiles = db.query(Profile).filter_by(active=True).all()
-    apify_token = os.environ["APIFY_API_TOKEN"]
+    apify_token = os.environ.get("APIFY_API_TOKEN")
+    if not apify_token:
+        raise HTTPException(status_code=400, detail="APIFY_API_TOKEN not configured")
     errors = []
     total_new = 0
     for profile in profiles:
@@ -103,7 +117,7 @@ def sync_profiles(db: Session = Depends(get_db)):
     return {"synced": len(profiles), "new_posts_analyzed": total_new, "errors": errors}
 
 
-@router.get("/gap")
+@router.get("/gap", response_model=List[dict])
 def gap_analysis(db: Session = Depends(get_db)):
     from src.analyzer.gap_analyzer import compute_gaps
     gaps = compute_gaps(db)
