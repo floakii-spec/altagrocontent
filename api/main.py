@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api.routers import competitors, carousel, news, reports, voice
+from api.routers import competitors, carousel, news, reports, voice, studio
 
 app = FastAPI(title="Agro Intel API")
 
@@ -16,6 +16,7 @@ app.include_router(carousel.router)
 app.include_router(news.router)
 app.include_router(reports.router)
 app.include_router(voice.router)
+app.include_router(studio.router)
 
 
 @app.get("/health")
