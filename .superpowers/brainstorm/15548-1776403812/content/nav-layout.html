@@ -1,0 +1,81 @@
+<h2>Como deve funcionar a navegação principal?</h2>
+<p class="subtitle">O SaaS tem 6 módulos ativos + 2 chegando (Notícias, Calendário). Como o usuário navega entre eles?</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="sidebar" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0a0a0a;padding:16px;font-family:monospace;height:180px;display:flex;gap:12px;border-radius:8px;">
+      <div style="width:160px;background:#111;border-radius:6px;padding:12px;display:flex;flex-direction:column;gap:8px;">
+        <div style="color:#fff;font-size:11px;font-weight:700;margin-bottom:4px;">AGRO INTEL</div>
+        <div style="background:#fff;color:#000;border-radius:4px;padding:4px 8px;font-size:10px;">🏠 Dashboard</div>
+        <div style="color:#666;padding:4px 8px;font-size:10px;">📊 Concorrentes</div>
+        <div style="color:#666;padding:4px 8px;font-size:10px;">🖼️ Posts</div>
+        <div style="color:#666;padding:4px 8px;font-size:10px;">✍️ Criar</div>
+        <div style="color:#666;padding:4px 8px;font-size:10px;">📋 Relatório</div>
+        <div style="color:#666;padding:4px 8px;font-size:10px;">🎙️ Voz</div>
+      </div>
+      <div style="flex:1;background:#111;border-radius:6px;padding:12px;">
+        <div style="color:#fff;font-size:11px;margin-bottom:8px;">Conteúdo principal</div>
+        <div style="background:#1a1a1a;height:100px;border-radius:4px;"></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Sidebar fixa</h3>
+      <p>Navegação lateral sempre visível. Padrão de SaaS (Linear, Notion, Vercel). Mais espaço vertical para conteúdo.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="topnav" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0a0a0a;padding:16px;font-family:monospace;height:180px;display:flex;flex-direction:column;gap:8px;border-radius:8px;">
+      <div style="background:#111;border-radius:6px;padding:8px 12px;display:flex;gap:12px;align-items:center;">
+        <span style="color:#fff;font-size:10px;font-weight:700;">AGRO INTEL</span>
+        <span style="color:#666;font-size:10px;">Concorrentes</span>
+        <span style="color:#fff;font-size:10px;border-bottom:1px solid #fff;">Posts</span>
+        <span style="color:#666;font-size:10px;">Criar</span>
+        <span style="color:#666;font-size:10px;">Relatório</span>
+        <span style="color:#666;font-size:10px;">Voz</span>
+        <span style="color:#666;font-size:10px;">Carrossel</span>
+      </div>
+      <div style="flex:1;background:#111;border-radius:6px;padding:12px;">
+        <div style="color:#fff;font-size:11px;margin-bottom:8px;">Conteúdo principal</div>
+        <div style="background:#1a1a1a;height:80px;border-radius:4px;"></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Top nav</h3>
+      <p>Abas no topo, similar ao Streamlit atual. Simples, familiar. Menos espaço vertical quando há muitos módulos.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="hybrid" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0a0a0a;padding:16px;font-family:monospace;height:180px;display:flex;flex-direction:column;gap:8px;border-radius:8px;">
+      <div style="background:#111;border-radius:6px;padding:6px 12px;display:flex;justify-content:space-between;align-items:center;">
+        <span style="color:#fff;font-size:10px;font-weight:700;">AGRO INTEL</span>
+        <div style="display:flex;gap:8px;">
+          <span style="color:#666;font-size:9px;">Docs</span>
+          <span style="color:#666;font-size:9px;">Settings</span>
+          <span style="background:#fff;color:#000;border-radius:3px;padding:2px 6px;font-size:9px;">Nathan ▾</span>
+        </div>
+      </div>
+      <div style="flex:1;display:flex;gap:8px;">
+        <div style="width:48px;background:#111;border-radius:6px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:10px;">
+          <div style="font-size:14px;">🏠</div>
+          <div style="font-size:14px;opacity:0.4;">📊</div>
+          <div style="font-size:14px;opacity:0.4;">🖼️</div>
+          <div style="font-size:14px;opacity:0.4;">✍️</div>
+          <div style="font-size:14px;opacity:0.4;">📋</div>
+          <div style="font-size:14px;opacity:0.4;">🎙️</div>
+        </div>
+        <div style="flex:1;background:#111;border-radius:6px;padding:12px;">
+          <div style="color:#fff;font-size:11px;margin-bottom:8px;">Conteúdo principal</div>
+          <div style="background:#1a1a1a;height:80px;border-radius:4px;"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Icon sidebar + top bar</h3>
+      <p>Sidebar compacta com ícones + top bar com perfil. Máximo espaço para conteúdo. Estilo Linear/Figma.</p>
+    </div>
+  </div>
+
+</div>

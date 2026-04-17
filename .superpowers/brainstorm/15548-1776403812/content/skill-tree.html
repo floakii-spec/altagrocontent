@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#000; color:#fff; font-family:-apple-system,sans-serif; overflow:hidden; height:100vh; }
+
+.back-btn {
+  position:fixed; top:20px; left:24px; z-index:200;
+  background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1);
+  border-radius:6px; padding:6px 12px; font-size:11px;
+  color:rgba(255,255,255,0.5); cursor:pointer; transition:all 0.2s; display:none;
+}
+.back-btn:hover { color:#fff; border-color:rgba(255,255,255,0.3); }
+
+.breadcrumb {
+  position:fixed; top:20px; left:50%; transform:translateX(-50%); z-index:200;
+  font-size:11px; color:rgba(255,255,255,0.35); letter-spacing:1px;
+  display:flex; align-items:center; gap:8px;
+}
+.breadcrumb span { cursor:pointer; transition:color 0.2s; }
+.breadcrumb span:hover { color:#16a34a; }
+.breadcrumb .sep { opacity:0.3; }
+
+.hint {
+  position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+  font-size:10px; color:rgba(255,255,255,0.2); letter-spacing:0.5px; white-space:nowrap;
+}
+
+/* Universe: zero-size at viewport center; children use absolute positioning */
+#universe { position:absolute; left:50%; top:50%; width:0; height:0; }
+
+.orbit-ring {
+  position:absolute; border-radius:50%;
+  border:1px solid rgba(255,255,255,0.05);
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+}
+.pulse-ring {
+  position:absolute; border-radius:50%; border:1px solid;
+  pointer-events:none;
+  animation:pulse-out 2s ease-out infinite;
+}
+.pulse-ring.d2 { animation-delay:.7s; }
+@keyframes pulse-out {
+  0%   { transform:translate(-50%,-50%) scale(1);   opacity:.5; }
+  100% { transform:translate(-50%,-50%) scale(1.5); opacity:0;  }
+}
+@keyframes breathe {
+  0%,100% { box-shadow:0 0 25px var(--g1),0 0 50px var(--g2); }
+  50%     { box-shadow:0 0 42px var(--g1),0 0 84px var(--g2); }
+}
+
+/* All nodes: positioned with transform, left/top always 0 */
+.node-el {
+  position:absolute; left:0; top:0;
+  display:flex; flex-direction:column; align-items:center;
+  cursor:pointer; user-select:none; pointer-events:auto;
+}
+.node-el.no-click { cursor:default; pointer-events:none; }
+
+.node-circle {
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  border:2px solid rgba(255,255,255,0.18);
+  background:#0c0c0c;
+}
+.node-el:not(.no-click):hover .node-circle {
+  border-color:rgba(255,255,255,0.55);
+  transform:scale(1.12);
+  transition:transform .25s ease, border-color .25s;
+}
+.node-label {
+  margin-top:8px; font-size:10px; font-weight:600; letter-spacing:.5px;
+  color:rgba(255,255,255,.45); white-space:nowrap;
+}
+.node-el:not(.no-click):hover .node-label { color:#fff; }
+</style>
+</head>
+<body>
+
+<div class="back-btn" id="backBtn" onclick="goBack()">← Voltar</div>
+<div class="breadcrumb" id="crumb"><span>AGRO INTEL</span></div>
+<div class="hint" id="hint">Clique em um grupo para explorar</div>
+<div id="universe"></div>
+
+<script>
+/* ── Data ──────────────────────────────────────────────────── */
+const TREE = {
+  root: { id:'root', emoji:'🌾', label:'Agro Intel', color:'#16a34a' },
+  groups: [
+    { id:'criacao', emoji:'✍️', label:'Criação', color:'#16a34a',
+      children:[
+        { id:'carrossel',   emoji:'🎠', label:'Carrossel',   color:'#16a34a', status:'active', desc:'Gera slides virais com GPT-4o baseado no relatório semanal e voz do Nathan.' },
+        { id:'motivacional',emoji:'💬', label:'Motivacional', color:'#16a34a', status:'coming', desc:'Posts motivacionais e de autoridade adaptados à linguagem do agro.' },
+        { id:'studio',      emoji:'🎬', label:'Studio',       color:'#16a34a', status:'active', desc:'Cria posts adaptados de concorrentes com voz própria do Nathan.' },
+      ]},
+    { id:'coleta', emoji:'📡', label:'Coleta', color:'#3b82f6',
+      children:[
+        { id:'concorrentes',emoji:'📊', label:'Concorrentes', color:'#3b82f6', status:'active', desc:'8 perfis monitorados. Posts coletados via Apify + Instaloader automaticamente.' },
+        { id:'noticias',    emoji:'📰', label:'Notícias',     color:'#3b82f6', status:'active', desc:'RSS de 4 fontes agro: Canal Rural, Globo Rural, Agrolink, Notícias Agrícolas.' },
+      ]},
+    { id:'gestao', emoji:'⚙️', label:'Gestão', color:'#8b5cf6',
+      children:[
+        { id:'relatorios',  emoji:'📋', label:'Relatórios',   color:'#8b5cf6', status:'active', desc:'Consolida análises semanais em insights acionáveis via GPT-4o.' },
+        { id:'calendario',  emoji:'📅', label:'Calendário',   color:'#8b5cf6', status:'coming', desc:'Plano editorial semanal gerado por IA com base em gaps e sazonalidade.' },
+        { id:'identidade',  emoji:'🪪', label:'Identidade',   color:'#8b5cf6', status:'active', desc:'Perfil de voz do Nathan: vocabulário, tom, temas dominantes, estilo único.' },
+      ]},
+  ]
+};
+
+const STATUS_BADGE = {
+  active: { label:'● ATIVO',   style:'color:#16a34a;background:#16a34a18;border:1px solid #16a34a33;' },
+  coming: { label:'○ EM BREVE',style:'color:#6b7280;background:#11111188;border:1px solid #333;'      },
+};
+
+/* ── Constants ─────────────────────────────────────────────── */
+const SZ = { center:80, group:72, child:52 };
+const HW = { center:40, group:36, child:26 };
+const FS = { center:30, group:26, child:18 };
+const FADE = 320; // ms for cross-fade
+
+/* ── State ─────────────────────────────────────────────────── */
+let raf = null;
+let angle = 0;
+let orbitItems  = [];  // { el, hw, baseAngle, radius }
+let sceneEls    = [];  // every live node in current scene
+let rings       = [];
+let pulseRings  = [];
+let busy        = false;
+let activeGroup = null;
+let popup       = null;
+
+const universe = document.getElementById('universe');
+
+/* ── Helpers ───────────────────────────────────────────────── */
+function pos(el, x, y) {
+  const hw = HW[el._type] || 26;
+  el.style.transform = `translate(${x-hw}px,${y-hw}px)`;
+  el._x = x; el._y = y;
+}
+
+function fadeIn(el, dur = FADE, delay = 0) {
+  el.style.transition = `opacity ${dur}ms ease ${delay}ms`;
+  requestAnimationFrame(() => requestAnimationFrame(() => { el.style.opacity = '1'; }));
+}
+
+function fadeOut(el, dur = FADE, delay = 0) {
+  el.style.transition = `opacity ${dur}ms ease ${delay}ms`;
+  requestAnimationFrame(() => requestAnimationFrame(() => { el.style.opacity = '0'; }));
+}
+
+function makeNode(data, type) {
+  const size = SZ[type]; const hw = HW[type]; const fs = FS[type];
+  const isCenter = type === 'center';
+
+  const el = document.createElement('div');
+  el.className = 'node-el' + (isCenter ? ' no-click' : '');
+  el._type = type; el._x = 0; el._y = 0;
+  el.style.opacity = '0';
+  el.style.setProperty('--g1', data.color + '66');
+  el.style.setProperty('--g2', data.color + '22');
+
+  const circle = document.createElement('div');
+  circle.className = 'node-circle';
+  circle.style.cssText = `width:${size}px;height:${size}px;font-size:${fs}px;`;
+  circle.textContent = data.emoji;
+
+  if (isCenter) {
+    circle.style.borderColor = data.color;
+    circle.style.background  = data.color + '22';
+    circle.style.boxShadow   = `0 0 25px ${data.color}66,0 0 50px ${data.color}22`;
+    circle.style.animation   = 'breathe 3s ease-in-out infinite';
+  }
+
+  const label = document.createElement('div');
+  label.className = 'node-label';
+  label.textContent = data.label;
+
+  el.appendChild(circle);
+  el.appendChild(label);
+  universe.appendChild(el);
+  pos(el, 0, 0);
+  return el;
+}
+
+function makeRings(radii) {
+  rings.forEach(r => r.remove()); rings = [];
+  radii.forEach(r => {
+    const el = document.createElement('div');
+    el.className = 'orbit-ring';
+    el.style.width = el.style.height = r*2+'px';
+    universe.appendChild(el);
+    rings.push(el);
+  });
+}
+
+function makePulse(color) {
+  pulseRings.forEach(r => r.remove()); pulseRings = [];
+  [0,1].forEach(i => {
+    const el = document.createElement('div');
+    el.className = 'pulse-ring'+(i?' d2':'');
+    el.style.cssText = `width:160px;height:160px;border-color:${color}44;`;
+    universe.appendChild(el);
+    pulseRings.push(el);
+  });
+}
+
+/* ── Orbit rAF ─────────────────────────────────────────────── */
+function startOrbit() {
+  cancelAnimationFrame(raf);
+  (function tick() {
+    angle += 0.004;
+    orbitItems.forEach(item => {
+      const a = item.baseAngle + angle;
+      const x = Math.cos(a) * item.radius;
+      const y = Math.sin(a) * item.radius;
+      const hw = item.hw;
+      item.el.style.transform = `translate(${x-hw}px,${y-hw}px)`;
+      item.el._x = x; item.el._y = y;
+      const d = (Math.sin(a)+1)/2;
+      item.el.style.opacity = String(0.35 + 0.65*d);
+      item.el.style.zIndex  = String(Math.round(10 + 40*d));
+    });
+    raf = requestAnimationFrame(tick);
+  })();
+}
+
+function stopOrbit() {
+  cancelAnimationFrame(raf);
+  raf = null;
+}
+
+/* Swap opacity control from CSS → rAF (call after fade-in CSS ends) */
+function handoffToRAF() {
+  orbitItems.forEach(item => { item.el.style.transition = ''; });
+}
+
+/* ── Crossfade helper ──────────────────────────────────────── */
+/* Fades out `els`, removes them after `dur` ms, calls `cb` right away */
+function dissolveOut(els, dur, cb) {
+  els.forEach(el => fadeOut(el, dur));
+  setTimeout(() => { els.forEach(el => { if (el.parentNode) el.remove(); }); }, dur+50);
+  cb();
+}
+
+/* ── HOME ──────────────────────────────────────────────────── */
+function renderHome() {
+  stopOrbit();
+  activeGroup = null;
+  orbitItems  = [];
+  sceneEls    = [];
+  busy        = false;
+
+  makeRings([180,280]);
+  makePulse('#16a34a');
+
+  // Center root
+  const root = makeNode(TREE.root, 'center');
+  pos(root, 0, 0);
+  sceneEls.push(root);
+  fadeIn(root, FADE);
+
+  // Group nodes pre-positioned at orbit spots
+  TREE.groups.forEach((g,i) => {
+    const theta = (i/TREE.groups.length)*2*Math.PI - Math.PI/2;
+    const el = makeNode(g, 'group');
+    const rx = Math.cos(theta)*200, ry = Math.sin(theta)*200;
+    pos(el, rx, ry);
+    sceneEls.push(el);
+    fadeIn(el, FADE, i*60);
+    el.addEventListener('click', () => { if (!busy) drillInto(g, el); });
+    orbitItems.push({ el, hw:HW.group, baseAngle:theta, radius:200 });
+  });
+
+  startOrbit();
+  setTimeout(handoffToRAF, FADE+200);
+
+  document.getElementById('backBtn').style.display = 'none';
+  document.getElementById('crumb').innerHTML = '<span>AGRO INTEL</span>';
+  document.getElementById('hint').textContent = 'Clique em um grupo para explorar';
+}
+
+/* ── DRILL IN ──────────────────────────────────────────────── */
+function drillInto(group, clickedEl) {
+  busy = true;
+  stopOrbit();
+
+  // "Zoom" feel: briefly scale clicked circle up
+  const circ = clickedEl.querySelector('.node-circle');
+  circ.style.transition = 'transform .38s cubic-bezier(.2,0,0,1)';
+  requestAnimationFrame(() => requestAnimationFrame(() => { circ.style.transform = 'scale(2.6)'; }));
+
+  // Fade out siblings immediately
+  sceneEls.filter(e => e !== clickedEl).forEach(e => fadeOut(e, FADE*0.8));
+
+  // After brief zoom hold, crossfade to group scene
+  setTimeout(() => {
+    // Capture old scene
+    const oldEls = [...sceneEls];
+    sceneEls = []; orbitItems = [];
+
+    activeGroup = group;
+    makeRings([140,220]);
+    makePulse(group.color);
+
+    // Center
+    const center = makeNode(group, 'center');
+    pos(center, 0, 0);
+    sceneEls.push(center);
+    fadeIn(center, FADE);
+
+    // Children pre-positioned at orbit spots
+    group.children.forEach((child,i) => {
+      const theta = (i/group.children.length)*2*Math.PI - Math.PI/2;
+      const el = makeNode(child, 'child');
+      const rx = Math.cos(theta)*170, ry = Math.sin(theta)*170;
+      pos(el, rx, ry);
+      sceneEls.push(el);
+      fadeIn(el, FADE, 60+i*55);
+      el.addEventListener('click', e => { e.stopPropagation(); if(!busy) openModule(child, el); });
+      orbitItems.push({ el, hw:HW.child, baseAngle:theta, radius:170 });
+    });
+
+    // Remove old scene after they've faded
+    setTimeout(() => { oldEls.forEach(e => { if(e.parentNode) e.remove(); }); }, FADE+50);
+
+    startOrbit();
+    setTimeout(handoffToRAF, FADE+250);
+
+    document.getElementById('backBtn').style.display = 'block';
+    document.getElementById('crumb').innerHTML =
+      `<span onclick="goHome()" style="cursor:pointer">AGRO INTEL</span>
+       <span class="sep">›</span>
+       <span style="color:${group.color}">${group.label}</span>`;
+    document.getElementById('hint').textContent = 'Clique em um módulo para abrir';
+
+    setTimeout(() => { busy = false; }, FADE+300);
+  }, 380);
+}
+
+/* ── GO BACK ───────────────────────────────────────────────── */
+function goBack() {
+  if (busy) return;
+  busy = true;
+  closePopup();
+  stopOrbit();
+
+  // Freeze orbit items in place (rAF stopped), fade them out
+  const oldEls = [...sceneEls];
+  sceneEls = []; orbitItems = [];
+  oldEls.forEach(e => fadeOut(e, FADE));
+
+  setTimeout(() => {
+    oldEls.forEach(e => { if(e.parentNode) e.remove(); });
+    renderHome(); // sets busy=false internally
+  }, FADE+60);
+}
+
+function goHome() { if (!busy) goBack(); }
+
+/* ── MODULE POPUP ──────────────────────────────────────────── */
+function openModule(child, el) {
+  if (popup) { popup.remove(); popup = null; return; }
+  const status = STATUS_BADGE[child.status] || STATUS_BADGE.coming;
+  const rect = el.getBoundingClientRect();
+  const p = document.createElement('div');
+  p.style.cssText = `position:fixed;z-index:300;background:rgba(0,0,0,0.96);
+    border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:16px;width:220px;
+    backdrop-filter:blur(16px);box-shadow:0 24px 64px rgba(0,0,0,0.8);animation:fu .25s ease`;
+  p.innerHTML = `
+    <style>@keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}</style>
+    <div style="display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:700;
+      letter-spacing:1px;border-radius:20px;padding:2px 10px;margin-bottom:10px;${status.style}">
+      ${status.label}</div>
+    <div style="font-size:13px;font-weight:600;margin-bottom:6px;">${child.emoji} ${child.label}</div>
+    <div style="font-size:10px;color:rgba(255,255,255,.55);line-height:1.6;margin-bottom:12px;">${child.desc}</div>
+    <div style="display:flex;justify-content:flex-end;gap:6px;">
+      <button onclick="closePopup()" style="background:transparent;border:1px solid rgba(255,255,255,.15);
+        color:rgba(255,255,255,.5);border-radius:5px;padding:5px 10px;font-size:10px;cursor:pointer;">
+        Fechar</button>
+      ${child.status==='active'?`<button style="background:${activeGroup?activeGroup.color:'#16a34a'};
+        border:none;color:#fff;border-radius:5px;padding:5px 12px;font-size:10px;cursor:pointer;
+        font-weight:600;">Abrir →</button>`:''}
+    </div>`;
+  p.style.left = Math.min(rect.left + rect.width/2 - 110, window.innerWidth - 240) + 'px';
+  p.style.top  = Math.max(rect.top - 160, 20) + 'px';
+  document.body.appendChild(p);
+  popup = p;
+}
+
+function closePopup() { if (popup) { popup.remove(); popup = null; } }
+document.addEventListener('keydown', e => { if (e.key==='Escape') closePopup(); });
+
+/* ── Init ──────────────────────────────────────────────────── */
+renderHome();
+window.goBack = goBack;
+window.goHome = goHome;
+window.closePopup = closePopup;
+</script>
+</body>
+</html>

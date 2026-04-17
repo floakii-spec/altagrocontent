@@ -1,0 +1,25 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "core": {
+    "text-primary": {
+      "value": "#000000",
+      "role": "text-primary",
+      "name": "border-color"
+    },
+    "background": {
+      "value": "#ffffff",
+      "role": "background"
+    }
+  },
+  "status": {},
+  "extended": {
+    "color-0000ee": {
+      "value": "#0000ee",
+      "role": "info"
+    }
+  },
+  "meta": {
+    "theme": "light",
+    "extracted": "2026-04-17"
+  }
+}

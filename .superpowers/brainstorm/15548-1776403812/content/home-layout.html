@@ -1,0 +1,154 @@
+<h2>Layout da tela Home (Dashboard)</h2>
+<p class="subtitle">Verde agro confirmado. Como organizar a tela principal com o RadialOrbitalTimeline?</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="orbital-full" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0a0a0a;padding:12px;height:200px;border-radius:8px;display:flex;gap:8px;">
+      <!-- sidebar -->
+      <div style="width:110px;background:#0f0f0f;border-radius:6px;padding:8px;flex-shrink:0;display:flex;flex-direction:column;gap:5px;">
+        <div style="color:#fff;font-size:8px;font-weight:700;margin-bottom:4px;">AGRO INTEL</div>
+        <div style="background:#16a34a;color:#fff;border-radius:3px;padding:3px 6px;font-size:7px;">🏠 Home</div>
+        <div style="color:#444;padding:3px 6px;font-size:7px;">📊 Concorrentes</div>
+        <div style="color:#444;padding:3px 6px;font-size:7px;">🖼️ Posts</div>
+        <div style="color:#444;padding:3px 6px;font-size:7px;">✍️ Criar</div>
+        <div style="color:#444;padding:3px 6px;font-size:7px;">📋 Relatório</div>
+        <div style="color:#444;padding:3px 6px;font-size:7px;">🎙️ Voz</div>
+        <div style="color:#444;padding:3px 6px;font-size:7px;">🎠 Carrossel</div>
+        <div style="color:#444;padding:3px 6px;font-size:7px;">📰 Notícias</div>
+        <div style="color:#444;padding:3px 6px;font-size:7px;">📅 Calendário</div>
+      </div>
+      <!-- main: orbital full screen -->
+      <div style="flex:1;background:#000;border-radius:6px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;">
+        <div style="width:60px;height:60px;border-radius:50%;border:1px solid #ffffff15;position:absolute;"></div>
+        <div style="width:100px;height:100px;border-radius:50%;border:1px solid #ffffff10;position:absolute;"></div>
+        <div style="width:140px;height:140px;border-radius:50%;border:1px solid #ffffff08;position:absolute;"></div>
+        <div style="width:12px;height:12px;background:linear-gradient(135deg,#16a34a,#065f46);border-radius:50%;position:absolute;box-shadow:0 0 8px #16a34a66;"></div>
+        <!-- nodes -->
+        <div style="position:absolute;top:18px;left:50%;transform:translateX(-50%);">
+          <div style="width:20px;height:20px;background:#111;border:1.5px solid #16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+            <span style="font-size:8px;">📊</span>
+          </div>
+        </div>
+        <div style="position:absolute;right:20px;top:50%;transform:translateY(-50%);">
+          <div style="width:20px;height:20px;background:#111;border:1.5px solid #444;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+            <span style="font-size:8px;">🖼️</span>
+          </div>
+        </div>
+        <div style="position:absolute;bottom:18px;right:30%;">
+          <div style="width:20px;height:20px;background:#111;border:1.5px solid #444;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+            <span style="font-size:8px;">✍️</span>
+          </div>
+        </div>
+        <div style="position:absolute;bottom:24px;left:30%;">
+          <div style="width:20px;height:20px;background:#111;border:1.5px solid #444;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+            <span style="font-size:8px;">📋</span>
+          </div>
+        </div>
+        <div style="position:absolute;left:20px;top:50%;transform:translateY(-50%);">
+          <div style="width:20px;height:20px;background:#111;border:1.5px solid #444;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+            <span style="font-size:8px;">🎙️</span>
+          </div>
+        </div>
+        <div style="position:absolute;top:12px;color:#16a34a;font-size:7px;left:8px;">Pipeline de conteúdo</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Orbital full screen</h3>
+      <p>RadialOrbitalTimeline ocupa toda a área principal. Cada nó = um módulo do SaaS. Clicando expande status e métricas do módulo.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="orbital-split" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0a0a0a;padding:12px;height:200px;border-radius:8px;display:flex;gap:8px;">
+      <!-- sidebar -->
+      <div style="width:110px;background:#0f0f0f;border-radius:6px;padding:8px;flex-shrink:0;display:flex;flex-direction:column;gap:5px;">
+        <div style="color:#fff;font-size:8px;font-weight:700;margin-bottom:4px;">AGRO INTEL</div>
+        <div style="background:#16a34a;color:#fff;border-radius:3px;padding:3px 6px;font-size:7px;">🏠 Home</div>
+        <div style="color:#444;padding:3px 6px;font-size:7px;">📊 Concorrentes</div>
+        <div style="color:#444;padding:3px 6px;font-size:7px;">🖼️ Posts</div>
+        <div style="color:#444;padding:3px 6px;font-size:7px;">✍️ Criar</div>
+      </div>
+      <!-- main: orbital left + metrics right -->
+      <div style="flex:1;display:flex;gap:6px;">
+        <div style="flex:1;background:#000;border-radius:6px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;">
+          <div style="width:80px;height:80px;border-radius:50%;border:1px solid #ffffff10;position:absolute;"></div>
+          <div style="width:10px;height:10px;background:#16a34a;border-radius:50%;position:absolute;box-shadow:0 0 6px #16a34a;"></div>
+          <div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);width:14px;height:14px;background:#111;border:1px solid #16a34a;border-radius:50%;"></div>
+          <div style="position:absolute;right:10px;top:50%;transform:translateY(-50%);width:14px;height:14px;background:#111;border:1px solid #333;border-radius:50%;"></div>
+          <div style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);width:14px;height:14px;background:#111;border:1px solid #333;border-radius:50%;"></div>
+          <div style="position:absolute;left:10px;top:50%;transform:translateY(-50%);width:14px;height:14px;background:#111;border:1px solid #333;border-radius:50%;"></div>
+        </div>
+        <div style="width:80px;display:flex;flex-direction:column;gap:4px;">
+          <div style="background:#0f1f0f;border:1px solid #16a34a33;border-radius:4px;padding:5px;flex:1;">
+            <div style="color:#16a34a;font-size:6px;">Posts</div>
+            <div style="color:#fff;font-size:11px;font-weight:700;">247</div>
+          </div>
+          <div style="background:#0f0f0f;border:1px solid #333;border-radius:4px;padding:5px;flex:1;">
+            <div style="color:#555;font-size:6px;">Gerados</div>
+            <div style="color:#fff;font-size:11px;font-weight:700;">38</div>
+          </div>
+          <div style="background:#0f0f0f;border:1px solid #333;border-radius:4px;padding:5px;flex:1;">
+            <div style="color:#555;font-size:6px;">Notícias</div>
+            <div style="color:#fff;font-size:11px;font-weight:700;">12</div>
+          </div>
+          <div style="background:#0f0f0f;border:1px solid #333;border-radius:4px;padding:5px;flex:1;">
+            <div style="color:#555;font-size:6px;">Score</div>
+            <div style="color:#16a34a;font-size:11px;font-weight:700;">84%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Orbital + métricas</h3>
+      <p>Orbital à esquerda + cards de métricas à direita. Home mais informativa: pipeline visual + números de hoje.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="metrics-top" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0a0a0a;padding:12px;height:200px;border-radius:8px;display:flex;gap:8px;">
+      <!-- sidebar -->
+      <div style="width:110px;background:#0f0f0f;border-radius:6px;padding:8px;flex-shrink:0;display:flex;flex-direction:column;gap:5px;">
+        <div style="color:#fff;font-size:8px;font-weight:700;margin-bottom:4px;">AGRO INTEL</div>
+        <div style="background:#16a34a;color:#fff;border-radius:3px;padding:3px 6px;font-size:7px;">🏠 Home</div>
+        <div style="color:#444;padding:3px 6px;font-size:7px;">📊 Concorrentes</div>
+        <div style="color:#444;padding:3px 6px;font-size:7px;">🖼️ Posts</div>
+        <div style="color:#444;padding:3px 6px;font-size:7px;">✍️ Criar</div>
+      </div>
+      <!-- main: metrics top + orbital bottom -->
+      <div style="flex:1;display:flex;flex-direction:column;gap:5px;">
+        <div style="display:flex;gap:4px;">
+          <div style="flex:1;background:#0f1f0f;border:1px solid #16a34a33;border-radius:4px;padding:5px;">
+            <div style="color:#16a34a;font-size:6px;">Posts coletados</div>
+            <div style="color:#fff;font-size:12px;font-weight:700;">247</div>
+          </div>
+          <div style="flex:1;background:#0f0f0f;border:1px solid #222;border-radius:4px;padding:5px;">
+            <div style="color:#555;font-size:6px;">Gerados hoje</div>
+            <div style="color:#fff;font-size:12px;font-weight:700;">5</div>
+          </div>
+          <div style="flex:1;background:#0f0f0f;border:1px solid #222;border-radius:4px;padding:5px;">
+            <div style="color:#555;font-size:6px;">Score viral</div>
+            <div style="color:#16a34a;font-size:12px;font-weight:700;">84%</div>
+          </div>
+          <div style="flex:1;background:#0f0f0f;border:1px solid #222;border-radius:4px;padding:5px;">
+            <div style="color:#555;font-size:6px;">Notícias</div>
+            <div style="color:#fff;font-size:12px;font-weight:700;">12</div>
+          </div>
+        </div>
+        <div style="flex:1;background:#000;border-radius:6px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;">
+          <div style="width:80px;height:80px;border-radius:50%;border:1px solid #ffffff10;position:absolute;"></div>
+          <div style="width:10px;height:10px;background:#16a34a;border-radius:50%;position:absolute;box-shadow:0 0 6px #16a34a;"></div>
+          <div style="position:absolute;top:8px;left:50%;transform:translateX(-50%);width:14px;height:14px;background:#111;border:1px solid #16a34a;border-radius:50%;"></div>
+          <div style="position:absolute;right:14px;top:40%;width:14px;height:14px;background:#111;border:1px solid #333;border-radius:50%;"></div>
+          <div style="position:absolute;bottom:8px;left:40%;width:14px;height:14px;background:#111;border:1px solid #333;border-radius:50%;"></div>
+          <div style="position:absolute;left:14px;top:55%;width:14px;height:14px;background:#111;border:1px solid #333;border-radius:50%;"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Métricas + orbital</h3>
+      <p>4 KPIs no topo (posts, gerados, score, notícias) + orbital abaixo. Dashboard clássico de SaaS com twist visual.</p>
+    </div>
+  </div>
+
+</div>
