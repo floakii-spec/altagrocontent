@@ -8,4 +8,4 @@ startCommand = "npm run start"
 restartPolicyType = "on_failure"
 
 [nixpacks]
-aptPkgs = ["nodejs"]
+nodeVersion = "20"
