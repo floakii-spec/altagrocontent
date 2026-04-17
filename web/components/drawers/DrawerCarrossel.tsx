@@ -16,12 +16,25 @@ interface Carousel {
   generated_at: string
 }
 
+interface Suggestion {
+  title: string
+  rationale: string
+}
+
+interface SuggestionBlock {
+  id: number
+  themes: Suggestion[]
+  generated_at: string
+}
+
 export function DrawerCarrossel() {
   const [topic, setTopic] = useState('')
   const [generating, setGenerating] = useState(false)
   const [current, setCurrent] = useState<Carousel | null>(null)
   const [history, setHistory] = useState<Carousel[]>([])
   const [loadingHistory, setLoadingHistory] = useState(true)
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([])
+  const [refreshingSuggestions, setRefreshingSuggestions] = useState(false)
 
   async function loadHistory() {
     const res = await fetch('/api/carousel')
@@ -29,7 +42,18 @@ export function DrawerCarrossel() {
     setLoadingHistory(false)
   }
 
-  useEffect(() => { loadHistory() }, [])
+  async function loadSuggestions() {
+    const res = await fetch('/api/carousel/suggestions')
+    if (res.ok) {
+      const data: SuggestionBlock = await res.json()
+      setSuggestions(data.themes)
+    }
+  }
+
+  useEffect(() => {
+    loadHistory()
+    loadSuggestions()
+  }, [])
 
   async function generate() {
     if (!topic.trim()) return
@@ -47,10 +71,58 @@ export function DrawerCarrossel() {
     setGenerating(false)
   }
 
-  const displayCarousel = current
+  async function refreshSuggestions() {
+    setRefreshingSuggestions(true)
+    const res = await fetch('/api/carousel/suggestions/refresh', { method: 'POST' })
+    if (res.ok) {
+      const data: SuggestionBlock = await res.json()
+      setSuggestions(data.themes)
+    }
+    setRefreshingSuggestions(false)
+  }
 
   return (
     <div className="p-6 space-y-5">
+      <div className="space-y-2">
+        <div className="flex items-center justify-between">
+          <p className="text-[11px] font-semibold tracking-wider uppercase" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            Sugestões IA
+          </p>
+          <button
+            onClick={refreshSuggestions}
+            disabled={refreshingSuggestions}
+            className="text-[11px] px-2 py-0.5 rounded"
+            style={{ color: refreshingSuggestions ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.4)', background: 'rgba(255,255,255,0.04)' }}
+          >
+            {refreshingSuggestions ? '⟳' : '↻'}
+          </button>
+        </div>
+
+        {suggestions.length === 0 ? (
+          <p className="text-[11px]" style={{ color: 'rgba(255,255,255,0.25)' }}>
+            A IA vai gerar sugestões às 06:00 ou clique em ↻
+          </p>
+        ) : (
+          <div className="flex flex-wrap gap-1.5">
+            {suggestions.map((s, i) => (
+              <button
+                key={i}
+                onClick={() => setTopic(s.title)}
+                title={s.rationale}
+                className="px-2.5 py-1 rounded-full text-[11px] text-left transition-all"
+                style={{
+                  background: topic === s.title ? 'rgba(22,163,74,0.15)' : 'rgba(255,255,255,0.04)',
+                  border: `1px solid ${topic === s.title ? '#16a34a44' : 'rgba(255,255,255,0.08)'}`,
+                  color: topic === s.title ? '#16a34a' : 'rgba(255,255,255,0.55)',
+                }}
+              >
+                {s.title}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
       <div className="space-y-2">
         <label className="text-[11px] font-semibold tracking-wider uppercase" style={{ color: 'rgba(255,255,255,0.4)' }}>
           Tema do carrossel
@@ -78,12 +150,12 @@ export function DrawerCarrossel() {
         {generating ? '⟳ Gerando com GPT-4o...' : '✦ Gerar Carrossel'}
       </button>
 
-      {displayCarousel && (
+      {current && (
         <div className="space-y-2">
           <p className="text-[11px] font-semibold tracking-wider uppercase" style={{ color: 'rgba(255,255,255,0.4)' }}>
-            {displayCarousel.slides.length} slides gerados
+            {current.slides.length} slides gerados
           </p>
-          {displayCarousel.slides.map((slide) => (
+          {current.slides.map((slide) => (
             <div
               key={slide.slide_number}
               className="px-3 py-2.5 rounded-lg space-y-1"
