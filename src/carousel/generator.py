@@ -3,7 +3,7 @@ import logging
 from openai import OpenAI
 from sqlalchemy.orm import Session
 from src.config import OPENAI_API_KEY
-from src.models import ProfileVoice, WeeklyReport, Carousel
+from src.models import ProfileVoice, WeeklyReport, Carousel, ArgumentBank
 
 logger = logging.getLogger(__name__)
 openai_client = OpenAI(api_key=OPENAI_API_KEY)
@@ -41,6 +41,15 @@ def generate_carousel(theme: str, session: Session) -> Carousel:
     if not report:
         logger.warning("No WeeklyReport found — carousel will use no competitive data.")
 
+    top_args = (
+        session.query(ArgumentBank)
+        .filter(ArgumentBank.origin == "extracted")
+        .order_by((ArgumentBank.virality_weight * ArgumentBank.quality_score).desc())
+        .limit(5)
+        .all()
+    )
+    top_arg_texts = [a.text for a in top_args]
+
     context = {
         "tema": theme,
         "perfil_de_voz": {
@@ -53,6 +62,7 @@ def generate_carousel(theme: str, session: Session) -> Carousel:
             "temas_top": report.top_themes if report else {},
             "resumo": report.report_text[:500] if report else "",
         } if report else {},
+        "argumentos_de_alto_desempenho": top_arg_texts,
     }
 
     response = openai_client.chat.completions.create(
