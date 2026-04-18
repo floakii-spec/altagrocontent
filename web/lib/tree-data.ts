@@ -113,6 +113,30 @@ export const TREE: TreeData = {
         },
       ],
     },
+    {
+      id: 'analise',
+      emoji: '🧠',
+      label: 'Análise',
+      color: '#f59e0b',
+      children: [
+        {
+          id: 'inteligencia-posts',
+          emoji: '🔍',
+          label: 'Deep Dive',
+          color: '#f59e0b',
+          status: 'active',
+          desc: 'Análise técnica profunda por post: argumentos, dados, profundidade e lógica do conteúdo agro.',
+        },
+        {
+          id: 'inteligencia-argumentos',
+          emoji: '📚',
+          label: 'Argumentos',
+          color: '#f59e0b',
+          status: 'active',
+          desc: 'Banco de argumentos extraídos dos posts virais, pontuados por qualidade e viralidade.',
+        },
+      ],
+    },
   ],
 }
 
