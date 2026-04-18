@@ -42,9 +42,13 @@ def get_voice(db: Session = Depends(get_db)):
 
 @router.post("/analyze", response_model=VoiceOut)
 def analyze_voice(db: Session = Depends(get_db)):
+    from src.models import Post
     own = db.query(Profile).filter_by(type="own", active=True).first()
     if not own:
         raise HTTPException(status_code=404, detail="No own profile configured")
+    post_count = db.query(Post).filter_by(profile_id=own.id).count()
+    if post_count == 0:
+        raise HTTPException(status_code=422, detail="Nenhum post coletado ainda. Colete posts na aba Concorrentes primeiro.")
     voice = generate_voice_profile(own, db)
     return VoiceOut(
         id=voice.id, tone=voice.tone, dominant_themes=voice.dominant_themes,

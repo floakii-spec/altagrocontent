@@ -16,6 +16,7 @@ export function DrawerIdentidade() {
   const [loading, setLoading] = useState(true)
   const [analyzing, setAnalyzing] = useState(false)
   const [noProfile, setNoProfile] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   async function load() {
     const res = await fetch('/api/voice')
@@ -33,10 +34,14 @@ export function DrawerIdentidade() {
 
   async function analyze() {
     setAnalyzing(true)
+    setError(null)
     const res = await fetch('/api/voice/analyze', { method: 'POST' })
     if (res.ok) {
       setVoice(await res.json())
       setNoProfile(false)
+    } else {
+      const body = await res.json().catch(() => ({}))
+      setError(body.detail ?? 'Erro ao gerar perfil de voz.')
     }
     setAnalyzing(false)
   }
@@ -109,6 +114,12 @@ export function DrawerIdentidade() {
       ) : (
         <p className="text-[12px] text-center py-6" style={{ color: 'rgba(255,255,255,0.25)' }}>
           Nenhum perfil de voz gerado. Clique abaixo.
+        </p>
+      )}
+
+      {error && (
+        <p className="text-[11px] text-center px-2 py-2 rounded-lg" style={{ color: '#f87171', background: '#f8717110', border: '1px solid #f8717122' }}>
+          {error}
         </p>
       )}
 
