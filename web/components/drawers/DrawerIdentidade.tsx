@@ -20,7 +20,9 @@ export function DrawerIdentidade() {
   async function load() {
     const res = await fetch('/api/voice')
     if (res.status === 404) {
-      setNoProfile(true)
+      const body = await res.json().catch(() => ({}))
+      if (body.detail === 'No own profile configured') setNoProfile(true)
+      // "Voice profile not generated yet" → profile exists, just no voice yet → keep noProfile=false
     } else if (res.ok) {
       setVoice(await res.json())
     }
