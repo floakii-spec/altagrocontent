@@ -1,15 +1,22 @@
 import json
 import logging
 from openai import OpenAI
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from src.config import OPENAI_API_KEY
-from src.models import Profile, Post, ProfileVoice
+from src.models import Profile, Post, PostIntelligence, ProfileVoice
 
 logger = logging.getLogger(__name__)
 openai_client = OpenAI(api_key=OPENAI_API_KEY)
 
 SYSTEM_PROMPT = """Você é um especialista em branding e linguagem para agronegócio.
-Analise as legendas dos posts abaixo e retorne um JSON com o perfil de voz do perfil:
+Analise os posts abaixo. Cada post contém:
+- "caption": legenda do Instagram
+- "hashtags": tags usadas
+- "core_argument": tese central do card visual (quando disponível)
+- "technical_claims": afirmações técnicas com dados do card visual
+- "data_points": números e percentuais extraídos do card visual
+
+Use tudo isso para construir o perfil de voz. Retorne um JSON:
 {
   "vocabulary": {"palavras_frequentes": ["<palavra>"]},
   "tone": "<descrição do tom predominante em 1-2 frases>",
@@ -21,15 +28,32 @@ Responda APENAS com o JSON."""
 
 
 def generate_voice_profile(profile: Profile, session: Session) -> ProfileVoice:
-    """Analisa os posts do perfil próprio e gera um perfil de voz atualizado."""
-    posts = session.query(Post).filter_by(profile_id=profile.id).order_by(Post.published_at.desc()).limit(50).all()
-    captions = [{"caption": p.caption, "hashtags": p.hashtags} for p in posts]
+    posts = (
+        session.query(Post)
+        .filter_by(profile_id=profile.id)
+        .options(joinedload(Post.intelligence))
+        .order_by(Post.published_at.desc())
+        .limit(50)
+        .all()
+    )
+
+    payload = []
+    for p in posts:
+        entry = {"caption": p.caption or "", "hashtags": p.hashtags or []}
+        if p.intelligence:
+            if p.intelligence.core_argument:
+                entry["core_argument"] = p.intelligence.core_argument
+            if p.intelligence.technical_claims:
+                entry["technical_claims"] = p.intelligence.technical_claims
+            if p.intelligence.data_points:
+                entry["data_points"] = p.intelligence.data_points
+        payload.append(entry)
 
     response = openai_client.chat.completions.create(
         model="gpt-4o",
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": f"Posts do perfil @{profile.handle}:\n{json.dumps(captions, ensure_ascii=False)}"},
+            {"role": "user", "content": f"Posts do perfil @{profile.handle}:\n{json.dumps(payload, ensure_ascii=False)}"},
         ],
         max_tokens=800,
     )
