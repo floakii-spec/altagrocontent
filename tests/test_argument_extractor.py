@@ -24,13 +24,13 @@ def clean_db():
     yield
 
 
-def _make_post_with_analysis(session, virality=0.6):
-    profile = Profile(handle="agro_user", type="competitor", follower_count=5000)
+def _make_post_with_analysis(session, virality=0.6, instagram_id="post_abc", handle="agro_user"):
+    profile = Profile(handle=handle, type="competitor", follower_count=5000)
     session.add(profile)
     session.flush()
     post = Post(
         profile_id=profile.id,
-        instagram_id="post_abc",
+        instagram_id=instagram_id,
         image_url="https://example.com/img.jpg",
         caption="Test caption",
         hashtags=[],
@@ -81,13 +81,16 @@ def test_upsert_inserts_new_arguments():
 def test_upsert_deduplicates_same_argument():
     from src.analyzer.argument_extractor import upsert_arguments
     with Session(engine) as s:
-        post = _make_post_with_analysis(s)
-        intel = _make_intelligence(s, post, ["Soja aumenta produtividade em 20%"])
-        upsert_arguments(intel, post, s)
-        upsert_arguments(intel, post, s)
+        post1 = _make_post_with_analysis(s, virality=0.6)
+        post2 = _make_post_with_analysis(s, virality=0.8, instagram_id="post_def", handle="agro_user_2")
+        intel1 = _make_intelligence(s, post1, ["Soja aumenta produtividade em 20%"])
+        intel2 = _make_intelligence(s, post2, ["Soja aumenta produtividade em 20%"])
+        upsert_arguments(intel1, post1, s)
+        upsert_arguments(intel2, post2, s)
         args = s.query(ArgumentBank).all()
     assert len(args) == 1
     assert args[0].times_seen == 2
+    assert len(args[0].source_post_ids) == 2
 
 
 def test_quality_score_with_number_and_source():

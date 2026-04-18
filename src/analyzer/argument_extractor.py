@@ -52,12 +52,13 @@ def upsert_arguments(intelligence: PostIntelligence, post: Post, session: Sessio
             if post.id not in ids:
                 ids.append(post.id)
             existing.source_post_ids = ids
+            # n is read post-increment: rolling avg formula (prev_avg*(n-1) + new) / n is correct
             n = existing.times_seen
             existing.virality_weight = round(
                 ((existing.virality_weight * (n - 1)) + virality_score) / n, 4
             )
         else:
-            quality = _compute_quality_score(norm, has_source)
+            quality = _compute_quality_score(raw_text, has_source)
             session.add(ArgumentBank(
                 text=norm,
                 topic_cluster=intelligence.agro_topic_cluster,
