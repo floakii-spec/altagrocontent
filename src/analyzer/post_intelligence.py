@@ -10,8 +10,6 @@ from src.models import Post, PostIntelligence
 logger = logging.getLogger(__name__)
 openai_client = OpenAI(api_key=OPENAI_API_KEY)
 
-# Deferred import to avoid circular imports - patched in tests
-upsert_arguments = None
 
 _SYSTEM_PROMPT = """Você é um analista de conteúdo especialista em agronegócio brasileiro.
 Analise o post fornecido com profundidade técnica e retorne APENAS um JSON:
@@ -80,12 +78,8 @@ def analyze_post_intelligence(post: Post, session: Session) -> PostIntelligence:
     session.commit()
     session.refresh(intelligence)
 
-    if upsert_arguments:
-        upsert_arguments(intelligence, post, session)
-    else:
-        # Import at runtime to avoid circular imports
-        from src.analyzer.argument_extractor import upsert_arguments as ua
-        ua(intelligence, post, session)
+    from src.analyzer.argument_extractor import upsert_arguments
+    upsert_arguments(intelligence, post, session)
 
     logger.info("Post %s intelligence analyzed: depth=%s, claims=%d",
                 post.id, intelligence.technical_depth, len(intelligence.technical_claims))

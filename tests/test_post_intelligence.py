@@ -4,6 +4,7 @@ os.environ.setdefault("OPENAI_API_KEY", "sk-test")
 os.environ.setdefault("APIFY_API_TOKEN", "apify-test")
 
 import json
+import sys
 import pytest
 from unittest.mock import patch, MagicMock
 from datetime import datetime, timezone
@@ -77,8 +78,12 @@ def test_analyze_stores_all_fields():
         post = _make_post(s)
         with patch("src.analyzer.post_intelligence.openai_client.chat.completions.create",
                    return_value=_mock_gpt(_SAMPLE_RESPONSE)):
-            with patch("src.analyzer.post_intelligence.upsert_arguments"):
+            mock_extractor = MagicMock()
+            sys.modules['src.analyzer.argument_extractor'] = mock_extractor
+            try:
                 result = analyze_post_intelligence(post, s)
+            finally:
+                del sys.modules['src.analyzer.argument_extractor']
     assert result.agro_topic_cluster == "soja"
     assert result.agro_segment == "grãos"
     assert result.technical_depth == "especialista"
@@ -118,8 +123,12 @@ def test_analyze_persists_to_db():
         post = _make_post(s)
         with patch("src.analyzer.post_intelligence.openai_client.chat.completions.create",
                    return_value=_mock_gpt(_SAMPLE_RESPONSE)):
-            with patch("src.analyzer.post_intelligence.upsert_arguments"):
+            mock_extractor = MagicMock()
+            sys.modules['src.analyzer.argument_extractor'] = mock_extractor
+            try:
                 analyze_post_intelligence(post, s)
+            finally:
+                del sys.modules['src.analyzer.argument_extractor']
     with Session(engine) as s:
         row = s.query(PostIntelligence).first()
     assert row is not None
