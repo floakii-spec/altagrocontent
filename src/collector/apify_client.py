@@ -17,10 +17,9 @@ def fetch_posts_apify(handle: str, token: str, months_back: int = 1) -> list[dic
     client = ApifyClient(token)
     cutoff = datetime.now(timezone.utc) - timedelta(days=months_back * 30)
 
-    run = client.actor("apify/instagram-scraper").call(run_input={
-        "directUrls": [f"https://www.instagram.com/{handle}/"],
-        "resultsType": "posts",
-        "resultsLimit": 30,
+    run = client.actor("apify/instagram-post-scraper").call(run_input={
+        "username": [handle],
+        "resultsLimit": 100,
     })
     if not run:
         raise RuntimeError("Apify run returned None")
@@ -30,13 +29,16 @@ def fetch_posts_apify(handle: str, token: str, months_back: int = 1) -> list[dic
     posts = []
     for item in client.dataset(dataset_id).iterate_items():
         post_type = _TYPE_MAP.get(item.get("type", ""), "feed")
-        published_at = datetime.fromisoformat(item["timestamp"].replace("Z", "+00:00"))
+        timestamp = item.get("timestamp") or item.get("takenAtTs", "")
+        if not timestamp:
+            continue
+        published_at = datetime.fromisoformat(str(timestamp).replace("Z", "+00:00"))
         if published_at < cutoff:
             continue
         posts.append({
-            "instagram_id": item["id"],
-            "image_url": item.get("displayUrl", ""),
-            "caption": item.get("caption", ""),
+            "instagram_id": item.get("id") or item.get("shortCode", ""),
+            "image_url": item.get("displayUrl") or item.get("imageUrl", ""),
+            "caption": item.get("caption", "") or "",
             "hashtags": item.get("hashtags", []),
             "likes": item.get("likesCount", 0),
             "comments": item.get("commentsCount", 0),
