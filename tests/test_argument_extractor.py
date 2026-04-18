@@ -96,7 +96,7 @@ def test_quality_score_with_number_and_source():
         post = _make_post_with_analysis(s)
         intel = _make_intelligence(
             s, post,
-            ["Produtividade aumenta 20% com rotação de cultura conforme dados técnicos compilados"],
+            ["Produtividade aumenta 20% com rotação de cultura conforme dados técnicos da Embrapa publicados em 2023 para o cerrado brasileiro"],
             sources=["Embrapa"],
         )
         upsert_arguments(intel, post, s)

@@ -19,7 +19,7 @@ def _compute_quality_score(text: str, has_source: bool) -> float:
         score += 0.4
     if has_source:
         score += 0.3
-    if len(text.split()) >= 10:
+    if len(text.split()) >= 15:
         score += 0.3
     return round(score, 2)
 
