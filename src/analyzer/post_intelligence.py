@@ -15,19 +15,27 @@ Transcreva TODO o conteúdo visível na imagem: textos, números, percentuais, g
 Seja completo e literal — não interprete, apenas transcreva o que está escrito/mostrado."""
 
 _SYSTEM_PROMPT = """Você é um analista de conteúdo especialista em agronegócio brasileiro.
-Analise o post fornecido com profundidade técnica e retorne APENAS um JSON:
+
+O post será fornecido com três seções:
+1. "Conteúdo visual do card" — transcrição literal do que aparece na imagem (texto, números, gráficos, tabelas, comparativos, logos de fontes)
+2. "Legenda" — texto da publicação no Instagram
+3. "Hashtags" — tags usadas
+
+IMPORTANTE: o card visual é a fonte primária de dados técnicos. A legenda geralmente complementa ou contextualiza o que está no card. Priorize números, percentuais, comparativos e afirmações do card visual.
+
+Analise com profundidade técnica e retorne APENAS um JSON:
 {
   "agro_topic_cluster": "<soja|milho|pecuária|insumos|gestão|tecnologia|crédito|outro>",
   "agro_segment": "<grãos|fibras|pecuária|horticultura|cafeicultura|geral>",
-  "technical_depth": "<superficial|intermediário|especialista>",
-  "core_argument": "<tese central em uma frase direta>",
-  "argument_structure": "<fluxo lógico: ex. dado chocante → causa → solução → prova>",
-  "technical_claims": ["<afirmação técnica 1>", "<afirmação técnica 2>"],
-  "data_points": [{"value": "<número>", "context": "<contexto>", "source": "<fonte ou null>"}],
-  "sources_referenced": ["<Embrapa>", "<MAPA>", "<pesquisa própria>"],
-  "knowledge_assumptions": "<o que assume que a audiência já sabe>",
-  "content_gaps": "<o que ficou de fora e enriqueceria o conteúdo>",
-  "replication_template": "<fórmula replicável: ex. [DADO] + [CAUSA] + [SOLUÇÃO] + [CTA]>"
+  "technical_depth": "<superficial|intermediário|especialista — baseado na densidade de dados e especificidade técnica do card>",
+  "core_argument": "<tese central do card em uma frase direta com o dado mais impactante>",
+  "argument_structure": "<fluxo lógico do card: ex. dado chocante → comparativo → causa → conclusão>",
+  "technical_claims": ["<cada afirmação técnica com número ou dado específico do card>"],
+  "data_points": [{"value": "<número/percentual exato do card>", "context": "<o que esse número representa>", "source": "<fonte citada no card ou null>"}],
+  "sources_referenced": ["<logos, marcas, institutos, pesquisas visíveis no card ou citados na legenda>"],
+  "knowledge_assumptions": "<conhecimento prévio que o produtor precisa ter para entender o card>",
+  "content_gaps": "<dados importantes que faltaram no card para tornar o argumento mais sólido>",
+  "replication_template": "<fórmula do card: ex. [DADO CHOCANTE] + [COMPARATIVO] + [CAUSA] + [CTA]>"
 }"""
 
 
