@@ -32,15 +32,12 @@ def test_fetch_posts_apify_returns_normalized_posts():
     mock_dataset = MagicMock()
     mock_dataset.iterate_items.return_value = iter(MOCK_APIFY_ITEMS)
 
-    mock_run = MagicMock()
-    mock_run.wait_for_finish.return_value = None
-    mock_run.default_dataset.return_value = mock_dataset
-
     mock_actor = MagicMock()
-    mock_actor.call.return_value = mock_run
+    mock_actor.call.return_value = {"defaultDatasetId": "test-dataset-id"}
 
     mock_client = MagicMock()
     mock_client.actor.return_value = mock_actor
+    mock_client.dataset.return_value = mock_dataset
 
     with patch("src.collector.apify_client.ApifyClient", return_value=mock_client):
         posts = fetch_posts_apify(handle="agro_example", token="fake-token", months_back=6)
@@ -60,15 +57,12 @@ def test_fetch_posts_apify_maps_video_to_reel():
     mock_dataset = MagicMock()
     mock_dataset.iterate_items.return_value = iter([MOCK_APIFY_ITEMS[1]])
 
-    mock_run = MagicMock()
-    mock_run.wait_for_finish.return_value = None
-    mock_run.default_dataset.return_value = mock_dataset
-
     mock_actor = MagicMock()
-    mock_actor.call.return_value = mock_run
+    mock_actor.call.return_value = {"defaultDatasetId": "test-dataset-id"}
 
     mock_client = MagicMock()
     mock_client.actor.return_value = mock_actor
+    mock_client.dataset.return_value = mock_dataset
 
     with patch("src.collector.apify_client.ApifyClient", return_value=mock_client):
         posts = fetch_posts_apify(handle="agro_example", token="fake-token", months_back=6)

@@ -25,10 +25,10 @@ def fetch_posts_apify(handle: str, token: str, months_back: int = 1) -> list[dic
     if not run:
         raise RuntimeError("Apify run returned None")
 
-    dataset = run.default_dataset()
+    dataset_id = run["defaultDatasetId"]
 
     posts = []
-    for item in dataset.iterate_items():
+    for item in client.dataset(dataset_id).iterate_items():
         post_type = _TYPE_MAP.get(item.get("type", ""), "feed")
         published_at = datetime.fromisoformat(item["timestamp"].replace("Z", "+00:00"))
         if published_at < cutoff:
