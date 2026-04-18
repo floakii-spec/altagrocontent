@@ -5,7 +5,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from api.routers import competitors, carousel, news, reports, voice, studio
+from api.routers import competitors, carousel, news, reports, voice, studio, intelligence
 from src.carousel.theme_suggester import generate_theme_suggestions
 
 logger = logging.getLogger(__name__)
@@ -50,6 +50,7 @@ app.include_router(news.router)
 app.include_router(reports.router)
 app.include_router(voice.router)
 app.include_router(studio.router)
+app.include_router(intelligence.router)
 
 
 @app.get("/health")
