@@ -177,7 +177,7 @@ class ArgumentBank(Base):
     __tablename__ = "argument_bank"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    text: Mapped[str] = mapped_column(Text, nullable=False)
+    text: Mapped[str] = mapped_column(Text, nullable=False, unique=True)
     topic_cluster: Mapped[Optional[str]] = mapped_column(String(50))
     agro_segment: Mapped[Optional[str]] = mapped_column(String(50))
     quality_score: Mapped[float] = mapped_column(Float, default=0.0)

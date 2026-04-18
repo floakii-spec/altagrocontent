@@ -45,6 +45,7 @@ def upgrade() -> None:
         sa.Column("times_seen", sa.Integer(), nullable=False),
         sa.Column("origin", sa.String(20), nullable=False),
         sa.Column("created_at", sa.DateTime(timezone=True), nullable=False),
+        sa.UniqueConstraint("text", name="uq_argument_bank_text"),
     )
 
 
