@@ -9,6 +9,8 @@ import { DrawerRelatorios } from './DrawerRelatorios'
 import { DrawerIdentidade } from './DrawerIdentidade'
 import { DrawerStudio } from './DrawerStudio'
 import { DrawerComingSoon } from './DrawerComingSoon'
+import { DrawerInteligenciaPosts } from './DrawerInteligenciaPosts'
+import { DrawerInteligenciaArgumentos } from './DrawerInteligenciaArgumentos'
 
 interface ModuleDrawerProps {
   module: Module | null
@@ -24,6 +26,8 @@ const DRAWER_MAP: Record<string, React.ComponentType> = {
   relatorios: DrawerRelatorios,
   identidade: DrawerIdentidade,
   studio: DrawerStudio,
+  'inteligencia-posts': DrawerInteligenciaPosts,
+  'inteligencia-argumentos': DrawerInteligenciaArgumentos,
 }
 
 export function ModuleDrawer({ module, group, open, onClose }: ModuleDrawerProps) {
