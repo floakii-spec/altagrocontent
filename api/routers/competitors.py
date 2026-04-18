@@ -100,6 +100,7 @@ def sync_profiles(db: Session = Depends(get_db)):
         try:
             collect_profile(profile, db, apify_token)
         except Exception as e:
+            db.rollback()
             errors.append({"handle": profile.handle, "error": str(e)})
             continue
         new_posts = (
@@ -113,6 +114,7 @@ def sync_profiles(db: Session = Depends(get_db)):
                 analyze_post(post, db)
                 total_new += 1
             except Exception as e:
+                db.rollback()
                 errors.append({"handle": profile.handle, "post_id": post.id, "error": str(e)})
     return {"synced": len(profiles), "new_posts_analyzed": total_new, "errors": errors}
 

@@ -100,6 +100,13 @@ def analyze_post(post: Post, session: Session) -> PostAnalysis:
         raw_analysis=raw,
     )
     session.add(analysis)
-    session.commit()
+    try:
+        session.commit()
+    except Exception:
+        session.rollback()
+        existing = session.query(PostAnalysis).filter_by(post_id=post.id).first()
+        if existing:
+            return existing
+        raise
     logger.info("Post %s analyzed: theme=%s, score=%.3f", post.id, analysis.visual_theme, score)
     return analysis
