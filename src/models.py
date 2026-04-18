@@ -44,6 +44,7 @@ class Post(Base):
 
     profile: Mapped["Profile"] = relationship(back_populates="posts")
     analysis: Mapped[Optional["PostAnalysis"]] = relationship(back_populates="post", uselist=False)
+    intelligence: Mapped[Optional["PostIntelligence"]] = relationship(back_populates="post", uselist=False)
 
 
 class PostAnalysis(Base):
@@ -149,3 +150,39 @@ class CarouselSuggestion(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     themes: Mapped[list] = mapped_column(JSON, default=list)
     generated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+
+
+class PostIntelligence(Base):
+    __tablename__ = "post_intelligence"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    post_id: Mapped[int] = mapped_column(ForeignKey("posts.id"), unique=True, nullable=False)
+    agro_topic_cluster: Mapped[Optional[str]] = mapped_column(String(50))
+    agro_segment: Mapped[Optional[str]] = mapped_column(String(50))
+    technical_depth: Mapped[Optional[str]] = mapped_column(String(20))
+    core_argument: Mapped[Optional[str]] = mapped_column(Text)
+    argument_structure: Mapped[Optional[str]] = mapped_column(Text)
+    technical_claims: Mapped[list] = mapped_column(JSON, default=list)
+    data_points: Mapped[list] = mapped_column(JSON, default=list)
+    sources_referenced: Mapped[list] = mapped_column(JSON, default=list)
+    knowledge_assumptions: Mapped[Optional[str]] = mapped_column(Text)
+    content_gaps: Mapped[Optional[str]] = mapped_column(Text)
+    replication_template: Mapped[Optional[str]] = mapped_column(Text)
+    analyzed_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+
+    post: Mapped["Post"] = relationship(back_populates="intelligence")
+
+
+class ArgumentBank(Base):
+    __tablename__ = "argument_bank"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    text: Mapped[str] = mapped_column(Text, nullable=False)
+    topic_cluster: Mapped[Optional[str]] = mapped_column(String(50))
+    agro_segment: Mapped[Optional[str]] = mapped_column(String(50))
+    quality_score: Mapped[float] = mapped_column(Float, default=0.0)
+    virality_weight: Mapped[float] = mapped_column(Float, default=0.0)
+    source_post_ids: Mapped[list] = mapped_column(JSON, default=list)
+    times_seen: Mapped[int] = mapped_column(Integer, default=1)
+    origin: Mapped[str] = mapped_column(String(20), default="extracted")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
