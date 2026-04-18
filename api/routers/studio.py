@@ -2,8 +2,8 @@ from datetime import datetime
 from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
-from sqlalchemy.orm import Session
-from src.models import Profile, Post, PostAnalysis, ProfileVoice, GeneratedPost
+from sqlalchemy.orm import Session, joinedload
+from src.models import Profile, Post, PostAnalysis, PostIntelligence, ProfileVoice, GeneratedPost
 from src.generator.content_generator import generate_post
 from api.deps import get_db
 
@@ -17,6 +17,9 @@ class CompetitorPostOut(BaseModel):
     post_type: str
     virality_score: Optional[float]
     published_at: datetime
+    core_argument: Optional[str]
+    technical_depth: Optional[str]
+    agro_topic_cluster: Optional[str]
 
 
 class GenerateIn(BaseModel):
@@ -36,7 +39,13 @@ def list_competitor_posts(db: Session = Depends(get_db)):
     rows = (
         db.query(Post)
         .join(Post.profile)
+        .join(Post.intelligence)
         .outerjoin(Post.analysis)
+        .options(
+            joinedload(Post.profile),
+            joinedload(Post.intelligence),
+            joinedload(Post.analysis),
+        )
         .filter(Profile.type == "competitor")
         .order_by(PostAnalysis.virality_score.desc())
         .limit(30)
@@ -50,6 +59,9 @@ def list_competitor_posts(db: Session = Depends(get_db)):
             post_type=p.post_type,
             virality_score=p.analysis.virality_score if p.analysis else None,
             published_at=p.published_at,
+            core_argument=p.intelligence.core_argument if p.intelligence else None,
+            technical_depth=p.intelligence.technical_depth if p.intelligence else None,
+            agro_topic_cluster=p.intelligence.agro_topic_cluster if p.intelligence else None,
         )
         for p in rows
     ]
@@ -57,9 +69,20 @@ def list_competitor_posts(db: Session = Depends(get_db)):
 
 @router.post("/generate", response_model=GeneratedPostOut)
 def generate(body: GenerateIn, db: Session = Depends(get_db)):
-    post = db.query(Post).filter_by(id=body.post_id).first()
+    post = (
+        db.query(Post)
+        .options(
+            joinedload(Post.profile),
+            joinedload(Post.intelligence),
+            joinedload(Post.analysis),
+        )
+        .filter_by(id=body.post_id)
+        .first()
+    )
     if not post:
         raise HTTPException(status_code=404, detail="Post not found")
+    if not post.intelligence:
+        raise HTTPException(status_code=422, detail="Post sem análise de inteligência. Execute a análise de posts primeiro.")
     voice = (
         db.query(ProfileVoice)
         .join(Profile, ProfileVoice.profile_id == Profile.id)
@@ -68,7 +91,7 @@ def generate(body: GenerateIn, db: Session = Depends(get_db)):
         .first()
     )
     if not voice:
-        raise HTTPException(status_code=404, detail="Voice profile not configured. Run /voice/analyze first.")
+        raise HTTPException(status_code=404, detail="Perfil de voz não configurado. Execute /voice/analyze primeiro.")
     approved = (
         db.query(GeneratedPost)
         .filter_by(status="approved")
@@ -76,7 +99,10 @@ def generate(body: GenerateIn, db: Session = Depends(get_db)):
         .limit(3)
         .all()
     )
-    generated = generate_post(source_post=post, voice=voice, approved_examples=approved, session=db)
+    try:
+        generated = generate_post(source_post=post, voice=voice, approved_examples=approved, session=db)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc))
     return GeneratedPostOut(
         id=generated.id, hook=generated.hook, caption=generated.caption,
         cta=generated.cta, created_at=generated.created_at,
