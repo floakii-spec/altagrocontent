@@ -10,6 +10,9 @@ from src.models import Post, PostIntelligence
 logger = logging.getLogger(__name__)
 openai_client = OpenAI(api_key=OPENAI_API_KEY)
 
+_VISION_PROMPT = """Você está analisando um post de Instagram do agronegócio brasileiro.
+Transcreva TODO o conteúdo visível na imagem: textos, números, percentuais, gráficos, tabelas, legendas, marcas e qualquer dado presente no card visual.
+Seja completo e literal — não interprete, apenas transcreva o que está escrito/mostrado."""
 
 _SYSTEM_PROMPT = """Você é um analista de conteúdo especialista em agronegócio brasileiro.
 Analise o post fornecido com profundidade técnica e retorne APENAS um JSON:
@@ -28,6 +31,25 @@ Analise o post fornecido com profundidade técnica e retorne APENAS um JSON:
 }"""
 
 
+def _transcribe_image(image_url: str) -> str:
+    try:
+        response = openai_client.chat.completions.create(
+            model="gpt-4o",
+            messages=[{
+                "role": "user",
+                "content": [
+                    {"type": "text", "text": _VISION_PROMPT},
+                    {"type": "image_url", "image_url": {"url": image_url, "detail": "high"}},
+                ],
+            }],
+            max_tokens=500,
+        )
+        return response.choices[0].message.content or ""
+    except Exception as exc:
+        logger.warning("Vision transcription failed for %s: %s", image_url, exc)
+        return ""
+
+
 def analyze_post_intelligence(post: Post, session: Session) -> PostIntelligence:
     existing = session.query(PostIntelligence).filter_by(post_id=post.id).first()
     if existing:
@@ -35,7 +57,18 @@ def analyze_post_intelligence(post: Post, session: Session) -> PostIntelligence:
 
     caption = post.caption or ""
     hashtags = ", ".join(post.hashtags) if post.hashtags else ""
-    user_content = f"Legenda: {caption}\nHashtags: {hashtags}"
+
+    visual_transcript = ""
+    if post.image_url:
+        visual_transcript = _transcribe_image(post.image_url)
+
+    parts = []
+    if visual_transcript:
+        parts.append(f"Conteúdo visual do card:\n{visual_transcript}")
+    parts.append(f"Legenda: {caption}")
+    if hashtags:
+        parts.append(f"Hashtags: {hashtags}")
+    user_content = "\n\n".join(parts)
 
     response = openai_client.chat.completions.create(
         model="gpt-4o",
