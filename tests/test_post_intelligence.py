@@ -80,11 +80,17 @@ def test_analyze_stores_all_fields():
             with patch("src.analyzer.post_intelligence.upsert_arguments"):
                 result = analyze_post_intelligence(post, s)
     assert result.agro_topic_cluster == "soja"
+    assert result.agro_segment == "grãos"
     assert result.technical_depth == "especialista"
     assert result.core_argument == "Soja transgênica reduz custos e aumenta produtividade."
+    assert result.argument_structure == "dado chocante → causa técnica → solução → prova"
     assert result.technical_claims == ["Aumento de 20% na produtividade com soja RR"]
     assert len(result.data_points) == 1
+    assert result.data_points[0]["value"] == "20%"
     assert result.sources_referenced == ["Embrapa"]
+    assert result.knowledge_assumptions == "Produtor já conhece soja convencional"
+    assert result.content_gaps == "Não mencionou impacto ambiental"
+    assert result.replication_template == "[DADO] + [CAUSA] + [SOLUÇÃO] + [CTA]"
 
 
 def test_analyze_skips_if_already_done():
