@@ -123,6 +123,22 @@ def sync_profiles(db: Session = Depends(get_db)):
             except Exception as e:
                 db.rollback()
                 errors.append({"handle": profile.handle, "post_id": post.id, "error": f"intelligence: {e}"})
+
+        # posts já com PostAnalysis mas sem PostIntelligence
+        pending_intelligence = (
+            db.query(Post)
+            .filter_by(profile_id=profile.id)
+            .join(Post.analysis)
+            .filter(Post.intelligence == None)
+            .all()
+        )
+        for post in pending_intelligence:
+            try:
+                analyze_post_intelligence(post, db)
+            except Exception as e:
+                db.rollback()
+                errors.append({"handle": profile.handle, "post_id": post.id, "error": f"intelligence: {e}"})
+
     return {"synced": len(profiles), "new_posts_analyzed": total_new, "errors": errors}
 
 
