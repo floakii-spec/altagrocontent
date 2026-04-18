@@ -26,6 +26,7 @@ export function DrawerStudio() {
   const [generating, setGenerating] = useState(false)
   const [result, setResult] = useState<GeneratedPost | null>(null)
   const [copied, setCopied] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     fetch('/api/studio/posts')
@@ -37,12 +38,18 @@ export function DrawerStudio() {
     if (!selected) return
     setGenerating(true)
     setResult(null)
+    setError(null)
     const res = await fetch('/api/studio/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ post_id: selected }),
     })
-    if (res.ok) setResult(await res.json())
+    if (res.ok) {
+      setResult(await res.json())
+    } else {
+      const body = await res.json().catch(() => ({}))
+      setError(body.detail ?? 'Erro ao gerar post.')
+    }
     setGenerating(false)
   }
 
@@ -112,6 +119,12 @@ export function DrawerStudio() {
       >
         {generating ? '⟳ Adaptando com sua voz...' : '🎬 Adaptar com minha voz'}
       </button>
+
+      {error && (
+        <p className="text-[11px] text-center px-2 py-2 rounded-lg" style={{ color: '#f87171', background: '#f8717110', border: '1px solid #f8717122' }}>
+          {error}
+        </p>
+      )}
 
       {result && (
         <div className="space-y-2">
