@@ -90,6 +90,7 @@ def remove_profile(profile_id: int, db: Session = Depends(get_db)):
 def sync_profiles(db: Session = Depends(get_db)):
     from src.collector.collector import collect_profile
     from src.analyzer.image_analyzer import analyze_post
+    from src.analyzer.post_intelligence import analyze_post_intelligence
     profiles = db.query(Profile).filter_by(active=True).all()
     apify_token = os.environ.get("APIFY_API_TOKEN")
     if not apify_token:
@@ -116,6 +117,12 @@ def sync_profiles(db: Session = Depends(get_db)):
             except Exception as e:
                 db.rollback()
                 errors.append({"handle": profile.handle, "post_id": post.id, "error": str(e)})
+                continue
+            try:
+                analyze_post_intelligence(post, db)
+            except Exception as e:
+                db.rollback()
+                errors.append({"handle": profile.handle, "post_id": post.id, "error": f"intelligence: {e}"})
     return {"synced": len(profiles), "new_posts_analyzed": total_new, "errors": errors}
 
 

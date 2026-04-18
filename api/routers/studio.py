@@ -39,7 +39,7 @@ def list_competitor_posts(db: Session = Depends(get_db)):
     rows = (
         db.query(Post)
         .join(Post.profile)
-        .join(Post.intelligence)
+        .outerjoin(Post.intelligence)
         .outerjoin(Post.analysis)
         .options(
             joinedload(Post.profile),
