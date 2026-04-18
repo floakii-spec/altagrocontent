@@ -49,7 +49,10 @@ def analyze_voice(db: Session = Depends(get_db)):
     post_count = db.query(Post).filter_by(profile_id=own.id).count()
     if post_count == 0:
         raise HTTPException(status_code=422, detail="Nenhum post coletado ainda. Colete posts na aba Concorrentes primeiro.")
-    voice = generate_voice_profile(own, db)
+    try:
+        voice = generate_voice_profile(own, db)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc))
     return VoiceOut(
         id=voice.id, tone=voice.tone, dominant_themes=voice.dominant_themes,
         vocabulary=voice.vocabulary, competitor_comparison=voice.competitor_comparison,

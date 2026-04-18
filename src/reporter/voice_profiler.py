@@ -31,22 +31,25 @@ def generate_voice_profile(profile: Profile, session: Session) -> ProfileVoice:
     posts = (
         session.query(Post)
         .filter_by(profile_id=profile.id)
+        .join(Post.intelligence)
         .options(joinedload(Post.intelligence))
         .order_by(Post.published_at.desc())
         .limit(50)
         .all()
     )
 
+    if not posts:
+        raise ValueError("Nenhum post com análise de inteligência encontrado. Execute a análise de posts primeiro.")
+
     payload = []
     for p in posts:
-        entry = {"caption": p.caption or "", "hashtags": p.hashtags or []}
-        if p.intelligence:
-            if p.intelligence.core_argument:
-                entry["core_argument"] = p.intelligence.core_argument
-            if p.intelligence.technical_claims:
-                entry["technical_claims"] = p.intelligence.technical_claims
-            if p.intelligence.data_points:
-                entry["data_points"] = p.intelligence.data_points
+        entry = {
+            "caption": p.caption or "",
+            "hashtags": p.hashtags or [],
+            "core_argument": p.intelligence.core_argument or "",
+            "technical_claims": p.intelligence.technical_claims or [],
+            "data_points": p.intelligence.data_points or [],
+        }
         payload.append(entry)
 
     response = openai_client.chat.completions.create(
