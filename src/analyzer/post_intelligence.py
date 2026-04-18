@@ -1,6 +1,8 @@
+import base64
 import json
 import logging
 
+import httpx
 from openai import OpenAI
 from sqlalchemy.orm import Session
 
@@ -41,13 +43,19 @@ Analise com profundidade técnica e retorne APENAS um JSON:
 
 def _transcribe_image(image_url: str) -> str:
     try:
+        img_response = httpx.get(image_url, timeout=20, follow_redirects=True)
+        img_response.raise_for_status()
+        b64 = base64.b64encode(img_response.content).decode("utf-8")
+        media_type = img_response.headers.get("content-type", "image/jpeg").split(";")[0]
+        data_url = f"data:{media_type};base64,{b64}"
+
         response = openai_client.chat.completions.create(
             model="gpt-4o",
             messages=[{
                 "role": "user",
                 "content": [
                     {"type": "text", "text": _VISION_PROMPT},
-                    {"type": "image_url", "image_url": {"url": image_url, "detail": "high"}},
+                    {"type": "image_url", "image_url": {"url": data_url, "detail": "high"}},
                 ],
             }],
             max_tokens=500,
@@ -69,6 +77,10 @@ def analyze_post_intelligence(post: Post, session: Session) -> PostIntelligence:
     visual_transcript = ""
     if post.image_url:
         visual_transcript = _transcribe_image(post.image_url)
+
+    if not visual_transcript and not caption.strip():
+        logger.warning("Post %s has no visual content and no caption — skipping intelligence.", post.id)
+        raise ValueError(f"Post {post.id} sem conteúdo visual nem legenda.")
 
     parts = []
     if visual_transcript:
