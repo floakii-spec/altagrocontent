@@ -70,7 +70,7 @@ class ProfileVoice(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     profile_id: Mapped[int] = mapped_column(ForeignKey("profiles.id"), nullable=False)
     vocabulary: Mapped[dict] = mapped_column(JSON, default=dict)
-    tone: Mapped[Optional[str]] = mapped_column(String(100))
+    tone: Mapped[Optional[str]] = mapped_column(Text)
     dominant_themes: Mapped[list] = mapped_column(JSON, default=list)
     competitor_comparison: Mapped[dict] = mapped_column(JSON, default=dict)
     voice_summary: Mapped[Optional[str]] = mapped_column(Text)
