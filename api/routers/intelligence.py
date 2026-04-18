@@ -4,7 +4,7 @@ from typing import List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from api.deps import get_db
 from src.analyzer.post_intelligence import analyze_post_intelligence
@@ -76,7 +76,10 @@ def list_intelligence(page: int = Query(1, ge=1), db: Session = Depends(get_db))
     offset = (page - 1) * 20
     rows = (
         db.query(PostIntelligence)
-        .join(PostIntelligence.post)
+        .options(
+            joinedload(PostIntelligence.post).joinedload(Post.profile),
+            joinedload(PostIntelligence.post).joinedload(Post.analysis),
+        )
         .order_by(PostIntelligence.analyzed_at.desc())
         .offset(offset)
         .limit(20)
@@ -87,7 +90,15 @@ def list_intelligence(page: int = Query(1, ge=1), db: Session = Depends(get_db))
 
 @router.get("/posts/{post_id}", response_model=PostIntelligenceOut)
 def get_intelligence(post_id: int, db: Session = Depends(get_db)):
-    intel = db.query(PostIntelligence).filter_by(post_id=post_id).first()
+    intel = (
+        db.query(PostIntelligence)
+        .options(
+            joinedload(PostIntelligence.post).joinedload(Post.profile),
+            joinedload(PostIntelligence.post).joinedload(Post.analysis),
+        )
+        .filter_by(post_id=post_id)
+        .first()
+    )
     if not intel:
         raise HTTPException(status_code=404, detail="Not analyzed yet")
     return _intel_to_out(intel)
