@@ -1,15 +1,18 @@
 import json
 import logging
 from openai import OpenAI
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from src.config import OPENAI_API_KEY
-from src.models import ProfileVoice, WeeklyReport, Carousel, ArgumentBank
+from src.models import ArgumentBank, Carousel, Post, PostAnalysis, Profile, ProfileVoice, WeeklyReport
 
 logger = logging.getLogger(__name__)
 openai_client = OpenAI(api_key=OPENAI_API_KEY)
 
 SYSTEM_PROMPT = """Você é um copywriter especialista em carrosséis virais para Instagram no agronegócio brasileiro.
-Com base no perfil de voz do criador e nos padrões virais dos concorrentes, crie um carrossel sobre o tema fornecido.
+Com base no perfil de voz do criador, nos templates e estruturas reais dos cards dos concorrentes de maior viralidade, e nos argumentos de alto desempenho, crie um carrossel sobre o tema fornecido.
+
+Priorize replicar as estruturas de cards que mais performaram — argumento central forte, dado técnico específico, comparativo ou CTA claro.
+
 Retorne um JSON com a estrutura de slides:
 [
   {"slide_number": 1, "title": "<título impactante>", "copy": "<texto do slide>", "cta": ""},
@@ -18,13 +21,12 @@ Retorne um JSON com a estrutura de slides:
 ]
 - Entre 4 e 7 slides
 - Slide 1: gancho que para o scroll
-- Slides intermediários: desenvolvimento do tema com linguagem do criador
+- Slides intermediários: desenvolvimento com dados técnicos e linguagem do criador
 - Último slide: CTA claro
 Responda APENAS com o JSON."""
 
 
 def generate_carousel(theme: str, session: Session) -> Carousel:
-    """Gera carrossel viral com base no tema, voz própria e último relatório semanal."""
     voice = (
         session.query(ProfileVoice)
         .order_by(ProfileVoice.generated_at.desc())
@@ -36,11 +38,6 @@ def generate_carousel(theme: str, session: Session) -> Carousel:
         .first()
     )
 
-    if not voice:
-        logger.warning("No ProfileVoice found — carousel will use neutral defaults.")
-    if not report:
-        logger.warning("No WeeklyReport found — carousel will use no competitive data.")
-
     top_args = (
         session.query(ArgumentBank)
         .filter(ArgumentBank.origin == "extracted")
@@ -48,7 +45,38 @@ def generate_carousel(theme: str, session: Session) -> Carousel:
         .limit(5)
         .all()
     )
-    top_arg_texts = [a.text for a in top_args]
+
+    # Top competitor posts with PostIntelligence — structures to replicate
+    top_competitor_posts = (
+        session.query(Post)
+        .join(Profile, Post.profile_id == Profile.id)
+        .join(Post.analysis)
+        .join(Post.intelligence)
+        .options(joinedload(Post.intelligence), joinedload(Post.analysis))
+        .filter(Profile.type == "competitor", Profile.active == True)
+        .order_by(PostAnalysis.virality_score.desc())
+        .limit(8)
+        .all()
+    )
+
+    competitor_structures = [
+        {
+            "replication_template": p.intelligence.replication_template,
+            "argument_structure": p.intelligence.argument_structure,
+            "core_argument": p.intelligence.core_argument,
+            "technical_claims": (p.intelligence.technical_claims or [])[:2],
+            "virality_score": p.analysis.virality_score,
+        }
+        for p in top_competitor_posts
+        if p.intelligence.replication_template or p.intelligence.argument_structure
+    ]
+
+    if not voice:
+        logger.warning("No ProfileVoice found — carousel will use neutral defaults.")
+    if not report:
+        logger.warning("No WeeklyReport found — carousel will use no competitive report data.")
+    if not competitor_structures:
+        logger.warning("No competitor PostIntelligence found — carousel will lack structural reference.")
 
     context = {
         "tema": theme,
@@ -56,13 +84,15 @@ def generate_carousel(theme: str, session: Session) -> Carousel:
             "tom": voice.tone if voice else "neutro",
             "temas_dominantes": voice.dominant_themes if voice else [],
             "vocabulario": voice.vocabulary if voice else {},
+            "resumo": voice.voice_summary if voice else "",
         } if voice else {},
-        "padroes_virais_concorrentes": {
+        "estruturas_virais_concorrentes": competitor_structures,
+        "padroes_semanais": {
             "formatos_top": report.top_formats if report else {},
             "temas_top": report.top_themes if report else {},
-            "resumo": report.report_text[:500] if report else "",
+            "resumo": report.report_text if report else "",
         } if report else {},
-        "argumentos_de_alto_desempenho": top_arg_texts,
+        "argumentos_de_alto_desempenho": [a.text for a in top_args],
     }
 
     response = openai_client.chat.completions.create(
@@ -88,9 +118,7 @@ def generate_carousel(theme: str, session: Session) -> Carousel:
         logger.error("GPT-4o returned invalid JSON for carousel theme '%s': %s", theme, exc)
         raise
 
-    report_ids = [report.id] if report else []
-
-    carousel = Carousel(theme=theme, slides=slides, based_on_reports=report_ids)
+    carousel = Carousel(theme=theme, slides=slides, based_on_reports=[report.id] if report else [])
     session.add(carousel)
     session.commit()
     logger.info("Carousel generated for theme '%s' with %d slides", theme, len(slides))
