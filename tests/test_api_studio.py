@@ -8,7 +8,7 @@ from unittest.mock import patch, MagicMock
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine, StaticPool
 from sqlalchemy.orm import Session
-from src.models import Base, Profile, Post, PostAnalysis, ProfileVoice, GeneratedPost
+from src.models import Base, Profile, Post, PostAnalysis, PostIntelligence, ProfileVoice, GeneratedPost
 from api.main import app
 from api.deps import get_db
 from datetime import datetime, timezone
@@ -64,6 +64,15 @@ def test_generate_studio_post():
                     post_type="feed", published_at=now)
         s.add(post)
         s.flush()
+        intel = PostIntelligence(
+            post_id=post.id,
+            technical_claims=[],
+            data_points=[],
+            sources_referenced=[],
+            core_argument="Argumento central",
+            analyzed_at=now,
+        )
+        s.add(intel)
         own = Profile(handle="own_profile", type="own")
         s.add(own)
         s.flush()

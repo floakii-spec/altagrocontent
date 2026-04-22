@@ -125,3 +125,14 @@ def test_virality_weight_set_from_post_analysis():
         upsert_arguments(intel, post, s)
         arg = s.query(ArgumentBank).first()
     assert arg.virality_weight == 0.75
+
+
+def test_remove_arguments_for_post_deletes_unused_argument():
+    from src.analyzer.argument_extractor import remove_arguments_for_post, upsert_arguments
+    with Session(engine) as s:
+        post = _make_post_with_analysis(s, virality=0.75)
+        intel = _make_intelligence(s, post, ["Soja RR aumenta margem em 15 pontos percentuais"])
+        upsert_arguments(intel, post, s)
+        remove_arguments_for_post(intel, post, s)
+        arg_count = s.query(ArgumentBank).count()
+    assert arg_count == 0

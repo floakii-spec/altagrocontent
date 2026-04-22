@@ -12,6 +12,30 @@ _TYPE_MAP = {
 }
 
 
+def _append_unique(target: list[str], seen: set[str], value: Optional[str]) -> None:
+    if not value or value in seen:
+        return
+    seen.add(value)
+    target.append(value)
+
+
+def _extract_sidecar_slide_urls(post) -> list[str]:
+    if post.typename != "GraphSidecar":
+        return []
+
+    urls: list[str] = []
+    seen: set[str] = set()
+    try:
+        nodes = post.get_sidecar_nodes()
+    except Exception:
+        nodes = []
+
+    for node in nodes:
+        display_url = getattr(node, "display_url", None)
+        _append_unique(urls, seen, display_url)
+    return urls
+
+
 _loader: Optional[instaloader.Instaloader] = None
 
 
@@ -59,15 +83,17 @@ def fetch_posts_instaloader(handle: str, months_back: int = 1) -> list[dict]:
         published_at = post.date_utc.replace(tzinfo=timezone.utc)
         if published_at < cutoff:
             continue
+        slide_urls = _extract_sidecar_slide_urls(post)
         posts.append({
             "instagram_id": post.shortcode,
-            "image_url": post.url,
+            "image_url": post.url or (slide_urls[0] if slide_urls else ""),
             "caption": post.caption or "",
             "hashtags": list(post.caption_hashtags),
             "likes": post.likes,
             "comments": post.comments,
             "post_type": _TYPE_MAP.get(post.typename, "feed"),
             "published_at": published_at,
+            "slides": slide_urls,
         })
 
     return posts

@@ -89,6 +89,7 @@ def test_list_intelligence_returns_data():
     assert len(data) == 1
     assert data[0]["agro_topic_cluster"] == "soja"
     assert data[0]["technical_depth"] == "especialista"
+    assert data[0]["slides_count"] == 0
 
 
 def test_get_intelligence_by_post_id():
@@ -167,3 +168,44 @@ def test_trigger_analyze_returns_count():
         response = client.post("/intelligence/analyze")
     assert response.status_code == 200
     assert response.json()["processed"] == 1
+
+
+def test_trigger_analyze_can_filter_handle_and_force():
+    with Session(engine) as s:
+        p1 = Profile(handle="leandro.varos", type="competitor", follower_count=3000)
+        p2 = Profile(handle="outro.perfil", type="competitor", follower_count=3000)
+        s.add_all([p1, p2])
+        s.flush()
+        s.add_all([
+            Post(
+                profile_id=p1.id,
+                instagram_id="target_post",
+                image_url="https://example.com/1.jpg",
+                caption="target",
+                hashtags=[],
+                likes=10,
+                comments=1,
+                post_type="carousel",
+                published_at=datetime.now(timezone.utc),
+            ),
+            Post(
+                profile_id=p2.id,
+                instagram_id="other_post",
+                image_url="https://example.com/2.jpg",
+                caption="other",
+                hashtags=[],
+                likes=10,
+                comments=1,
+                post_type="carousel",
+                published_at=datetime.now(timezone.utc),
+            ),
+        ])
+        s.commit()
+
+    with patch("api.routers.intelligence.analyze_post_intelligence", return_value=MagicMock()) as mock_analyze:
+        response = client.post("/intelligence/analyze?handle=leandro.varos&force=true")
+    assert response.status_code == 200
+    assert response.json()["processed"] == 1
+    called_post = mock_analyze.call_args.args[0]
+    assert called_post.instagram_id == "target_post"
+    assert mock_analyze.call_args.kwargs["force"] is True

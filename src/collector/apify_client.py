@@ -10,6 +10,32 @@ _TYPE_MAP = {
 }
 
 
+def _append_unique(target: list[str], seen: set[str], value: Optional[str]) -> None:
+    if not value or value in seen:
+        return
+    seen.add(value)
+    target.append(value)
+
+
+def _extract_slide_urls(item: dict) -> list[str]:
+    urls: list[str] = []
+    seen: set[str] = set()
+
+    for value in item.get("images") or []:
+        _append_unique(urls, seen, value)
+
+    for child in item.get("childPosts") or []:
+        if not isinstance(child, dict):
+            continue
+        _append_unique(urls, seen, child.get("displayUrl"))
+        for value in child.get("images") or []:
+            _append_unique(urls, seen, value)
+
+    if not urls:
+        _append_unique(urls, seen, item.get("displayUrl"))
+    return urls
+
+
 def fetch_posts_apify(
     handle: str,
     token: str,
@@ -47,15 +73,18 @@ def fetch_posts_apify(
         published_at = datetime.fromisoformat(str(timestamp).replace("Z", "+00:00"))
         if published_at < cutoff:
             continue
+        slide_urls = _extract_slide_urls(item) if post_type == "carousel" else []
+        image_url = item.get("displayUrl", "") or (slide_urls[0] if slide_urls else "")
         posts.append({
             "instagram_id": item.get("id", ""),
-            "image_url": item.get("displayUrl", ""),
+            "image_url": image_url,
             "caption": item.get("caption", "") or "",
             "hashtags": item.get("hashtags", []),
             "likes": item.get("likesCount", 0),
             "comments": item.get("commentsCount", 0),
             "post_type": post_type,
             "published_at": published_at,
+            "slides": slide_urls,
         })
 
     return posts

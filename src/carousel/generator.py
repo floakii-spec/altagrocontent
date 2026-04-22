@@ -65,6 +65,8 @@ def generate_carousel(theme: str, session: Session) -> Carousel:
             "argument_structure": p.intelligence.argument_structure,
             "core_argument": p.intelligence.core_argument,
             "technical_claims": (p.intelligence.technical_claims or [])[:2],
+            "slide_breakdown": (getattr(p.intelligence, "slide_breakdown", []) or [])[:6],
+            "carousel_complexity": getattr(p.intelligence, "carousel_complexity", {}) or {},
             "virality_score": p.analysis.virality_score,
         }
         for p in top_competitor_posts

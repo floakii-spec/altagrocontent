@@ -1,6 +1,8 @@
 import base64
 import json
 import logging
+from types import SimpleNamespace
+from typing import Any
 
 import httpx
 from openai import OpenAI
@@ -13,17 +15,19 @@ logger = logging.getLogger(__name__)
 openai_client = OpenAI(api_key=OPENAI_API_KEY)
 
 _VISION_PROMPT = """Você está analisando um post de Instagram do agronegócio brasileiro.
-Transcreva TODO o conteúdo visível na imagem: textos, números, percentuais, gráficos, tabelas, legendas, marcas e qualquer dado presente no card visual.
+Transcreva TODO o conteúdo visível de cada slide/card: textos, números, percentuais, gráficos, tabelas, legendas, marcas e qualquer dado presente no visual.
+Se houver múltiplos slides, mantenha a numeração de cada um claramente separada como "Slide 1", "Slide 2", etc.
 Seja completo e literal — não interprete, apenas transcreva o que está escrito/mostrado."""
 
 _SYSTEM_PROMPT = """Você é um analista de conteúdo especialista em agronegócio brasileiro.
 
 O post será fornecido com três seções:
-1. "Conteúdo visual do card" — transcrição literal do que aparece na imagem (texto, números, gráficos, tabelas, comparativos, logos de fontes)
+1. "Conteúdo visual do card/carrossel" — transcrição literal do que aparece no visual, com slides numerados quando houver vários cards
 2. "Legenda" — texto da publicação no Instagram
 3. "Hashtags" — tags usadas
 
 IMPORTANTE: o card visual é a fonte primária de dados técnicos. A legenda geralmente complementa ou contextualiza o que está no card. Priorize números, percentuais, comparativos e afirmações do card visual.
+Quando houver carrossel, avalie a progressão de slide a slide, a cadência do roteiro, o nível de contexto, a presença de prova e a densidade de informação.
 
 Analise com profundidade técnica e retorne APENAS um JSON:
 {
@@ -37,46 +41,101 @@ Analise com profundidade técnica e retorne APENAS um JSON:
   "sources_referenced": ["<logos, marcas, institutos, pesquisas visíveis no card ou citados na legenda>"],
   "knowledge_assumptions": "<conhecimento prévio que o produtor precisa ter para entender o card>",
   "content_gaps": "<dados importantes que faltaram no card para tornar o argumento mais sólido>",
-  "replication_template": "<fórmula do card: ex. [DADO CHOCANTE] + [COMPARATIVO] + [CAUSA] + [CTA]>"
+  "replication_template": "<fórmula do card: ex. [DADO CHOCANTE] + [COMPARATIVO] + [CAUSA] + [CTA]>",
+  "slide_breakdown": [
+    {
+      "slide_number": "<1..N>",
+      "role": "<hook|contexto|dado|prova|explicacao|transicao|objeção|cta|fechamento|outro>",
+      "summary": "<o que esse slide entrega e por que ele existe no roteiro>",
+      "key_data": ["<dados ou pontos-chave específicos daquele slide>"]
+    }
+  ],
+  "carousel_complexity": {
+    "slide_count": "<quantidade de slides efetivamente analisados>",
+    "structure_style": "<single_punch|linear_argument|layered_analysis|data_stack|story_case|mixed>",
+    "information_density": "<baixa|media|alta>",
+    "proof_strength": "<baixa|media|alta>",
+    "narrative_cohesion": "<baixa|media|alta>",
+    "context_dependency": "<baixa|media|alta>",
+    "complexity_score": "<1-5>",
+    "why_it_works": "<por que o roteiro funciona ou onde ele perde força>",
+    "replication_risk": "<o principal risco ao tentar replicar esse formato sem o mesmo contexto>"
+  }
 }"""
 
 
-def _transcribe_image(image_url: str) -> str:
+def _to_data_url(image_url: str) -> str:
+    img_response = httpx.get(image_url, timeout=20, follow_redirects=True)
+    img_response.raise_for_status()
+    b64 = base64.b64encode(img_response.content).decode("utf-8")
+    media_type = img_response.headers.get("content-type", "image/jpeg").split(";")[0]
+    return f"data:{media_type};base64,{b64}"
+
+
+def _coerce_slide_urls(post: Post) -> list[str]:
+    urls: list[str] = []
+    seen: set[str] = set()
+    for raw in post.slides or []:
+        if isinstance(raw, str):
+            value = raw
+        elif isinstance(raw, dict):
+            value = raw.get("image_url") or raw.get("display_url") or raw.get("url")
+        else:
+            value = None
+        if not value or value in seen:
+            continue
+        seen.add(value)
+        urls.append(value)
+
+    if not urls and post.image_url:
+        urls.append(post.image_url)
+    return urls
+
+
+def _transcribe_visual_assets(post: Post) -> str:
     try:
-        img_response = httpx.get(image_url, timeout=20, follow_redirects=True)
-        img_response.raise_for_status()
-        b64 = base64.b64encode(img_response.content).decode("utf-8")
-        media_type = img_response.headers.get("content-type", "image/jpeg").split(";")[0]
-        data_url = f"data:{media_type};base64,{b64}"
+        urls = _coerce_slide_urls(post)
+        if not urls:
+            return ""
+
+        content: list[dict[str, Any]] = [{"type": "text", "text": _VISION_PROMPT}]
+        for index, image_url in enumerate(urls, start=1):
+            content.extend([
+                {"type": "text", "text": f"Slide {index}"},
+                {"type": "image_url", "image_url": {"url": _to_data_url(image_url), "detail": "high"}},
+            ])
 
         response = openai_client.chat.completions.create(
             model="gpt-4o",
             messages=[{
                 "role": "user",
-                "content": [
-                    {"type": "text", "text": _VISION_PROMPT},
-                    {"type": "image_url", "image_url": {"url": data_url, "detail": "high"}},
-                ],
+                "content": content,
             }],
-            max_tokens=500,
+            max_tokens=1400,
         )
         return response.choices[0].message.content or ""
     except Exception as exc:
-        logger.warning("Vision transcription failed for %s: %s", image_url, exc)
+        logger.warning("Vision transcription failed for post %s: %s", post.id, exc)
         return ""
 
 
-def analyze_post_intelligence(post: Post, session: Session) -> PostIntelligence:
+def _snapshot_intelligence(intelligence: PostIntelligence) -> SimpleNamespace:
+    return SimpleNamespace(
+        technical_claims=list(intelligence.technical_claims or []),
+        data_points=list(intelligence.data_points or []),
+        sources_referenced=list(intelligence.sources_referenced or []),
+    )
+
+
+def analyze_post_intelligence(post: Post, session: Session, force: bool = False) -> PostIntelligence:
     existing = session.query(PostIntelligence).filter_by(post_id=post.id).first()
-    if existing:
+    if existing and not force:
         return existing
 
     caption = post.caption or ""
     hashtags = ", ".join(post.hashtags) if post.hashtags else ""
 
-    visual_transcript = ""
-    if post.image_url:
-        visual_transcript = _transcribe_image(post.image_url)
+    visual_transcript = _transcribe_visual_assets(post)
 
     if not visual_transcript and not caption.strip():
         logger.warning("Post %s has no visual content and no caption — skipping intelligence.", post.id)
@@ -113,27 +172,37 @@ def analyze_post_intelligence(post: Post, session: Session) -> PostIntelligence:
         logger.error("GPT-4o returned invalid JSON for post %s: %s", post.id, exc)
         raise
 
-    intelligence = PostIntelligence(
-        post_id=post.id,
-        agro_topic_cluster=data.get("agro_topic_cluster"),
-        agro_segment=data.get("agro_segment"),
-        technical_depth=data.get("technical_depth"),
-        core_argument=data.get("core_argument"),
-        argument_structure=data.get("argument_structure"),
-        technical_claims=data.get("technical_claims", []),
-        data_points=data.get("data_points", []),
-        sources_referenced=data.get("sources_referenced", []),
-        knowledge_assumptions=data.get("knowledge_assumptions"),
-        content_gaps=data.get("content_gaps"),
-        replication_template=data.get("replication_template"),
-    )
+    old_intelligence = _snapshot_intelligence(existing) if existing else None
+    intelligence = existing or PostIntelligence(post_id=post.id)
+    intelligence.agro_topic_cluster = data.get("agro_topic_cluster")
+    intelligence.agro_segment = data.get("agro_segment")
+    intelligence.technical_depth = data.get("technical_depth")
+    intelligence.core_argument = data.get("core_argument")
+    intelligence.argument_structure = data.get("argument_structure")
+    intelligence.technical_claims = data.get("technical_claims", [])
+    intelligence.data_points = data.get("data_points", [])
+    intelligence.sources_referenced = data.get("sources_referenced", [])
+    intelligence.knowledge_assumptions = data.get("knowledge_assumptions")
+    intelligence.content_gaps = data.get("content_gaps")
+    intelligence.replication_template = data.get("replication_template")
+    intelligence.slide_breakdown = data.get("slide_breakdown", [])
+    intelligence.carousel_complexity = data.get("carousel_complexity", {})
     session.add(intelligence)
+
+    from src.analyzer.argument_extractor import upsert_arguments
+    from src.analyzer.argument_extractor import remove_arguments_for_post
+
+    if force and old_intelligence:
+        remove_arguments_for_post(old_intelligence, post, session, commit=False)
+    upsert_arguments(intelligence, post, session, commit=False)
     session.commit()
     session.refresh(intelligence)
 
-    from src.analyzer.argument_extractor import upsert_arguments
-    upsert_arguments(intelligence, post, session)
-
-    logger.info("Post %s intelligence analyzed: depth=%s, claims=%d",
-                post.id, intelligence.technical_depth, len(intelligence.technical_claims))
+    logger.info(
+        "Post %s intelligence analyzed: depth=%s, claims=%d, slides=%d",
+        post.id,
+        intelligence.technical_depth,
+        len(intelligence.technical_claims),
+        len(intelligence.slide_breakdown or []),
+    )
     return intelligence

@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 from typing import List, Optional
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from src.models import Profile, Post, PostAnalysis
@@ -87,11 +87,17 @@ def remove_profile(profile_id: int, db: Session = Depends(get_db)):
 
 
 @router.post("/sync", response_model=SyncResponse)
-def sync_profiles(db: Session = Depends(get_db)):
+def sync_profiles(
+    handle: Optional[str] = Query(None),
+    db: Session = Depends(get_db),
+):
     from src.collector.collector import collect_profile
     from src.analyzer.image_analyzer import analyze_post
     from src.analyzer.post_intelligence import analyze_post_intelligence
-    profiles = db.query(Profile).filter_by(active=True).all()
+    profiles_query = db.query(Profile).filter_by(active=True)
+    if handle:
+        profiles_query = profiles_query.filter(Profile.handle == handle)
+    profiles = profiles_query.all()
     apify_token = os.environ.get("APIFY_API_TOKEN")
     if not apify_token:
         raise HTTPException(status_code=400, detail="APIFY_API_TOKEN not configured")

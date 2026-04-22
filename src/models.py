@@ -168,6 +168,8 @@ class PostIntelligence(Base):
     knowledge_assumptions: Mapped[Optional[str]] = mapped_column(Text)
     content_gaps: Mapped[Optional[str]] = mapped_column(Text)
     replication_template: Mapped[Optional[str]] = mapped_column(Text)
+    slide_breakdown: Mapped[list] = mapped_column(JSON, default=list)
+    carousel_complexity: Mapped[dict] = mapped_column(JSON, default=dict)
     analyzed_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
     post: Mapped["Post"] = relationship(back_populates="intelligence")

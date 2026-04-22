@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session, joinedload
 
 from api.deps import get_db
 from src.analyzer.post_intelligence import analyze_post_intelligence
-from src.models import ArgumentBank, Post, PostAnalysis, PostIntelligence
+from src.models import ArgumentBank, Post, PostAnalysis, PostIntelligence, Profile
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/intelligence", tags=["intelligence"])
@@ -17,8 +17,10 @@ router = APIRouter(prefix="/intelligence", tags=["intelligence"])
 class PostIntelligenceOut(BaseModel):
     post_id: int
     handle: str
+    post_type: str
     likes: int
     virality_score: Optional[float]
+    slides_count: int
     agro_topic_cluster: Optional[str]
     agro_segment: Optional[str]
     technical_depth: Optional[str]
@@ -30,6 +32,8 @@ class PostIntelligenceOut(BaseModel):
     knowledge_assumptions: Optional[str]
     content_gaps: Optional[str]
     replication_template: Optional[str]
+    slide_breakdown: list
+    carousel_complexity: dict
     analyzed_at: datetime
 
 
@@ -54,8 +58,10 @@ def _intel_to_out(intel: PostIntelligence) -> PostIntelligenceOut:
     return PostIntelligenceOut(
         post_id=post.id,
         handle=post.profile.handle,
+        post_type=post.post_type,
         likes=post.likes,
         virality_score=post.analysis.virality_score if post.analysis else None,
+        slides_count=len(post.slides or []),
         agro_topic_cluster=intel.agro_topic_cluster,
         agro_segment=intel.agro_segment,
         technical_depth=intel.technical_depth,
@@ -67,24 +73,32 @@ def _intel_to_out(intel: PostIntelligence) -> PostIntelligenceOut:
         knowledge_assumptions=intel.knowledge_assumptions,
         content_gaps=intel.content_gaps,
         replication_template=intel.replication_template,
+        slide_breakdown=intel.slide_breakdown or [],
+        carousel_complexity=intel.carousel_complexity or {},
         analyzed_at=intel.analyzed_at,
     )
 
 
 @router.get("/posts", response_model=List[PostIntelligenceOut])
-def list_intelligence(page: int = Query(1, ge=1), db: Session = Depends(get_db)):
+def list_intelligence(
+    page: int = Query(1, ge=1),
+    handle: Optional[str] = Query(None),
+    db: Session = Depends(get_db),
+):
     offset = (page - 1) * 20
-    rows = (
+    q = (
         db.query(PostIntelligence)
+        .join(PostIntelligence.post)
+        .join(Post.profile)
         .options(
             joinedload(PostIntelligence.post).joinedload(Post.profile),
             joinedload(PostIntelligence.post).joinedload(Post.analysis),
         )
         .order_by(PostIntelligence.analyzed_at.desc())
-        .offset(offset)
-        .limit(20)
-        .all()
     )
+    if handle:
+        q = q.filter(Profile.handle == handle)
+    rows = q.offset(offset).limit(20).all()
     return [_intel_to_out(r) for r in rows]
 
 
@@ -135,17 +149,25 @@ def list_arguments(
 
 
 @router.post("/analyze", response_model=AnalyzeResponse)
-def trigger_analysis(db: Session = Depends(get_db)):
-    analyzed_ids = [r[0] for r in db.query(PostIntelligence.post_id).all()]
-    q = db.query(Post)
-    if analyzed_ids:
-        q = q.filter(Post.id.notin_(analyzed_ids))
-    posts = q.limit(50).all()
+def trigger_analysis(
+    handle: Optional[str] = Query(None),
+    force: bool = Query(False),
+    limit: int = Query(50, ge=1, le=200),
+    db: Session = Depends(get_db),
+):
+    q = db.query(Post).join(Post.profile)
+    if handle:
+        q = q.filter(Profile.handle == handle)
+    if not force:
+        analyzed_ids = [r[0] for r in db.query(PostIntelligence.post_id).all()]
+        if analyzed_ids:
+            q = q.filter(Post.id.notin_(analyzed_ids))
+    posts = q.order_by(Post.published_at.desc()).limit(limit).all()
 
     count = 0
     for post in posts:
         try:
-            analyze_post_intelligence(post, db)
+            analyze_post_intelligence(post, db, force=force)
             count += 1
         except Exception as exc:
             logger.error("Failed to analyze post %s: %s", post.id, exc)

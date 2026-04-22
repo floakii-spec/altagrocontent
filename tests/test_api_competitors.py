@@ -4,6 +4,7 @@ os.environ.setdefault("OPENAI_API_KEY", "sk-test")
 os.environ.setdefault("APIFY_API_TOKEN", "apify-test")
 
 import pytest
+from unittest.mock import patch
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
@@ -84,3 +85,19 @@ def test_list_competitors_returns_post_count():
     response = client.get("/competitors")
     profile = next(p for p in response.json() if p["handle"] == "withposts")
     assert profile["post_count"] == 1
+
+
+def test_sync_competitors_can_filter_by_handle():
+    with Session(engine) as s:
+        s.add_all([
+            Profile(handle="leandro.varos", type="competitor"),
+            Profile(handle="outro.perfil", type="competitor"),
+        ])
+        s.commit()
+
+    with patch("src.collector.collector.fetch_posts_apify", return_value=[]) as mock_fetch:
+        response = client.post("/competitors/sync?handle=leandro.varos")
+
+    assert response.status_code == 200
+    assert response.json()["synced"] == 1
+    assert mock_fetch.call_args.kwargs["handle"] == "leandro.varos"

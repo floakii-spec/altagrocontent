@@ -57,6 +57,16 @@ def _mock_gpt(data: dict):
     return resp
 
 
+def _mock_text(text: str):
+    msg = MagicMock()
+    msg.content = text
+    choice = MagicMock()
+    choice.message = msg
+    resp = MagicMock()
+    resp.choices = [choice]
+    return resp
+
+
 _SAMPLE_RESPONSE = {
     "agro_topic_cluster": "soja",
     "agro_segment": "grãos",
@@ -69,6 +79,21 @@ _SAMPLE_RESPONSE = {
     "knowledge_assumptions": "Produtor já conhece soja convencional",
     "content_gaps": "Não mencionou impacto ambiental",
     "replication_template": "[DADO] + [CAUSA] + [SOLUÇÃO] + [CTA]",
+    "slide_breakdown": [
+        {"slide_number": 1, "role": "hook", "summary": "Abre com o dado central", "key_data": ["20%"]},
+        {"slide_number": 2, "role": "prova", "summary": "Traz a fonte", "key_data": ["Embrapa 2023"]},
+    ],
+    "carousel_complexity": {
+        "slide_count": 2,
+        "structure_style": "linear_argument",
+        "information_density": "alta",
+        "proof_strength": "alta",
+        "narrative_cohesion": "alta",
+        "context_dependency": "media",
+        "complexity_score": 4,
+        "why_it_works": "Organiza dado e prova em sequência lógica.",
+        "replication_risk": "Sem prova equivalente o formato perde força.",
+    },
 }
 
 
@@ -76,8 +101,11 @@ def test_analyze_stores_all_fields():
     from src.analyzer.post_intelligence import analyze_post_intelligence
     with Session(engine) as s:
         post = _make_post(s)
-        with patch("src.analyzer.post_intelligence.openai_client.chat.completions.create",
-                   return_value=_mock_gpt(_SAMPLE_RESPONSE)):
+        with patch("src.analyzer.post_intelligence._transcribe_visual_assets",
+                   return_value="Slide 1: 20% de aumento segundo Embrapa."), patch(
+            "src.analyzer.post_intelligence.openai_client.chat.completions.create",
+            return_value=_mock_gpt(_SAMPLE_RESPONSE),
+        ):
             mock_extractor = MagicMock()
             sys.modules['src.analyzer.argument_extractor'] = mock_extractor
             try:
@@ -96,6 +124,8 @@ def test_analyze_stores_all_fields():
     assert result.knowledge_assumptions == "Produtor já conhece soja convencional"
     assert result.content_gaps == "Não mencionou impacto ambiental"
     assert result.replication_template == "[DADO] + [CAUSA] + [SOLUÇÃO] + [CTA]"
+    assert result.slide_breakdown[0]["role"] == "hook"
+    assert result.carousel_complexity["complexity_score"] == 4
 
 
 def test_analyze_skips_if_already_done():
@@ -121,8 +151,11 @@ def test_analyze_persists_to_db():
     from src.analyzer.post_intelligence import analyze_post_intelligence
     with Session(engine) as s:
         post = _make_post(s)
-        with patch("src.analyzer.post_intelligence.openai_client.chat.completions.create",
-                   return_value=_mock_gpt(_SAMPLE_RESPONSE)):
+        with patch("src.analyzer.post_intelligence._transcribe_visual_assets",
+                   return_value="Slide 1: 20% de aumento segundo Embrapa."), patch(
+            "src.analyzer.post_intelligence.openai_client.chat.completions.create",
+            return_value=_mock_gpt(_SAMPLE_RESPONSE),
+        ):
             mock_extractor = MagicMock()
             sys.modules['src.analyzer.argument_extractor'] = mock_extractor
             try:
@@ -133,3 +166,32 @@ def test_analyze_persists_to_db():
         row = s.query(PostIntelligence).first()
     assert row is not None
     assert row.agro_segment == "grãos"
+    assert row.carousel_complexity["structure_style"] == "linear_argument"
+
+
+def test_force_reanalysis_replaces_old_carousel_intelligence():
+    from src.analyzer.post_intelligence import analyze_post_intelligence
+    with Session(engine) as s:
+        post = _make_post(s)
+        post.post_type = "carousel"
+        post.slides = ["https://example.com/s1.jpg", "https://example.com/s2.jpg"]
+        existing = PostIntelligence(
+            post_id=post.id,
+            technical_claims=["Velho argumento 10%"],
+            data_points=[{"value": "10%", "context": "dado antigo", "source": "Fonte antiga"}],
+            sources_referenced=["Fonte antiga"],
+            slide_breakdown=[{"slide_number": 1, "role": "hook", "summary": "antigo", "key_data": ["10%"]}],
+            carousel_complexity={"complexity_score": 1},
+            analyzed_at=datetime.now(timezone.utc),
+        )
+        s.add(existing)
+        s.commit()
+        with patch("src.analyzer.post_intelligence._transcribe_visual_assets",
+                   return_value="Slide 1: 20% de aumento segundo Embrapa.\nSlide 2: Prova técnica."), patch(
+            "src.analyzer.post_intelligence.openai_client.chat.completions.create",
+            return_value=_mock_gpt(_SAMPLE_RESPONSE),
+        ):
+            result = analyze_post_intelligence(post, s, force=True)
+
+    assert result.technical_claims == ["Aumento de 20% na produtividade com soja RR"]
+    assert result.carousel_complexity["complexity_score"] == 4
