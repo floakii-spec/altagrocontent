@@ -41,10 +41,11 @@ def session_with_context():
 
 
 MOCK_SLIDES = [
-    {"slide_number": 1, "title": "Você sabia?", "copy": "A soja brasileira...", "cta": ""},
-    {"slide_number": 2, "title": "O problema", "copy": "Muitos produtores...", "cta": ""},
-    {"slide_number": 3, "title": "A solução", "copy": "Com manejo correto...", "cta": ""},
-    {"slide_number": 4, "title": "Resultado", "copy": "Até 30% mais produtividade", "cta": "Salve este post!"},
+    {"slide_number": 1, "slide_type": "CAPA", "title": "Você sabia?", "copy": "A soja brasileira...", "cta": ""},
+    {"slide_number": 2, "slide_type": "HOOK", "title": "O erro que derruba produtividade", "copy": "Muitos produtores deixam o manejo reagir tarde demais.", "cta": ""},
+    {"slide_number": 3, "slide_type": "DESENVOLVIMENTO", "title": "A solução", "copy": "Na pratica, com manejo correto o produtor decide antes e protege melhor a margem.", "cta": ""},
+    {"slide_number": 4, "slide_type": "PROVA", "title": "A prova", "copy": "Um exemplo de ganho real no campo com numero e comparativo claro...", "cta": ""},
+    {"slide_number": 5, "slide_type": "CTA", "title": "Resultado", "copy": "Até 30% mais produtividade", "cta": "Salve este post!"},
 ]
 
 
@@ -62,8 +63,34 @@ def test_generate_carousel_returns_slides(session_with_context):
             session=session,
         )
 
-    assert len(carousel.slides) == 4
+    assert len(carousel.slides) == 5
     assert carousel.slides[0]["title"] == "Você sabia?"
+    assert carousel.slides[0]["slide_type"] == "CAPA"
+    assert carousel.slides[-2]["slide_type"] == "PROVA"
     assert carousel.slides[-1]["cta"] == "Salve este post!"
     saved = session.query(Carousel).first()
     assert saved is not None
+
+
+def test_generate_carousel_retries_when_initial_draft_is_weak(session_with_context):
+    session, profile, voice, report = session_with_context
+    weak_slides = [
+        {"slide_number": 1, "slide_type": "CAPA", "title": "Tema", "copy": "Texto", "cta": ""},
+        {"slide_number": 2, "slide_type": "HOOK", "title": "Gancho", "copy": "Texto", "cta": ""},
+        {"slide_number": 3, "slide_type": "DESENVOLVIMENTO", "title": "Miolo", "copy": "Texto curto", "cta": ""},
+        {"slide_number": 4, "slide_type": "CTA", "title": "Fechamento", "copy": "Texto", "cta": "Salve"},
+    ]
+    mock_response_weak = MagicMock()
+    mock_response_weak.choices = [MagicMock(message=MagicMock(content=json.dumps(weak_slides)))]
+    mock_response_strong = MagicMock()
+    mock_response_strong.choices = [MagicMock(message=MagicMock(content=json.dumps(MOCK_SLIDES)))]
+
+    with patch("src.carousel.generator.openai_client") as mock_client:
+        mock_client.chat.completions.create.side_effect = [mock_response_weak, mock_response_strong]
+        carousel = generate_carousel(
+            theme="Manejo de soja para alta produtividade",
+            session=session,
+        )
+
+    assert mock_client.chat.completions.create.call_count == 2
+    assert carousel.slides[-2]["slide_type"] == "PROVA"

@@ -129,18 +129,24 @@ def test_generate_post_retries_when_initial_draft_is_weak(session_with_generatio
         "format": "feed",
     }
     strong = {
-        "hook": "Se sua soja rende bem mas a margem some, o problema nao esta so na lavoura.",
+        "slides": [
+            {"slide_number": 1, "slide_type": "CAPA", "title": "Sua soja pode render bem e mesmo assim sobrar pouca margem", "copy": "Alta produtividade nao compensa decisao comercial ruim.", "cta": ""},
+            {"slide_number": 2, "slide_type": "HOOK", "title": "Quando a margem muda 12%, muda o caixa inteiro da safra", "copy": "Esse nao e um detalhe financeiro. E uma decisao comercial que altera o resultado final.", "cta": ""},
+            {"slide_number": 3, "slide_type": "DESENVOLVIMENTO", "title": "R$ 18/sc nao some por acaso", "copy": "Na pratica, essa variacao aparece quando custo, preco e momento de venda sao lidos de forma isolada.", "cta": ""},
+            {"slide_number": 4, "slide_type": "PROVA", "title": "Na pratica, margem e onde a safra mostra a verdade", "copy": "Quando a conta fecha R$ 18/sc abaixo no levantamento interno, o erro quase sempre esteve na leitura comercial.", "cta": ""},
+            {"slide_number": 5, "slide_type": "CTA", "title": "Aprenda a defender margem com metodo", "copy": "Quem trabalha com vendas no agro precisa traduzir dado em decisao.", "cta": "Entre na Confraria e aprenda a defender margem no agro."},
+        ],
         "caption": (
             "Tem produtor comemorando produtividade enquanto a margem escorre pelo comercial.\n\n"
             "Quando a diferenca de margem chega a 12%, nao estamos falando de detalhe. Estamos falando de uma decisao que muda o caixa da safra.\n\n"
-            "E quando essa variacao bate R$ 18/sc no resultado liquido, fica claro que vender bem vale tanto quanto produzir bem.\n\n"
+            "E quando essa variacao bate R$ 18/sc no resultado liquido, como apareceu no levantamento interno, fica claro que vender bem vale tanto quanto produzir bem.\n\n"
             "No campo, produtividade sem estrategia comercial vira numero bonito com rentabilidade fraca. O agronomo e o vendedor que entendem isso param de discutir so volume e passam a discutir decisao.\n\n"
-            "Esse e o tipo de leitura que separa quem repete processo de quem construi margem de verdade.\n\n"
+            "Esse e o tipo de leitura que separa quem repete processo de quem construi margem de verdade, porque mostra onde o resultado realmente nasce e onde a margem se perde no campo.\n\n"
             "Se voce trabalha com vendas no agro e quer aprender a fazer essa leitura com metodo, entra na Confraria."
         ),
         "cta": "Entre na Confraria e aprenda a defender margem no agro.",
         "funnel_stage": "fundo",
-        "format": "feed",
+        "format": "carousel",
     }
 
     with patch("src.generator.content_generator.load_studio_context", return_value={}), patch(
@@ -152,24 +158,32 @@ def test_generate_post_retries_when_initial_draft_is_weak(session_with_generatio
     assert mock_create.call_count == 2
     assert generated.caption == strong["caption"]
     assert generated.funnel_stage == "fundo"
-    assert generated.format == "feed"
+    assert generated.format == "carousel"
+    assert generated.slides[0]["slide_type"] == "CAPA"
+    assert generated.hook == strong["slides"][1]["title"]
 
 
 def test_generate_post_prioritizes_arguments_from_same_topic(session_with_generation_context):
     session, post, voice = session_with_generation_context
     good = {
-        "hook": "Hook forte e especifico sobre margem na soja.",
+        "slides": [
+            {"slide_number": 1, "slide_type": "CAPA", "title": "Margem ruim pode destruir uma boa safra", "copy": "O problema nao esta so na produtividade.", "cta": ""},
+            {"slide_number": 2, "slide_type": "HOOK", "title": "12% de diferenca na margem muda o jogo", "copy": "Quando isso acontece, a conversa precisa sair do volume e entrar na decisao.", "cta": ""},
+            {"slide_number": 3, "slide_type": "DESENVOLVIMENTO", "title": "R$ 18/sc mostram o tamanho do erro", "copy": "Na pratica, essa variacao aparece quando estrategia comercial e leitura de risco falham.", "cta": ""},
+            {"slide_number": 4, "slide_type": "PROVA", "title": "Quem vende melhor protege a rentabilidade", "copy": "No levantamento interno, o time que le melhor margem defende rentabilidade com muito mais consistencia.", "cta": ""},
+            {"slide_number": 5, "slide_type": "CTA", "title": "Quer que eu aprofunde essa serie?", "copy": "Se esse tema faz sentido para voce, eu sigo daqui.", "cta": "Comenta MARGEM."},
+        ],
         "caption": (
             "Uma safra boa no papel pode esconder uma margem ruim no caixa, e esse e o tipo de detalhe que muita gente do agro ignora porque continua olhando so para volume produzido.\n\n"
             "Quando a diferenca de margem bate 12%, a conversa deixa de ser teorica. Isso muda a forma como o produtor avalia a venda, como o consultor orienta a decisao e como a revenda enxerga o momento de negociar.\n\n"
-            "Se essa decisao ainda representa R$ 18/sc no resultado liquido, o problema nao e produtividade: e estrategia comercial. E nesse ponto muita gente boa tecnicamente continua deixando dinheiro na mesa por nao traduzir dado em acao.\n\n"
+            "Se essa decisao ainda representa R$ 18/sc no resultado liquido, como mostrou o levantamento interno, o problema nao e produtividade: e estrategia comercial. E nesse ponto muita gente boa tecnicamente continua deixando dinheiro na mesa por nao traduzir dado em acao.\n\n"
             "Nathan fala com agronomo e vendedor que precisam transformar informacao em decisao pratica. Nao basta saber que o custo apertou. E preciso defender margem, ler risco e ajustar abordagem antes que o mercado faca isso por voce.\n\n"
             "Isso e conteudo de meio de funil com profundidade real para quem vive a pressao do campo, atende produtor toda semana e precisa provar valor com argumento tecnico, nao com frase vazia.\n\n"
             "Comenta MARGEM se esse tema merece uma serie e eu aprofundo os erros que mais destroem rentabilidade no comercial da safra."
         ),
         "cta": "Comenta MARGEM.",
         "funnel_stage": "meio",
-        "format": "feed",
+        "format": "carousel",
     }
 
     with patch("src.generator.content_generator.load_studio_context", return_value={}), patch(
@@ -181,3 +195,5 @@ def test_generate_post_prioritizes_arguments_from_same_topic(session_with_genera
     user_prompt = mock_create.call_args.kwargs["messages"][1]["content"]
     assert "12% de margem muda o jogo na safra" in user_prompt
     assert "vaca leiteira precisa de conforto termico" not in user_prompt
+    assert "CATÁLOGO DE DADOS VALIDADOS" in user_prompt
+    assert "levantamento interno" in user_prompt

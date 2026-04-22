@@ -3,9 +3,9 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
-from src.models import Profile, Post, PostAnalysis
+from src.models import Profile, Post
 from api.deps import get_db
-import os
+from src.workflows.intelligence_jobs import sync_profiles_workflow
 
 router = APIRouter(prefix="/competitors", tags=["competitors"])
 
@@ -91,61 +91,15 @@ def sync_profiles(
     handle: Optional[str] = Query(None),
     db: Session = Depends(get_db),
 ):
-    from src.collector.collector import collect_profile
-    from src.analyzer.image_analyzer import analyze_post
-    from src.analyzer.post_intelligence import analyze_post_intelligence
-    profiles_query = db.query(Profile).filter_by(active=True)
-    if handle:
-        profiles_query = profiles_query.filter(Profile.handle == handle)
-    profiles = profiles_query.all()
-    apify_token = os.environ.get("APIFY_API_TOKEN")
-    if not apify_token:
-        raise HTTPException(status_code=400, detail="APIFY_API_TOKEN not configured")
-    errors = []
-    total_new = 0
-    for profile in profiles:
-        try:
-            collect_profile(profile, db, apify_token)
-        except Exception as e:
-            db.rollback()
-            errors.append({"handle": profile.handle, "error": str(e)})
-            continue
-        new_posts = (
-            db.query(Post)
-            .filter_by(profile_id=profile.id)
-            .filter(Post.analysis == None)
-            .all()
-        )
-        for post in new_posts:
-            try:
-                analyze_post(post, db)
-                total_new += 1
-            except Exception as e:
-                db.rollback()
-                errors.append({"handle": profile.handle, "post_id": post.id, "error": str(e)})
-                continue
-            try:
-                analyze_post_intelligence(post, db)
-            except Exception as e:
-                db.rollback()
-                errors.append({"handle": profile.handle, "post_id": post.id, "error": f"intelligence: {e}"})
-
-        # posts já com PostAnalysis mas sem PostIntelligence
-        pending_intelligence = (
-            db.query(Post)
-            .filter_by(profile_id=profile.id)
-            .join(Post.analysis)
-            .filter(Post.intelligence == None)
-            .all()
-        )
-        for post in pending_intelligence:
-            try:
-                analyze_post_intelligence(post, db)
-            except Exception as e:
-                db.rollback()
-                errors.append({"handle": profile.handle, "post_id": post.id, "error": f"intelligence: {e}"})
-
-    return {"synced": len(profiles), "new_posts_analyzed": total_new, "errors": errors}
+    try:
+        result = sync_profiles_workflow(db, handle=handle)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+    return SyncResponse(
+        synced=result["synced"],
+        new_posts_analyzed=result["new_posts_analyzed"],
+        errors=[SyncError(**error) for error in result["errors"]],
+    )
 
 
 @router.get("/gap", response_model=List[dict])

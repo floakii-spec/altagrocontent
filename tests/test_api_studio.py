@@ -95,9 +95,18 @@ def test_generate_studio_post():
     mock_generated.caption = "Post gerado pelo GPT"
     mock_generated.hook = "Hook gerado"
     mock_generated.cta = "Siga agora"
+    mock_generated.slides = [
+        {"slide_number": 1, "slide_type": "CAPA", "title": "Capa", "copy": "Texto", "cta": ""},
+        {"slide_number": 2, "slide_type": "HOOK", "title": "Hook", "copy": "Texto", "cta": ""},
+        {"slide_number": 3, "slide_type": "CTA", "title": "Fechamento", "copy": "Texto", "cta": "Siga agora"},
+    ]
+    mock_generated.funnel_stage = "meio"
+    mock_generated.format = "carousel"
     mock_generated.created_at = datetime.now(timezone.utc)
 
     with patch("api.routers.studio.generate_post", return_value=mock_generated):
         response = client.post("/studio/generate", json={"post_id": post_id})
     assert response.status_code == 200
     assert response.json()["caption"] == "Post gerado pelo GPT"
+    assert response.json()["slides"][0]["slide_type"] == "CAPA"
+    assert response.json()["format"] == "carousel"

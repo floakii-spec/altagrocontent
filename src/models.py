@@ -91,6 +91,7 @@ class GeneratedPost(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
     funnel_stage: Mapped[Optional[str]] = mapped_column(String(20))
     format: Mapped[Optional[str]] = mapped_column(String(20))
+    slides: Mapped[list] = mapped_column(JSON, default=list)
     hook_variations: Mapped[dict] = mapped_column(JSON, default=dict)
     news_item_ids: Mapped[list] = mapped_column(JSON, default=list)
 

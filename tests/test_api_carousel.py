@@ -52,13 +52,14 @@ def test_list_carousels_returns_history():
     response = client.get("/carousel")
     assert len(response.json()) == 1
     assert response.json()[0]["theme"] == "soja"
+    assert response.json()[0]["slides"][0]["slide_type"] == "CAPA"
 
 
 def test_generate_carousel():
     mock_carousel = MagicMock()
     mock_carousel.id = 1
     mock_carousel.theme = "gestão de safra"
-    mock_carousel.slides = [{"slide_number": 1, "title": "Hook", "copy": "Texto", "cta": ""}]
+    mock_carousel.slides = [{"slide_number": 1, "slide_type": "CAPA", "title": "Hook", "copy": "Texto", "cta": ""}]
     mock_carousel.generated_at = datetime.now(timezone.utc)
     with patch("api.routers.carousel.generate_carousel", return_value=mock_carousel):
         response = client.post("/carousel/generate", json={"theme": "gestão de safra"})
@@ -66,6 +67,7 @@ def test_generate_carousel():
     data = response.json()
     assert data["theme"] == "gestão de safra"
     assert len(data["slides"]) == 1
+    assert data["slides"][0]["slide_type"] == "CAPA"
 
 
 from src.models import CarouselSuggestion

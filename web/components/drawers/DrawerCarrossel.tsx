@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 
 interface Slide {
   slide_number: number
+  slide_type: string
   title: string
   copy: string
   cta: string
@@ -165,6 +166,12 @@ export function DrawerCarrossel() {
                 <span className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0"
                   style={{ background: '#16a34a22', color: '#16a34a' }}>
                   {slide.slide_number}
+                </span>
+                <span
+                  className="text-[9px] px-1.5 py-0.5 rounded-full font-semibold tracking-wider"
+                  style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.45)' }}
+                >
+                  {slide.slide_type}
                 </span>
                 <span className="text-[12px] font-semibold text-white">{slide.title}</span>
               </div>

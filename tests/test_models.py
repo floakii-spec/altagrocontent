@@ -159,6 +159,11 @@ def test_generated_post_strategy_fields(session):
         cta="Entre na Confraria.",
         funnel_stage="topo",
         format="carousel",
+        slides=[
+            {"slide_number": 1, "slide_type": "CAPA", "title": "Capa", "copy": "Texto", "cta": ""},
+            {"slide_number": 2, "slide_type": "HOOK", "title": "Hook", "copy": "Texto", "cta": ""},
+            {"slide_number": 3, "slide_type": "CTA", "title": "CTA", "copy": "Texto", "cta": "Entre na Confraria."},
+        ],
         hook_variations={
             "provocacao": "80% dos agrônomos erram nisso.",
             "dado": "Pesquisa aponta: produtores que usam esse método ganham 30% mais.",
@@ -169,6 +174,7 @@ def test_generated_post_strategy_fields(session):
     session.add(gp)
     session.commit()
     assert gp.funnel_stage == "topo"
+    assert gp.slides[0]["slide_type"] == "CAPA"
     assert gp.hook_variations["provocacao"].startswith("80%")
 
 

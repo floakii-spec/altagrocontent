@@ -163,8 +163,7 @@ def test_trigger_analyze_returns_count():
         s.add(post)
         s.commit()
 
-    mock_intel = MagicMock()
-    with patch("api.routers.intelligence.analyze_post_intelligence", return_value=mock_intel):
+    with patch("api.routers.intelligence.intelligence_analysis_workflow", return_value={"processed": 1}):
         response = client.post("/intelligence/analyze")
     assert response.status_code == 200
     assert response.json()["processed"] == 1
@@ -202,10 +201,88 @@ def test_trigger_analyze_can_filter_handle_and_force():
         ])
         s.commit()
 
-    with patch("api.routers.intelligence.analyze_post_intelligence", return_value=MagicMock()) as mock_analyze:
+    with patch("api.routers.intelligence.intelligence_analysis_workflow", return_value={"processed": 1}) as mock_workflow:
         response = client.post("/intelligence/analyze?handle=leandro.varos&force=true")
     assert response.status_code == 200
     assert response.json()["processed"] == 1
-    called_post = mock_analyze.call_args.args[0]
-    assert called_post.instagram_id == "target_post"
-    assert mock_analyze.call_args.kwargs["force"] is True
+    assert mock_workflow.call_args.kwargs["handle"] == "leandro.varos"
+    assert mock_workflow.call_args.kwargs["force"] is True
+
+
+def test_start_analysis_job_returns_live_job():
+    job = {
+        "job_id": "job-123",
+        "status": "queued",
+        "phase": "queued",
+        "handle": "leandro.varos",
+        "force": True,
+        "sync_before": True,
+        "limit": 200,
+        "message": "Fila criada",
+        "phase_total": 0,
+        "phase_completed": 0,
+        "total_profiles": 0,
+        "completed_profiles": 0,
+        "total_posts": 0,
+        "completed_posts": 0,
+        "successful_posts": 0,
+        "failed_posts": 0,
+        "current_handle": None,
+        "current_post_id": None,
+        "errors": [],
+        "started_at": None,
+        "updated_at": datetime.now(timezone.utc),
+        "finished_at": None,
+    }
+
+    with patch("api.routers.intelligence.create_analysis_job", return_value=job) as mock_create:
+        response = client.post("/intelligence/jobs", json={
+            "handle": "leandro.varos",
+            "force": True,
+            "sync_before": True,
+            "limit": 200,
+        })
+
+    assert response.status_code == 202
+    assert response.json()["job_id"] == "job-123"
+    assert mock_create.call_args.kwargs["handle"] == "leandro.varos"
+
+
+def test_get_analysis_job_status_returns_job():
+    job = {
+        "job_id": "job-123",
+        "status": "running",
+        "phase": "intelligence",
+        "handle": "leandro.varos",
+        "force": True,
+        "sync_before": True,
+        "limit": 200,
+        "message": "Analisando",
+        "phase_total": 55,
+        "phase_completed": 10,
+        "total_profiles": 1,
+        "completed_profiles": 1,
+        "total_posts": 55,
+        "completed_posts": 10,
+        "successful_posts": 9,
+        "failed_posts": 1,
+        "current_handle": "leandro.varos",
+        "current_post_id": 101,
+        "errors": ["post 99: timeout"],
+        "started_at": datetime.now(timezone.utc),
+        "updated_at": datetime.now(timezone.utc),
+        "finished_at": None,
+    }
+
+    with patch("api.routers.intelligence.get_analysis_job", return_value=job):
+        response = client.get("/intelligence/jobs/job-123")
+
+    assert response.status_code == 200
+    assert response.json()["phase"] == "intelligence"
+    assert response.json()["completed_posts"] == 10
+
+
+def test_get_analysis_job_status_404():
+    with patch("api.routers.intelligence.get_analysis_job", return_value=None):
+        response = client.get("/intelligence/jobs/missing")
+    assert response.status_code == 404

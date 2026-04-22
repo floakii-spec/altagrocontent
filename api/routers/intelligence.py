@@ -7,8 +7,12 @@ from pydantic import BaseModel
 from sqlalchemy.orm import Session, joinedload
 
 from api.deps import get_db
-from src.analyzer.post_intelligence import analyze_post_intelligence
-from src.models import ArgumentBank, Post, PostAnalysis, PostIntelligence, Profile
+from src.models import ArgumentBank, Post, PostIntelligence, Profile
+from src.workflows.intelligence_jobs import (
+    create_analysis_job,
+    get_analysis_job,
+    intelligence_analysis_workflow,
+)
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/intelligence", tags=["intelligence"])
@@ -51,6 +55,38 @@ class ArgumentBankOut(BaseModel):
 
 class AnalyzeResponse(BaseModel):
     processed: int
+
+
+class LiveAnalyzeJobIn(BaseModel):
+    handle: Optional[str] = None
+    force: bool = False
+    sync_before: bool = False
+    limit: int = 50
+
+
+class AnalyzeJobOut(BaseModel):
+    job_id: str
+    status: str
+    phase: str
+    handle: Optional[str]
+    force: bool
+    sync_before: bool
+    limit: int
+    message: str
+    phase_total: int
+    phase_completed: int
+    total_profiles: int
+    completed_profiles: int
+    total_posts: int
+    completed_posts: int
+    successful_posts: int
+    failed_posts: int
+    current_handle: Optional[str]
+    current_post_id: Optional[int]
+    errors: list[str]
+    started_at: Optional[datetime]
+    updated_at: datetime
+    finished_at: Optional[datetime]
 
 
 def _intel_to_out(intel: PostIntelligence) -> PostIntelligenceOut:
@@ -155,20 +191,23 @@ def trigger_analysis(
     limit: int = Query(50, ge=1, le=200),
     db: Session = Depends(get_db),
 ):
-    q = db.query(Post).join(Post.profile)
-    if handle:
-        q = q.filter(Profile.handle == handle)
-    if not force:
-        analyzed_ids = [r[0] for r in db.query(PostIntelligence.post_id).all()]
-        if analyzed_ids:
-            q = q.filter(Post.id.notin_(analyzed_ids))
-    posts = q.order_by(Post.published_at.desc()).limit(limit).all()
+    result = intelligence_analysis_workflow(db, handle=handle, force=force, limit=limit)
+    return AnalyzeResponse(processed=result["processed"])
 
-    count = 0
-    for post in posts:
-        try:
-            analyze_post_intelligence(post, db, force=force)
-            count += 1
-        except Exception as exc:
-            logger.error("Failed to analyze post %s: %s", post.id, exc)
-    return AnalyzeResponse(processed=count)
+
+@router.post("/jobs", response_model=AnalyzeJobOut, status_code=202)
+def start_analysis_job(body: LiveAnalyzeJobIn):
+    return AnalyzeJobOut(**create_analysis_job(
+        handle=body.handle,
+        force=body.force,
+        sync_before=body.sync_before,
+        limit=body.limit,
+    ))
+
+
+@router.get("/jobs/{job_id}", response_model=AnalyzeJobOut)
+def get_analysis_job_status(job_id: str):
+    job = get_analysis_job(job_id)
+    if not job:
+        raise HTTPException(status_code=404, detail="Job not found")
+    return AnalyzeJobOut(**job)

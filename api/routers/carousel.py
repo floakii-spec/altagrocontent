@@ -1,12 +1,13 @@
 from datetime import datetime, timezone
 from typing import List, Optional
 from fastapi import APIRouter, Depends, Response
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict, Field
 from sqlalchemy.orm import Session
 from src.models import Carousel, CarouselSuggestion
 from src.carousel.generator import generate_carousel
 from src.carousel.theme_suggester import generate_theme_suggestions
 from api.deps import get_db
+from src.slide_utils import normalize_carousel_slides
 
 router = APIRouter(prefix="/carousel", tags=["carousel"])
 
@@ -15,10 +16,20 @@ class CarouselGenerateIn(BaseModel):
     theme: str
 
 
+class SlideOut(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    slide_number: int
+    slide_type: str
+    title: str
+    body: str = Field(alias="copy", serialization_alias="copy")
+    cta: str
+
+
 class CarouselOut(BaseModel):
     id: int
     theme: str
-    slides: list
+    slides: List[SlideOut]
     generated_at: datetime
 
 
@@ -36,13 +47,26 @@ class CarouselSuggestionOut(BaseModel):
 @router.get("", response_model=List[CarouselOut])
 def list_carousels(db: Session = Depends(get_db)):
     rows = db.query(Carousel).order_by(Carousel.generated_at.desc()).limit(10).all()
-    return [CarouselOut(id=r.id, theme=r.theme, slides=r.slides, generated_at=r.generated_at) for r in rows]
+    return [
+        CarouselOut(
+            id=r.id,
+            theme=r.theme,
+            slides=normalize_carousel_slides(r.slides),
+            generated_at=r.generated_at,
+        )
+        for r in rows
+    ]
 
 
 @router.post("/generate", response_model=CarouselOut)
 def generate(body: CarouselGenerateIn, db: Session = Depends(get_db)):
     carousel = generate_carousel(theme=body.theme, session=db)
-    return CarouselOut(id=carousel.id, theme=carousel.theme, slides=carousel.slides, generated_at=carousel.generated_at)
+    return CarouselOut(
+        id=carousel.id,
+        theme=carousel.theme,
+        slides=normalize_carousel_slides(carousel.slides),
+        generated_at=carousel.generated_at,
+    )
 
 
 @router.get("/suggestions")

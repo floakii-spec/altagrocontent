@@ -16,7 +16,18 @@ interface GeneratedPost {
   hook: string | null
   caption: string | null
   cta: string | null
+  slides: Slide[]
+  funnel_stage: string | null
+  format: string | null
   created_at: string
+}
+
+interface Slide {
+  slide_number: number
+  slide_type: string
+  title: string
+  copy: string
+  cta: string
 }
 
 export function DrawerStudio() {
@@ -55,7 +66,12 @@ export function DrawerStudio() {
 
   function copyToClipboard() {
     if (!result) return
-    const text = [result.hook, result.caption, result.cta].filter(Boolean).join('\n\n')
+    const slidesText = result.slides.map((slide) => (
+      [`[${slide.slide_type}] ${slide.title}`, slide.copy, slide.cta ? `CTA: ${slide.cta}` : null]
+        .filter(Boolean)
+        .join('\n')
+    )).join('\n\n')
+    const text = [slidesText, result.caption ? `Legenda:\n${result.caption}` : null].filter(Boolean).join('\n\n')
     navigator.clipboard.writeText(text)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
@@ -117,7 +133,7 @@ export function DrawerStudio() {
           cursor: generating || !selected ? 'not-allowed' : 'pointer',
         }}
       >
-        {generating ? '⟳ Adaptando com sua voz...' : '🎬 Adaptar com minha voz'}
+        {generating ? '⟳ Montando carrossel com sua voz...' : '🎬 Adaptar para carrossel'}
       </button>
 
       {error && (
@@ -129,19 +145,38 @@ export function DrawerStudio() {
       {result && (
         <div className="space-y-2">
           <p className="text-[11px] font-semibold tracking-wider uppercase" style={{ color: 'rgba(255,255,255,0.4)' }}>
-            Post adaptado
+            Carrossel adaptado
           </p>
           <div className="rounded-lg px-4 py-3 space-y-3" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
-            {result.hook && (
-              <p className="text-[13px] font-semibold text-white">{result.hook}</p>
-            )}
+            {result.slides.map((slide) => (
+              <div key={`${slide.slide_number}-${slide.slide_type}`} className="space-y-1.5">
+                <div className="flex items-center gap-2">
+                  <span
+                    className="text-[10px] px-2 py-0.5 rounded-full font-semibold tracking-wider"
+                    style={{ background: '#16a34a22', color: '#16a34a' }}
+                  >
+                    {slide.slide_type}
+                  </span>
+                  <span className="text-[12px] font-semibold text-white">
+                    {slide.slide_number}. {slide.title}
+                  </span>
+                </div>
+                {slide.copy && (
+                  <p className="text-[12px] leading-relaxed pl-2" style={{ color: 'rgba(255,255,255,0.68)' }}>
+                    {slide.copy}
+                  </p>
+                )}
+                {slide.cta && (
+                  <p className="text-[12px] font-medium pl-2" style={{ color: '#16a34a' }}>
+                    → {slide.cta}
+                  </p>
+                )}
+              </div>
+            ))}
             {result.caption && (
               <p className="text-[12px] leading-relaxed whitespace-pre-line" style={{ color: 'rgba(255,255,255,0.7)' }}>
                 {result.caption}
               </p>
-            )}
-            {result.cta && (
-              <p className="text-[12px] font-medium" style={{ color: '#16a34a' }}>→ {result.cta}</p>
             )}
           </div>
           <button

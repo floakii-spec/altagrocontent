@@ -8,7 +8,15 @@ from sqlalchemy import or_
 from sqlalchemy.orm import Session
 from src.config import OPENAI_API_KEY
 from src.models import ArgumentBank, Post, ProfileVoice, GeneratedPost
+from src.carousel_quality import (
+    CarouselEvidencePack,
+    build_slide_blueprint,
+    estimate_target_slide_count,
+    format_quality_feedback,
+    score_carousel_draft,
+)
 from src.generator.obsidian_context import load_studio_context
+from src.slide_utils import extract_carousel_cta, extract_carousel_hook, normalize_carousel_slides
 
 logger = logging.getLogger(__name__)
 openai_client = OpenAI(api_key=OPENAI_API_KEY)
@@ -49,20 +57,34 @@ REGRAS INEGOCIÁVEIS:
 - Preserve os dados técnicos do material de origem. Se houver números, percentuais, fontes ou comparativos, eles devem aparecer no texto final.
 - Não invente fatos, estatísticas, safras, preços ou fontes.
 - Explique o impacto prático do dado para agrônomos, consultores, revendas ou vendedores do agro.
-- Entregue densidade real: legenda com 4 a 6 parágrafos curtos, entre 180 e 380 palavras.
+- Entregue o conteúdo obrigatoriamente em formato de carrossel, nunca em formato de feed solto.
+- A legenda de apoio deve ter 4 a 6 parágrafos curtos, entre 140 e 320 palavras.
 - O hook precisa ser específico e forte, sem parecer frase pronta de internet.
 - O CTA deve encaixar no estágio do funil escolhido e, em fundo de funil, apontar diretamente para a Confraria.
+- Estrutura obrigatória dos slides:
+  1. `CAPA` — promessa central ou tese principal
+  2. `HOOK` — provocação, dado ou tensão que faz a pessoa continuar
+  3. Slides intermediários `DESENVOLVIMENTO` — explicação, dado, implicação prática, objeção ou exemplo
+  4. Penúltimo slide `PROVA` — caso real, comparação, evidência, fonte ou demonstração prática
+  5. Último slide `CTA` — chamada para ação clara
 
-Crie um post para o Instagram do autor. Use a voz do autor fielmente. O post deve falar para agrônomos e profissionais de vendas no agro, com clareza, substância e contexto.
+Crie um carrossel para o Instagram do autor. Use a voz do autor fielmente. O post deve falar para agrônomos e profissionais de vendas no agro, com clareza, substância e contexto.
 
 Retorne JSON:
 {{
-  "hook": "<primeira linha que prende — máximo 1 frase impactante>",
-  "caption": "<legenda completa com quebras de linha, entre 180 e 380 palavras, sem hashtags>",
+  "slides": [
+    {{"slide_number": 1, "slide_type": "CAPA", "title": "<título curto e forte>", "copy": "<texto do slide>", "cta": ""}},
+    {{"slide_number": 2, "slide_type": "HOOK", "title": "<gancho ou dado>", "copy": "<texto do slide>", "cta": ""}},
+    {{"slide_number": N-1, "slide_type": "PROVA", "title": "<prova ou exemplo>", "copy": "<texto do slide>", "cta": ""}},
+    {{"slide_number": N, "slide_type": "CTA", "title": "<fechamento>", "copy": "<texto do slide>", "cta": "<cta>"}} 
+  ],
+  "caption": "<legenda completa com quebras de linha, entre 140 e 320 palavras, sem hashtags>",
   "cta": "<call-to-action direto e coerente com o funil>",
   "funnel_stage": "<topo|meio|fundo>",
-  "format": "<feed|carousel>"
+  "format": "carousel"
 }}
+- Entre 5 e 8 slides no total
+- `format` deve ser sempre `carousel`
 Responda APENAS com o JSON, sem markdown."""
 
 _USER_PROMPT = """POST DO CONCORRENTE PARA INSPIRAÇÃO:
@@ -94,14 +116,26 @@ _USER_PROMPT = """POST DO CONCORRENTE PARA INSPIRAÇÃO:
 - Legenda original: {source_caption}
 - Hashtags originais: {hashtags}
 
-ARGUMENTOS DE ALTO DESEMPENHO DO BANCO:
+REFERÊNCIAS OPCIONAIS DO BANCO DE ARGUMENTOS:
+- Use apenas se houver encaixe real com este post.
+- Não force reaproveitamento se a melhor linha de raciocínio nascer do próprio material-base.
 {top_arguments}
 
 EXEMPLOS ESTRUTURAIS DE POSTS FORTES DO BANCO:
 {structural_patterns}
 
+CATÁLOGO DE DADOS VALIDADOS QUE VOCÊ PODE USAR:
+{validated_data_catalog}
+
+BLUEPRINT RECOMENDADO DO CARROSSEL:
+{slide_blueprint}
+
+CHECKLIST DE QUALIDADE:
+{quality_guardrails}
+
 Adapte a estrutura e os dados acima para a voz e realidade do autor.
-Saída obrigatória: texto denso, específico e útil. Não resuma demais e não apague os dados do material-base."""
+Saída obrigatória: texto denso, específico e útil. Não resuma demais e não apague os dados do material-base.
+Se um dado não estiver no catálogo validado, não use."""
 
 
 def _build_approved_section(approved: List[GeneratedPost]) -> str:
@@ -111,6 +145,7 @@ def _build_approved_section(approved: List[GeneratedPost]) -> str:
         (
             f"Exemplo aprovado {i+1}:\n"
             f"Hook: {p.hook}\n"
+            f"Slides: {_format_json(normalize_carousel_slides(getattr(p, 'slides', []) or [])[:4])}\n"
             f"Legenda: {(p.caption or '')[:500]}...\n"
             f"CTA: {p.cta or '—'}\n"
             f"Funil: {p.funnel_stage or '—'}\n"
@@ -138,7 +173,7 @@ def _select_top_arguments(session: Session, source_post: Post) -> list[ArgumentB
     if intel.agro_segment:
         filters.append(ArgumentBank.agro_segment == intel.agro_segment)
 
-    targeted = []
+    targeted: list[ArgumentBank] = []
     if filters:
         targeted = (
             session.query(ArgumentBank)
@@ -148,16 +183,41 @@ def _select_top_arguments(session: Session, source_post: Post) -> list[ArgumentB
             .limit(5)
             .all()
         )
-    if targeted:
-        return targeted
+    return targeted
 
-    return (
-        session.query(ArgumentBank)
-        .filter(ArgumentBank.origin == "extracted")
-        .order_by(score_expr.desc())
-        .limit(5)
-        .all()
-    )
+
+def _build_validated_data_catalog(source_post: Post, top_args: list[ArgumentBank]) -> dict[str, Any]:
+    intel = source_post.intelligence
+    data_points = []
+    for point in intel.data_points or []:
+        if not isinstance(point, dict):
+            continue
+        value = str(point.get("value", "")).strip()
+        context = str(point.get("context", "")).strip()
+        source = str(point.get("source", "")).strip()
+        if not any([value, context, source]):
+            continue
+        data_points.append(
+            {
+                "value": value,
+                "context": context,
+                "source": source or None,
+            }
+        )
+
+    technical_claims = [claim for claim in intel.technical_claims or [] if isinstance(claim, str) and claim.strip()]
+    source_labels = [str(source).strip() for source in intel.sources_referenced or [] if str(source).strip()]
+    optional_bank_references = [arg.text for arg in top_args if arg.text.strip()]
+
+    return {
+        "numeros_obrigatoriamente_ancorados_no_material_base": _extract_numeric_fragments(intel),
+        "dados_estruturados": data_points,
+        "afirmacoes_tecnicas_permitidas": technical_claims,
+        "fontes_disponiveis": source_labels,
+        "argumento_central": intel.core_argument or "",
+        "referencias_opcionais_do_banco": optional_bank_references,
+        "instrucao": "Nao invente dado fora deste catalogo. Quando usar numero, deixe claro o que ele mede.",
+    }
 
 
 def _load_structural_patterns(source_post: Post, top_args: list[ArgumentBank]) -> list[dict[str, Any]]:
@@ -201,36 +261,121 @@ def _extract_numeric_fragments(intel: Any) -> list[str]:
     return deduped
 
 
-def _validate_generation(result: dict[str, Any], source_post: Post) -> list[str]:
+def _build_evidence_pack(
+    source_post: Post,
+    top_args: list[ArgumentBank],
+    validated_data_catalog: dict[str, Any],
+) -> CarouselEvidencePack:
+    intel = source_post.intelligence
+    allowed_claims = [intel.core_argument or ""] + [claim for claim in intel.technical_claims or [] if isinstance(claim, str)]
+    allowed_claims.extend(arg.text for arg in top_args if arg.text.strip())
+    return CarouselEvidencePack(
+        numeric_fragments=tuple(validated_data_catalog.get("numeros_obrigatoriamente_ancorados_no_material_base") or []),
+        source_labels=tuple(validated_data_catalog.get("fontes_disponiveis") or []),
+        allowed_claims=tuple(claim for claim in allowed_claims if str(claim).strip()),
+        required_terms=(),
+    )
+
+
+def _build_quality_guardrails() -> list[str]:
+    return [
+        "Cada slide precisa ter uma funcao unica e empurrar a leitura para o proximo card.",
+        "Nos slides de desenvolvimento, traduza o dado em implicacao pratica para o agro.",
+        "O slide de PROVA precisa ancorar numero, comparativo, caso ou fonte do catalogo.",
+        "O CTA final deve ter uma unica acao e combinar com o funil escolhido.",
+        "Evite frase vazia, promessa de coach e generalidade sem criterio tecnico.",
+    ]
+
+
+def _normalize_generation_result(result: dict[str, Any]) -> dict[str, Any]:
+    slides = normalize_carousel_slides(result.get("slides"))
+    hook = (result.get("hook") or "").strip() or extract_carousel_hook(slides) or ""
+    cta = (result.get("cta") or "").strip() or extract_carousel_cta(slides) or ""
+    format_name = (result.get("format") or "").strip() or ("carousel" if slides else "")
+
+    return {
+        **result,
+        "slides": slides,
+        "hook": hook,
+        "cta": cta,
+        "format": format_name,
+    }
+
+
+def _evaluate_generation(
+    result: dict[str, Any],
+    source_post: Post,
+    evidence_pack: CarouselEvidencePack,
+    target_slide_count: int,
+) -> dict[str, Any]:
     problems: list[str] = []
+    normalized_result = _normalize_generation_result(result)
+    slides = normalized_result["slides"]
     caption = (result.get("caption") or "").strip()
-    hook = (result.get("hook") or "").strip()
-    cta = (result.get("cta") or "").strip()
+    hook = normalized_result["hook"]
+    cta = normalized_result["cta"]
     funnel_stage = (result.get("funnel_stage") or "").strip()
-    format_name = (result.get("format") or "").strip()
+    format_name = normalized_result["format"]
 
     if not hook:
         problems.append("faltou hook")
     if not cta:
         problems.append("faltou CTA")
+    if not slides:
+        problems.append("faltaram slides")
+    else:
+        if len(slides) < 5:
+            problems.append(f"carrossel curto demais ({len(slides)} slides)")
+        if slides[0]["slide_type"] != "CAPA":
+            problems.append("o slide 1 precisa ser CAPA")
+        if len(slides) < 2 or slides[1]["slide_type"] != "HOOK":
+            problems.append("o slide 2 precisa ser HOOK")
+        if len(slides) < 5:
+            problems.append("o carrossel precisa ter espaco para desenvolvimento, prova e CTA")
+        elif slides[-2]["slide_type"] != "PROVA":
+            problems.append("o penultimo slide precisa ser PROVA")
+        if slides[-1]["slide_type"] != "CTA":
+            problems.append("o ultimo slide precisa ser CTA")
     if not caption:
         problems.append("faltou legenda")
     else:
         words = len(caption.split())
-        if words < 180:
+        if words < 140:
             problems.append(f"legenda curta demais ({words} palavras)")
 
     if funnel_stage not in {"topo", "meio", "fundo"}:
         problems.append("funil ausente ou invalido")
-    if format_name not in {"feed", "carousel"}:
+    if format_name != "carousel":
         problems.append("formato ausente ou invalido")
 
     numeric_fragments = _extract_numeric_fragments(source_post.intelligence)
-    combined_text = " ".join([hook, caption, cta])
+    combined_text = " ".join(
+        [hook, caption, cta] +
+        [slide["title"] for slide in slides] +
+        [slide["copy"] for slide in slides]
+    )
     if numeric_fragments and not any(fragment in combined_text for fragment in numeric_fragments):
         problems.append("os dados numericos do post-base sumiram")
 
-    return problems
+    quality_report = score_carousel_draft(
+        slides=slides,
+        caption=caption,
+        cta=cta,
+        funnel_stage=funnel_stage,
+        evidence_pack=evidence_pack,
+        target_slide_count=target_slide_count,
+        min_caption_words=140,
+        max_caption_words=320,
+    )
+    for issue in quality_report["issues"]:
+        if issue not in problems:
+            problems.append(issue)
+
+    return {
+        "normalized_result": normalized_result,
+        "problems": problems,
+        "quality_report": quality_report,
+    }
 
 
 def _parse_json_response(raw_content: str) -> dict[str, Any]:
@@ -250,7 +395,7 @@ def _request_generation(system_prompt: str, user_prompt: str) -> dict[str, Any]:
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt},
         ],
-        max_tokens=1100,
+        max_tokens=1500,
     )
     return _parse_json_response(response.choices[0].message.content or "")
 
@@ -276,6 +421,15 @@ def generate_post(
         )
         if top_args else "—"
     )
+    validated_data_catalog = _build_validated_data_catalog(source_post, top_args)
+    target_slide_count = estimate_target_slide_count(
+        intel.technical_depth,
+        getattr(intel, "carousel_complexity", {}).get("complexity_score"),
+        minimum=6,
+    )
+    slide_blueprint = build_slide_blueprint(target_slide_count)
+    quality_guardrails = _build_quality_guardrails()
+    evidence_pack = _build_evidence_pack(source_post, top_args, validated_data_catalog)
     vault_context = load_studio_context()
 
     system_prompt = _SYSTEM_PROMPT.format(
@@ -321,6 +475,9 @@ def generate_post(
         virality_score=virality,
         top_arguments=top_arg_texts,
         structural_patterns=_format_json(_load_structural_patterns(source_post, top_args[:3])),
+        validated_data_catalog=_format_json(validated_data_catalog),
+        slide_blueprint=_format_json(slide_blueprint),
+        quality_guardrails="\n".join(f"- {item}" for item in quality_guardrails),
     )
 
     try:
@@ -329,25 +486,42 @@ def generate_post(
         logger.error("GPT-4o returned invalid JSON for content generation: %s", exc)
         raise
 
-    problems = _validate_generation(result, source_post)
-    if problems:
-        logger.warning("Generated content for post %s failed validation: %s", source_post.id, "; ".join(problems))
+    evaluation = _evaluate_generation(result, source_post, evidence_pack, target_slide_count)
+    quality_report = evaluation["quality_report"]
+    problems = evaluation["problems"]
+    if problems or quality_report["score"] < 0.78:
+        logger.warning(
+            "Generated content for post %s failed quality gate: %s",
+            source_post.id,
+            "; ".join(problems) if problems else format_quality_feedback(quality_report),
+        )
         retry_prompt = (
             f"{user_prompt}\n\n"
-            f"O rascunho anterior falhou nestes pontos: {', '.join(problems)}.\n"
-            "Reescreva do zero, preservando os dados do post-base e aumentando a densidade do conteúdo."
+            f"RASCUNHO ANTERIOR:\n{_format_json(evaluation['normalized_result'])}\n\n"
+            f"DIAGNOSTICO DE QUALIDADE:\n{_format_json(quality_report)}\n\n"
+            f"LEITURA HUMANA DO DIAGNOSTICO:\n{format_quality_feedback(quality_report)}\n\n"
+            f"O rascunho anterior falhou nestes pontos: {', '.join(problems) if problems else 'score abaixo da meta'}.\n"
+            "Reescreva do zero, preservando apenas dados que estejam no catalogo validado, reforcando a prova tecnica e melhorando retencao slide a slide."
         )
         result = _request_generation(system_prompt, retry_prompt)
+        evaluation = _evaluate_generation(result, source_post, evidence_pack, target_slide_count)
+        if evaluation["problems"] or evaluation["quality_report"]["score"] < 0.78:
+            raise ValueError(
+                "Geracao de carrossel do studio nao passou no quality gate: "
+                + "; ".join(evaluation["problems"] or evaluation["quality_report"]["issues"])
+            )
 
+    normalized_result = evaluation["normalized_result"]
     generated = GeneratedPost(
         source_post_id=source_post.id,
-        hook=result.get("hook"),
-        caption=result.get("caption"),
-        cta=result.get("cta"),
+        hook=normalized_result.get("hook"),
+        caption=normalized_result.get("caption"),
+        cta=normalized_result.get("cta"),
         status="generated",
         created_at=datetime.now(timezone.utc),
-        funnel_stage=result.get("funnel_stage"),
-        format=result.get("format"),
+        funnel_stage=normalized_result.get("funnel_stage"),
+        format=normalized_result.get("format"),
+        slides=normalized_result.get("slides") or [],
     )
     session.add(generated)
     session.commit()
