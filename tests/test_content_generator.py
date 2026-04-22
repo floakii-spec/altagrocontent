@@ -163,6 +163,59 @@ def test_generate_post_retries_when_initial_draft_is_weak(session_with_generatio
     assert generated.hook == strong["slides"][1]["title"]
 
 
+def test_generate_post_repairs_caption_when_only_remaining_issue_is_length(session_with_generation_context):
+    session, post, voice = session_with_generation_context
+    weak = {
+        "hook": "Olha isso.",
+        "caption": "Texto curto demais sem dado nenhum.",
+        "cta": "Comenta ai",
+        "funnel_stage": "meio",
+        "format": "feed",
+    }
+    short_caption = (
+        "Tem produtor comemorando produtividade enquanto a margem escorre pelo comercial.\n\n"
+        "Quando a diferenca de margem chega a 12%, a decisao comercial muda o caixa da safra.\n\n"
+        "E quando essa variacao bate R$ 18/sc no levantamento interno, fica claro que vender melhor protege a rentabilidade.\n\n"
+        "Se voce trabalha com vendas no agro, precisa olhar margem com mais criterio."
+    )
+    almost_strong = {
+        "slides": [
+            {"slide_number": 1, "slide_type": "CAPA", "title": "Sua soja pode render bem e mesmo assim sobrar pouca margem", "copy": "Alta produtividade nao compensa decisao comercial ruim.", "cta": ""},
+            {"slide_number": 2, "slide_type": "HOOK", "title": "Quando a margem muda 12%, muda o caixa inteiro da safra", "copy": "Esse nao e um detalhe financeiro. E uma decisao comercial que altera o resultado final.", "cta": ""},
+            {"slide_number": 3, "slide_type": "DESENVOLVIMENTO", "title": "R$ 18/sc nao somem por acaso", "copy": "Na pratica, essa variacao aparece quando custo, preco e momento de venda sao lidos de forma isolada.", "cta": ""},
+            {"slide_number": 4, "slide_type": "PROVA", "title": "O levantamento interno mostra onde a margem se perde", "copy": "Quando a conta fecha R$ 18/sc abaixo, o erro quase sempre esteve na leitura comercial e nao na lavoura.", "cta": ""},
+            {"slide_number": 5, "slide_type": "CTA", "title": "Aprenda a defender margem com metodo", "copy": "Quem trabalha com vendas no agro precisa traduzir dado em decisao.", "cta": "Entre na Confraria e aprenda a defender margem no agro."},
+        ],
+        "caption": short_caption,
+        "cta": "Entre na Confraria e aprenda a defender margem no agro.",
+        "funnel_stage": "fundo",
+        "format": "carousel",
+    }
+    repaired_caption = (
+        "Tem produtor comemorando produtividade enquanto a margem escorre pelo comercial, e esse erro continua acontecendo porque muita gente ainda trata venda como etapa final, nao como parte da estrategia da safra.\n\n"
+        "Quando a diferenca de margem chega a 12%, nao estamos falando de ajuste fino. Estamos falando de uma decisao comercial que muda o caixa, a pressao sobre o custo e a capacidade de defender resultado em um mercado apertado.\n\n"
+        "Se essa variacao bate R$ 18/sc no resultado liquido, como apareceu no levantamento interno, o agronomo e o vendedor precisam olhar para risco, timing e argumento tecnico com muito mais criterio.\n\n"
+        "No campo, produtividade alta sem estrategia comercial vira numero bonito com rentabilidade fraca. E quem atende produtor precisa traduzir esse dado em decisao, nao em discurso generico.\n\n"
+        "Se voce quer aprender a defender margem com metodo, entra na Confraria e aprofunda essa leitura comercial do agro."
+    )
+
+    with patch("src.generator.content_generator.load_studio_context", return_value={}), patch(
+        "src.generator.content_generator.openai_client.chat.completions.create",
+        side_effect=[
+            _mock_response(weak),
+            _mock_response(almost_strong),
+            _mock_response({"caption": repaired_caption}),
+        ],
+    ) as mock_create:
+        generated = generate_post(post, voice, approved_examples=[], session=session)
+
+    assert mock_create.call_count == 3
+    assert generated.caption == repaired_caption
+    assert len(generated.caption.split()) >= 140
+    assert generated.format == "carousel"
+    assert "Corrija somente a legenda" in mock_create.call_args_list[-1].kwargs["messages"][1]["content"]
+
+
 def test_generate_post_prioritizes_arguments_from_same_topic(session_with_generation_context):
     session, post, voice = session_with_generation_context
     good = {

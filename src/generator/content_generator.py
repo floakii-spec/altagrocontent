@@ -137,6 +137,12 @@ Adapte a estrutura e os dados acima para a voz e realidade do autor.
 Saída obrigatória: texto denso, específico e útil. Não resuma demais e não apague os dados do material-base.
 Se um dado não estiver no catálogo validado, não use."""
 
+_CAPTION_ISSUE_PREFIXES = (
+    "faltou legenda",
+    "legenda curta demais",
+    "legenda fora da faixa ideal",
+)
+
 
 def _build_approved_section(approved: List[GeneratedPost]) -> str:
     if not approved:
@@ -378,6 +384,29 @@ def _evaluate_generation(
     }
 
 
+def _is_caption_issue(issue: str) -> bool:
+    normalized = str(issue or "").strip().lower()
+    return any(normalized.startswith(prefix) for prefix in _CAPTION_ISSUE_PREFIXES)
+
+
+def _should_attempt_caption_repair(evaluation: dict[str, Any]) -> bool:
+    normalized_result = evaluation["normalized_result"]
+    if not normalized_result.get("slides") or normalized_result.get("format") != "carousel":
+        return False
+
+    combined_issues = list(
+        dict.fromkeys(
+            [
+                *(evaluation.get("problems") or []),
+                *(((evaluation.get("quality_report") or {}).get("issues")) or []),
+            ]
+        )
+    )
+    if not combined_issues:
+        return False
+    return all(_is_caption_issue(issue) for issue in combined_issues)
+
+
 def _parse_json_response(raw_content: str) -> dict[str, Any]:
     content = (raw_content or "").strip()
     if content.startswith("```"):
@@ -388,16 +417,48 @@ def _parse_json_response(raw_content: str) -> dict[str, Any]:
     return json.loads(content)
 
 
-def _request_generation(system_prompt: str, user_prompt: str) -> dict[str, Any]:
+def _request_generation(system_prompt: str, user_prompt: str, *, max_tokens: int = 1500) -> dict[str, Any]:
     response = openai_client.chat.completions.create(
         model="gpt-4o",
         messages=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt},
         ],
-        max_tokens=1500,
+        max_tokens=max_tokens,
     )
     return _parse_json_response(response.choices[0].message.content or "")
+
+
+def _repair_caption(
+    system_prompt: str,
+    base_user_prompt: str,
+    evaluation: dict[str, Any],
+    validated_data_catalog: dict[str, Any],
+) -> dict[str, Any]:
+    normalized_result = evaluation["normalized_result"]
+    quality_report = evaluation["quality_report"]
+    repair_prompt = (
+        f"{base_user_prompt}\n\n"
+        "O carrossel abaixo ja esta estruturalmente aprovado. Nao mexa nos slides, no hook, no CTA, no funil nem no formato.\n"
+        "Corrija somente a legenda.\n\n"
+        f"RASCUNHO ATUAL:\n{_format_json(normalized_result)}\n\n"
+        f"DIAGNOSTICO DE QUALIDADE:\n{_format_json(quality_report)}\n\n"
+        f"LEITURA HUMANA DO DIAGNOSTICO:\n{format_quality_feedback(quality_report)}\n\n"
+        f"CATALOGO DE DADOS VALIDADOS:\n{_format_json(validated_data_catalog)}\n\n"
+        "REESCREVA SOMENTE O CAMPO `caption` obedecendo exatamente estas regras:\n"
+        "- entre 150 e 240 palavras\n"
+        "- 4 a 6 paragrafos curtos com quebras de linha\n"
+        "- reaproveite os mesmos dados validados e a mesma linha tecnica do rascunho\n"
+        "- deixe explicita a implicacao pratica para quem vende no agro\n"
+        "- mantenha coerencia com o CTA ja existente\n"
+        "- sem hashtags\n\n"
+        'Retorne APENAS JSON no formato {"caption": "<nova legenda>"}'
+    )
+    repaired = _request_generation(system_prompt, repair_prompt, max_tokens=900)
+    return {
+        **normalized_result,
+        "caption": (repaired.get("caption") or "").strip(),
+    }
 
 
 def generate_post(
@@ -505,6 +566,16 @@ def generate_post(
         )
         result = _request_generation(system_prompt, retry_prompt)
         evaluation = _evaluate_generation(result, source_post, evidence_pack, target_slide_count)
+        if evaluation["problems"] or evaluation["quality_report"]["score"] < 0.78:
+            if _should_attempt_caption_repair(evaluation):
+                logger.warning(
+                    "Generated content for post %s needs caption repair after retry: %s",
+                    source_post.id,
+                    "; ".join(evaluation["problems"] or evaluation["quality_report"]["issues"]),
+                )
+                repaired_result = _repair_caption(system_prompt, user_prompt, evaluation, validated_data_catalog)
+                evaluation = _evaluate_generation(repaired_result, source_post, evidence_pack, target_slide_count)
+
         if evaluation["problems"] or evaluation["quality_report"]["score"] < 0.78:
             raise ValueError(
                 "Geracao de carrossel do studio nao passou no quality gate: "
