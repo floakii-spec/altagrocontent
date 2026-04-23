@@ -2,21 +2,49 @@ from typing import Any, Optional
 
 
 _SLIDE_TYPE_ALIASES = {
+    # Fixed anchor types
     "CAPA": "CAPA",
     "COVER": "CAPA",
     "ABERTURA": "CAPA",
     "HOOK": "HOOK",
     "GANCHO": "HOOK",
-    "PROVA": "PROVA",
-    "PROOF": "PROVA",
-    "EXEMPLO": "PROVA",
-    "DESENVOLVIMENTO": "DESENVOLVIMENTO",
-    "CONTEUDO": "DESENVOLVIMENTO",
-    "CONTENT": "DESENVOLVIMENTO",
-    "EXPLICACAO": "DESENVOLVIMENTO",
     "CTA": "CTA",
     "FECHAMENTO": "CTA",
     "ENCERRAMENTO": "CTA",
+    # Narrative middle types — preserved as-is
+    "MODELO": "MODELO",
+    "ESCALADA": "ESCALADA",
+    "DADO": "DADO",
+    "DADOS": "DADO",
+    "DADOS_HISTORICOS": "DADOS_HISTORICOS",
+    "CURVA": "DADOS_HISTORICOS",
+    "MECANISMO": "MECANISMO",
+    "REVELACAO": "REVELACAO",
+    "REVELAÇÃO": "REVELACAO",
+    "CASO_HUMANO": "CASO_HUMANO",
+    "CASO": "CASO_HUMANO",
+    "CONSEQUENCIA": "CONSEQUENCIA",
+    "CONSEQUÊNCIA": "CONSEQUENCIA",
+    "RESPIRO": "RESPIRO",
+    "HUMOR": "RESPIRO",
+    "POLITICA": "POLITICA",
+    "POLÍTICA": "POLITICA",
+    "SINTESE": "SINTESE",
+    "SÍNTESE": "SINTESE",
+    # Legacy types — mapped to closest narrative equivalent
+    "PROVA": "DADO",
+    "PROOF": "DADO",
+    "EXEMPLO": "DADO",
+    "DESENVOLVIMENTO": "MECANISMO",
+    "CONTEUDO": "MECANISMO",
+    "CONTENT": "MECANISMO",
+    "EXPLICACAO": "MECANISMO",
+}
+
+_MIDDLE_TYPES = {
+    "MODELO", "ESCALADA", "DADO", "DADOS_HISTORICOS", "MECANISMO",
+    "REVELACAO", "CASO_HUMANO", "CONSEQUENCIA", "RESPIRO", "POLITICA",
+    "SINTESE", "DESENVOLVIMENTO",
 }
 
 
@@ -35,15 +63,14 @@ def normalize_slide_type(raw_type: Any, index: int, total: int) -> str:
     normalized = _as_text(raw_type).upper()
     if normalized in _SLIDE_TYPE_ALIASES:
         return _SLIDE_TYPE_ALIASES[normalized]
+    # Position-based fallbacks only for anchor slots
     if index == 0:
         return "CAPA"
     if index == 1:
         return "HOOK"
-    if total > 3 and index == total - 2:
-        return "PROVA"
     if total > 0 and index == total - 1:
         return "CTA"
-    return "DESENVOLVIMENTO"
+    return "MECANISMO"
 
 
 def normalize_carousel_slides(slides: Any) -> list[dict[str, Any]]:

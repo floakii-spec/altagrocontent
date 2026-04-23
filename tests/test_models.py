@@ -164,6 +164,18 @@ def test_generated_post_strategy_fields(session):
             {"slide_number": 2, "slide_type": "HOOK", "title": "Hook", "copy": "Texto", "cta": ""},
             {"slide_number": 3, "slide_type": "CTA", "title": "CTA", "copy": "Texto", "cta": "Entre na Confraria."},
         ],
+        planning_narrative={
+            "tensao_central": "A produtividade nao garante margem.",
+            "angulo_de_adaptacao": "Traduzir dado em decisao comercial no agro.",
+            "camadas": [
+                {"numero": 1, "tipo_slide": "CAPA"},
+                {"numero": 2, "tipo_slide": "HOOK"},
+                {"numero": 3, "tipo_slide": "CTA"},
+            ],
+            "total_slides": 3,
+            "provas_que_nao_podem_sumir": ["12%", "R$ 18/sc"],
+            "onde_termina": "Quando o leitor entende a decisao pratica.",
+        },
         hook_variations={
             "provocacao": "80% dos agrônomos erram nisso.",
             "dado": "Pesquisa aponta: produtores que usam esse método ganham 30% mais.",
@@ -175,6 +187,7 @@ def test_generated_post_strategy_fields(session):
     session.commit()
     assert gp.funnel_stage == "topo"
     assert gp.slides[0]["slide_type"] == "CAPA"
+    assert gp.planning_narrative["tensao_central"] == "A produtividade nao garante margem."
     assert gp.hook_variations["provocacao"].startswith("80%")
 
 

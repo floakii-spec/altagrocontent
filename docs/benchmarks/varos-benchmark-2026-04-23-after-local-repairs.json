@@ -1,0 +1,186 @@
+{
+  "ran_at": "2026-04-23T20:47:45.856544+00:00",
+  "handle": "leandro.varos",
+  "limit": 5,
+  "keep_generated": false,
+  "summary": {
+    "generated": 4,
+    "failed": 1,
+    "strict_passes": 2,
+    "best_effort_only": 2,
+    "adjusted_strict_passes": 2,
+    "planning_storage_gaps": 0,
+    "avg_score": 1.0,
+    "min_score": 1.0,
+    "max_score": 1.0,
+    "avg_slides": 7,
+    "avg_caption_words": 167,
+    "avg_elapsed_seconds": 80.03,
+    "top_remaining_issues": [
+      [
+        "cta pouco alinhado ao funil meio",
+        1
+      ],
+      [
+        "planejamento_narrativo sem CTA como ultimo slide",
+        1
+      ]
+    ],
+    "top_adjusted_issues": [
+      [
+        "cta pouco alinhado ao funil meio",
+        1
+      ],
+      [
+        "planejamento_narrativo sem CTA como ultimo slide",
+        1
+      ]
+    ]
+  },
+  "results": [
+    {
+      "post_id": 178,
+      "handle": "leandro.varos",
+      "published_at": "2026-04-23T13:53:33+00:00",
+      "virality_score": 1.0,
+      "generated_post_id": 18,
+      "hook": "O Paradoxo da Grande Colheita",
+      "slide_count": 6,
+      "caption_words": 175,
+      "score": 1.0,
+      "strict_pass": true,
+      "issues": [],
+      "adjusted_issues": [],
+      "planning_persisted": true,
+      "strengths": [
+        "profundidade de argumento adequada",
+        "argumento desenvolvido até a profundidade esperada",
+        "arco narrativo ancorado (CAPA → HOOK → ... → CTA)",
+        "arco narrativo com variação de tipos de slide",
+        "hook com sinal claro de engajamento",
+        "miolo com densidade adequada",
+        "desenvolvimento traduz impacto pratico",
+        "legenda densa na medida certa",
+        "cta coerente com o funil",
+        "dados numericos validados reaproveitados",
+        "argumento ancorado em evidencia concreta",
+        "cadeia causal do material-base preservada"
+      ],
+      "quality_feedback": "score calculado: 100%\nforcas: profundidade de argumento adequada; argumento desenvolvido até a profundidade esperada; arco narrativo ancorado (CAPA → HOOK → ... → CTA); arco narrativo com variação de tipos de slide\nmetricas: slides=6, tipos_distintos=3, hits_numericos=3, hits_fontes=0, hits_prova=3, hits_claims=2, hits_causais=1",
+      "elapsed_seconds": 70.75,
+      "adjusted_strict_pass": true
+    },
+    {
+      "post_id": 174,
+      "handle": "leandro.varos",
+      "published_at": "2026-04-22T17:16:09+00:00",
+      "virality_score": 1.0,
+      "generated_post_id": 19,
+      "hook": "Práticas obscuras no agro",
+      "slide_count": 6,
+      "caption_words": 167,
+      "score": 1.0,
+      "strict_pass": true,
+      "issues": [],
+      "adjusted_issues": [],
+      "planning_persisted": true,
+      "strengths": [
+        "profundidade de argumento adequada",
+        "argumento desenvolvido até a profundidade esperada",
+        "arco narrativo ancorado (CAPA → HOOK → ... → CTA)",
+        "arco narrativo com variação de tipos de slide",
+        "hook com sinal claro de engajamento",
+        "miolo com densidade adequada",
+        "desenvolvimento traduz impacto pratico",
+        "tensao criativa agro presente",
+        "legenda densa na medida certa",
+        "cta coerente com o funil",
+        "argumento ancorado em evidencia concreta",
+        "fonte ou origem da evidencia apareceu",
+        "cadeia causal do material-base preservada"
+      ],
+      "quality_feedback": "score calculado: 100%\nforcas: profundidade de argumento adequada; argumento desenvolvido até a profundidade esperada; arco narrativo ancorado (CAPA → HOOK → ... → CTA); arco narrativo com variação de tipos de slide\nmetricas: slides=6, tipos_distintos=3, hits_numericos=0, hits_fontes=1, hits_prova=1, hits_claims=4, hits_causais=1",
+      "elapsed_seconds": 15.99,
+      "adjusted_strict_pass": true
+    },
+    {
+      "post_id": 156,
+      "handle": "leandro.varos",
+      "published_at": "2026-04-20T23:32:46+00:00",
+      "virality_score": 1.0,
+      "generated_post_id": 20,
+      "hook": "Por que só o Agro?",
+      "slide_count": 8,
+      "caption_words": 155,
+      "score": 1.0,
+      "strict_pass": false,
+      "issues": [
+        "cta pouco alinhado ao funil meio"
+      ],
+      "adjusted_issues": [
+        "cta pouco alinhado ao funil meio"
+      ],
+      "planning_persisted": true,
+      "strengths": [
+        "profundidade de argumento adequada",
+        "argumento desenvolvido até a profundidade esperada",
+        "arco narrativo ancorado (CAPA → HOOK → ... → CTA)",
+        "arco narrativo com variação de tipos de slide",
+        "hook com sinal claro de engajamento",
+        "miolo com densidade adequada",
+        "desenvolvimento traduz impacto pratico",
+        "tensao criativa agro presente",
+        "legenda densa na medida certa",
+        "dados numericos validados reaproveitados",
+        "argumento ancorado em evidencia concreta",
+        "cadeia causal do material-base preservada"
+      ],
+      "quality_feedback": "score calculado: 100%\nforcas: profundidade de argumento adequada; argumento desenvolvido até a profundidade esperada; arco narrativo ancorado (CAPA → HOOK → ... → CTA); arco narrativo com variação de tipos de slide\najustes obrigatorios: cta pouco alinhado ao funil meio\nmetricas: slides=8, tipos_distintos=5, hits_numericos=5, hits_fontes=0, hits_prova=2, hits_claims=3, hits_causais=1",
+      "elapsed_seconds": 110.86,
+      "adjusted_strict_pass": false
+    },
+    {
+      "post_id": 155,
+      "handle": "leandro.varos",
+      "published_at": "2026-04-20T16:23:31+00:00",
+      "virality_score": 1.0,
+      "generated_post_id": 21,
+      "hook": "Energia: O Invisível Custo de Produção",
+      "slide_count": 8,
+      "caption_words": 171,
+      "score": 1.0,
+      "strict_pass": false,
+      "issues": [
+        "planejamento_narrativo sem CTA como ultimo slide"
+      ],
+      "adjusted_issues": [
+        "planejamento_narrativo sem CTA como ultimo slide"
+      ],
+      "planning_persisted": true,
+      "strengths": [
+        "profundidade de argumento adequada",
+        "argumento desenvolvido até a profundidade esperada",
+        "arco narrativo ancorado (CAPA → HOOK → ... → CTA)",
+        "arco narrativo com variação de tipos de slide",
+        "hook com sinal claro de engajamento",
+        "miolo com densidade adequada",
+        "desenvolvimento traduz impacto pratico",
+        "tensao criativa agro presente",
+        "legenda densa na medida certa",
+        "cta coerente com o funil",
+        "dados numericos validados reaproveitados",
+        "argumento ancorado em evidencia concreta",
+        "cadeia causal do material-base preservada"
+      ],
+      "quality_feedback": "score calculado: 100%\nforcas: profundidade de argumento adequada; argumento desenvolvido até a profundidade esperada; arco narrativo ancorado (CAPA → HOOK → ... → CTA); arco narrativo com variação de tipos de slide\nmetricas: slides=8, tipos_distintos=5, hits_numericos=1, hits_fontes=0, hits_prova=1, hits_claims=8, hits_causais=3",
+      "elapsed_seconds": 122.5,
+      "adjusted_strict_pass": false
+    }
+  ],
+  "failures": [
+    {
+      "post_id": 106,
+      "error": "Geracao de carrossel do studio nao passou no quality gate apos refinamento: o texto perdeu a cadeia causal do material-base e virou abstracao generica"
+    }
+  ]
+}

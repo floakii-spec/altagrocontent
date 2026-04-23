@@ -49,10 +49,32 @@ MOCK_SLIDES = [
 ]
 
 
+def _with_planning_narrative(slides):
+    return {
+        "planejamento_narrativo": {
+            "tensao_central": "O produtor pode perder resultado por reagir tarde demais no manejo.",
+            "angulo_especifico": "Produtividade depende de decisao feita antes do problema aparecer.",
+            "camadas": [
+                {
+                    "numero": index,
+                    "tipo_slide": slide["slide_type"],
+                    "funcao_narrativa": slide["title"],
+                    "pergunta_que_abre": slides[index]["title"] if index < len(slides) else "Qual a acao pratica?",
+                    "emocao_alvo": ["espanto", "admiracao", "analise", "revelacao", "sintese"][min(index - 1, 4)],
+                }
+                for index, slide in enumerate(slides, start=1)
+            ],
+            "total_slides": len(slides),
+            "onde_termina": "Quando o leitor entende o erro, a prova e a acao final.",
+        },
+        "slides": slides,
+    }
+
+
 def test_generate_carousel_returns_slides(session_with_context):
     session, profile, voice, report = session_with_context
     mock_choice = MagicMock()
-    mock_choice.message.content = json.dumps(MOCK_SLIDES)
+    mock_choice.message.content = json.dumps(_with_planning_narrative(MOCK_SLIDES))
     mock_response = MagicMock()
     mock_response.choices = [mock_choice]
 
@@ -69,7 +91,7 @@ def test_generate_carousel_returns_slides(session_with_context):
     assert len(carousel.slides) == 5
     assert carousel.slides[0]["title"] == "Você sabia?"
     assert carousel.slides[0]["slide_type"] == "CAPA"
-    assert carousel.slides[-2]["slide_type"] == "PROVA"
+    assert carousel.slides[-2]["slide_type"] == "DADO"
     assert carousel.slides[-1]["cta"] == "Salve este post!"
     saved = session.query(Carousel).first()
     assert saved is not None
@@ -86,7 +108,7 @@ def test_generate_carousel_retries_when_initial_draft_is_weak(session_with_conte
     mock_response_weak = MagicMock()
     mock_response_weak.choices = [MagicMock(message=MagicMock(content=json.dumps(weak_slides)))]
     mock_response_strong = MagicMock()
-    mock_response_strong.choices = [MagicMock(message=MagicMock(content=json.dumps(MOCK_SLIDES)))]
+    mock_response_strong.choices = [MagicMock(message=MagicMock(content=json.dumps(_with_planning_narrative(MOCK_SLIDES))))]
 
     with patch("src.carousel.generator.openai_client") as mock_client:
         mock_client.chat.completions.create.side_effect = [mock_response_weak, mock_response_strong]
@@ -96,7 +118,7 @@ def test_generate_carousel_retries_when_initial_draft_is_weak(session_with_conte
         )
 
     assert mock_client.chat.completions.create.call_count == 2
-    assert carousel.slides[-2]["slide_type"] == "PROVA"
+    assert carousel.slides[-2]["slide_type"] == "DADO"
 
 
 def test_theme_catalog_includes_visual_transcript(session_with_context):

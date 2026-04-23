@@ -92,6 +92,7 @@ class GeneratedPost(Base):
     funnel_stage: Mapped[Optional[str]] = mapped_column(String(20))
     format: Mapped[Optional[str]] = mapped_column(String(20))
     slides: Mapped[list] = mapped_column(JSON, default=list)
+    planning_narrative: Mapped[dict] = mapped_column(JSON, default=dict)
     hook_variations: Mapped[dict] = mapped_column(JSON, default=dict)
     news_item_ids: Mapped[list] = mapped_column(JSON, default=list)
 

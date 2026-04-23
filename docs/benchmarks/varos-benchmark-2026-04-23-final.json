@@ -1,0 +1,200 @@
+{
+  "ran_at": "2026-04-23T20:56:52.196177+00:00",
+  "handle": "leandro.varos",
+  "limit": 5,
+  "keep_generated": false,
+  "summary": {
+    "generated": 5,
+    "failed": 0,
+    "strict_passes": 4,
+    "best_effort_only": 1,
+    "adjusted_strict_passes": 4,
+    "planning_storage_gaps": 0,
+    "avg_score": 1.0,
+    "min_score": 1.0,
+    "max_score": 1.0,
+    "avg_slides": 6.8,
+    "avg_caption_words": 161.4,
+    "avg_elapsed_seconds": 31.5,
+    "top_remaining_issues": [
+      [
+        "faltou traduzir o dado em implicacao pratica em parte do miolo",
+        1
+      ]
+    ],
+    "top_adjusted_issues": [
+      [
+        "faltou traduzir o dado em implicacao pratica em parte do miolo",
+        1
+      ]
+    ]
+  },
+  "results": [
+    {
+      "post_id": 178,
+      "handle": "leandro.varos",
+      "published_at": "2026-04-23T13:53:33+00:00",
+      "virality_score": 1.0,
+      "generated_post_id": 28,
+      "hook": "O perigo do foco unilateral",
+      "slide_count": 6,
+      "caption_words": 158,
+      "score": 1.0,
+      "strict_pass": true,
+      "issues": [],
+      "adjusted_issues": [],
+      "planning_persisted": true,
+      "strengths": [
+        "profundidade de argumento adequada",
+        "argumento desenvolvido até a profundidade esperada",
+        "arco narrativo ancorado (CAPA → HOOK → ... → CTA)",
+        "arco narrativo com variação de tipos de slide",
+        "hook com sinal claro de engajamento",
+        "miolo com densidade adequada",
+        "desenvolvimento traduz impacto pratico",
+        "tensao criativa agro presente",
+        "legenda densa na medida certa",
+        "cta coerente com o funil",
+        "dados numericos validados reaproveitados",
+        "argumento ancorado em evidencia concreta",
+        "cadeia causal do material-base preservada"
+      ],
+      "quality_feedback": "score calculado: 100%\nforcas: profundidade de argumento adequada; argumento desenvolvido até a profundidade esperada; arco narrativo ancorado (CAPA → HOOK → ... → CTA); arco narrativo com variação de tipos de slide\nmetricas: slides=6, tipos_distintos=3, hits_numericos=3, hits_fontes=0, hits_prova=3, hits_claims=3, hits_causais=3",
+      "elapsed_seconds": 12.61,
+      "adjusted_strict_pass": true
+    },
+    {
+      "post_id": 174,
+      "handle": "leandro.varos",
+      "published_at": "2026-04-22T17:16:09+00:00",
+      "virality_score": 1.0,
+      "generated_post_id": 29,
+      "hook": "Seu caixa também está em risco?",
+      "slide_count": 6,
+      "caption_words": 160,
+      "score": 1.0,
+      "strict_pass": true,
+      "issues": [],
+      "adjusted_issues": [],
+      "planning_persisted": true,
+      "strengths": [
+        "profundidade de argumento adequada",
+        "argumento desenvolvido até a profundidade esperada",
+        "arco narrativo ancorado (CAPA → HOOK → ... → CTA)",
+        "arco narrativo com variação de tipos de slide",
+        "hook com sinal claro de engajamento",
+        "miolo com densidade adequada",
+        "desenvolvimento traduz impacto pratico",
+        "tensao criativa agro presente",
+        "legenda densa na medida certa",
+        "cta coerente com o funil",
+        "argumento ancorado em evidencia concreta",
+        "fonte ou origem da evidencia apareceu",
+        "cadeia causal do material-base preservada"
+      ],
+      "quality_feedback": "score calculado: 100%\nforcas: profundidade de argumento adequada; argumento desenvolvido até a profundidade esperada; arco narrativo ancorado (CAPA → HOOK → ... → CTA); arco narrativo com variação de tipos de slide\nmetricas: slides=6, tipos_distintos=3, hits_numericos=0, hits_fontes=1, hits_prova=1, hits_claims=4, hits_causais=1",
+      "elapsed_seconds": 22.24,
+      "adjusted_strict_pass": true
+    },
+    {
+      "post_id": 156,
+      "handle": "leandro.varos",
+      "published_at": "2026-04-20T23:32:46+00:00",
+      "virality_score": 1.0,
+      "generated_post_id": 30,
+      "hook": "O Agro é o Pilar",
+      "slide_count": 8,
+      "caption_words": 157,
+      "score": 1.0,
+      "strict_pass": false,
+      "issues": [
+        "faltou traduzir o dado em implicacao pratica em parte do miolo"
+      ],
+      "adjusted_issues": [
+        "faltou traduzir o dado em implicacao pratica em parte do miolo"
+      ],
+      "planning_persisted": true,
+      "strengths": [
+        "profundidade de argumento adequada",
+        "argumento desenvolvido até a profundidade esperada",
+        "arco narrativo ancorado (CAPA → HOOK → ... → CTA)",
+        "arco narrativo com variação de tipos de slide",
+        "hook com sinal claro de engajamento",
+        "miolo com densidade adequada",
+        "legenda densa na medida certa",
+        "cta coerente com o funil",
+        "dados numericos validados reaproveitados",
+        "argumento ancorado em evidencia concreta",
+        "cadeia causal do material-base preservada"
+      ],
+      "quality_feedback": "score calculado: 100%\nforcas: profundidade de argumento adequada; argumento desenvolvido até a profundidade esperada; arco narrativo ancorado (CAPA → HOOK → ... → CTA); arco narrativo com variação de tipos de slide\najustes obrigatorios: faltou traduzir o dado em implicacao pratica em parte do miolo\nmetricas: slides=8, tipos_distintos=5, hits_numericos=6, hits_fontes=0, hits_prova=2, hits_claims=5, hits_causais=2",
+      "elapsed_seconds": 75.56,
+      "adjusted_strict_pass": false
+    },
+    {
+      "post_id": 155,
+      "handle": "leandro.varos",
+      "published_at": "2026-04-20T16:23:31+00:00",
+      "virality_score": 1.0,
+      "generated_post_id": 31,
+      "hook": "Energia em alta, custo agrícola em risco",
+      "slide_count": 8,
+      "caption_words": 168,
+      "score": 1.0,
+      "strict_pass": true,
+      "issues": [],
+      "adjusted_issues": [],
+      "planning_persisted": true,
+      "strengths": [
+        "profundidade de argumento adequada",
+        "argumento desenvolvido até a profundidade esperada",
+        "arco narrativo ancorado (CAPA → HOOK → ... → CTA)",
+        "arco narrativo com variação de tipos de slide",
+        "hook com sinal claro de engajamento",
+        "miolo com densidade adequada",
+        "desenvolvimento traduz impacto pratico",
+        "tensao criativa agro presente",
+        "legenda densa na medida certa",
+        "cta coerente com o funil",
+        "dados numericos validados reaproveitados",
+        "argumento ancorado em evidencia concreta",
+        "cadeia causal do material-base preservada"
+      ],
+      "quality_feedback": "score calculado: 100%\nforcas: profundidade de argumento adequada; argumento desenvolvido até a profundidade esperada; arco narrativo ancorado (CAPA → HOOK → ... → CTA); arco narrativo com variação de tipos de slide\nmetricas: slides=8, tipos_distintos=5, hits_numericos=1, hits_fontes=0, hits_prova=1, hits_claims=8, hits_causais=2",
+      "elapsed_seconds": 27.08,
+      "adjusted_strict_pass": true
+    },
+    {
+      "post_id": 106,
+      "handle": "leandro.varos",
+      "published_at": "2026-04-17T19:42:26+00:00",
+      "virality_score": 1.0,
+      "generated_post_id": 32,
+      "hook": "O Impacto Real no Agro",
+      "slide_count": 6,
+      "caption_words": 164,
+      "score": 1.0,
+      "strict_pass": true,
+      "issues": [],
+      "adjusted_issues": [],
+      "planning_persisted": true,
+      "strengths": [
+        "profundidade de argumento adequada",
+        "argumento desenvolvido até a profundidade esperada",
+        "arco narrativo ancorado (CAPA → HOOK → ... → CTA)",
+        "arco narrativo com variação de tipos de slide",
+        "hook com sinal claro de engajamento",
+        "miolo com densidade adequada",
+        "desenvolvimento traduz impacto pratico",
+        "legenda densa na medida certa",
+        "cta coerente com o funil",
+        "argumento detalhado mesmo sem catalogo rico",
+        "cadeia causal do material-base preservada"
+      ],
+      "quality_feedback": "score calculado: 100%\nforcas: profundidade de argumento adequada; argumento desenvolvido até a profundidade esperada; arco narrativo ancorado (CAPA → HOOK → ... → CTA); arco narrativo com variação de tipos de slide\nmetricas: slides=6, tipos_distintos=3, hits_numericos=0, hits_fontes=0, hits_prova=0, hits_claims=5, hits_causais=1",
+      "elapsed_seconds": 20.01,
+      "adjusted_strict_pass": true
+    }
+  ],
+  "failures": []
+}

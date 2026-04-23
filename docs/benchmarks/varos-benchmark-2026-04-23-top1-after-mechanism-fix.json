@@ -1,0 +1,58 @@
+{
+  "ran_at": "2026-04-23T20:53:56.940737+00:00",
+  "handle": "leandro.varos",
+  "limit": 1,
+  "keep_generated": false,
+  "summary": {
+    "generated": 1,
+    "failed": 0,
+    "strict_passes": 1,
+    "best_effort_only": 0,
+    "adjusted_strict_passes": 1,
+    "planning_storage_gaps": 0,
+    "avg_score": 1.0,
+    "min_score": 1.0,
+    "max_score": 1.0,
+    "avg_slides": 6,
+    "avg_caption_words": 167,
+    "avg_elapsed_seconds": 14.64,
+    "top_remaining_issues": [],
+    "top_adjusted_issues": []
+  },
+  "results": [
+    {
+      "post_id": 178,
+      "handle": "leandro.varos",
+      "published_at": "2026-04-23T13:53:33+00:00",
+      "virality_score": 1.0,
+      "generated_post_id": 27,
+      "hook": "Colheita Recorde, Lucro Zero",
+      "slide_count": 6,
+      "caption_words": 167,
+      "score": 1.0,
+      "strict_pass": true,
+      "issues": [],
+      "adjusted_issues": [],
+      "planning_persisted": true,
+      "strengths": [
+        "profundidade de argumento adequada",
+        "argumento desenvolvido até a profundidade esperada",
+        "arco narrativo ancorado (CAPA → HOOK → ... → CTA)",
+        "arco narrativo com variação de tipos de slide",
+        "hook com sinal claro de engajamento",
+        "miolo com densidade adequada",
+        "desenvolvimento traduz impacto pratico",
+        "tensao criativa agro presente",
+        "legenda densa na medida certa",
+        "cta coerente com o funil",
+        "dados numericos validados reaproveitados",
+        "argumento ancorado em evidencia concreta",
+        "cadeia causal do material-base preservada"
+      ],
+      "quality_feedback": "score calculado: 100%\nforcas: profundidade de argumento adequada; argumento desenvolvido até a profundidade esperada; arco narrativo ancorado (CAPA → HOOK → ... → CTA); arco narrativo com variação de tipos de slide\nmetricas: slides=6, tipos_distintos=3, hits_numericos=3, hits_fontes=0, hits_prova=3, hits_claims=3, hits_causais=1",
+      "elapsed_seconds": 14.64,
+      "adjusted_strict_pass": true
+    }
+  ],
+  "failures": []
+}

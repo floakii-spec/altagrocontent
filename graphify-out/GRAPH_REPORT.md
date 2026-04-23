@@ -1,12 +1,12 @@
 # Graph Report - .  (2026-04-23)
 
 ## Corpus Check
-- 104 files · ~340,481 words
+- 107 files · ~347,663 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 561 nodes · 1129 edges · 68 communities detected
-- Extraction: 64% EXTRACTED · 36% INFERRED · 0% AMBIGUOUS · INFERRED: 410 edges (avg confidence: 0.72)
+- 613 nodes · 1299 edges · 68 communities detected
+- Extraction: 63% EXTRACTED · 37% INFERRED · 0% AMBIGUOUS · INFERRED: 477 edges (avg confidence: 0.7)
 - Token cost: 0 input · 0 output
 
 ## Community Hubs (Navigation)
@@ -80,118 +80,118 @@
 - [[_COMMUNITY_Community 67|Community 67]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `Post` - 66 edges
-2. `Profile` - 57 edges
+1. `Post` - 73 edges
+2. `Profile` - 60 edges
 3. `session()` - 47 edges
-4. `generate_post()` - 35 edges
-5. `PostAnalysis` - 30 edges
-6. `PostIntelligence` - 24 edges
-7. `ProfileVoice` - 19 edges
-8. `generate_carousel()` - 17 edges
-9. `analyze_post_intelligence()` - 16 edges
-10. `Base` - 14 edges
+4. `generate_post()` - 42 edges
+5. `PostAnalysis` - 33 edges
+6. `ProfileVoice` - 26 edges
+7. `PostIntelligence` - 24 edges
+8. `ArgumentBank` - 18 edges
+9. `generate_carousel()` - 17 edges
+10. `normalize_carousel_slides()` - 16 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `test_start_analysis_job_returns_live_job()` --calls--> `Post`  [INFERRED]
   tests/test_api_intelligence.py → src/models.py
 - `test_refresh_news()` --calls--> `Post`  [INFERRED]
   /Users/floakii/Claudio/agro-content/tests/test_api_news.py → src/models.py
-- `test_generate_carousel_returns_slides()` --calls--> `generate_carousel()`  [INFERRED]
-  tests/test_carousel_generator.py → src/carousel/generator.py
-- `test_generate_carousel_retries_when_initial_draft_is_weak()` --calls--> `generate_carousel()`  [INFERRED]
-  tests/test_carousel_generator.py → src/carousel/generator.py
 - `test_generate_carousel()` --calls--> `Post`  [INFERRED]
   tests/test_api_carousel.py → src/models.py
+- `test_refresh_suggestions()` --calls--> `Post`  [INFERRED]
+  tests/test_api_carousel.py → src/models.py
+- `test_create_carousel()` --calls--> `Carousel`  [INFERRED]
+  tests/test_models.py → src/models.py
 
 ## Communities
 
 ### Community 0 - "Community 0"
 Cohesion: 0.06
-Nodes (62): Coleta posts novos de um perfil. Tenta Apify primeiro, cai para Instaloader em c, Gera um post adaptado com base no post do concorrente, voz do autor e exemplos a, DeclarativeBase, Gera carrossel viral com base no tema, voz própria e último relatório semanal., analyze_post(), Analisa um post com GPT-4o Vision. Se já analisado, retorna análise existente., ArgumentBankOut, list_arguments() (+54 more)
+Nodes (92): BaseModel, CarouselEvidencePack, Coleta posts novos de um perfil. Tenta Apify primeiro, cai para Instaloader em c, Coleta posts novos de um perfil. Tenta Apify primeiro, cai para Instaloader em c, add_profile(), _build_post_status(), _build_post_title(), CompetitorLibraryOut (+84 more)
 
 ### Community 1 - "Community 1"
-Cohesion: 0.06
-Nodes (37): _average_virality(), _candidate_texts(), _compute_quality_score(), _normalize(), remove_arguments_for_post(), upsert_arguments(), override_db(), test_generate_carousel() (+29 more)
+Cohesion: 0.08
+Nodes (72): _evaluate_generated_output(), _run_single(), format_quality_feedback(), _align_cta_to_funnel(), _apply_local_quality_repairs(), _build_approved_section(), _build_evidence_pack(), _build_mechanism_terms() (+64 more)
 
 ### Community 2 - "Community 2"
-Cohesion: 0.11
-Nodes (46): format_quality_feedback(), _build_approved_section(), _build_evidence_pack(), _build_mechanism_terms(), _build_quality_guardrails(), _build_refinement_prompt(), _build_revision_directives(), _build_structural_transfer_map() (+38 more)
+Cohesion: 0.06
+Nodes (36): _average_virality(), _candidate_texts(), _compute_quality_score(), _normalize(), remove_arguments_for_post(), upsert_arguments(), override_db(), _seed_intelligence() (+28 more)
 
 ### Community 3 - "Community 3"
-Cohesion: 0.14
-Nodes (29): build_slide_blueprint(), CarouselEvidencePack, _cta_matches_funnel(), estimate_target_slide_count(), _find_hits(), _find_token_overlap_hits(), _normalize_text(), score_carousel_draft() (+21 more)
+Cohesion: 0.1
+Nodes (36): build_slide_blueprint(), _cta_matches_funnel(), estimate_target_slide_count(), _find_hits(), _find_token_overlap_hits(), _normalize_text(), Estimate how many slides the argument needs. No upper cap — depth drives count., Build a narrative blueprint. No upper cap — argument depth determines slide coun (+28 more)
 
 ### Community 4 - "Community 4"
-Cohesion: 0.15
-Nodes (25): BaseModel, CarouselGenerateIn, CarouselOut, CarouselSuggestionOut, generate(), get_suggestions(), list_carousels(), refresh_suggestions() (+17 more)
+Cohesion: 0.1
+Nodes (29): sync_profiles(), analyze_post(), get_analysis_job_status(), get_intelligence(), _intel_to_out(), _append_error(), _copy_job(), create_analysis_job() (+21 more)
 
 ### Community 5 - "Community 5"
-Cohesion: 0.11
-Nodes (23): _append_unique(), _extract_slide_urls(), fetch_posts_apify(), Busca posts de um perfil via Apify Instagram Scraper.     Se since_date for forn, collect_profile(), _merge_post(), Coleta posts novos de um perfil. Tenta Apify primeiro, cai para Instaloader em c, _append_unique() (+15 more)
+Cohesion: 0.17
+Nodes (19): NewsItem, list_news(), _extract_tags(), fetch_all_feeds(), _fetch_all_raw(), get_recent_news(), _parse_feed(), Return news items from the last `days` days, optionally filtered by tags. (+11 more)
 
 ### Community 6 - "Community 6"
-Cohesion: 0.17
-Nodes (22): AnalyzeJobOut, AnalyzeResponse, get_analysis_job_status(), get_intelligence(), _intel_to_out(), _append_error(), _copy_job(), create_analysis_job() (+14 more)
+Cohesion: 0.14
+Nodes (18): _append_unique(), _extract_slide_urls(), fetch_posts_apify(), Busca posts de um perfil via Apify Instagram Scraper.     Se since_date for forn, collect_profile(), _merge_post(), _append_unique(), _extract_sidecar_slide_urls() (+10 more)
 
 ### Community 7 - "Community 7"
-Cohesion: 0.15
-Nodes (21): NewsItem, list_news(), _extract_tags(), fetch_all_feeds(), _fetch_all_raw(), get_recent_news(), _parse_feed(), Return news items from the last `days` days, optionally filtered by tags. (+13 more)
+Cohesion: 0.16
+Nodes (16): CarouselGenerateIn, CarouselOut, CarouselSuggestionOut, generate(), get_suggestions(), list_carousels(), refresh_suggestions(), SlideOut (+8 more)
 
 ### Community 8 - "Community 8"
-Cohesion: 0.13
-Nodes (13): _get_engine(), get_session(), get_db(), load(), refresh(), _run_daily_intelligence(), _run_daily_suggestions(), _mock_openai() (+5 more)
+Cohesion: 0.19
+Nodes (13): load(), refresh(), analyze_post_intelligence(), _coerce_slide_urls(), _snapshot_intelligence(), _to_data_url(), _transcribe_visual_assets(), _make_post() (+5 more)
 
 ### Community 9 - "Community 9"
-Cohesion: 0.27
-Nodes (11): analyze_post_intelligence(), _coerce_slide_urls(), _snapshot_intelligence(), _to_data_url(), _transcribe_visual_assets(), _make_post(), _mock_gpt(), test_analyze_persists_to_db() (+3 more)
+Cohesion: 0.16
+Nodes (9): _build_summary(), main(), _query_candidate_post_ids(), _get_engine(), get_session(), get_db(), _run_daily_intelligence(), _run_daily_suggestions() (+1 more)
 
 ### Community 10 - "Community 10"
-Cohesion: 0.26
-Nodes (12): gap_analysis(), compute_gaps(), _extract_topics(), Extract topic strings from raw_analysis JSON., Compare topics covered by competitor posts vs own posts.     Returns list of dic, _make_post_with_analysis(), _make_profile(), test_compute_gaps_identifies_uncovered_topic() (+4 more)
+Cohesion: 0.35
+Nodes (14): build_source_creative_brief(), build_theme_creative_brief(), _clean(), _data_labels(), _extract_causal_chain(), _field_contexts(), Select the most fitting hook archetype based on post intelligence signals., Select the most fitting narrative arc based on post intelligence signals. (+6 more)
 
 ### Community 11 - "Community 11"
 Cohesion: 0.3
 Nodes (9): drillInto(), fadeIn(), makeNode(), makePulse(), makeRings(), renderHome(), setPos(), startOrbit() (+1 more)
 
 ### Community 12 - "Community 12"
-Cohesion: 0.53
-Nodes (10): build_source_creative_brief(), build_theme_creative_brief(), _clean(), _data_labels(), _extract_causal_chain(), _field_contexts(), _salient_terms(), _tokenize() (+2 more)
+Cohesion: 0.38
+Nodes (9): compute_gaps(), _extract_topics(), _make_post_with_analysis(), _make_profile(), test_compute_gaps_identifies_uncovered_topic(), test_compute_gaps_no_competitors_returns_empty(), test_compute_gaps_returns_list(), test_extract_topics_empty() (+1 more)
 
 ### Community 13 - "Community 13"
 Cohesion: 0.25
 Nodes (0): 
 
 ### Community 14 - "Community 14"
-Cohesion: 0.36
-Nodes (6): get_seasonal_context(), Return the current month's agro seasonal context string., test_july_august_context(), test_march_april_context(), test_november_december_context(), test_returns_string()
+Cohesion: 0.32
+Nodes (5): generate_report(), list_reports(), ReportOut, test_generate_weekly_report_creates_report(), generate_weekly_report()
 
 ### Community 15 - "Community 15"
 Cohesion: 0.36
-Nodes (6): test_basic_score(), test_score_clamped_to_one(), test_zero_engagement_returns_zero(), test_zero_followers_returns_zero(), calculate_virality_score(), Normaliza engajamento pelo número de seguidores. Retorna valor entre 0 e 1.
+Nodes (6): get_seasonal_context(), Return the current month's agro seasonal context string., test_july_august_context(), test_march_april_context(), test_november_december_context(), test_returns_string()
 
 ### Community 16 - "Community 16"
+Cohesion: 0.32
+Nodes (5): test_generate_voice_profile_creates_profile(), analyze_voice(), get_voice(), generate_voice_profile(), VoiceOut
+
+### Community 17 - "Community 17"
 Cohesion: 0.48
 Nodes (5): analyze(), load(), removeOwnProfile(), saveOwnProfile(), syncOwnProfile()
 
-### Community 17 - "Community 17"
-Cohesion: 0.38
-Nodes (5): test_generate_voice_profile_creates_profile(), analyze_voice(), get_voice(), generate_voice_profile(), VoiceOut
-
 ### Community 18 - "Community 18"
-Cohesion: 0.38
-Nodes (5): generate_report(), list_reports(), ReportOut, test_generate_weekly_report_creates_report(), generate_weekly_report()
-
-### Community 19 - "Community 19"
 Cohesion: 0.6
 Nodes (5): _candidate_vault_paths(), load_studio_context(), _read_note(), _repo_root(), _resolve_vault_path()
 
-### Community 20 - "Community 20"
+### Community 19 - "Community 19"
 Cohesion: 0.5
 Nodes (2): generate(), loadHistory()
 
+### Community 20 - "Community 20"
+Cohesion: 0.5
+Nodes (0): 
+
 ### Community 21 - "Community 21"
 Cohesion: 0.5
-Nodes (2): Badge(), cn()
+Nodes (0): 
 
 ### Community 22 - "Community 22"
 Cohesion: 0.5
@@ -199,39 +199,39 @@ Nodes (0):
 
 ### Community 23 - "Community 23"
 Cohesion: 0.5
-Nodes (0): 
+Nodes (2): Badge(), cn()
 
 ### Community 24 - "Community 24"
 Cohesion: 0.5
-Nodes (0): 
+Nodes (1): content_strategy_engine  Revision ID: 003 Revises: 002 Create Date: 2026-04-17 0
 
 ### Community 25 - "Community 25"
 Cohesion: 0.5
-Nodes (1): content_strategy_engine  Revision ID: 003 Revises: 002 Create Date: 2026-04-17 0
+Nodes (1): add visual transcript to post intelligence  Revision ID: 009 Revises: 008 Create
 
 ### Community 26 - "Community 26"
 Cohesion: 0.5
-Nodes (1): add visual transcript to post intelligence  Revision ID: 009 Revises: 008 Create
+Nodes (1): add slides to generated_posts  Revision ID: 008 Revises: 007 Create Date: 2026-0
 
 ### Community 27 - "Community 27"
 Cohesion: 0.5
-Nodes (1): add slides to generated_posts  Revision ID: 008 Revises: 007 Create Date: 2026-0
+Nodes (1): fix profile_voice tone column from VARCHAR(100) to TEXT  Revision ID: 006 Revise
 
 ### Community 28 - "Community 28"
 Cohesion: 0.5
-Nodes (1): fix profile_voice tone column from VARCHAR(100) to TEXT  Revision ID: 006 Revise
+Nodes (1): initial_schema  Revision ID: 001 Revises: Create Date: 2026-04-14 00:00:00.00000
 
 ### Community 29 - "Community 29"
 Cohesion: 0.5
-Nodes (1): initial_schema  Revision ID: 001 Revises: Create Date: 2026-04-14 00:00:00.00000
+Nodes (1): content_studio  Revision ID: 002 Revises: a1b2c3d4e5f6 Create Date: 2026-04-15 0
 
 ### Community 30 - "Community 30"
 Cohesion: 0.5
-Nodes (1): content_studio  Revision ID: 002 Revises: a1b2c3d4e5f6 Create Date: 2026-04-15 0
+Nodes (1): add carousel intelligence fields  Revision ID: 007 Revises: 006 Create Date: 202
 
 ### Community 31 - "Community 31"
 Cohesion: 0.5
-Nodes (1): add carousel intelligence fields  Revision ID: 007 Revises: 006 Create Date: 202
+Nodes (1): add planning narrative to generated posts  Revision ID: 010 Revises: 009 Create
 
 ### Community 32 - "Community 32"
 Cohesion: 0.5
@@ -378,7 +378,7 @@ Cohesion: 1.0
 Nodes (1): Busca posts de um perfil via Apify Instagram Scraper.     Retorna lista de dicts
 
 ## Knowledge Gaps
-- **17 isolated node(s):** `content_strategy_engine  Revision ID: 003 Revises: 002 Create Date: 2026-04-17 0`, `add visual transcript to post intelligence  Revision ID: 009 Revises: 008 Create`, `add slides to generated_posts  Revision ID: 008 Revises: 007 Create Date: 2026-0`, `fix profile_voice tone column from VARCHAR(100) to TEXT  Revision ID: 006 Revise`, `initial_schema  Revision ID: 001 Revises: Create Date: 2026-04-14 00:00:00.00000` (+12 more)
+- **22 isolated node(s):** `content_strategy_engine  Revision ID: 003 Revises: 002 Create Date: 2026-04-17 0`, `add visual transcript to post intelligence  Revision ID: 009 Revises: 008 Create`, `add slides to generated_posts  Revision ID: 008 Revises: 007 Create Date: 2026-0`, `fix profile_voice tone column from VARCHAR(100) to TEXT  Revision ID: 006 Revise`, `initial_schema  Revision ID: 001 Revises: Create Date: 2026-04-14 00:00:00.00000` (+17 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **Thin community `Community 41`** (2 nodes): `RootLayout()`, `layout.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
@@ -438,17 +438,17 @@ Nodes (1): Busca posts de um perfil via Apify Instagram Scraper.     Retorna lis
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Post` connect `Community 0` to `Community 1`, `Community 4`, `Community 5`, `Community 6`, `Community 7`, `Community 9`, `Community 10`, `Community 17`?**
-  _High betweenness centrality (0.144) - this node is a cross-community bridge._
-- **Why does `generate_post()` connect `Community 2` to `Community 0`, `Community 19`, `Community 3`, `Community 12`?**
-  _High betweenness centrality (0.116) - this node is a cross-community bridge._
-- **Why does `GeneratedPost` connect `Community 0` to `Community 2`?**
-  _High betweenness centrality (0.084) - this node is a cross-community bridge._
-- **Are the 64 inferred relationships involving `Post` (e.g. with `CompetitorPostOut` and `GenerateIn`) actually correct?**
-  _`Post` has 64 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 55 inferred relationships involving `Profile` (e.g. with `CompetitorPostOut` and `GenerateIn`) actually correct?**
-  _`Profile` has 55 INFERRED edges - model-reasoned connections that need verification._
+- **Why does `Post` connect `Community 0` to `Community 2`, `Community 6`, `Community 7`, `Community 8`, `Community 9`, `Community 12`, `Community 16`?**
+  _High betweenness centrality (0.155) - this node is a cross-community bridge._
+- **Why does `generate_post()` connect `Community 1` to `Community 0`, `Community 18`, `Community 10`, `Community 3`?**
+  _High betweenness centrality (0.112) - this node is a cross-community bridge._
+- **Why does `session()` connect `Community 2` to `Community 0`, `Community 8`, `Community 6`, `Community 7`?**
+  _High betweenness centrality (0.065) - this node is a cross-community bridge._
+- **Are the 71 inferred relationships involving `Post` (e.g. with `CompetitorPostOut` and `GenerateIn`) actually correct?**
+  _`Post` has 71 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 58 inferred relationships involving `Profile` (e.g. with `CompetitorPostOut` and `GenerateIn`) actually correct?**
+  _`Profile` has 58 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 46 inferred relationships involving `session()` (e.g. with `override_db()` and `test_list_competitors_returns_post_count()`) actually correct?**
   _`session()` has 46 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 15 inferred relationships involving `generate_post()` (e.g. with `test_generate_post_retries_when_initial_draft_is_weak()` and `test_generate_post_recovers_from_empty_or_invalid_json_response()`) actually correct?**
-  _`generate_post()` has 15 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 18 inferred relationships involving `generate_post()` (e.g. with `test_generate_post_retries_when_initial_draft_is_weak()` and `test_generate_post_recovers_from_empty_or_invalid_json_response()`) actually correct?**
+  _`generate_post()` has 18 INFERRED edges - model-reasoned connections that need verification._

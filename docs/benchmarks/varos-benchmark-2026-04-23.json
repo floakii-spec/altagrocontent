@@ -1,0 +1,305 @@
+{
+  "ran_at": "2026-04-23T20:08:32.496291+00:00",
+  "handle": "leandro.varos",
+  "limit": 10,
+  "keep_generated": false,
+  "summary": {
+    "generated": 5,
+    "failed": 5,
+    "strict_passes": 0,
+    "best_effort_only": 5,
+    "avg_score": 1.0,
+    "min_score": 1.0,
+    "max_score": 1.0,
+    "avg_slides": 6.4,
+    "avg_caption_words": 125,
+    "avg_elapsed_seconds": 108.82,
+    "top_remaining_issues": [
+      [
+        "planejamento_narrativo ausente — o modelo pulou a etapa de pensamento narrativo",
+        5
+      ],
+      [
+        "slide de prova sem ancora tecnica forte",
+        3
+      ],
+      [
+        "faltou traduzir o dado em implicacao pratica em parte do miolo",
+        2
+      ],
+      [
+        "legenda curta demais (92 palavras)",
+        1
+      ],
+      [
+        "legenda fora da faixa ideal (92 palavras)",
+        1
+      ],
+      [
+        "legenda curta demais (106 palavras)",
+        1
+      ],
+      [
+        "legenda fora da faixa ideal (106 palavras)",
+        1
+      ],
+      [
+        "legenda curta demais (108 palavras)",
+        1
+      ],
+      [
+        "legenda fora da faixa ideal (108 palavras)",
+        1
+      ]
+    ],
+    "adjusted_strict_passes": 2,
+    "planning_storage_gaps": 5,
+    "top_adjusted_issues": [
+      [
+        "slide de prova sem ancora tecnica forte",
+        3
+      ],
+      [
+        "faltou traduzir o dado em implicacao pratica em parte do miolo",
+        2
+      ],
+      [
+        "legenda curta demais (92 palavras)",
+        1
+      ],
+      [
+        "legenda fora da faixa ideal (92 palavras)",
+        1
+      ],
+      [
+        "legenda curta demais (106 palavras)",
+        1
+      ],
+      [
+        "legenda fora da faixa ideal (106 palavras)",
+        1
+      ],
+      [
+        "legenda curta demais (108 palavras)",
+        1
+      ],
+      [
+        "legenda fora da faixa ideal (108 palavras)",
+        1
+      ]
+    ]
+  },
+  "results": [
+    {
+      "post_id": 174,
+      "handle": "leandro.varos",
+      "published_at": "2026-04-22T17:16:09+00:00",
+      "virality_score": 1.0,
+      "generated_post_id": 11,
+      "hook": "Erros Invisíveis",
+      "slide_count": 6,
+      "caption_words": 165,
+      "score": 1.0,
+      "strict_pass": false,
+      "issues": [
+        "planejamento_narrativo ausente — o modelo pulou a etapa de pensamento narrativo"
+      ],
+      "strengths": [
+        "profundidade de argumento adequada",
+        "argumento desenvolvido até a profundidade esperada",
+        "arco narrativo ancorado (CAPA → HOOK → ... → CTA)",
+        "arco narrativo com variação de tipos de slide",
+        "hook com sinal claro de engajamento",
+        "miolo com densidade adequada",
+        "desenvolvimento traduz impacto pratico",
+        "tensao criativa agro presente",
+        "legenda densa na medida certa",
+        "cta coerente com o funil",
+        "argumento ancorado em evidencia concreta",
+        "fonte ou origem da evidencia apareceu",
+        "cadeia causal do material-base preservada"
+      ],
+      "quality_feedback": "score calculado: 100%\nforcas: profundidade de argumento adequada; argumento desenvolvido até a profundidade esperada; arco narrativo ancorado (CAPA → HOOK → ... → CTA); arco narrativo com variação de tipos de slide\nmetricas: slides=6, tipos_distintos=3, hits_numericos=0, hits_fontes=1, hits_prova=1, hits_claims=4, hits_causais=1",
+      "elapsed_seconds": 67.47,
+      "adjusted_issues": [],
+      "planning_persisted": false,
+      "adjusted_strict_pass": true
+    },
+    {
+      "post_id": 156,
+      "handle": "leandro.varos",
+      "published_at": "2026-04-20T23:32:46+00:00",
+      "virality_score": 1.0,
+      "generated_post_id": 12,
+      "hook": "O Agro Move o Brasil",
+      "slide_count": 8,
+      "caption_words": 92,
+      "score": 1.0,
+      "strict_pass": false,
+      "issues": [
+        "legenda curta demais (92 palavras)",
+        "planejamento_narrativo ausente — o modelo pulou a etapa de pensamento narrativo",
+        "faltou traduzir o dado em implicacao pratica em parte do miolo",
+        "legenda fora da faixa ideal (92 palavras)",
+        "slide de prova sem ancora tecnica forte"
+      ],
+      "strengths": [
+        "profundidade de argumento adequada",
+        "argumento desenvolvido até a profundidade esperada",
+        "arco narrativo ancorado (CAPA → HOOK → ... → CTA)",
+        "arco narrativo com variação de tipos de slide",
+        "hook com sinal claro de engajamento",
+        "miolo com densidade adequada",
+        "cta coerente com o funil",
+        "dados numericos validados reaproveitados",
+        "cadeia causal do material-base preservada"
+      ],
+      "quality_feedback": "score calculado: 100%\nforcas: profundidade de argumento adequada; argumento desenvolvido até a profundidade esperada; arco narrativo ancorado (CAPA → HOOK → ... → CTA); arco narrativo com variação de tipos de slide\najustes obrigatorios: faltou traduzir o dado em implicacao pratica em parte do miolo; legenda fora da faixa ideal (92 palavras); slide de prova sem ancora tecnica forte\nmetricas: slides=8, tipos_distintos=5, hits_numericos=4, hits_fontes=0, hits_prova=0, hits_claims=3, hits_causais=1",
+      "elapsed_seconds": 182.55,
+      "adjusted_issues": [
+        "legenda curta demais (92 palavras)",
+        "faltou traduzir o dado em implicacao pratica em parte do miolo",
+        "legenda fora da faixa ideal (92 palavras)",
+        "slide de prova sem ancora tecnica forte"
+      ],
+      "planning_persisted": false,
+      "adjusted_strict_pass": false
+    },
+    {
+      "post_id": 106,
+      "handle": "leandro.varos",
+      "published_at": "2026-04-17T19:42:26+00:00",
+      "virality_score": 1.0,
+      "generated_post_id": 13,
+      "hook": "Impactos ao Campo ainda Incertos",
+      "slide_count": 6,
+      "caption_words": 154,
+      "score": 1.0,
+      "strict_pass": false,
+      "issues": [
+        "planejamento_narrativo ausente — o modelo pulou a etapa de pensamento narrativo"
+      ],
+      "strengths": [
+        "profundidade de argumento adequada",
+        "argumento desenvolvido até a profundidade esperada",
+        "arco narrativo ancorado (CAPA → HOOK → ... → CTA)",
+        "arco narrativo com variação de tipos de slide",
+        "hook com sinal claro de engajamento",
+        "miolo com densidade adequada",
+        "desenvolvimento traduz impacto pratico",
+        "tensao criativa agro presente",
+        "legenda densa na medida certa",
+        "cta coerente com o funil",
+        "argumento detalhado mesmo sem catalogo rico",
+        "cadeia causal do material-base preservada"
+      ],
+      "quality_feedback": "score calculado: 100%\nforcas: profundidade de argumento adequada; argumento desenvolvido até a profundidade esperada; arco narrativo ancorado (CAPA → HOOK → ... → CTA); arco narrativo com variação de tipos de slide\nmetricas: slides=6, tipos_distintos=3, hits_numericos=0, hits_fontes=0, hits_prova=0, hits_claims=7, hits_causais=2",
+      "elapsed_seconds": 106.68,
+      "adjusted_issues": [],
+      "planning_persisted": false,
+      "adjusted_strict_pass": true
+    },
+    {
+      "post_id": 100,
+      "handle": "leandro.varos",
+      "published_at": "2026-04-16T18:01:18+00:00",
+      "virality_score": 1.0,
+      "generated_post_id": 14,
+      "hook": "O Novo Caminho da Valorização",
+      "slide_count": 6,
+      "caption_words": 106,
+      "score": 1.0,
+      "strict_pass": false,
+      "issues": [
+        "legenda curta demais (106 palavras)",
+        "planejamento_narrativo ausente — o modelo pulou a etapa de pensamento narrativo",
+        "faltou traduzir o dado em implicacao pratica em parte do miolo",
+        "legenda fora da faixa ideal (106 palavras)",
+        "slide de prova sem ancora tecnica forte"
+      ],
+      "strengths": [
+        "profundidade de argumento adequada",
+        "argumento desenvolvido até a profundidade esperada",
+        "arco narrativo ancorado (CAPA → HOOK → ... → CTA)",
+        "arco narrativo com variação de tipos de slide",
+        "hook com sinal claro de engajamento",
+        "miolo com densidade adequada",
+        "cta coerente com o funil",
+        "dados numericos validados reaproveitados",
+        "cadeia causal do material-base preservada"
+      ],
+      "quality_feedback": "score calculado: 100%\nforcas: profundidade de argumento adequada; argumento desenvolvido até a profundidade esperada; arco narrativo ancorado (CAPA → HOOK → ... → CTA); arco narrativo com variação de tipos de slide\najustes obrigatorios: faltou traduzir o dado em implicacao pratica em parte do miolo; legenda fora da faixa ideal (106 palavras); slide de prova sem ancora tecnica forte\nmetricas: slides=6, tipos_distintos=3, hits_numericos=1, hits_fontes=0, hits_prova=0, hits_claims=2, hits_causais=1",
+      "elapsed_seconds": 88.47,
+      "adjusted_issues": [
+        "legenda curta demais (106 palavras)",
+        "faltou traduzir o dado em implicacao pratica em parte do miolo",
+        "legenda fora da faixa ideal (106 palavras)",
+        "slide de prova sem ancora tecnica forte"
+      ],
+      "planning_persisted": false,
+      "adjusted_strict_pass": false
+    },
+    {
+      "post_id": 105,
+      "handle": "leandro.varos",
+      "published_at": "2026-04-15T18:45:18+00:00",
+      "virality_score": 1.0,
+      "generated_post_id": 15,
+      "hook": "Oportunidade ou risco?",
+      "slide_count": 6,
+      "caption_words": 108,
+      "score": 1.0,
+      "strict_pass": false,
+      "issues": [
+        "legenda curta demais (108 palavras)",
+        "planejamento_narrativo ausente — o modelo pulou a etapa de pensamento narrativo",
+        "legenda fora da faixa ideal (108 palavras)",
+        "slide de prova sem ancora tecnica forte"
+      ],
+      "strengths": [
+        "profundidade de argumento adequada",
+        "argumento desenvolvido até a profundidade esperada",
+        "arco narrativo ancorado (CAPA → HOOK → ... → CTA)",
+        "arco narrativo com variação de tipos de slide",
+        "hook com sinal claro de engajamento",
+        "miolo com densidade adequada",
+        "desenvolvimento traduz impacto pratico",
+        "tensao criativa agro presente",
+        "cta coerente com o funil",
+        "fonte ou origem da evidencia apareceu",
+        "cadeia causal do material-base preservada"
+      ],
+      "quality_feedback": "score calculado: 100%\nforcas: profundidade de argumento adequada; argumento desenvolvido até a profundidade esperada; arco narrativo ancorado (CAPA → HOOK → ... → CTA); arco narrativo com variação de tipos de slide\najustes obrigatorios: legenda fora da faixa ideal (108 palavras); slide de prova sem ancora tecnica forte\nmetricas: slides=6, tipos_distintos=3, hits_numericos=0, hits_fontes=1, hits_prova=0, hits_claims=3, hits_causais=1",
+      "elapsed_seconds": 98.91,
+      "adjusted_issues": [
+        "legenda curta demais (108 palavras)",
+        "legenda fora da faixa ideal (108 palavras)",
+        "slide de prova sem ancora tecnica forte"
+      ],
+      "planning_persisted": false,
+      "adjusted_strict_pass": false
+    }
+  ],
+  "failures": [
+    {
+      "post_id": 178,
+      "error": "Geracao de carrossel do studio nao passou no quality gate apos refinamento: legenda curta demais (105 palavras); os dados numericos do post-base sumiram; faltou traduzir o dado em implicacao pratica em parte do miolo; legenda fora da faixa ideal (105 palavras); poucos dados validados do catalogo chegaram ao texto final; slide de prova sem ancora tecnica forte; o texto perdeu a cadeia causal do material-base e virou abstracao generica; tema central pouco refletido no texto final"
+    },
+    {
+      "post_id": 155,
+      "error": "Geracao de carrossel do studio nao passou no quality gate apos refinamento: os dados numericos do post-base sumiram; cta pouco alinhado ao funil topo; poucos dados validados do catalogo chegaram ao texto final; slide de prova sem ancora tecnica forte"
+    },
+    {
+      "post_id": 101,
+      "error": "Geracao de carrossel do studio nao passou no quality gate apos refinamento: legenda curta demais (88 palavras); legenda fora da faixa ideal (88 palavras); slide de prova sem ancora tecnica forte; faltou citar a fonte/origem disponivel no catalogo; o texto perdeu a cadeia causal do material-base e virou abstracao generica"
+    },
+    {
+      "post_id": 117,
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-8Ljn4FXmRbAnfhJkia8iDER3 on tokens per min (TPM): Limit 30000, Used 22631, Requested 10187. Please try again in 5.636s. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}"
+    },
+    {
+      "post_id": 103,
+      "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-8Ljn4FXmRbAnfhJkia8iDER3 on tokens per min (TPM): Limit 30000, Used 22436, Requested 10954. Please try again in 6.78s. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}"
+    }
+  ]
+}

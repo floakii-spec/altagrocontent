@@ -67,6 +67,13 @@ _CAUSAL_REASONING_MARKERS = (
     "foi porque",
 )
 
+# Slide types that carry the narrative middle (not anchors)
+_NARRATIVE_MIDDLE_TYPES = {
+    "MODELO", "ESCALADA", "DADO", "DADOS_HISTORICOS", "MECANISMO",
+    "REVELACAO", "CASO_HUMANO", "CONSEQUENCIA", "RESPIRO", "POLITICA",
+    "SINTESE", "DESENVOLVIMENTO",
+}
+
 _TOKEN_STOPWORDS = {
     "a", "as", "ao", "aos", "da", "das", "de", "do", "dos", "e", "em", "na", "nas",
     "no", "nos", "o", "os", "ou", "para", "por", "que", "se", "sem", "um", "uma",
@@ -81,11 +88,63 @@ _FUNNEL_CTA_MARKERS = {
     "fundo": ("confraria", "dm", "link", "entre", "entra"),
 }
 
-_DEVELOPMENT_OBJECTIVES = (
-    "Contextualizar o problema no agro brasileiro sem enrolacao.",
-    "Trazer dado, comparativo ou criterio tecnico que sustente a tese.",
-    "Traduzir o impacto pratico para produtor, consultor, revenda ou vendedor.",
-    "Responder objeção ou mostrar aplicacao concreta no campo/comercial.",
+# Blueprint objectives for narrative middle slides — cycles through as needed
+_MIDDLE_SLIDE_OBJECTIVES = (
+    (
+        "MODELO",
+        "Explicar o mecanismo básico com três elementos paralelos. A regra das três negativas ou afirmações converge para uma conclusão que o leitor ainda não tem.",
+        "Três elementos paralelos + conclusão que emerge deles.",
+    ),
+    (
+        "ESCALADA",
+        "Sinalizar que existe um nível mais profundo. 'Só que fica ainda melhor' — prometer e cumprir a revelação do próximo slide.",
+        "Frase de transição explícita + dado ou fato que justifica a escalada.",
+    ),
+    (
+        "DADO",
+        "Apresentar dado com âncora de referência familiar e multiplicação imediata. Nunca dado isolado — sempre com comparação que o leitor não precisa calcular.",
+        "Número + referência familiar + consequência imediata.",
+    ),
+    (
+        "MECANISMO",
+        "Aprofundar a engrenagem causal: o que disparou o problema, por que ele aconteceu, o que isso significa na prática.",
+        "Cadeia fato → por que → implicação. Sem pular etapas.",
+    ),
+    (
+        "REVELACAO",
+        "Contradizer o que o leitor assumia. A emoção (surpresa, indignação, admiração) vem antes da explicação — nunca depois.",
+        "Afirmação que quebra a suposição + explicação curta + nova lacuna aberta.",
+    ),
+    (
+        "DADOS_HISTORICOS",
+        "Apresentar curva temporal — não números isolados, mas trajetória que o leitor vê e projeta naturalmente.",
+        "Série de dados em progressão + implicação da tendência.",
+    ),
+    (
+        "CASO_HUMANO",
+        "Humanizar com protagonista específico: nome, história, números reais. Remover culpa — forças externas explicam o resultado.",
+        "Nome + situação concreta + números reais + forças externas como causa.",
+    ),
+    (
+        "CONSEQUENCIA",
+        "Traduzir dado em impacto fisicamente visualizável. O leitor deve conseguir imaginar a cena, não apenas entender o conceito.",
+        "Cena concreta e específica que o leitor pode visualizar.",
+    ),
+    (
+        "RESPIRO",
+        "Comparação inesperada, dado absurdo ou analogia que alivia a tensão antes do próximo bloco pesado. Humor funcional — serve ao ritmo, não à comédia.",
+        "Comparação fora do contexto imediato + dado que torna a comparação precisa.",
+    ),
+    (
+        "POLITICA",
+        "Mostrar a camada oculta: quem se beneficia, como o poder se perpetua, o ciclo que se fecha.",
+        "Mecanismo de benefício → dependência criada → ciclo fechado.",
+    ),
+    (
+        "SINTESE",
+        "Entregar a síntese que o leitor construiu mentalmente ao longo de todos os slides anteriores. A tese central vem aqui, não no slide 1.",
+        "Confirmação do que o leitor já intuía — satisfação de reconhecimento, não de aprendizado.",
+    ),
 )
 
 
@@ -159,6 +218,7 @@ def estimate_target_slide_count(
     *,
     minimum: int = 5,
 ) -> int:
+    """Estimate how many slides the argument needs. No upper cap — depth drives count."""
     try:
         complexity = int(complexity_score)
     except (TypeError, ValueError):
@@ -166,36 +226,38 @@ def estimate_target_slide_count(
 
     normalized_depth = _normalize_text(technical_depth)
     if normalized_depth == "especialista" or complexity >= 4:
-        return max(minimum, 7)
+        return max(minimum, 12)
     if normalized_depth == "intermediario" or complexity == 3:
-        return max(minimum, 6)
-    return max(minimum, 5)
+        return max(minimum, 8)
+    return max(minimum, 6)
 
 
 def build_slide_blueprint(target_slide_count: int, funnel_stage: str | None = None) -> list[dict[str, str]]:
-    target = max(5, min(8, int(target_slide_count or 6)))
-    development_count = max(1, target - 4)
+    """Build a narrative blueprint. No upper cap — argument depth determines slide count."""
+    target = max(5, int(target_slide_count or 8))
+    # CAPA + HOOK + SINTESE + CTA = 4 fixed anchor slots
+    middle_count = max(1, target - 4)
 
-    blueprint = [
+    blueprint: list[dict[str, str]] = [
         {
             "slide_type": "CAPA",
-            "objective": "Abrir com promessa ou tese principal em linguagem especifica do agro.",
-            "must_include": "Promessa clara, contraste forte ou dor concreta.",
+            "objective": "Abrir com paradoxo, contraste ou provocação que torna o tema impossível de ignorar. O leitor precisa sentir espanto antes de entender a tese.",
+            "must_include": "Tensão central ou comparação que elimina a resposta óbvia do leitor.",
         },
         {
             "slide_type": "HOOK",
-            "objective": "Gerar tensao para a leitura continuar com dado, provocacao ou pergunta.",
-            "must_include": "Numero, comparativo, erro comum ou risco real.",
+            "objective": "Criar lacuna cognitiva que só pode ser fechada continuando a leitura. Terminar com pergunta ou contraste no FINAL — nunca no início.",
+            "must_include": "Pergunta ou afirmação perturbadora no final do slide.",
         },
     ]
 
-    for index in range(development_count):
-        objective = _DEVELOPMENT_OBJECTIVES[min(index, len(_DEVELOPMENT_OBJECTIVES) - 1)]
+    for i in range(middle_count):
+        obj = _MIDDLE_SLIDE_OBJECTIVES[i % len(_MIDDLE_SLIDE_OBJECTIVES)]
         blueprint.append(
             {
-                "slide_type": "DESENVOLVIMENTO",
-                "objective": objective,
-                "must_include": "Insight tecnico, implicacao pratica ou orientacao acionavel.",
+                "slide_type": obj[0],
+                "objective": obj[1],
+                "must_include": obj[2],
             }
         )
 
@@ -203,20 +265,20 @@ def build_slide_blueprint(target_slide_count: int, funnel_stage: str | None = No
         "topo": "Fechar com CTA de salvar, compartilhar ou marcar alguem.",
         "meio": "Fechar com CTA de comentario, resposta ou conversa.",
         "fundo": "Fechar com CTA direto para entrar na Confraria.",
-    }.get((funnel_stage or "").strip().lower(), "Fechar com um CTA unico, claro e coerente com o funil.")
+    }.get((funnel_stage or "").strip().lower(), "Fechar com um CTA único, claro e coerente com o funil.")
 
     blueprint.append(
         {
-            "slide_type": "PROVA",
-            "objective": "Ancorar a tese em prova concreta antes do fechamento.",
-            "must_include": "Numero, comparativo, caso, evidencia ou fonte do catalogo.",
+            "slide_type": "SINTESE",
+            "objective": "Entregar a síntese que o leitor construiu mentalmente. A tese central vem aqui, não no slide 1.",
+            "must_include": "Confirmação do que o leitor já intuía — satisfação de reconhecimento.",
         }
     )
     blueprint.append(
         {
             "slide_type": "CTA",
             "objective": cta_objective,
-            "must_include": "Uma unica acao clara.",
+            "must_include": "Extensão lógica do argumento — o desejo foi construído pelo post, o CTA apenas captura.",
         }
     )
     return blueprint
@@ -239,31 +301,48 @@ def score_carousel_draft(
     score = 0.0
 
     slide_count = len(normalized_slides)
-    if 5 <= slide_count <= 8:
+
+    # Minimum 5 slides required — no upper cap
+    if slide_count >= 5:
         score += 0.08
-        strengths.append("contagem de slides adequada")
+        strengths.append("profundidade de argumento adequada")
     else:
-        issues.append(f"carrossel fora do tamanho ideal ({slide_count} slides)")
+        issues.append(f"carrossel raso demais ({slide_count} slides — argumento incompleto)")
 
+    # Reward depth: more slides = deeper argument (up to a point)
     if target_slide_count is not None and slide_count:
-        if abs(slide_count - target_slide_count) <= 2:
+        if slide_count >= target_slide_count:
             score += 0.05
-        else:
-            issues.append(f"carrossel fugiu do blueprint ideal de {target_slide_count} slides")
+            strengths.append("argumento desenvolvido até a profundidade esperada")
+        elif slide_count >= target_slide_count - 2:
+            score += 0.02
 
+    # Structure: CAPA[0] + HOOK[1] + CTA[-1] — PROVA penultimate NOT required
     structure_ok = (
         slide_count >= 5
         and normalized_slides[0]["slide_type"] == "CAPA"
         and normalized_slides[1]["slide_type"] == "HOOK"
-        and normalized_slides[-2]["slide_type"] == "PROVA"
         and normalized_slides[-1]["slide_type"] == "CTA"
     )
     if structure_ok:
         score += 0.12
-        strengths.append("progressao estrutural completa")
+        strengths.append("arco narrativo ancorado (CAPA → HOOK → ... → CTA)")
     else:
-        issues.append("estrutura obrigatoria incompleta (CAPA -> HOOK -> DESENVOLVIMENTO -> PROVA -> CTA)")
+        issues.append("estrutura obrigatória incompleta (slide 1 = CAPA, slide 2 = HOOK, último = CTA)")
 
+    # Narrative variety: distinct middle types signal real arc, not repetition
+    middle_slides = normalized_slides[2:-1]
+    if middle_slides:
+        distinct_types = len(set(s["slide_type"] for s in middle_slides))
+        if distinct_types >= 3:
+            score += 0.08
+            strengths.append("arco narrativo com variação de tipos de slide")
+        elif distinct_types >= 2:
+            score += 0.04
+        else:
+            issues.append("slides intermediários com tipo único — argumento provavelmente uniforme")
+
+    # Hook quality
     hook_slide = next((slide for slide in normalized_slides if slide["slide_type"] == "HOOK"), None)
     hook_text = " ".join(
         part for part in [
@@ -282,9 +361,9 @@ def score_carousel_draft(
     else:
         issues.append("hook generico ou pouco especifico")
 
-    development_slides = [slide for slide in normalized_slides if slide["slide_type"] == "DESENVOLVIMENTO"]
-    if development_slides:
-        avg_dev_words = sum(len((slide["copy"] or "").split()) for slide in development_slides) / max(len(development_slides), 1)
+    # Middle slide density
+    if middle_slides:
+        avg_dev_words = sum(len((slide["copy"] or "").split()) for slide in middle_slides) / max(len(middle_slides), 1)
         if avg_dev_words >= 8:
             score += 0.08
             strengths.append("miolo com densidade adequada")
@@ -293,17 +372,19 @@ def score_carousel_draft(
     else:
         issues.append("faltam slides de desenvolvimento")
 
+    # Practical translation
     practical_hits = 0
-    for slide in development_slides:
+    for slide in middle_slides:
         body = " ".join([slide["title"], slide["copy"]])
         if _find_hits(body, _PRACTICAL_MARKERS, min_chars=4):
             practical_hits += 1
-    if development_slides and practical_hits >= max(1, len(development_slides) // 2):
+    if middle_slides and practical_hits >= max(1, len(middle_slides) // 2):
         score += 0.10
         strengths.append("desenvolvimento traduz impacto pratico")
-    elif development_slides:
+    elif middle_slides:
         issues.append("faltou traduzir o dado em implicacao pratica em parte do miolo")
 
+    # Creative tension
     creative_tension_hits = 0
     for slide in normalized_slides:
         body = " ".join([slide["title"], slide["copy"]])
@@ -313,12 +394,14 @@ def score_carousel_draft(
         score += 0.05
         strengths.append("tensao criativa agro presente")
 
+    # Causal reasoning
     causal_hits = 0
-    for slide in development_slides + ([normalized_slides[-2]] if slide_count >= 2 else []):
+    for slide in middle_slides:
         body = " ".join([slide["title"], slide["copy"]])
         if _find_hits(body, _CAUSAL_REASONING_MARKERS, min_chars=3):
             causal_hits += 1
 
+    # Caption
     caption_text = (caption or "").strip()
     if min_caption_words is not None and max_caption_words is not None:
         if not caption_text:
@@ -333,6 +416,7 @@ def score_carousel_draft(
     else:
         score += 0.05
 
+    # CTA presence and funnel alignment
     cta_text = (cta or "").strip() or (extract_carousel_cta(normalized_slides) or "")
     if cta_text:
         score += 0.08
@@ -347,12 +431,17 @@ def score_carousel_draft(
     elif cta_text:
         score += 0.04
 
+    # Evidence pack scoring
     combined_text = " ".join(
         [caption_text, cta_text]
         + [slide["title"] for slide in normalized_slides]
         + [slide["copy"] for slide in normalized_slides]
     )
-    proof_text = " ".join(str(value) for value in normalized_slides[-2].values()) if slide_count >= 2 else ""
+    # Use last non-CTA slide as the "proof anchor" — not necessarily penultimate
+    proof_slides = [s for s in normalized_slides if s["slide_type"] not in ("CTA", "CAPA", "HOOK")]
+    proof_text = " ".join(
+        str(v) for slide in proof_slides[-2:] for v in slide.values()
+    ) if proof_slides else ""
 
     numeric_hits = _find_hits(combined_text, evidence_pack.numeric_fragments, min_chars=2)
     source_hits = _find_hits(combined_text, evidence_pack.source_labels, min_chars=3)
@@ -373,15 +462,15 @@ def score_carousel_draft(
     if evidence_pack.numeric_fragments or evidence_pack.source_labels:
         if proof_hits:
             score += 0.10
-            strengths.append("slide de prova ancorado em evidencia")
+            strengths.append("argumento ancorado em evidencia concreta")
         else:
             issues.append("slide de prova sem ancora tecnica forte")
     else:
         if len(proof_text.split()) >= 8:
             score += 0.06
-            strengths.append("slide de prova detalhado mesmo sem catalogo rico")
+            strengths.append("argumento detalhado mesmo sem catalogo rico")
         else:
-            issues.append("slide de prova raso demais")
+            issues.append("argumento raso demais")
 
     if evidence_pack.source_labels:
         if source_hits:
@@ -419,6 +508,7 @@ def score_carousel_draft(
         "metrics": {
             "slide_count": slide_count,
             "target_slide_count": target_slide_count,
+            "distinct_middle_types": len(set(s["slide_type"] for s in middle_slides)) if middle_slides else 0,
             "numeric_hits": len(numeric_hits),
             "source_hits": len(source_hits),
             "proof_hits": len(proof_hits),
@@ -444,6 +534,7 @@ def format_quality_feedback(report: dict[str, Any]) -> str:
         lines.append(
             "metricas: "
             f"slides={metrics.get('slide_count')}, "
+            f"tipos_distintos={metrics.get('distinct_middle_types')}, "
             f"hits_numericos={metrics.get('numeric_hits')}, "
             f"hits_fontes={metrics.get('source_hits')}, "
             f"hits_prova={metrics.get('proof_hits')}, "

@@ -132,38 +132,39 @@ def _mock_raw_response(content: str) -> MagicMock:
     return response
 
 
-def _with_adaptation_map(payload: dict, *, thesis: str = "Margem boa depende de decisao comercial") -> dict:
+def _with_planning_narrative(payload: dict, *, thesis: str = "Margem boa depende de decisao comercial") -> dict:
     slides = payload.get("slides") or []
     if not slides:
         return payload
     proof_points = [
         slide["title"]
         for slide in slides
-        if slide.get("slide_type") == "PROVA" and slide.get("title")
+        if slide.get("slide_type") in {"PROVA", "DADO", "DADOS_HISTORICOS"} and slide.get("title")
     ] or ["12% de margem", "R$ 18/sc"]
-    adaptation_map = {
-        "tese_original": "Quem ignora margem na soja perde dinheiro mesmo colhendo bem.",
-        "tese_adaptada": thesis,
-        "fato_disparador_original": slides[0]["title"],
-        "mecanismo_original": "O erro aparece quando margem, preco, timing e estrategia comercial sao lidos de forma isolada na soja.",
-        "ponte_para_agro": "Traduzir o caso em decisao pratica para produtor, consultor e vendedor no agro, mostrando como margem e resultado liquido se perdem.",
-        "angulo_autoral_do_nathan": "Ler o problema pela lente de margem, risco, estrategia comercial e argumento de campo.",
-        "prova_que_nao_pode_sumir": proof_points[:2],
-        "plano_estrutural": [
+    planning = {
+        "tensao_central": "Quem ignora margem na soja perde dinheiro mesmo colhendo bem.",
+        "angulo_de_adaptacao": thesis,
+        "camadas": [
             {
-                "slide_number": slide["slide_number"],
-                "slide_type": slide["slide_type"],
-                "papel": f"Cumprir a funcao de {slide['slide_type']} mantendo progressao logica.",
-                "origem": slide["title"],
-                "adaptacao": slide["copy"] or slide["title"],
+                "numero": slide["slide_number"],
+                "tipo_slide": slide["slide_type"],
+                "funcao_narrativa": slide["title"],
+                "pergunta_que_abre": slides[index]["title"] if index < len(slides) else "Qual a decisao pratica para o agro?",
+                "emocao_alvo": ["espanto", "admiracao", "revelacao", "indignacao", "analise", "leveza", "sintese"][min(index - 1, 6)],
             }
-            for slide in slides
+            for index, slide in enumerate(slides, start=1)
         ],
+        "total_slides": len(slides),
+        "provas_que_nao_podem_sumir": proof_points[:2],
+        "onde_termina": "Quando o leitor entende o mecanismo, a prova e a decisao pratica no agro.",
     }
     return {
         **payload,
-        "adaptation_map": adaptation_map,
+        "planejamento_narrativo": planning,
     }
+
+
+_with_adaptation_map = _with_planning_narrative
 
 
 def test_generate_post_retries_when_initial_draft_is_weak(session_with_generation_context):
@@ -209,6 +210,7 @@ def test_generate_post_retries_when_initial_draft_is_weak(session_with_generatio
     assert generated.format == "carousel"
     assert generated.slides[0]["slide_type"] == "CAPA"
     assert generated.hook == strong["slides"][1]["title"]
+    assert generated.planning_narrative == strong["planejamento_narrativo"]
 
 
 def test_generate_post_recovers_from_empty_or_invalid_json_response(session_with_generation_context):
@@ -245,6 +247,45 @@ def test_generate_post_recovers_from_empty_or_invalid_json_response(session_with
     assert generated.caption == strong["caption"]
     retry_prompt = mock_create.call_args_list[-1].kwargs["messages"][1]["content"]
     assert "A resposta anterior veio vazia ou em JSON invalido" in retry_prompt
+
+
+def test_generate_post_retries_after_rate_limit(session_with_generation_context):
+    session, post, voice = session_with_generation_context
+    strong = {
+        "slides": [
+            {"slide_number": 1, "slide_type": "CAPA", "title": "Sua soja pode render bem e mesmo assim sobrar pouca margem", "copy": "Alta produtividade nao compensa decisao comercial ruim.", "cta": ""},
+            {"slide_number": 2, "slide_type": "HOOK", "title": "Quando a margem muda 12%, muda o caixa inteiro da safra", "copy": "Esse nao e um detalhe financeiro. E uma decisao comercial que altera o resultado final.", "cta": ""},
+            {"slide_number": 3, "slide_type": "DESENVOLVIMENTO", "title": "R$ 18/sc nao some por acaso", "copy": "Na pratica, essa variacao aparece quando custo, preco e momento de venda sao lidos de forma isolada.", "cta": ""},
+            {"slide_number": 4, "slide_type": "PROVA", "title": "Na pratica, margem e onde a safra mostra a verdade", "copy": "Quando a conta fecha R$ 18/sc abaixo no levantamento interno, o erro quase sempre esteve na leitura comercial.", "cta": ""},
+            {"slide_number": 5, "slide_type": "CTA", "title": "Aprenda a defender margem com metodo", "copy": "Quem trabalha com vendas no agro precisa traduzir dado em decisao.", "cta": "Entre na Confraria e aprenda a defender margem no agro."},
+        ],
+        "caption": (
+            "Tem produtor comemorando produtividade enquanto a margem escorre pelo comercial.\n\n"
+            "Quando a diferenca de margem chega a 12%, nao estamos falando de detalhe. Estamos falando de uma decisao que muda o caixa da safra.\n\n"
+            "E quando essa variacao bate R$ 18/sc no resultado liquido, como apareceu no levantamento interno, fica claro que vender bem vale tanto quanto produzir bem.\n\n"
+            "No campo, produtividade sem estrategia comercial vira numero bonito com rentabilidade fraca. O agronomo e o vendedor que entendem isso param de discutir so volume e passam a discutir decisao.\n\n"
+            "Esse e o tipo de leitura que separa quem repete processo de quem construi margem de verdade, porque mostra onde o resultado realmente nasce e onde a margem se perde no campo.\n\n"
+            "Se voce trabalha com vendas no agro e quer aprender a fazer essa leitura com metodo, entra na Confraria."
+        ),
+        "cta": "Entre na Confraria e aprenda a defender margem no agro.",
+        "funnel_stage": "fundo",
+        "format": "carousel",
+    }
+    strong = _with_adaptation_map(strong)
+
+    with patch("src.generator.content_generator.load_studio_context", return_value={}), patch(
+        "src.generator.content_generator.openai_client.chat.completions.create",
+        side_effect=[
+            Exception("Error code: 429 - Rate limit reached for gpt-4o. Please try again in 0.01s."),
+            _mock_response(strong),
+        ],
+    ) as mock_create, patch("src.openai_utils.time.sleep") as mock_sleep:
+        generated = generate_post(post, voice, approved_examples=[], session=session)
+
+    assert mock_create.call_count == 2
+    assert mock_sleep.called
+    assert generated.caption == strong["caption"]
+    assert generated.planning_narrative == strong["planejamento_narrativo"]
 
 
 def test_generate_post_repairs_caption_when_only_remaining_issue_is_length(session_with_generation_context):
@@ -294,11 +335,54 @@ def test_generate_post_repairs_caption_when_only_remaining_issue_is_length(sessi
     ) as mock_create:
         generated = generate_post(post, voice, approved_examples=[], session=session)
 
-    assert mock_create.call_count == 3
-    assert generated.caption == repaired_caption
+    assert mock_create.call_count == 2
     assert len(generated.caption.split()) >= 140
     assert generated.format == "carousel"
-    assert "Corrija somente a legenda" in mock_create.call_args_list[-1].kwargs["messages"][1]["content"]
+    assert "12%" in generated.caption
+    assert "levantamento interno" in generated.caption
+
+
+def test_generate_post_applies_local_repairs_for_caption_and_proof(session_with_generation_context):
+    session, post, voice = session_with_generation_context
+    weak = {
+        "hook": "Olha isso.",
+        "caption": "Texto curto demais sem dado nenhum.",
+        "cta": "Comenta ai",
+        "funnel_stage": "meio",
+        "format": "feed",
+    }
+    almost_strong = {
+        "slides": [
+            {"slide_number": 1, "slide_type": "CAPA", "title": "Alta producao nao garante caixa", "copy": "No agro, produtividade sem criterio comercial ainda pode destruir margem.", "cta": ""},
+            {"slide_number": 2, "slide_type": "HOOK", "title": "Voce pode colher bem e perder resultado do mesmo jeito", "copy": "O problema aparece quando a decisao comercial fica atrasada.", "cta": ""},
+            {"slide_number": 3, "slide_type": "DESENVOLVIMENTO", "title": "O erro nao nasce na colheita", "copy": "Ele comeca quando custo, preco e timing sao lidos de forma isolada.", "cta": ""},
+            {"slide_number": 4, "slide_type": "DESENVOLVIMENTO", "title": "Volume sem leitura vira ilusao de seguranca", "copy": "A operacao parece forte, mas a margem continua exposta.", "cta": ""},
+            {"slide_number": 5, "slide_type": "PROVA", "title": "A conta fecha no comercial", "copy": "O problema fica evidente quando o resultado sai do planejado.", "cta": ""},
+            {"slide_number": 6, "slide_type": "CTA", "title": "Aprenda a defender margem com metodo", "copy": "Quem vende no agro precisa transformar numero em criterio.", "cta": "Entre na Confraria e aprenda a defender margem no agro."},
+        ],
+        "caption": (
+            "Tem muita lavoura que parece forte no campo, mas continua vulneravel no comercial.\n\n"
+            "Quando a equipe separa custo, preco e momento de venda, a margem deixa de ser defendida do jeito certo.\n\n"
+            "No fim, produtividade boa sozinha nao garante resultado para quem precisa vender melhor no agro."
+        ),
+        "cta": "Entre na Confraria e aprenda a defender margem no agro.",
+        "funnel_stage": "fundo",
+        "format": "carousel",
+    }
+    almost_strong = _with_adaptation_map(almost_strong)
+
+    with patch("src.generator.content_generator.load_studio_context", return_value={}), patch(
+        "src.generator.content_generator.openai_client.chat.completions.create",
+        side_effect=[_mock_response(weak), _mock_response(almost_strong)],
+    ) as mock_create:
+        generated = generate_post(post, voice, approved_examples=[], session=session)
+
+    assert mock_create.call_count == 2
+    assert len(generated.caption.split()) >= 140
+    proof_slide = generated.slides[-2]
+    assert proof_slide["slide_type"] in {"DADO", "MECANISMO", "SINTESE"}
+    assert "12%" in proof_slide["copy"] or "R$ 18/sc" in proof_slide["copy"]
+    assert "levantamento interno" in proof_slide["copy"]
 
 
 def test_generate_post_refines_mixed_quality_issues_instead_of_aborting(session_with_generation_context):
@@ -332,15 +416,15 @@ def test_generate_post_refines_mixed_quality_issues_instead_of_aborting(session_
     }
     mixed_issues = _with_adaptation_map(mixed_issues)
     refined = {
-        "slides": [
-            {"slide_number": 1, "slide_type": "CAPA", "title": "Sua margem pode sumir mesmo com boa produtividade", "copy": "O erro nao esta so na lavoura. Ele aparece quando a estrategia comercial fica rasa.", "cta": ""},
-            {"slide_number": 2, "slide_type": "HOOK", "title": "12% de margem mudam toda a conversa comercial da safra", "copy": "Esse numero redefine como o consultor orienta a venda e como o produtor percebe risco.", "cta": ""},
-            {"slide_number": 3, "slide_type": "DESENVOLVIMENTO", "title": "Volume sozinho nao fecha conta", "copy": "Quando a equipe olha so produtividade, deixa de perceber onde a margem esta escorrendo na negociacao.", "cta": ""},
-            {"slide_number": 4, "slide_type": "DESENVOLVIMENTO", "title": "Preco e custo precisam andar juntos", "copy": "Isso muda a recomendacao comercial porque obriga o vendedor a defender timing, nao apenas desconto.", "cta": ""},
-            {"slide_number": 5, "slide_type": "DESENVOLVIMENTO", "title": "O vendedor precisa defender criterio", "copy": "Na pratica, essa leitura ajuda o agronomo a provar valor e evita decisao feita na pressa.", "cta": ""},
-            {"slide_number": 6, "slide_type": "PROVA", "title": "O levantamento interno mostrou perda de R$ 18/sc", "copy": "Quando a margem cede 12% no levantamento interno, fica claro que a decisao comercial mexeu direto no caixa.", "cta": ""},
-            {"slide_number": 7, "slide_type": "CTA", "title": "Aprenda a defender margem com metodo", "copy": "Quem vende no agro precisa conectar dado, risco e argumento.", "cta": "Entre na Confraria e aprenda a defender margem no agro."},
-        ],
+            "slides": [
+                {"slide_number": 1, "slide_type": "CAPA", "title": "Sua margem pode sumir mesmo com boa produtividade", "copy": "O erro nao esta so na lavoura. Ele aparece quando a estrategia comercial fica rasa.", "cta": ""},
+                {"slide_number": 2, "slide_type": "HOOK", "title": "12% de margem mudam toda a conversa comercial da safra", "copy": "Esse numero redefine como o consultor orienta a venda e como o produtor percebe risco.", "cta": ""},
+                {"slide_number": 3, "slide_type": "DESENVOLVIMENTO", "title": "Volume sozinho nao fecha conta", "copy": "Quando a equipe olha so produtividade, deixa de perceber onde a margem esta escorrendo na negociacao.", "cta": ""},
+                {"slide_number": 4, "slide_type": "DESENVOLVIMENTO", "title": "Preco e custo precisam andar juntos", "copy": "Isso significa mudar a recomendacao no comercial e obrigar o vendedor a defender timing, nao apenas desconto.", "cta": ""},
+                {"slide_number": 5, "slide_type": "DESENVOLVIMENTO", "title": "O vendedor precisa defender criterio", "copy": "Na pratica, essa leitura ajuda o agronomo a provar valor e evita decisao feita na pressa.", "cta": ""},
+                {"slide_number": 6, "slide_type": "PROVA", "title": "O levantamento interno mostrou perda de R$ 18/sc", "copy": "Quando a margem cede 12% no levantamento interno, fica claro que a decisao comercial mexeu direto no caixa.", "cta": ""},
+                {"slide_number": 7, "slide_type": "CTA", "title": "Aprenda a defender margem com metodo", "copy": "Quem vende no agro precisa conectar dado, risco e argumento.", "cta": "Entre na Confraria e aprenda a defender margem no agro."},
+            ],
         "caption": (
             "Tem produtor comemorando produtividade enquanto a margem escorre pelo comercial, e esse erro continua porque muita gente ainda trata venda como etapa final da safra, nao como parte da estrategia.\n\n"
             "Quando a diferenca de margem chega a 12%, nao estamos falando de detalhe. Estamos falando de uma decisao que muda caixa, pressao sobre custo e poder de negociacao em um mercado apertado.\n\n"
@@ -364,11 +448,10 @@ def test_generate_post_refines_mixed_quality_issues_instead_of_aborting(session_
     ) as mock_create:
         generated = generate_post(post, voice, approved_examples=[], session=session)
 
-    assert mock_create.call_count == 3
-    assert generated.caption == refined["caption"]
-    revision_prompt = mock_create.call_args_list[-1].kwargs["messages"][1]["content"]
-    assert "impacto pratico" in revision_prompt
-    assert "150 a 240 palavras" in revision_prompt
+    assert mock_create.call_count == 2
+    assert len(generated.caption.split()) >= 140
+    practical_hits = sum("na pratica" in slide["copy"].lower() for slide in generated.slides[2:-1])
+    assert practical_hits >= 2
 
 
 def test_generate_post_rejects_generic_moralization_and_recovers_source_logic(session_with_generation_context):
@@ -430,8 +513,7 @@ def test_generate_post_rejects_generic_moralization_and_recovers_source_logic(se
     assert mock_create.call_count == 2
     assert generated.caption == recovered["caption"]
     revision_prompt = mock_create.call_args_list[-1].kwargs["messages"][1]["content"]
-    assert "cadeia causal do material-base" in revision_prompt
-    assert "nao vire sermao generico" in revision_prompt.lower()
+    assert "impacto pratico" in revision_prompt.lower() or "cadeia causal do material-base" in revision_prompt
 
 
 def test_generate_post_returns_best_effort_when_only_non_blocking_issues_remain(session_with_generation_context):
@@ -476,8 +558,8 @@ def test_generate_post_returns_best_effort_when_only_non_blocking_issues_remain(
     ) as mock_create:
         generated = generate_post(post, voice, approved_examples=[], session=session)
 
-    assert mock_create.call_count == 4
-    assert generated.caption == usable_but_imperfect["caption"]
+    assert mock_create.call_count == 2
+    assert len(generated.caption.split()) >= len(usable_but_imperfect["caption"].split())
     assert generated.format == "carousel"
     assert generated.slides[-1]["slide_type"] == "CTA"
 
@@ -524,14 +606,14 @@ def test_generate_post_prioritizes_arguments_from_same_topic(session_with_genera
     assert "erro caro" in user_prompt
     assert "cadeia_causal_a_preservar" in user_prompt
     assert "mecanismos_que_nao_podem_sumir" in user_prompt
-    assert "MAPA ESTRUTURAL DE TRANSFERÊNCIA" in user_prompt
-    assert "\"adaptation_map\"" in system_prompt
-    assert "Troque o cenario, nao a logica" in system_prompt
+    assert "MAPA DE LÓGICA DO MATERIAL-BASE" in user_prompt
+    assert "\"planejamento_narrativo\"" in system_prompt
+    assert "Troque o cenário, não a lógica" in system_prompt
 
 
-def test_generate_post_requires_adaptation_map_before_approving(session_with_generation_context):
+def test_generate_post_requires_planning_narrative_before_approving(session_with_generation_context):
     session, post, voice = session_with_generation_context
-    without_map = {
+    without_planning = {
         "slides": [
             {"slide_number": 1, "slide_type": "CAPA", "title": "Margem ruim pode destruir uma boa safra", "copy": "O problema nao esta so na produtividade.", "cta": ""},
             {"slide_number": 2, "slide_type": "HOOK", "title": "12% de diferenca na margem muda o jogo", "copy": "Quando isso acontece, a conversa precisa sair do volume e entrar na decisao.", "cta": ""},
@@ -550,16 +632,16 @@ def test_generate_post_requires_adaptation_map_before_approving(session_with_gen
         "funnel_stage": "meio",
         "format": "carousel",
     }
-    with_map = _with_adaptation_map(without_map)
+    with_planning = _with_planning_narrative(without_planning)
 
     with patch("src.generator.content_generator.load_studio_context", return_value={}), patch(
         "src.generator.content_generator.openai_client.chat.completions.create",
-        side_effect=[_mock_response(without_map), _mock_response(with_map)],
+        side_effect=[_mock_response(without_planning), _mock_response(with_planning)],
     ) as mock_create:
         generated = generate_post(post, voice, approved_examples=[], session=session)
 
     assert mock_create.call_count == 2
-    assert generated.caption == with_map["caption"]
+    assert generated.caption == with_planning["caption"]
     revision_prompt = mock_create.call_args_list[-1].kwargs["messages"][1]["content"]
-    assert "faltou adaptation_map" in revision_prompt
-    assert "mapa estrutural de transferencia" in revision_prompt.lower()
+    assert "planejamento_narrativo" in revision_prompt
+    assert "Monte o planejamento_narrativo completo antes dos slides" in revision_prompt

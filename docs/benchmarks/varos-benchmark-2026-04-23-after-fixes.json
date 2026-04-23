@@ -1,0 +1,158 @@
+{
+  "ran_at": "2026-04-23T20:32:31.722580+00:00",
+  "handle": "leandro.varos",
+  "limit": 5,
+  "keep_generated": false,
+  "summary": {
+    "generated": 2,
+    "failed": 3,
+    "strict_passes": 0,
+    "best_effort_only": 2,
+    "adjusted_strict_passes": 0,
+    "planning_storage_gaps": 0,
+    "avg_score": 1.0,
+    "min_score": 1.0,
+    "max_score": 1.0,
+    "avg_slides": 6,
+    "avg_caption_words": 91,
+    "avg_elapsed_seconds": 88.44,
+    "top_remaining_issues": [
+      [
+        "slide de prova sem ancora tecnica forte",
+        2
+      ],
+      [
+        "legenda curta demais (99 palavras)",
+        1
+      ],
+      [
+        "legenda fora da faixa ideal (99 palavras)",
+        1
+      ],
+      [
+        "legenda curta demais (83 palavras)",
+        1
+      ],
+      [
+        "legenda fora da faixa ideal (83 palavras)",
+        1
+      ]
+    ],
+    "top_adjusted_issues": [
+      [
+        "slide de prova sem ancora tecnica forte",
+        2
+      ],
+      [
+        "legenda curta demais (99 palavras)",
+        1
+      ],
+      [
+        "legenda fora da faixa ideal (99 palavras)",
+        1
+      ],
+      [
+        "legenda curta demais (83 palavras)",
+        1
+      ],
+      [
+        "legenda fora da faixa ideal (83 palavras)",
+        1
+      ]
+    ]
+  },
+  "results": [
+    {
+      "post_id": 178,
+      "handle": "leandro.varos",
+      "published_at": "2026-04-23T13:53:33+00:00",
+      "virality_score": 1.0,
+      "generated_post_id": 16,
+      "hook": "Alta produção e risco oculto",
+      "slide_count": 6,
+      "caption_words": 99,
+      "score": 1.0,
+      "strict_pass": false,
+      "issues": [
+        "legenda curta demais (99 palavras)",
+        "legenda fora da faixa ideal (99 palavras)",
+        "slide de prova sem ancora tecnica forte"
+      ],
+      "adjusted_issues": [
+        "legenda curta demais (99 palavras)",
+        "legenda fora da faixa ideal (99 palavras)",
+        "slide de prova sem ancora tecnica forte"
+      ],
+      "planning_persisted": true,
+      "strengths": [
+        "profundidade de argumento adequada",
+        "argumento desenvolvido até a profundidade esperada",
+        "arco narrativo ancorado (CAPA → HOOK → ... → CTA)",
+        "arco narrativo com variação de tipos de slide",
+        "hook com sinal claro de engajamento",
+        "miolo com densidade adequada",
+        "desenvolvimento traduz impacto pratico",
+        "tensao criativa agro presente",
+        "cta coerente com o funil",
+        "dados numericos validados reaproveitados",
+        "cadeia causal do material-base preservada"
+      ],
+      "quality_feedback": "score calculado: 100%\nforcas: profundidade de argumento adequada; argumento desenvolvido até a profundidade esperada; arco narrativo ancorado (CAPA → HOOK → ... → CTA); arco narrativo com variação de tipos de slide\najustes obrigatorios: legenda fora da faixa ideal (99 palavras); slide de prova sem ancora tecnica forte\nmetricas: slides=6, tipos_distintos=3, hits_numericos=3, hits_fontes=0, hits_prova=0, hits_claims=3, hits_causais=2",
+      "elapsed_seconds": 84.65,
+      "adjusted_strict_pass": false
+    },
+    {
+      "post_id": 174,
+      "handle": "leandro.varos",
+      "published_at": "2026-04-22T17:16:09+00:00",
+      "virality_score": 1.0,
+      "generated_post_id": 17,
+      "hook": "O Preço de Forçar Vendas",
+      "slide_count": 6,
+      "caption_words": 83,
+      "score": 1.0,
+      "strict_pass": false,
+      "issues": [
+        "legenda curta demais (83 palavras)",
+        "legenda fora da faixa ideal (83 palavras)",
+        "slide de prova sem ancora tecnica forte"
+      ],
+      "adjusted_issues": [
+        "legenda curta demais (83 palavras)",
+        "legenda fora da faixa ideal (83 palavras)",
+        "slide de prova sem ancora tecnica forte"
+      ],
+      "planning_persisted": true,
+      "strengths": [
+        "profundidade de argumento adequada",
+        "argumento desenvolvido até a profundidade esperada",
+        "arco narrativo ancorado (CAPA → HOOK → ... → CTA)",
+        "arco narrativo com variação de tipos de slide",
+        "hook com sinal claro de engajamento",
+        "miolo com densidade adequada",
+        "desenvolvimento traduz impacto pratico",
+        "tensao criativa agro presente",
+        "cta coerente com o funil",
+        "fonte ou origem da evidencia apareceu",
+        "cadeia causal do material-base preservada"
+      ],
+      "quality_feedback": "score calculado: 100%\nforcas: profundidade de argumento adequada; argumento desenvolvido até a profundidade esperada; arco narrativo ancorado (CAPA → HOOK → ... → CTA); arco narrativo com variação de tipos de slide\najustes obrigatorios: legenda fora da faixa ideal (83 palavras); slide de prova sem ancora tecnica forte\nmetricas: slides=6, tipos_distintos=3, hits_numericos=0, hits_fontes=1, hits_prova=0, hits_claims=4, hits_causais=1",
+      "elapsed_seconds": 92.24,
+      "adjusted_strict_pass": false
+    }
+  ],
+  "failures": [
+    {
+      "post_id": 156,
+      "error": "Geracao de carrossel do studio nao passou no quality gate apos refinamento: legenda curta demais (113 palavras); faltou traduzir o dado em implicacao pratica em parte do miolo; legenda fora da faixa ideal (113 palavras); slide de prova sem ancora tecnica forte; o texto perdeu a cadeia causal do material-base e virou abstracao generica"
+    },
+    {
+      "post_id": 155,
+      "error": "Geracao de carrossel do studio nao passou no quality gate apos refinamento: legenda curta demais (78 palavras); os dados numericos do post-base sumiram; legenda fora da faixa ideal (78 palavras); poucos dados validados do catalogo chegaram ao texto final; slide de prova sem ancora tecnica forte"
+    },
+    {
+      "post_id": 106,
+      "error": "Geracao de carrossel do studio nao passou no quality gate apos refinamento: faltou traduzir o dado em implicacao pratica em parte do miolo; o texto perdeu a cadeia causal do material-base e virou abstracao generica"
+    }
+  ]
+}

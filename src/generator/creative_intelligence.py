@@ -13,6 +13,99 @@ CREATIVE_INTELLIGENCE_DIRECTIVES = (
     "Nao transforme um caso analitico em licao moral generica sobre gestao, mentalidade ou disciplina.",
 )
 
+# Varos hook patterns — derived from analysis of 5 posts
+_HOOK_ARCHETYPES = (
+    {
+        "name": "paradoxo por comparacao com eliminacao da resposta obvia",
+        "use_when": "quando existir uma comparacao que torna um numero absurdo antes mesmo de explicar",
+        "shape": (
+            "Numero chocante + referencia familiar como regua de comparacao + multiplicador calculado pelo autor "
+            "(leitor so absorve o espanto) + pergunta que elimina a resposta mais natural antes de faze-la. "
+            "Exemplo: '11x mais que o maior clube do planeta em um unico evento. Mas pra ONDE vai esse dinheiro "
+            "se ela nao precisa pagar o salario de um unico jogador?'"
+        ),
+    },
+    {
+        "name": "case humano com remocao de culpa",
+        "use_when": "quando houver um protagonista real que falhou apesar de fazer tudo certo",
+        "shape": (
+            "Nome especifico + historia de familia ou legado + forças externas como causa (geada, dolar, selic, guerra) "
+            "+ numeros reais de divida + credores nomeados. O leitor se identifica porque a culpa nao e do protagonista. "
+            "Exemplo: 'Trebeschi construiu 40 anos de historia. Geada, guerra e Selic destruiram em 2.'"
+        ),
+    },
+    {
+        "name": "afirmacao ofensiva seguida de prova imediata",
+        "use_when": "quando o argumento contradiz uma crença amplamente aceita no setor",
+        "shape": (
+            "Afirmacao que parece errada ou provocadora + dado que a prova antes que o leitor possa discordar. "
+            "Nao e opiniao — e fato disfarçado de opiniao. "
+            "Exemplo: 'O Brasil e mais produtivo que os EUA. Mas quem fica com a margem nao e o Brasil.'"
+        ),
+    },
+    {
+        "name": "dado que destroi a narrativa dominante",
+        "use_when": "quando o mercado ou a midia diz uma coisa e o numero diz o contrario",
+        "shape": (
+            "Narrativa dominante em uma frase + dado que a contradiz + implicacao para quem acreditou na narrativa. "
+            "Exemplo: 'Botafogo virou modelo de gestao. Mas os numeros mostram que o SAF entrou com divida zero "
+            "e saiu com R$700 milhoes devendo.'"
+        ),
+    },
+    {
+        "name": "espiral de revelacao",
+        "use_when": "quando o tema tem multiplas camadas e cada uma e mais perturbadora que a anterior",
+        "shape": (
+            "Premissa solida → revelacao 1 (modelo basico) → 'so que fica ainda melhor' → revelacao 2 (camada oculta) → "
+            "'so que fica ainda melhor' → revelacao 3 (ciclo que se fecha). "
+            "Cada slide responde uma pergunta e abre outra. O leitor nao pode parar porque cada resposta gera nova lacuna."
+        ),
+    },
+)
+
+# Narrative arc patterns — structural templates derived from Varos corpus
+_NARRATIVE_ARC_PATTERNS = (
+    {
+        "name": "espiral descendente de revelacoes",
+        "slide_count_range": "12-20",
+        "description": (
+            "Cada bloco revela uma dimensao mais profunda do mesmo fenomeno. "
+            "Estrutura: Premissa chocante (2) → Modelo basico (2-3) → Aprofundamento inesperado (2-3) → "
+            "Dado humano ou escandalo (1-2) → Analise fria com escala historica (2-3) → "
+            "Engrenagem politica ou oculta (2-3) → Respiro dramatico (1) → Sintese (1) → CTA (1)."
+        ),
+        "emocao_por_bloco": [
+            "espanto", "admiracao", "revelacao", "indignacao", "analise_fria",
+            "revelacao_politica", "leveza", "sintese", "acao",
+        ],
+    },
+    {
+        "name": "case humano com zoom out nacional",
+        "slide_count_range": "8-14",
+        "description": (
+            "Protagonista especifico → mecanismo do problema → numeros reais do caso → "
+            "remocao de culpa (forcas externas) → zoom out para escala nacional → "
+            "implicacao para o produtor que esta lendo → sintese → CTA."
+        ),
+        "emocao_por_bloco": [
+            "identificacao", "entendimento", "raiva_justa", "alivio_de_culpa",
+            "escala", "conexao_pessoal", "sintese", "acao",
+        ],
+    },
+    {
+        "name": "argumento de dado com curva historica",
+        "slide_count_range": "8-12",
+        "description": (
+            "Dado atual chocante → modelo que explica o dado → serie historica que mostra a trajetoria → "
+            "ponto de virada que mudou tudo → o que vem por aí → implicacao para o leitor → sintese → CTA."
+        ),
+        "emocao_por_bloco": [
+            "espanto", "admircao_do_modelo", "perspectiva", "revelacao_do_ponto_de_virada",
+            "antecipacao", "conexao_pessoal", "sintese", "acao",
+        ],
+    },
+)
+
 _FIELD_CONTEXTS = {
     "grãos": ("safra", "margem por saca", "custo por hectare", "plantio", "comercializacao"),
     "fibras": ("janela de manejo", "qualidade da fibra", "custo operacional", "risco climatico"),
@@ -164,6 +257,51 @@ def _extract_causal_chain(intel: Any) -> dict[str, Any]:
     }
 
 
+def _select_hook_archetype(intel: Any, top_args: list[Any]) -> dict[str, Any]:
+    """Select the most fitting hook archetype based on post intelligence signals."""
+    core_arg = _clean(getattr(intel, "core_argument", "")).lower()
+    data_points = getattr(intel, "data_points", []) or []
+    has_human_protagonist = any(
+        any(word in _clean(p.get("context", "")).lower() for word in ("familia", "produtor", "empresa", "falencia", "recuperacao"))
+        for p in data_points if isinstance(p, dict)
+    )
+    has_rich_numeric_data = len(data_points) >= 3
+    has_scandal_or_contradiction = any(
+        word in core_arg for word in ("fraude", "escandalo", "contrario", "nao e", "ninguem", "mito")
+    )
+    has_multi_layer_argument = bool(
+        getattr(intel, "argument_structure", "") and
+        len(re.split(r"->|→|\|", _clean(getattr(intel, "argument_structure", "")))) >= 3
+    )
+
+    if has_human_protagonist:
+        return _HOOK_ARCHETYPES[1]  # case humano com remocao de culpa
+    if has_multi_layer_argument:
+        return _HOOK_ARCHETYPES[4]  # espiral de revelacao
+    if has_scandal_or_contradiction:
+        return _HOOK_ARCHETYPES[2]  # afirmacao ofensiva
+    if has_rich_numeric_data:
+        return _HOOK_ARCHETYPES[0]  # paradoxo por comparacao
+    return _HOOK_ARCHETYPES[3]  # dado que destroi narrativa dominante
+
+
+def _select_narrative_arc(intel: Any, top_args: list[Any]) -> dict[str, Any]:
+    """Select the most fitting narrative arc based on post intelligence signals."""
+    argument_steps = re.split(r"->|→|\|", _clean(getattr(intel, "argument_structure", "")))
+    data_points = getattr(intel, "data_points", []) or []
+    has_human = any(
+        any(word in _clean(p.get("context", "")).lower() for word in ("familia", "produtor", "empresa", "falencia"))
+        for p in data_points if isinstance(p, dict)
+    )
+    has_long_argument = len(argument_steps) >= 4
+
+    if has_human:
+        return _NARRATIVE_ARC_PATTERNS[1]  # case humano com zoom out
+    if has_long_argument:
+        return _NARRATIVE_ARC_PATTERNS[0]  # espiral descendente
+    return _NARRATIVE_ARC_PATTERNS[2]  # argumento de dado com curva
+
+
 def build_source_creative_brief(source_post: Any, top_args: list[Any], validated_catalog: dict[str, Any]) -> dict[str, Any]:
     intel = source_post.intelligence
     core_argument = _clean(getattr(intel, "core_argument", ""))
@@ -198,6 +336,9 @@ def build_source_creative_brief(source_post: Any, top_args: list[Any], validated
         limit=10,
     )
 
+    hook_archetype = _select_hook_archetype(intel, top_args)
+    narrative_arc = _select_narrative_arc(intel, top_args)
+
     return {
         "mandato_criativo": "Gerar um carrossel tecnicamente fiel, mas com alto potencial de retencao e compartilhamento no agro.",
         "tensoes_para_explorar": tension_candidates,
@@ -205,6 +346,8 @@ def build_source_creative_brief(source_post: Any, top_args: list[Any], validated
         "cadeia_causal_a_preservar": causal_chain,
         "mecanismos_que_nao_podem_sumir": mechanism_terms,
         "contextos_de_campo": _field_contexts(segment),
+        "archetype_de_hook_recomendado": hook_archetype,
+        "arco_narrativo_recomendado": narrative_arc,
         "territorios_de_engajamento": list(_ENGAGEMENT_ARCHETYPES),
         "perguntas_de_retencao": [
             "Qual decisao muda quando este dado entra na conversa?",
@@ -215,6 +358,8 @@ def build_source_creative_brief(source_post: Any, top_args: list[Any], validated
             "Nao resumir um case complexo em 'gestao importa'.",
             "Nao pular da provocacao para o CTA sem explicar o mecanismo.",
             "Nao apagar a prova numerica ou a origem do argumento.",
+            "Nao usar tom uniforme — cada slide tem emocao diferente.",
+            "Nao entregar a sintese no slide 1 — ela pertence ao penultimo slide.",
         ],
         "transcricao_literal_resumida_para_criacao": transcript,
         "diretrizes": list(CREATIVE_INTELLIGENCE_DIRECTIVES),
@@ -261,6 +406,8 @@ def build_theme_creative_brief(
         "tensoes_para_explorar": post_tensions,
         "dados_para_dramatizar": data_to_dramatize,
         "contextos_de_campo": field_contexts or list(_FIELD_CONTEXTS["geral"]),
+        "archetypes_de_hook": list(_HOOK_ARCHETYPES),
+        "arcos_narrativos_disponiveis": list(_NARRATIVE_ARC_PATTERNS),
         "territorios_de_engajamento": list(_ENGAGEMENT_ARCHETYPES),
         "argumentos_do_banco_para_cruzar": _unique([getattr(arg, "text", "") for arg in top_args], limit=5),
         "padroes_de_linguagem_vencedores": report_patterns,
@@ -268,6 +415,13 @@ def build_theme_creative_brief(
             "Que abertura faria um profissional do agro parar o scroll?",
             "Qual implicacao pratica torna este tema salvavel?",
             "Qual prova deixa o carrossel impossivel de parecer opiniao solta?",
+            "Quantas camadas este argumento tem? Cada camada e um slide.",
+        ],
+        "o_que_nao_fazer": [
+            "Nao usar tom uniforme — cada slide tem emocao diferente.",
+            "Nao entregar a sintese no slide 1.",
+            "Nao limitar o argumento a 8 slides se ele tem mais camadas.",
+            "Nao usar linguagem de coach ou autoajuda.",
         ],
         "diretrizes": list(CREATIVE_INTELLIGENCE_DIRECTIVES),
     }
