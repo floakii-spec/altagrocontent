@@ -37,13 +37,20 @@ def clean_db():
     app.dependency_overrides.pop(get_db, None)
 
 
-def _seed_intelligence(session):
-    profile = Profile(handle="agro_profile", type="competitor", follower_count=8000)
+def _seed_intelligence(
+    session,
+    *,
+    handle: str = "agro_profile",
+    profile_type: str = "competitor",
+    instagram_id: str = "intel_post_1",
+    analyzed_at: datetime | None = None,
+):
+    profile = Profile(handle=handle, type=profile_type, follower_count=8000)
     session.add(profile)
     session.flush()
     post = Post(
         profile_id=profile.id,
-        instagram_id="intel_post_1",
+        instagram_id=instagram_id,
         image_url="https://example.com/img.jpg",
         caption="Soja transgênica",
         hashtags=[],
@@ -67,7 +74,7 @@ def _seed_intelligence(session):
         knowledge_assumptions="Conhece soja convencional",
         content_gaps="Sem menção ao custo de licença",
         replication_template="[DADO] + [CAUSA] + [CTA]",
-        analyzed_at=datetime.now(timezone.utc),
+        analyzed_at=analyzed_at or datetime.now(timezone.utc),
     )
     session.add(intel)
     session.commit()
@@ -87,9 +94,35 @@ def test_list_intelligence_returns_data():
     assert response.status_code == 200
     data = response.json()
     assert len(data) == 1
+    assert data[0]["profile_type"] == "competitor"
     assert data[0]["agro_topic_cluster"] == "soja"
     assert data[0]["technical_depth"] == "especialista"
     assert data[0]["slides_count"] == 0
+
+
+def test_list_intelligence_prioritizes_competitors_before_own_profile():
+    with Session(engine) as s:
+        _seed_intelligence(
+            s,
+            handle="nathanlimagro",
+            profile_type="own",
+            instagram_id="own-newer",
+            analyzed_at=datetime(2026, 4, 23, 12, tzinfo=timezone.utc),
+        )
+        _seed_intelligence(
+            s,
+            handle="concorrente",
+            profile_type="competitor",
+            instagram_id="competitor-older",
+            analyzed_at=datetime(2026, 4, 22, 12, tzinfo=timezone.utc),
+        )
+
+    response = client.get("/intelligence/posts")
+
+    assert response.status_code == 200
+    data = response.json()
+    assert [row["handle"] for row in data] == ["concorrente", "nathanlimagro"]
+    assert [row["profile_type"] for row in data] == ["competitor", "own"]
 
 
 def test_get_intelligence_by_post_id():

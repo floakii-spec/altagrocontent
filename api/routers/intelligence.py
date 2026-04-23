@@ -4,6 +4,7 @@ from typing import List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel
+from sqlalchemy import case
 from sqlalchemy.orm import Session, joinedload
 
 from api.deps import get_db
@@ -21,6 +22,7 @@ router = APIRouter(prefix="/intelligence", tags=["intelligence"])
 class PostIntelligenceOut(BaseModel):
     post_id: int
     handle: str
+    profile_type: str
     post_type: str
     likes: int
     virality_score: Optional[float]
@@ -94,6 +96,7 @@ def _intel_to_out(intel: PostIntelligence) -> PostIntelligenceOut:
     return PostIntelligenceOut(
         post_id=post.id,
         handle=post.profile.handle,
+        profile_type=post.profile.type,
         post_type=post.post_type,
         likes=post.likes,
         virality_score=post.analysis.virality_score if post.analysis else None,
@@ -130,7 +133,14 @@ def list_intelligence(
             joinedload(PostIntelligence.post).joinedload(Post.profile),
             joinedload(PostIntelligence.post).joinedload(Post.analysis),
         )
-        .order_by(PostIntelligence.analyzed_at.desc())
+        .order_by(
+            case(
+                (Profile.type == "competitor", 0),
+                (Profile.type == "own", 1),
+                else_=2,
+            ),
+            PostIntelligence.analyzed_at.desc(),
+        )
     )
     if handle:
         q = q.filter(Profile.handle == handle)

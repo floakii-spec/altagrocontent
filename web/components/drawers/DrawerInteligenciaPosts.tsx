@@ -30,6 +30,7 @@ interface CarouselComplexity {
 interface PostIntelligence {
   post_id: number
   handle: string
+  profile_type: string
   post_type: string
   likes: number
   virality_score: number | null
@@ -298,6 +299,16 @@ export function DrawerInteligenciaPosts() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
                       <span className="text-[12px] font-semibold text-white truncate">@{p.handle}</span>
+                      <span
+                        className="text-[9px] font-bold px-1.5 py-0.5 rounded-full shrink-0"
+                        style={
+                          p.profile_type === 'own'
+                            ? { background: 'rgba(139,92,246,0.16)', color: '#a78bfa', border: '1px solid rgba(139,92,246,0.24)' }
+                            : { background: 'rgba(59,130,246,0.14)', color: '#60a5fa', border: '1px solid rgba(59,130,246,0.22)' }
+                        }
+                      >
+                        {p.profile_type === 'own' ? 'NATHAN' : 'CONCORRENTE'}
+                      </span>
                       <span
                         className="text-[9px] font-bold px-1.5 py-0.5 rounded-full shrink-0"
                         style={{ background: depthColor + '22', color: depthColor, border: `1px solid ${depthColor}44` }}
