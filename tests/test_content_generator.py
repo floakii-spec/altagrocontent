@@ -119,6 +119,14 @@ def _mock_response(payload: dict) -> MagicMock:
     return response
 
 
+def _mock_raw_response(content: str) -> MagicMock:
+    choice = MagicMock()
+    choice.message.content = content
+    response = MagicMock()
+    response.choices = [choice]
+    return response
+
+
 def test_generate_post_retries_when_initial_draft_is_weak(session_with_generation_context):
     session, post, voice = session_with_generation_context
     weak = {
@@ -161,6 +169,41 @@ def test_generate_post_retries_when_initial_draft_is_weak(session_with_generatio
     assert generated.format == "carousel"
     assert generated.slides[0]["slide_type"] == "CAPA"
     assert generated.hook == strong["slides"][1]["title"]
+
+
+def test_generate_post_recovers_from_empty_or_invalid_json_response(session_with_generation_context):
+    session, post, voice = session_with_generation_context
+    strong = {
+        "slides": [
+            {"slide_number": 1, "slide_type": "CAPA", "title": "Sua soja pode render bem e mesmo assim sobrar pouca margem", "copy": "Alta produtividade nao compensa decisao comercial ruim.", "cta": ""},
+            {"slide_number": 2, "slide_type": "HOOK", "title": "Quando a margem muda 12%, muda o caixa inteiro da safra", "copy": "Esse nao e um detalhe financeiro. E uma decisao comercial que altera o resultado final.", "cta": ""},
+            {"slide_number": 3, "slide_type": "DESENVOLVIMENTO", "title": "R$ 18/sc nao some por acaso", "copy": "Na pratica, essa variacao aparece quando custo, preco e momento de venda sao lidos de forma isolada.", "cta": ""},
+            {"slide_number": 4, "slide_type": "PROVA", "title": "Na pratica, margem e onde a safra mostra a verdade", "copy": "Quando a conta fecha R$ 18/sc abaixo no levantamento interno, o erro quase sempre esteve na leitura comercial.", "cta": ""},
+            {"slide_number": 5, "slide_type": "CTA", "title": "Aprenda a defender margem com metodo", "copy": "Quem trabalha com vendas no agro precisa traduzir dado em decisao.", "cta": "Entre na Confraria e aprenda a defender margem no agro."},
+        ],
+        "caption": (
+            "Tem produtor comemorando produtividade enquanto a margem escorre pelo comercial.\n\n"
+            "Quando a diferenca de margem chega a 12%, nao estamos falando de detalhe. Estamos falando de uma decisao que muda o caixa da safra.\n\n"
+            "E quando essa variacao bate R$ 18/sc no resultado liquido, como apareceu no levantamento interno, fica claro que vender bem vale tanto quanto produzir bem.\n\n"
+            "No campo, produtividade sem estrategia comercial vira numero bonito com rentabilidade fraca. O agronomo e o vendedor que entendem isso param de discutir so volume e passam a discutir decisao.\n\n"
+            "Esse e o tipo de leitura que separa quem repete processo de quem construi margem de verdade, porque mostra onde o resultado realmente nasce e onde a margem se perde no campo.\n\n"
+            "Se voce trabalha com vendas no agro e quer aprender a fazer essa leitura com metodo, entra na Confraria."
+        ),
+        "cta": "Entre na Confraria e aprenda a defender margem no agro.",
+        "funnel_stage": "fundo",
+        "format": "carousel",
+    }
+
+    with patch("src.generator.content_generator.load_studio_context", return_value={}), patch(
+        "src.generator.content_generator.openai_client.chat.completions.create",
+        side_effect=[_mock_raw_response(""), _mock_response(strong)],
+    ) as mock_create:
+        generated = generate_post(post, voice, approved_examples=[], session=session)
+
+    assert mock_create.call_count == 2
+    assert generated.caption == strong["caption"]
+    retry_prompt = mock_create.call_args_list[-1].kwargs["messages"][1]["content"]
+    assert "A resposta anterior veio vazia ou em JSON invalido" in retry_prompt
 
 
 def test_generate_post_repairs_caption_when_only_remaining_issue_is_length(session_with_generation_context):

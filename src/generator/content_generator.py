@@ -571,25 +571,78 @@ def _build_refinement_prompt(
 
 
 def _parse_json_response(raw_content: str) -> dict[str, Any]:
-    content = (raw_content or "").strip()
+    content = (raw_content or "").replace("\ufeff", "").strip()
     if content.startswith("```"):
         content = content.split("```", 2)[1]
         if content.startswith("json"):
             content = content[4:]
         content = content.rstrip("`").strip()
-    return json.loads(content)
+    if not content:
+        raise json.JSONDecodeError("Empty content", raw_content or "", 0)
+
+    try:
+        parsed = json.loads(content)
+    except json.JSONDecodeError:
+        decoder = json.JSONDecoder()
+        start_positions = [idx for idx, char in enumerate(content) if char in "{["]
+        for start in start_positions:
+            try:
+                parsed, _ = decoder.raw_decode(content[start:])
+                break
+            except json.JSONDecodeError:
+                continue
+        else:
+            raise
+
+    if not isinstance(parsed, dict):
+        raise json.JSONDecodeError("Expected a JSON object", content, 0)
+    return parsed
 
 
-def _request_generation(system_prompt: str, user_prompt: str, *, max_tokens: int = 1500) -> dict[str, Any]:
-    response = openai_client.chat.completions.create(
-        model="gpt-4o",
-        messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_prompt},
-        ],
-        max_tokens=max_tokens,
-    )
-    return _parse_json_response(response.choices[0].message.content or "")
+def _request_generation(
+    system_prompt: str,
+    user_prompt: str,
+    *,
+    max_tokens: int = 1500,
+    max_parse_attempts: int = 3,
+) -> dict[str, Any]:
+    current_prompt = user_prompt
+    last_error: json.JSONDecodeError | None = None
+
+    for attempt in range(1, max_parse_attempts + 1):
+        response = openai_client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": current_prompt},
+            ],
+            max_tokens=max_tokens,
+        )
+        raw_content = response.choices[0].message.content or ""
+        try:
+            return _parse_json_response(raw_content)
+        except json.JSONDecodeError as exc:
+            last_error = exc
+            logger.warning(
+                "Invalid JSON from content generation on parse attempt %s/%s: %s | raw=%r",
+                attempt,
+                max_parse_attempts,
+                exc,
+                raw_content[:500],
+            )
+            if attempt >= max_parse_attempts:
+                break
+            current_prompt = (
+                f"{user_prompt}\n\n"
+                "A resposta anterior veio vazia ou em JSON invalido.\n"
+                f"RESPOSTA ANTERIOR:\n{raw_content[:1200] or '<vazia>'}\n\n"
+                "Reenvie a resposta do zero.\n"
+                "Retorne APENAS um JSON valido, sem markdown, sem explicacao, sem texto antes ou depois."
+            )
+
+    raise ValueError(
+        "O modelo retornou uma resposta vazia ou invalida ao gerar o carrossel do Studio. Tente novamente."
+    ) from last_error
 
 
 def _repair_caption(

@@ -3,6 +3,7 @@ os.environ.setdefault("DATABASE_URL", "sqlite:///:memory:")
 os.environ.setdefault("OPENAI_API_KEY", "sk-test")
 os.environ.setdefault("APIFY_API_TOKEN", "apify-test")
 
+import json
 import pytest
 from unittest.mock import patch, MagicMock
 from fastapi.testclient import TestClient
@@ -35,7 +36,7 @@ def test_list_studio_posts_empty():
     assert response.status_code == 200
     assert response.json() == []
 
-def test_list_studio_posts_returns_competitor_posts():
+def test_list_studio_posts_returns_generation_ready_posts_with_visual_metadata():
     with Session(engine) as s:
         p = Profile(handle="competidor1", type="competitor")
         s.add(p)
@@ -48,11 +49,45 @@ def test_list_studio_posts_returns_competitor_posts():
         analysis = PostAnalysis(post_id=post.id, virality_score=0.85,
                                 raw_analysis={"hook": "Hook incrível"}, analyzed_at=now)
         s.add(analysis)
+        intel = PostIntelligence(
+            post_id=post.id,
+            technical_claims=[],
+            data_points=[],
+            sources_referenced=[],
+            core_argument="Argumento central",
+            technical_depth="especialista",
+            agro_topic_cluster="soja",
+            analyzed_at=now,
+        )
+        s.add(intel)
         s.commit()
     response = client.get("/studio/posts")
     assert len(response.json()) == 1
     assert response.json()[0]["handle"] == "competidor1"
+    assert response.json()[0]["title"] == "Hook incrível"
+    assert response.json()[0]["image_url"] == "http://x.com/img.jpg"
+    assert response.json()[0]["status"] == "analisado"
+    assert response.json()[0]["has_intelligence"] is True
     assert response.json()[0]["virality_score"] == pytest.approx(0.85)
+
+def test_list_studio_posts_hides_posts_without_intelligence():
+    with Session(engine) as s:
+        p = Profile(handle="competidor2", type="competitor")
+        s.add(p)
+        s.flush()
+        now = datetime.now(timezone.utc)
+        post = Post(profile_id=p.id, instagram_id="ig-hidden", image_url="http://x.com/img-hidden.jpg",
+                    post_type="feed", published_at=now, caption="Post ainda sem inteligencia")
+        s.add(post)
+        s.flush()
+        analysis = PostAnalysis(post_id=post.id, virality_score=0.91,
+                                raw_analysis={"hook": "Hook forte"}, analyzed_at=now)
+        s.add(analysis)
+        s.commit()
+
+    response = client.get("/studio/posts")
+    assert response.status_code == 200
+    assert response.json() == []
 
 def test_generate_studio_post():
     with Session(engine) as s:
@@ -110,3 +145,49 @@ def test_generate_studio_post():
     assert response.json()["caption"] == "Post gerado pelo GPT"
     assert response.json()["slides"][0]["slide_type"] == "CAPA"
     assert response.json()["format"] == "carousel"
+
+
+def test_generate_studio_post_returns_friendly_message_on_invalid_json():
+    with Session(engine) as s:
+        p = Profile(handle="comp", type="competitor")
+        s.add(p)
+        s.flush()
+        now = datetime.now(timezone.utc)
+        post = Post(profile_id=p.id, instagram_id="ig3", image_url="http://x.com/img3.jpg",
+                    post_type="feed", published_at=now)
+        s.add(post)
+        s.flush()
+        intel = PostIntelligence(
+            post_id=post.id,
+            technical_claims=[],
+            data_points=[],
+            sources_referenced=[],
+            core_argument="Argumento central",
+            analyzed_at=now,
+        )
+        s.add(intel)
+        own = Profile(handle="own_profile", type="own")
+        s.add(own)
+        s.flush()
+        voice = ProfileVoice(
+            profile_id=own.id,
+            vocabulary={},
+            tone="direto",
+            dominant_themes=[],
+            competitor_comparison={},
+            voice_summary="Tom direto.",
+            generated_at=now,
+        )
+        s.add(voice)
+        s.flush()
+        post_id = post.id
+        s.commit()
+
+    with patch(
+        "api.routers.studio.generate_post",
+        side_effect=json.JSONDecodeError("Expecting value", "", 0),
+    ):
+        response = client.post("/studio/generate", json={"post_id": post_id})
+
+    assert response.status_code == 422
+    assert response.json()["detail"] == "O modelo retornou uma resposta invalida ao gerar o carrossel do Studio. Tente novamente."

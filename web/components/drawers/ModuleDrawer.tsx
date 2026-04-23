@@ -37,12 +37,17 @@ export function ModuleDrawer({ module, group, open, onClose }: ModuleDrawerProps
     module.status === 'coming'
       ? DrawerComingSoon
       : DRAWER_MAP[module.id] ?? DrawerComingSoon
+  const isWideDrawer = ['concorrentes', 'studio'].includes(module.id)
+  const drawerClassName = isWideDrawer
+    ? 'w-screen max-w-none sm:w-[min(94vw,1040px)] sm:max-w-[1040px] p-0 border-l flex flex-col overflow-hidden'
+    : 'w-screen max-w-none sm:w-[480px] sm:max-w-[480px] p-0 border-l flex flex-col overflow-hidden'
 
   return (
     <Sheet open={open} onOpenChange={(v) => !v && onClose()}>
       <SheetContent
         side="right"
-        className="w-[440px] sm:w-[480px] p-0 border-l flex flex-col overflow-hidden"
+        showCloseButton={false}
+        className={drawerClassName}
         style={{
           background: '#080808',
           borderColor: 'rgba(255,255,255,0.08)',

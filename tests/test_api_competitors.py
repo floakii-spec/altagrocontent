@@ -9,7 +9,8 @@ from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from sqlalchemy.pool import StaticPool
-from src.models import Base, Profile, Post
+from datetime import datetime, timezone
+from src.models import Base, Profile, Post, PostAnalysis, PostIntelligence
 from api.main import app
 from api.deps import get_db
 
@@ -72,7 +73,6 @@ def test_list_competitors_returns_post_count():
         p = Profile(handle="withposts", type="competitor")
         s.add(p)
         s.flush()
-        from datetime import datetime, timezone
         post = Post(
             profile_id=p.id,
             instagram_id="ig1",
@@ -85,6 +85,78 @@ def test_list_competitors_returns_post_count():
     response = client.get("/competitors")
     profile = next(p for p in response.json() if p["handle"] == "withposts")
     assert profile["post_count"] == 1
+
+
+def test_list_competitor_library_returns_posts_with_status_and_title():
+    with Session(engine) as s:
+        competitor = Profile(handle="agro.alpha", type="competitor", follower_count=12345)
+        own = Profile(handle="meu.perfil", type="own", follower_count=999)
+        s.add_all([competitor, own])
+        s.flush()
+
+        older_post = Post(
+            profile_id=competitor.id,
+            instagram_id="ig-old",
+            image_url="http://x.com/old.jpg",
+            caption="Legenda mais antiga do concorrente",
+            post_type="feed",
+            published_at=datetime(2026, 4, 18, tzinfo=timezone.utc),
+            collected_at=datetime(2026, 4, 19, tzinfo=timezone.utc),
+        )
+        newer_post = Post(
+            profile_id=competitor.id,
+            instagram_id="ig-new",
+            image_url="http://x.com/new.jpg",
+            caption="Legenda mais recente do concorrente",
+            post_type="carousel",
+            published_at=datetime(2026, 4, 20, tzinfo=timezone.utc),
+            collected_at=datetime(2026, 4, 21, tzinfo=timezone.utc),
+        )
+        own_post = Post(
+            profile_id=own.id,
+            instagram_id="ig-own",
+            image_url="http://x.com/own.jpg",
+            caption="Post do proprio perfil",
+            post_type="feed",
+            published_at=datetime(2026, 4, 22, tzinfo=timezone.utc),
+        )
+        s.add_all([older_post, newer_post, own_post])
+        s.flush()
+
+        s.add(
+            PostAnalysis(
+                post_id=newer_post.id,
+                raw_analysis={"hook": "Hook do post mais recente"},
+                analyzed_at=datetime.now(timezone.utc),
+            )
+        )
+        s.add(
+            PostIntelligence(
+                post_id=newer_post.id,
+                core_argument="Argumento central",
+                technical_claims=[],
+                data_points=[],
+                sources_referenced=[],
+                analyzed_at=datetime.now(timezone.utc),
+            )
+        )
+        s.commit()
+
+    response = client.get("/competitors/library")
+
+    assert response.status_code == 200
+    library = response.json()
+    assert len(library) == 1
+    competitor = library[0]
+    assert competitor["handle"] == "agro.alpha"
+    assert competitor["post_count"] == 2
+    assert competitor["analyzed_posts"] == 1
+    assert competitor["pending_posts"] == 1
+    assert [post["instagram_id"] for post in competitor["posts"]] == ["ig-new", "ig-old"]
+    assert competitor["posts"][0]["title"] == "Hook do post mais recente"
+    assert competitor["posts"][0]["status"] == "analisado"
+    assert competitor["posts"][1]["title"] == "Legenda mais antiga do concorrente"
+    assert competitor["posts"][1]["status"] == "nao_analisado"
 
 
 def test_sync_competitors_can_filter_by_handle():
