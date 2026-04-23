@@ -51,6 +51,30 @@ _CREATIVE_TENSION_MARKERS = (
     "oportunidade",
 )
 
+_CAUSAL_REASONING_MARKERS = (
+    "porque",
+    "por isso",
+    "por trás",
+    "isso significa",
+    "ou seja",
+    "quando",
+    "depende",
+    "sem",
+    "mas",
+    "nao foi",
+    "não foi",
+    "foi o que",
+    "foi porque",
+)
+
+_TOKEN_STOPWORDS = {
+    "a", "as", "ao", "aos", "da", "das", "de", "do", "dos", "e", "em", "na", "nas",
+    "no", "nos", "o", "os", "ou", "para", "por", "que", "se", "sem", "um", "uma",
+    "mais", "menos", "como", "isso", "essa", "esse", "sua", "seu", "sao", "são",
+    "ser", "foi", "tem", "porque", "quando", "entre", "sobre", "com", "num", "numa",
+    "ate", "até", "mas", "muito", "muita", "todo", "toda", "todos", "todas",
+}
+
 _FUNNEL_CTA_MARKERS = {
     "topo": ("salve", "compartilhe", "marque"),
     "meio": ("comenta", "me conta", "responde", "me diz"),
@@ -96,6 +120,27 @@ def _find_hits(text: str, candidates: Iterable[str], *, min_chars: int = 2) -> l
     hits: list[str] = []
     for candidate in _unique(candidates, min_chars=min_chars):
         if _normalize_text(candidate) in haystack:
+            hits.append(candidate)
+    return hits
+
+
+def _tokenize(text: Any, *, min_chars: int = 4) -> set[str]:
+    return {
+        token
+        for token in re.findall(r"[a-zA-ZÀ-ÿ0-9$%]+", str(text or "").lower())
+        if len(token) >= min_chars and token not in _TOKEN_STOPWORDS
+    }
+
+
+def _find_token_overlap_hits(text: str, candidates: Iterable[str], *, min_overlap: int = 2) -> list[str]:
+    haystack_tokens = _tokenize(text)
+    hits: list[str] = []
+    for candidate in _unique(candidates, min_chars=4):
+        candidate_tokens = _tokenize(candidate)
+        if not candidate_tokens:
+            continue
+        needed = min(min_overlap, len(candidate_tokens))
+        if len(candidate_tokens.intersection(haystack_tokens)) >= needed:
             hits.append(candidate)
     return hits
 
@@ -268,6 +313,12 @@ def score_carousel_draft(
         score += 0.05
         strengths.append("tensao criativa agro presente")
 
+    causal_hits = 0
+    for slide in development_slides + ([normalized_slides[-2]] if slide_count >= 2 else []):
+        body = " ".join([slide["title"], slide["copy"]])
+        if _find_hits(body, _CAUSAL_REASONING_MARKERS, min_chars=3):
+            causal_hits += 1
+
     caption_text = (caption or "").strip()
     if min_caption_words is not None and max_caption_words is not None:
         if not caption_text:
@@ -306,7 +357,8 @@ def score_carousel_draft(
     numeric_hits = _find_hits(combined_text, evidence_pack.numeric_fragments, min_chars=2)
     source_hits = _find_hits(combined_text, evidence_pack.source_labels, min_chars=3)
     proof_hits = _find_hits(proof_text, evidence_pack.numeric_fragments + evidence_pack.source_labels, min_chars=2)
-    term_hits = _find_hits(combined_text, evidence_pack.required_terms, min_chars=3)
+    claim_hits = _find_token_overlap_hits(combined_text, evidence_pack.allowed_claims, min_overlap=2)
+    term_hits = _find_token_overlap_hits(combined_text, evidence_pack.required_terms, min_overlap=1)
 
     if evidence_pack.numeric_fragments:
         needed_hits = 2 if len(evidence_pack.numeric_fragments) >= 2 else 1
@@ -340,8 +392,19 @@ def score_carousel_draft(
     else:
         score += 0.05
 
+    if evidence_pack.allowed_claims:
+        needed_claim_hits = 2 if len(evidence_pack.allowed_claims) >= 3 else 1
+        if len(claim_hits) >= needed_claim_hits and causal_hits >= 1:
+            score += 0.10
+            strengths.append("cadeia causal do material-base preservada")
+        elif len(evidence_pack.allowed_claims) >= 3 and (len(claim_hits) < needed_claim_hits or causal_hits == 0):
+            issues.append("o texto perdeu a cadeia causal do material-base e virou abstracao generica")
+    else:
+        score += 0.04
+
     if evidence_pack.required_terms:
-        if term_hits:
+        needed_term_hits = 2 if len(evidence_pack.required_terms) >= 4 else 1
+        if len(term_hits) >= needed_term_hits:
             score += 0.06
         else:
             issues.append("tema central pouco refletido no texto final")
@@ -359,8 +422,11 @@ def score_carousel_draft(
             "numeric_hits": len(numeric_hits),
             "source_hits": len(source_hits),
             "proof_hits": len(proof_hits),
+            "claim_hits": len(claim_hits),
+            "term_hits": len(term_hits),
             "practical_hits": practical_hits,
             "creative_tension_hits": creative_tension_hits,
+            "causal_hits": causal_hits,
         },
     }
 
@@ -380,6 +446,8 @@ def format_quality_feedback(report: dict[str, Any]) -> str:
             f"slides={metrics.get('slide_count')}, "
             f"hits_numericos={metrics.get('numeric_hits')}, "
             f"hits_fontes={metrics.get('source_hits')}, "
-            f"hits_prova={metrics.get('proof_hits')}"
+            f"hits_prova={metrics.get('proof_hits')}, "
+            f"hits_claims={metrics.get('claim_hits')}, "
+            f"hits_causais={metrics.get('causal_hits')}"
         )
     return "\n".join(lines)

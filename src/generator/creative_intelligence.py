@@ -1,3 +1,5 @@
+import re
+from collections import Counter
 from typing import Any
 
 
@@ -7,6 +9,8 @@ CREATIVE_INTELLIGENCE_DIRECTIVES = (
     "Use contraste concreto: antes/depois, campo/escritorio, volume/margem, tecnico/comercial, achismo/criterio.",
     "Troque generalidade por situacao vivida: safra, talhao, custo por hectare, negociacao, visita, carteira, revenda ou cooperativa.",
     "Mantenha criatividade com lastro: a ideia pode ser ousada, mas o dado, a fonte e a implicacao precisam vir do material validado.",
+    "Ao adaptar um case de outro contexto, troque o cenario, nao a logica: preserve fato disparador, mecanismo, prova e consequencia.",
+    "Nao transforme um caso analitico em licao moral generica sobre gestao, mentalidade ou disciplina.",
 )
 
 _FIELD_CONTEXTS = {
@@ -40,6 +44,14 @@ _ENGAGEMENT_ARCHETYPES = (
         "shape": "Diferencie achismo de criterio e mostre como aplicar em uma conversa real.",
     },
 )
+
+_STOPWORDS = {
+    "a", "as", "ao", "aos", "da", "das", "de", "do", "dos", "e", "em", "na", "nas",
+    "no", "nos", "o", "os", "ou", "para", "por", "que", "se", "sem", "um", "uma",
+    "mais", "menos", "como", "isso", "essa", "esse", "sua", "seu", "sao", "são",
+    "ser", "foi", "tem", "porque", "quando", "entre", "sobre", "com", "num", "numa",
+    "ate", "até", "dos", "das", "pela", "pelo", "pelos", "pelas", "mas",
+}
 
 
 def _clean(value: Any) -> str:
@@ -90,6 +102,68 @@ def _field_contexts(segment: str | None) -> list[str]:
     return list(_FIELD_CONTEXTS.get(normalized, _FIELD_CONTEXTS["geral"]))
 
 
+def _tokenize(text: Any) -> list[str]:
+    return [
+        token
+        for token in re.findall(r"[a-zA-ZÀ-ÿ0-9$%]+", _clean(text).lower())
+        if len(token) >= 4 and token not in _STOPWORDS
+    ]
+
+
+def _salient_terms(values: list[Any], limit: int = 10) -> list[str]:
+    tokens_by_order: list[str] = []
+    counts: Counter[str] = Counter()
+    seen: set[str] = set()
+    for value in values:
+        for token in _tokenize(value):
+            counts[token] += 1
+            if token not in seen:
+                seen.add(token)
+                tokens_by_order.append(token)
+
+    ranked = sorted(
+        tokens_by_order,
+        key=lambda token: (-counts[token], tokens_by_order.index(token)),
+    )
+    return ranked[:limit]
+
+
+def _extract_causal_chain(intel: Any) -> dict[str, Any]:
+    slide_breakdown = getattr(intel, "slide_breakdown", []) or []
+    trigger_candidates: list[str] = []
+    for slide in slide_breakdown[:2]:
+        if not isinstance(slide, dict):
+            continue
+        trigger_candidates.extend([
+            slide.get("title", ""),
+            slide.get("summary", ""),
+            slide.get("main_point", ""),
+        ])
+
+    argument_steps = [
+        step.strip()
+        for step in re.split(r"->|→|\||/+", _clean(getattr(intel, "argument_structure", "")))
+        if step.strip()
+    ]
+    mechanism_candidates = list(getattr(intel, "technical_claims", []) or [])
+    mechanism_candidates.extend(argument_steps)
+    mechanism_candidates.append(getattr(intel, "content_gaps", ""))
+
+    return {
+        "fato_disparador": _unique(trigger_candidates + [getattr(intel, "core_argument", "")], limit=2),
+        "mecanismos": _unique(mechanism_candidates, limit=5),
+        "provas": _unique(
+            _data_labels(getattr(intel, "data_points", []) or [])
+            + list(getattr(intel, "sources_referenced", []) or []),
+            limit=6,
+        ),
+        "regra_de_transferencia": (
+            "Troque o contexto do case, mas preserve a logica: o que disparou o problema, "
+            "por que ele aconteceu, qual prova o sustenta e o que isso muda no agro."
+        ),
+    }
+
+
 def build_source_creative_brief(source_post: Any, top_args: list[Any], validated_catalog: dict[str, Any]) -> dict[str, Any]:
     intel = source_post.intelligence
     core_argument = _clean(getattr(intel, "core_argument", ""))
@@ -111,17 +185,36 @@ def build_source_creative_brief(source_post: Any, top_args: list[Any], validated
         + list(validated_catalog.get("numeros_obrigatoriamente_ancorados_no_material_base") or []),
         limit=6,
     )
+    causal_chain = _extract_causal_chain(intel)
+    mechanism_terms = _salient_terms(
+        [
+            core_argument,
+            content_gaps,
+            *claims,
+            *(point.get("context", "") for point in data_points if isinstance(point, dict)),
+            getattr(intel, "argument_structure", ""),
+            transcript,
+        ],
+        limit=10,
+    )
 
     return {
         "mandato_criativo": "Gerar um carrossel tecnicamente fiel, mas com alto potencial de retencao e compartilhamento no agro.",
         "tensoes_para_explorar": tension_candidates,
         "dados_para_dramatizar": data_to_dramatize,
+        "cadeia_causal_a_preservar": causal_chain,
+        "mecanismos_que_nao_podem_sumir": mechanism_terms,
         "contextos_de_campo": _field_contexts(segment),
         "territorios_de_engajamento": list(_ENGAGEMENT_ARCHETYPES),
         "perguntas_de_retencao": [
             "Qual decisao muda quando este dado entra na conversa?",
             "Onde o produtor, consultor ou vendedor costuma errar por falta de criterio?",
             "Que contraste deixa o problema impossivel de ignorar?",
+        ],
+        "o_que_nao_fazer": [
+            "Nao resumir um case complexo em 'gestao importa'.",
+            "Nao pular da provocacao para o CTA sem explicar o mecanismo.",
+            "Nao apagar a prova numerica ou a origem do argumento.",
         ],
         "transcricao_literal_resumida_para_criacao": transcript,
         "diretrizes": list(CREATIVE_INTELLIGENCE_DIRECTIVES),

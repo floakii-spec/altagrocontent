@@ -22,6 +22,14 @@ from src.slide_utils import extract_carousel_cta, extract_carousel_hook, normali
 logger = logging.getLogger(__name__)
 openai_client = OpenAI(api_key=OPENAI_API_KEY)
 
+_MECHANISM_STOPWORDS = {
+    "a", "as", "ao", "aos", "da", "das", "de", "do", "dos", "e", "em", "na", "nas",
+    "no", "nos", "o", "os", "ou", "para", "por", "que", "se", "sem", "um", "uma",
+    "mais", "menos", "como", "isso", "essa", "esse", "sua", "seu", "sao", "são",
+    "ser", "foi", "tem", "porque", "quando", "entre", "sobre", "com", "num", "numa",
+    "ate", "até", "mas", "muito", "muita", "todo", "toda", "todos", "todas",
+}
+
 CONFRARIA_CONTEXT = """SOBRE O AUTOR:
 - Engenheiro Agrônomo com 15+ anos em vendas, varejo e cooperativismo no agronegócio brasileiro
 - Fundador da Confraria de Vendas no Agro: comunidade para quem quer dominar o comercial no campo
@@ -56,6 +64,8 @@ CONTEXTO ESTRATÉGICO DO OBSIDIAN:
 REGRAS INEGOCIÁVEIS:
 - Escreva como alguém do agro brasileiro. Nunca use tom de coach, autoajuda ou texto genérico.
 - Preserve os dados técnicos do material de origem. Se houver números, percentuais, fontes ou comparativos, eles devem aparecer no texto final.
+- Ao adaptar um case de outro contexto, preserve a cadeia causal do original: fato disparador, mecanismo, prova e implicacao para o agro.
+- Troque o cenario, nao a logica. Nao reduza um caso analitico a sermao generico sobre gestao, disciplina ou mentalidade.
 - Não invente fatos, estatísticas, safras, preços ou fontes.
 - Explique o impacto prático do dado para agrônomos, consultores, revendas ou vendedores do agro.
 - Entregue o conteúdo obrigatoriamente em formato de carrossel, nunca em formato de feed solto.
@@ -73,6 +83,18 @@ Crie um carrossel para o Instagram do autor. Use a voz do autor fielmente. O pos
 
 Retorne JSON:
 {{
+  "adaptation_map": {{
+    "tese_original": "<qual tese central do original precisa ser preservada>",
+    "tese_adaptada": "<como essa tese fica forte na voz do Nathan>",
+    "fato_disparador_original": "<qual contraste/fato dispara a leitura>",
+    "mecanismo_original": "<qual a engrenagem causal do caso>",
+    "ponte_para_agro": "<como essa logica vira decisao real no agro>",
+    "angulo_autoral_do_nathan": "<qual leitura autoral do Nathan entra aqui>",
+    "prova_que_nao_pode_sumir": ["<numero/fonte/claim 1>", "<numero/fonte/claim 2>"],
+    "plano_estrutural": [
+      {{"slide_number": 1, "slide_type": "CAPA", "papel": "<funcao do slide>", "origem": "<o que veio do original>", "adaptacao": "<como isso sera traduzido para o agro>"}}
+    ]
+  }},
   "slides": [
     {{"slide_number": 1, "slide_type": "CAPA", "title": "<título curto e forte>", "copy": "<texto do slide>", "cta": ""}},
     {{"slide_number": 2, "slide_type": "HOOK", "title": "<gancho ou dado>", "copy": "<texto do slide>", "cta": ""}},
@@ -86,6 +108,7 @@ Retorne JSON:
 }}
 - Entre 5 e 8 slides no total
 - `format` deve ser sempre `carousel`
+- Monte primeiro o `adaptation_map` e use esse mapa para escrever slides e legenda.
 Responda APENAS com o JSON, sem markdown."""
 
 _USER_PROMPT = """POST DO CONCORRENTE PARA INSPIRAÇÃO:
@@ -132,6 +155,9 @@ CATÁLOGO DE DADOS VALIDADOS QUE VOCÊ PODE USAR:
 INTELIGÊNCIA CRIATIVA AGRO:
 {creative_brief}
 
+MAPA ESTRUTURAL DE TRANSFERÊNCIA (OBRIGATÓRIO):
+{structural_transfer_map}
+
 BLUEPRINT RECOMENDADO DO CARROSSEL:
 {slide_blueprint}
 
@@ -141,6 +167,8 @@ CHECKLIST DE QUALIDADE:
 Adapte a estrutura e os dados acima para a voz e realidade do autor.
 Saída obrigatória: texto denso, específico e útil. Use a transcrição literal dos cards como fonte primária para dados, sequência lógica e nuances do material-base.
 Não resuma demais e não apague os dados do material-base.
+Preserve a progressao do raciocinio do original: contraste inicial, explicacao do porquê, prova e implicacao pratica. Se trocar o contexto, mantenha a engrenagem causal.
+Use o mapa estrutural de transferência como etapa obrigatória de raciocínio antes da escrita final.
 Se um dado não estiver no catálogo validado, não use."""
 
 _CAPTION_ISSUE_PREFIXES = (
@@ -167,6 +195,10 @@ _BLOCKING_ISSUE_PREFIXES = (
     "hook generico ou pouco especifico",
     "faltam slides de desenvolvimento",
     "cta ausente",
+    "o texto perdeu a cadeia causal do material-base",
+    "faltou adaptation_map",
+    "adaptation_map incompleto",
+    "adaptation_map nao preservou",
 )
 
 _FULL_REWRITE_ISSUE_PREFIXES = (
@@ -182,6 +214,10 @@ _FULL_REWRITE_ISSUE_PREFIXES = (
     "funil ausente ou invalido",
     "formato ausente ou invalido",
     "estrutura obrigatoria incompleta",
+    "o texto perdeu a cadeia causal do material-base",
+    "faltou adaptation_map",
+    "adaptation_map incompleto",
+    "adaptation_map nao preservou",
 )
 
 _QUALITY_SCORE_THRESHOLD = 0.78
@@ -223,6 +259,218 @@ def _trim_for_prompt(text: str | None, limit: int = 6000) -> str:
     return f"{value[:limit].rstrip()}\n...[transcrição truncada para caber no prompt]"
 
 
+def _tokenize_mechanism_terms(*texts: str) -> list[str]:
+    tokens: list[str] = []
+    seen: set[str] = set()
+    for text in texts:
+        for token in re.findall(r"[a-zA-ZÀ-ÿ0-9$%]+", str(text or "").lower()):
+            if len(token) < 4 or token in _MECHANISM_STOPWORDS or token in seen:
+                continue
+            seen.add(token)
+            tokens.append(token)
+    return tokens
+
+
+def _build_mechanism_terms(source_post: Post, top_args: list[ArgumentBank]) -> list[str]:
+    intel = source_post.intelligence
+    terms: list[str] = []
+
+    for point in intel.data_points or []:
+        if isinstance(point, dict):
+            terms.extend(_tokenize_mechanism_terms(point.get("context", ""), point.get("value", "")))
+
+    slide_breakdown = getattr(intel, "slide_breakdown", []) or []
+    slide_texts = []
+    for slide in slide_breakdown[:4]:
+        if not isinstance(slide, dict):
+            continue
+        slide_texts.extend([slide.get("title", ""), slide.get("summary", ""), slide.get("main_point", "")])
+
+    terms.extend(
+        _tokenize_mechanism_terms(
+            intel.core_argument or "",
+            intel.argument_structure or "",
+            intel.content_gaps or "",
+            *(claim for claim in intel.technical_claims or [] if isinstance(claim, str)),
+            *(arg.text for arg in top_args if arg.text.strip()),
+            *slide_texts,
+        )
+    )
+
+    deduped: list[str] = []
+    for term in terms:
+        if term not in deduped:
+            deduped.append(term)
+    return deduped[:10]
+
+
+def _stringify_data_point(point: dict[str, Any]) -> str:
+    value = str(point.get("value", "")).strip()
+    context = str(point.get("context", "")).strip()
+    source = str(point.get("source", "")).strip()
+    if value and context and source:
+        return f"{value} em {context} ({source})"
+    if value and context:
+        return f"{value} em {context}"
+    return value or context
+
+
+def _first_non_empty(*values: Any, fallback: str = "—") -> str:
+    for value in values:
+        text = str(value or "").strip()
+        if text:
+            return text
+    return fallback
+
+
+def _flatten_strings(value: Any) -> list[str]:
+    if isinstance(value, dict):
+        flattened: list[str] = []
+        for item in value.values():
+            flattened.extend(_flatten_strings(item))
+        return flattened
+    if isinstance(value, list):
+        flattened = []
+        for item in value:
+            flattened.extend(_flatten_strings(item))
+        return flattened
+    text = str(value or "").strip()
+    return [text] if text else []
+
+
+def _build_structural_transfer_map(
+    source_post: Post,
+    voice: ProfileVoice,
+    top_args: list[ArgumentBank],
+    validated_data_catalog: dict[str, Any],
+    creative_brief: dict[str, Any],
+    slide_blueprint: list[dict[str, str]],
+) -> dict[str, Any]:
+    intel = source_post.intelligence
+    causal_chain = creative_brief.get("cadeia_causal_a_preservar") or {}
+    field_contexts = list(creative_brief.get("contextos_de_campo") or [])
+    mechanisms = list(causal_chain.get("mecanismos") or [])
+    trigger = _first_non_empty(*(causal_chain.get("fato_disparador") or []), intel.core_argument)
+    proof_points = [
+        _stringify_data_point(point)
+        for point in (validated_data_catalog.get("dados_estruturados") or [])
+        if isinstance(point, dict)
+    ]
+    if not proof_points:
+        proof_points = list(validated_data_catalog.get("numeros_obrigatoriamente_ancorados_no_material_base") or [])
+    source_slide_breakdown = getattr(intel, "slide_breakdown", []) or []
+    source_slide_anchors = [
+        _first_non_empty(
+            slide.get("summary"),
+            slide.get("title"),
+            slide.get("main_point"),
+        )
+        for slide in source_slide_breakdown
+        if isinstance(slide, dict)
+    ]
+    voice_themes = ", ".join(voice.dominant_themes or []) or "vendas consultivas e decisao comercial"
+    authorial_angle = _first_non_empty(
+        *(arg.text for arg in top_args if arg.text.strip()),
+        f"Ler o caso pela lente de {voice_themes}, com tom {voice.tone or 'direto'} e foco em decisao real no agro.",
+    )
+
+    plan: list[dict[str, Any]] = []
+    mechanism_terms = validated_data_catalog.get("mecanismos_que_nao_podem_sumir") or []
+    for index, blueprint_item in enumerate(slide_blueprint, start=1):
+        slide_type = blueprint_item.get("slide_type", "DESENVOLVIMENTO")
+        source_anchor = source_slide_anchors[index - 1] if index - 1 < len(source_slide_anchors) else trigger
+        if slide_type == "CAPA":
+            adapted_goal = (
+                f"Abrir com o contraste central do caso em contexto de {field_contexts[0] if field_contexts else 'resultado e caixa no agro'}."
+            )
+        elif slide_type == "HOOK":
+            adapted_goal = (
+                f"Transformar o dado/tensao em curiosidade forte para quem vive {field_contexts[1] if len(field_contexts) > 1 else 'margem e decisao comercial'}."
+            )
+        elif slide_type == "PROVA":
+            adapted_goal = (
+                f"Ancorar a tese com prova concreta: {_first_non_empty(*proof_points, fallback='numero, comparativo ou fonte validada')}."
+            )
+        elif slide_type == "CTA":
+            adapted_goal = "Fechar com CTA coerente com a Confraria, sem quebrar a linha tecnica do caso."
+        else:
+            mechanism_hint = mechanisms[min(index - 3, max(len(mechanisms) - 1, 0))] if mechanisms else _first_non_empty(*mechanism_terms, fallback="criterio tecnico")
+            context_hint = field_contexts[(index - 1) % len(field_contexts)] if field_contexts else "campo e comercial"
+            adapted_goal = f"Explicar o mecanismo '{mechanism_hint}' em situacao real de {context_hint}, com implicacao pratica."
+
+        plan.append(
+            {
+                "slide_number": index,
+                "slide_type": slide_type,
+                "papel": blueprint_item.get("objective", ""),
+                "origem": source_anchor,
+                "adaptacao": adapted_goal,
+            }
+        )
+
+    return {
+        "tese_original": intel.core_argument or "—",
+        "tese_adaptada": f"Traduzir a mesma logica do caso para o agro, com foco em {field_contexts[0] if field_contexts else 'margem, risco e decisao'}.",
+        "fato_disparador_original": trigger,
+        "mecanismo_original": _first_non_empty(*mechanisms, intel.argument_structure, intel.content_gaps),
+        "ponte_para_agro": _first_non_empty(
+            *(creative_brief.get("perguntas_de_retencao") or []),
+            f"Mostrar o que muda para produtor, consultor, revenda ou vendedor em {field_contexts[0] if field_contexts else 'situacoes reais do agro'}.",
+        ),
+        "angulo_autoral_do_nathan": authorial_angle,
+        "prova_que_nao_pode_sumir": proof_points[:3] or list(validated_data_catalog.get("fontes_disponiveis") or [])[:2],
+        "mecanismos_que_nao_podem_sumir": mechanism_terms[:6],
+        "plano_estrutural": plan,
+    }
+
+
+def _validate_adaptation_map(
+    adaptation_map: Any,
+    source_post: Post,
+    expected_slide_count: int,
+) -> list[str]:
+    if not isinstance(adaptation_map, dict):
+        return ["faltou adaptation_map com o mapa estrutural de transferencia"]
+
+    issues: list[str] = []
+    required_keys = (
+        "tese_original",
+        "tese_adaptada",
+        "fato_disparador_original",
+        "mecanismo_original",
+        "ponte_para_agro",
+        "angulo_autoral_do_nathan",
+        "plano_estrutural",
+    )
+    missing = [key for key in required_keys if not str(adaptation_map.get(key, "")).strip() and not isinstance(adaptation_map.get(key), list)]
+    if missing:
+        issues.append("adaptation_map incompleto: faltaram campos obrigatorios")
+
+    proof_points = adaptation_map.get("prova_que_nao_pode_sumir")
+    if not isinstance(proof_points, list) or not any(str(item).strip() for item in proof_points):
+        issues.append("adaptation_map incompleto: faltou prova_que_nao_pode_sumir")
+
+    plan = adaptation_map.get("plano_estrutural")
+    required_plan_size = max(5, min(int(expected_slide_count or 5), 8))
+    if not isinstance(plan, list) or len(plan) < required_plan_size:
+        issues.append("adaptation_map incompleto: plano_estrutural curto demais")
+    else:
+        normalized_types = [str(item.get("slide_type", "")).strip().upper() for item in plan if isinstance(item, dict)]
+        if not normalized_types or normalized_types[0] != "CAPA" or len(normalized_types) < 2 or normalized_types[1] != "HOOK":
+            issues.append("adaptation_map incompleto: plano_estrutural sem CAPA e HOOK claros")
+        if normalized_types and normalized_types[-1] != "CTA":
+            issues.append("adaptation_map incompleto: plano_estrutural sem CTA final")
+
+    reference_terms = _build_mechanism_terms(source_post, top_args=[])
+    map_text = " ".join(_flatten_strings(adaptation_map))
+    map_hits = _tokenize_mechanism_terms(map_text)
+    overlap = len(set(reference_terms).intersection(map_hits))
+    if reference_terms and overlap < min(2, len(reference_terms)):
+        issues.append("adaptation_map nao preservou os mecanismos centrais do material-base")
+
+    return issues
+
+
 def _select_top_arguments(session: Session, source_post: Post) -> list[ArgumentBank]:
     intel = source_post.intelligence
     score_expr = ArgumentBank.virality_weight * ArgumentBank.quality_score
@@ -247,6 +495,7 @@ def _select_top_arguments(session: Session, source_post: Post) -> list[ArgumentB
 
 def _build_validated_data_catalog(source_post: Post, top_args: list[ArgumentBank]) -> dict[str, Any]:
     intel = source_post.intelligence
+    mechanism_terms = _build_mechanism_terms(source_post, top_args)
     data_points = []
     for point in intel.data_points or []:
         if not isinstance(point, dict):
@@ -274,6 +523,7 @@ def _build_validated_data_catalog(source_post: Post, top_args: list[ArgumentBank
         "afirmacoes_tecnicas_permitidas": technical_claims,
         "fontes_disponiveis": source_labels,
         "argumento_central": intel.core_argument or "",
+        "mecanismos_que_nao_podem_sumir": mechanism_terms,
         "transcricao_literal_dos_cards": _trim_for_prompt(getattr(intel, "visual_transcript", None), limit=4000),
         "referencias_opcionais_do_banco": optional_bank_references,
         "instrucao": "Nao invente dado fora deste catalogo. Quando usar numero, deixe claro o que ele mede.",
@@ -330,11 +580,12 @@ def _build_evidence_pack(
     intel = source_post.intelligence
     allowed_claims = [intel.core_argument or ""] + [claim for claim in intel.technical_claims or [] if isinstance(claim, str)]
     allowed_claims.extend(arg.text for arg in top_args if arg.text.strip())
+    required_terms = validated_data_catalog.get("mecanismos_que_nao_podem_sumir") or _build_mechanism_terms(source_post, top_args)
     return CarouselEvidencePack(
         numeric_fragments=tuple(validated_data_catalog.get("numeros_obrigatoriamente_ancorados_no_material_base") or []),
         source_labels=tuple(validated_data_catalog.get("fontes_disponiveis") or []),
         allowed_claims=tuple(claim for claim in allowed_claims if str(claim).strip()),
-        required_terms=(),
+        required_terms=tuple(str(term).strip() for term in required_terms if str(term).strip()),
     )
 
 
@@ -343,6 +594,7 @@ def _build_quality_guardrails() -> list[str]:
     "Cada slide precisa ter uma funcao unica e empurrar a leitura para o proximo card.",
     "Nos slides de desenvolvimento, traduza o dado em implicacao pratica para o agro.",
     "Cada carrossel precisa ter uma tensao criativa clara: erro caro, decisao dificil, contraste tecnico/comercial ou risco de margem.",
+    "Se o material-base for um case analitico, preserve a cadeia causal: fato, mecanismo, prova e consequencia. Nao vire sermao generico.",
     "Use linguagem de situacao real do agro: campo, safra, talhao, revenda, carteira, produtor ou negociacao.",
     "O slide de PROVA precisa ancorar numero, comparativo, caso ou fonte do catalogo.",
     "O CTA final deve ter uma unica acao e combinar com o funil escolhido.",
@@ -419,6 +671,11 @@ def _evaluate_generation(
     )
     if numeric_fragments and not any(fragment in combined_text for fragment in numeric_fragments):
         problems.append("os dados numericos do post-base sumiram")
+
+    adaptation_map_issues = _validate_adaptation_map(result.get("adaptation_map"), source_post, len(slides) or target_slide_count)
+    for issue in adaptation_map_issues:
+        if issue not in problems:
+            problems.append(issue)
 
     quality_report = score_carousel_draft(
         slides=slides,
@@ -539,6 +796,12 @@ def _build_revision_directives(issues: list[str]) -> list[str]:
         directives.append("Fortaleca o HOOK com numero, contraste, risco concreto ou pergunta especifica do agro.")
     if any("tensao criativa" in issue for issue in normalized_issues):
         directives.append("Construa uma tensao central clara: erro caro, decisao atrasada, risco de margem ou contraste entre achismo e criterio.")
+    if any("cadeia causal do material-base" in issue for issue in normalized_issues):
+        directives.append("Recupere a cadeia causal do material-base: abra com o contraste/fato, explique o mecanismo, prove com dado e so depois traduza para o agro.")
+    if any("faltou adaptation_map" in issue or "adaptation_map incompleto" in issue for issue in normalized_issues):
+        directives.append("Monte um adaptation_map completo antes de escrever: tese original, tese adaptada, mecanismo, ponte para o agro, prova que nao pode sumir e plano estrutural slide a slide.")
+    if any("adaptation_map nao preservou" in issue for issue in normalized_issues):
+        directives.append("Reescreva o adaptation_map preservando os mecanismos centrais do material-base e usando esses mesmos elementos para orientar os slides.")
     if any("poucos dados validados" in issue for issue in normalized_issues):
         directives.append("Reincorpore pelo menos dois dados validados do catalogo no texto final e deixe claro o que cada numero mede.")
     if any("slide de prova sem ancora tecnica forte" in issue for issue in normalized_issues):
@@ -729,6 +992,14 @@ def generate_post(
     quality_guardrails = _build_quality_guardrails()
     evidence_pack = _build_evidence_pack(source_post, top_args, validated_data_catalog)
     creative_brief = build_source_creative_brief(source_post, top_args, validated_data_catalog)
+    structural_transfer_map = _build_structural_transfer_map(
+        source_post,
+        voice,
+        top_args,
+        validated_data_catalog,
+        creative_brief,
+        slide_blueprint,
+    )
     vault_context = load_studio_context()
 
     system_prompt = _SYSTEM_PROMPT.format(
@@ -777,6 +1048,7 @@ def generate_post(
         structural_patterns=_format_json(_load_structural_patterns(source_post, top_args[:3])),
         validated_data_catalog=_format_json(validated_data_catalog),
         creative_brief=_format_json(creative_brief),
+        structural_transfer_map=_format_json(structural_transfer_map),
         slide_blueprint=_format_json(slide_blueprint),
         quality_guardrails="\n".join(f"- {item}" for item in quality_guardrails),
     )

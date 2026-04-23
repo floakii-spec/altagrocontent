@@ -29,6 +29,7 @@ Com base no perfil de voz do criador, nos templates e estruturas reais dos cards
 Priorize replicar as estruturas de cards que mais performaram — argumento central forte, dado técnico específico, comparativo ou CTA claro.
 Use as transcrições literais dos cards concorrentes como fonte primária para entender ordem narrativa, densidade técnica e dados que podem inspirar o novo roteiro.
 Use a inteligência criativa agro para escolher uma tensão central memorável antes de escrever os slides.
+Se a referencia vier de um case analitico, preserve a cadeia causal: fato disparador, mecanismo, prova e consequencia. Nao transforme isso em frase genérica de efeito.
 
 Retorne um JSON com a estrutura de slides:
 [
@@ -124,6 +125,27 @@ def _estimate_theme_slide_count(posts: list[Post]) -> int:
     return estimate_target_slide_count("intermediario", average_complexity, minimum=6)
 
 
+def _extract_theme_mechanism_terms(theme: str, top_args: list[ArgumentBank], posts: list[Post]) -> list[str]:
+    candidates = [theme]
+    candidates.extend(arg.text for arg in top_args if arg.text.strip())
+    for post in posts:
+        intel = post.intelligence
+        candidates.extend(
+            [
+                intel.core_argument or "",
+                intel.argument_structure or "",
+                *(claim for claim in intel.technical_claims or [] if isinstance(claim, str)),
+                *(point.get("context", "") for point in intel.data_points or [] if isinstance(point, dict)),
+            ]
+        )
+
+    deduped: list[str] = []
+    for token in _tokenize_theme(" ".join(candidates)):
+        if token not in deduped:
+            deduped.append(token)
+    return deduped[:10]
+
+
 def _build_theme_evidence_pack(theme: str, top_args: list[ArgumentBank], posts: list[Post]) -> CarouselEvidencePack:
     source_labels: list[str] = []
     allowed_claims: list[str] = []
@@ -134,7 +156,7 @@ def _build_theme_evidence_pack(theme: str, top_args: list[ArgumentBank], posts: 
             claim for claim in [intel.core_argument or "", *(intel.technical_claims or [])] if str(claim).strip()
         )
 
-    required_terms = list(_tokenize_theme(theme))[:4]
+    required_terms = _extract_theme_mechanism_terms(theme, top_args, posts)
     return CarouselEvidencePack(
         numeric_fragments=tuple(_extract_numeric_fragments(posts)),
         source_labels=tuple(dict.fromkeys(source_labels)),
@@ -199,6 +221,7 @@ def _build_quality_guardrails() -> list[str]:
         "A leitura precisa ganhar tensao a cada slide, sem repetir a mesma frase de jeitos diferentes.",
         "O miolo do carrossel precisa combinar dado tecnico e traducao pratica para o agro.",
         "O carrossel precisa ter uma tensao central reconhecivel: erro caro, margem em risco, decisao atrasada, contraste campo/escritorio ou oportunidade perdida.",
+        "Se a referencia for um case analitico, preserve a cadeia causal e nao reduza o raciocinio a conselho generico.",
         "A criatividade deve nascer de situacoes reais do agro, nao de frase bonita sem lastro.",
         "O slide PROVA precisa ancorar um numero, comparativo ou fonte do catalogo validado.",
         "O CTA final deve pedir uma unica acao clara e nao pode soar generico.",
