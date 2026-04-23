@@ -216,6 +216,121 @@ def test_generate_post_repairs_caption_when_only_remaining_issue_is_length(sessi
     assert "Corrija somente a legenda" in mock_create.call_args_list[-1].kwargs["messages"][1]["content"]
 
 
+def test_generate_post_refines_mixed_quality_issues_instead_of_aborting(session_with_generation_context):
+    session, post, voice = session_with_generation_context
+    weak = {
+        "hook": "Olha isso.",
+        "caption": "Texto curto demais sem dado nenhum.",
+        "cta": "Comenta ai",
+        "funnel_stage": "meio",
+        "format": "feed",
+    }
+    mixed_issues = {
+        "slides": [
+            {"slide_number": 1, "slide_type": "CAPA", "title": "Sua margem pode sumir mesmo com boa produtividade", "copy": "O erro nao esta so na lavoura.", "cta": ""},
+            {"slide_number": 2, "slide_type": "HOOK", "title": "12% de margem mudam toda a conversa comercial da safra", "copy": "Esse numero redefine como o consultor orienta a venda.", "cta": ""},
+            {"slide_number": 3, "slide_type": "DESENVOLVIMENTO", "title": "Volume sozinho nao fecha conta", "copy": "Produtividade alta pode conviver com leitura comercial fraca.", "cta": ""},
+            {"slide_number": 4, "slide_type": "DESENVOLVIMENTO", "title": "Preco e custo precisam andar juntos", "copy": "Separar essas variaveis enfraquece a tomada de decisao.", "cta": ""},
+            {"slide_number": 5, "slide_type": "DESENVOLVIMENTO", "title": "O vendedor precisa defender criterio", "copy": "Sem essa leitura, a conversa vira achismo e urgencia.", "cta": ""},
+            {"slide_number": 6, "slide_type": "PROVA", "title": "O levantamento interno mostrou perda de R$ 18/sc", "copy": "Quando a margem cede 12% no levantamento interno, a pressao aparece antes da colheita.", "cta": ""},
+            {"slide_number": 7, "slide_type": "CTA", "title": "Aprenda a defender margem com metodo", "copy": "Quem vende no agro precisa conectar dado e argumento.", "cta": "Entre na Confraria e aprenda a defender margem no agro."},
+        ],
+        "caption": (
+            "Tem produtor comemorando produtividade enquanto a margem escorre pelo comercial.\n\n"
+            "Quando a diferenca de margem chega a 12%, a decisao comercial muda o caixa da safra.\n\n"
+            "No levantamento interno, essa variacao chegou a R$ 18/sc e deixou claro que vender melhor protege a rentabilidade.\n\n"
+            "Se voce trabalha com vendas no agro, precisa olhar margem com mais criterio e menos impulso."
+        ),
+        "cta": "Entre na Confraria e aprenda a defender margem no agro.",
+        "funnel_stage": "fundo",
+        "format": "carousel",
+    }
+    refined = {
+        "slides": [
+            {"slide_number": 1, "slide_type": "CAPA", "title": "Sua margem pode sumir mesmo com boa produtividade", "copy": "O erro nao esta so na lavoura. Ele aparece quando a estrategia comercial fica rasa.", "cta": ""},
+            {"slide_number": 2, "slide_type": "HOOK", "title": "12% de margem mudam toda a conversa comercial da safra", "copy": "Esse numero redefine como o consultor orienta a venda e como o produtor percebe risco.", "cta": ""},
+            {"slide_number": 3, "slide_type": "DESENVOLVIMENTO", "title": "Volume sozinho nao fecha conta", "copy": "Quando a equipe olha so produtividade, deixa de perceber onde a margem esta escorrendo na negociacao.", "cta": ""},
+            {"slide_number": 4, "slide_type": "DESENVOLVIMENTO", "title": "Preco e custo precisam andar juntos", "copy": "Isso muda a recomendacao comercial porque obriga o vendedor a defender timing, nao apenas desconto.", "cta": ""},
+            {"slide_number": 5, "slide_type": "DESENVOLVIMENTO", "title": "O vendedor precisa defender criterio", "copy": "Na pratica, essa leitura ajuda o agronomo a provar valor e evita decisao feita na pressa.", "cta": ""},
+            {"slide_number": 6, "slide_type": "PROVA", "title": "O levantamento interno mostrou perda de R$ 18/sc", "copy": "Quando a margem cede 12% no levantamento interno, fica claro que a decisao comercial mexeu direto no caixa.", "cta": ""},
+            {"slide_number": 7, "slide_type": "CTA", "title": "Aprenda a defender margem com metodo", "copy": "Quem vende no agro precisa conectar dado, risco e argumento.", "cta": "Entre na Confraria e aprenda a defender margem no agro."},
+        ],
+        "caption": (
+            "Tem produtor comemorando produtividade enquanto a margem escorre pelo comercial, e esse erro continua porque muita gente ainda trata venda como etapa final da safra, nao como parte da estrategia.\n\n"
+            "Quando a diferenca de margem chega a 12%, nao estamos falando de detalhe. Estamos falando de uma decisao que muda caixa, pressao sobre custo e poder de negociacao em um mercado apertado.\n\n"
+            "No levantamento interno, essa variacao chegou a R$ 18/sc. Para quem vende no agro, isso significa defender melhor timing, argumento tecnico e leitura de risco antes que o produtor aceite uma condicao ruim.\n\n"
+            "O agronomo que traduz esse dado em implicacao pratica consegue orientar o produtor com mais criterio, mostra valor comercial e deixa de discutir apenas volume.\n\n"
+            "Se voce quer aprender a defender margem com metodo, entra na Confraria e aprofunda essa leitura comercial aplicada ao campo."
+        ),
+        "cta": "Entre na Confraria e aprenda a defender margem no agro.",
+        "funnel_stage": "fundo",
+        "format": "carousel",
+    }
+
+    with patch("src.generator.content_generator.load_studio_context", return_value={}), patch(
+        "src.generator.content_generator.openai_client.chat.completions.create",
+        side_effect=[
+            _mock_response(weak),
+            _mock_response(mixed_issues),
+            _mock_response(refined),
+        ],
+    ) as mock_create:
+        generated = generate_post(post, voice, approved_examples=[], session=session)
+
+    assert mock_create.call_count == 3
+    assert generated.caption == refined["caption"]
+    revision_prompt = mock_create.call_args_list[-1].kwargs["messages"][1]["content"]
+    assert "impacto pratico" in revision_prompt
+    assert "150 a 240 palavras" in revision_prompt
+
+
+def test_generate_post_returns_best_effort_when_only_non_blocking_issues_remain(session_with_generation_context):
+    session, post, voice = session_with_generation_context
+    weak = {
+        "hook": "Olha isso.",
+        "caption": "Texto curto demais sem dado nenhum.",
+        "cta": "Comenta ai",
+        "funnel_stage": "meio",
+        "format": "feed",
+    }
+    usable_but_imperfect = {
+        "slides": [
+            {"slide_number": 1, "slide_type": "CAPA", "title": "Margem boa exige mais do que produtividade", "copy": "O problema aparece quando a decisao comercial fica rasa.", "cta": ""},
+            {"slide_number": 2, "slide_type": "HOOK", "title": "12% de margem mudam a safra inteira", "copy": "Esse numero altera a conversa entre produtor, consultor e vendedor.", "cta": ""},
+            {"slide_number": 3, "slide_type": "DESENVOLVIMENTO", "title": "Volume nao protege caixa sozinho", "copy": "Produtividade alta nao impede erro de leitura comercial.", "cta": ""},
+            {"slide_number": 4, "slide_type": "DESENVOLVIMENTO", "title": "Preco sem criterio enfraquece venda", "copy": "Separar custo e negociacao cria leitura fraca do mercado.", "cta": ""},
+            {"slide_number": 5, "slide_type": "DESENVOLVIMENTO", "title": "Argumento tecnico precisa aparecer antes", "copy": "Sem isso, a conversa escorrega para urgencia e opiniao.", "cta": ""},
+            {"slide_number": 6, "slide_type": "PROVA", "title": "O levantamento interno mostrou R$ 18/sc de diferenca", "copy": "Quando a margem cede 12% no levantamento interno, a pressao comercial fica evidente.", "cta": ""},
+            {"slide_number": 7, "slide_type": "CTA", "title": "Quer aprender a defender margem?", "copy": "A decisao comercial precisa de metodo no agro.", "cta": "Entre na Confraria e aprenda a defender margem no agro."},
+        ],
+        "caption": (
+            "Tem produtor comemorando produtividade enquanto a margem escorre pelo comercial.\n\n"
+            "Quando a diferenca de margem chega a 12%, a decisao comercial muda o caixa da safra.\n\n"
+            "No levantamento interno, essa variacao chegou a R$ 18/sc e mostrou que vender melhor protege a rentabilidade.\n\n"
+            "Se voce trabalha com vendas no agro, precisa olhar margem com mais criterio e menos impulso."
+        ),
+        "cta": "Entre na Confraria e aprenda a defender margem no agro.",
+        "funnel_stage": "fundo",
+        "format": "carousel",
+    }
+
+    with patch("src.generator.content_generator.load_studio_context", return_value={}), patch(
+        "src.generator.content_generator.openai_client.chat.completions.create",
+        side_effect=[
+            _mock_response(weak),
+            _mock_response(usable_but_imperfect),
+            _mock_response(usable_but_imperfect),
+            _mock_response(usable_but_imperfect),
+        ],
+    ) as mock_create:
+        generated = generate_post(post, voice, approved_examples=[], session=session)
+
+    assert mock_create.call_count == 4
+    assert generated.caption == usable_but_imperfect["caption"]
+    assert generated.format == "carousel"
+    assert generated.slides[-1]["slide_type"] == "CTA"
+
+
 def test_generate_post_prioritizes_arguments_from_same_topic(session_with_generation_context):
     session, post, voice = session_with_generation_context
     good = {

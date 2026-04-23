@@ -143,6 +143,44 @@ _CAPTION_ISSUE_PREFIXES = (
     "legenda fora da faixa ideal",
 )
 
+_BLOCKING_ISSUE_PREFIXES = (
+    "faltou hook",
+    "faltou cta",
+    "faltaram slides",
+    "carrossel curto demais",
+    "o slide 1 precisa ser capa",
+    "o slide 2 precisa ser hook",
+    "o carrossel precisa ter espaco para desenvolvimento, prova e cta",
+    "o penultimo slide precisa ser prova",
+    "o ultimo slide precisa ser cta",
+    "faltou legenda",
+    "funil ausente ou invalido",
+    "formato ausente ou invalido",
+    "os dados numericos do post-base sumiram",
+    "estrutura obrigatoria incompleta",
+    "hook generico ou pouco especifico",
+    "faltam slides de desenvolvimento",
+    "cta ausente",
+)
+
+_FULL_REWRITE_ISSUE_PREFIXES = (
+    "faltou hook",
+    "faltou cta",
+    "faltaram slides",
+    "carrossel curto demais",
+    "o slide 1 precisa ser capa",
+    "o slide 2 precisa ser hook",
+    "o carrossel precisa ter espaco para desenvolvimento, prova e cta",
+    "o penultimo slide precisa ser prova",
+    "o ultimo slide precisa ser cta",
+    "funil ausente ou invalido",
+    "formato ausente ou invalido",
+    "estrutura obrigatoria incompleta",
+)
+
+_QUALITY_SCORE_THRESHOLD = 0.78
+_MAX_GENERATION_ATTEMPTS = 4
+
 
 def _build_approved_section(approved: List[GeneratedPost]) -> str:
     if not approved:
@@ -407,6 +445,131 @@ def _should_attempt_caption_repair(evaluation: dict[str, Any]) -> bool:
     return all(_is_caption_issue(issue) for issue in combined_issues)
 
 
+def _combine_issues(evaluation: dict[str, Any]) -> list[str]:
+    return list(
+        dict.fromkeys(
+            [
+                *(evaluation.get("problems") or []),
+                *(((evaluation.get("quality_report") or {}).get("issues")) or []),
+            ]
+        )
+    )
+
+
+def _passes_quality_gate(evaluation: dict[str, Any]) -> bool:
+    return not evaluation["problems"] and (evaluation["quality_report"]["score"] >= _QUALITY_SCORE_THRESHOLD)
+
+
+def _starts_with_any(issue: str, prefixes: tuple[str, ...]) -> bool:
+    normalized = str(issue or "").strip().lower()
+    return any(normalized.startswith(prefix) for prefix in prefixes)
+
+
+def _has_blocking_issues(evaluation: dict[str, Any]) -> bool:
+    return any(_starts_with_any(issue, _BLOCKING_ISSUE_PREFIXES) for issue in _combine_issues(evaluation))
+
+
+def _needs_full_rewrite(evaluation: dict[str, Any]) -> bool:
+    return any(_starts_with_any(issue, _FULL_REWRITE_ISSUE_PREFIXES) for issue in _combine_issues(evaluation))
+
+
+def _is_usable_best_effort(evaluation: dict[str, Any]) -> bool:
+    normalized_result = evaluation["normalized_result"]
+    slides = normalized_result.get("slides") or []
+    caption = str(normalized_result.get("caption") or "").strip()
+    hook = str(normalized_result.get("hook") or "").strip()
+    cta = str(normalized_result.get("cta") or "").strip()
+
+    if normalized_result.get("format") != "carousel":
+        return False
+    if not slides or len(slides) < 5:
+        return False
+    if not hook or not cta or not caption:
+        return False
+    if _has_blocking_issues(evaluation):
+        return False
+    return True
+
+
+def _evaluation_sort_key(evaluation: dict[str, Any]) -> tuple[int, int, float, int]:
+    return (
+        1 if _is_usable_best_effort(evaluation) else 0,
+        0 if _has_blocking_issues(evaluation) else 1,
+        float((evaluation.get("quality_report") or {}).get("score") or 0.0),
+        -len(_combine_issues(evaluation)),
+    )
+
+
+def _pick_better_evaluation(current_best: dict[str, Any], candidate: dict[str, Any]) -> dict[str, Any]:
+    if _evaluation_sort_key(candidate) > _evaluation_sort_key(current_best):
+        return candidate
+    return current_best
+
+
+def _build_revision_directives(issues: list[str]) -> list[str]:
+    normalized_issues = [str(issue or "").strip().lower() for issue in issues]
+    directives: list[str] = []
+
+    if any(_is_caption_issue(issue) for issue in issues):
+        directives.append("Expanda a legenda para 150 a 240 palavras, em 4 a 6 paragrafos curtos, sem hashtags.")
+    if any("implicacao pratica" in issue for issue in normalized_issues):
+        directives.append("Em pelo menos metade do miolo, traduza o dado em impacto pratico para produtor, consultor, revenda ou vendedor.")
+    if any("desenvolvimento superficiais" in issue for issue in normalized_issues):
+        directives.append("Deixe cada slide de DESENVOLVIMENTO com mais densidade tecnica, evitando frases curtas demais ou genricas.")
+    if any("hook generico" in issue for issue in normalized_issues):
+        directives.append("Fortaleca o HOOK com numero, contraste, risco concreto ou pergunta especifica do agro.")
+    if any("poucos dados validados" in issue for issue in normalized_issues):
+        directives.append("Reincorpore pelo menos dois dados validados do catalogo no texto final e deixe claro o que cada numero mede.")
+    if any("slide de prova sem ancora tecnica forte" in issue for issue in normalized_issues):
+        directives.append("Reescreva o slide de PROVA com numero, comparativo, caso ou fonte concreta do catalogo validado.")
+    if any("slide de prova raso demais" in issue for issue in normalized_issues):
+        directives.append("Aprofunde o slide de PROVA para mostrar evidencia aplicada, nao apenas uma frase conclusiva.")
+    if any("faltou citar a fonte/origem" in issue for issue in normalized_issues):
+        directives.append("Quando houver fonte disponivel no catalogo, cite a origem da evidencia no texto final.")
+    if any("cta pouco alinhado" in issue for issue in normalized_issues):
+        directives.append("Ajuste o CTA final para combinar melhor com o funil escolhido, mantendo uma unica acao clara.")
+
+    if not directives:
+        directives.append("Reforce substancia tecnica, retencao slide a slide e clareza pratica sem inventar dados.")
+    return directives
+
+
+def _build_refinement_prompt(
+    base_user_prompt: str,
+    evaluation: dict[str, Any],
+    validated_data_catalog: dict[str, Any],
+    *,
+    attempt_number: int,
+) -> str:
+    issues = _combine_issues(evaluation)
+    directives = _build_revision_directives(issues)
+    quality_report = evaluation["quality_report"]
+    normalized_result = evaluation["normalized_result"]
+    preserve_mode = not _needs_full_rewrite(evaluation)
+    revision_mode = (
+        "Aproveite o rascunho atual como base. Preserve o que ja funciona e refine apenas o necessario."
+        if preserve_mode else
+        "O rascunho atual falhou em pontos estruturais. Reescreva o carrossel completo do zero."
+    )
+    return (
+        f"{base_user_prompt}\n\n"
+        f"TENTATIVA DE REVISAO: {attempt_number}\n\n"
+        f"RASCUNHO ATUAL:\n{_format_json(normalized_result)}\n\n"
+        f"DIAGNOSTICO DE QUALIDADE:\n{_format_json(quality_report)}\n\n"
+        f"LEITURA HUMANA DO DIAGNOSTICO:\n{format_quality_feedback(quality_report)}\n\n"
+        f"CATALOGO DE DADOS VALIDADOS:\n{_format_json(validated_data_catalog)}\n\n"
+        "PROBLEMAS QUE PRECISAM SER CORRIGIDOS:\n"
+        + "\n".join(f"- {issue}" for issue in issues)
+        + "\n\n"
+        "DIRETRIZES OBJETIVAS DE REVISAO:\n"
+        + "\n".join(f"- {directive}" for directive in directives)
+        + "\n\n"
+        f"{revision_mode}\n"
+        "Use o quality gate como feedback de refinamento, nao como motivo para resumir ou amputar o carrossel.\n"
+        "Retorne o JSON completo no mesmo formato original."
+    )
+
+
 def _parse_json_response(raw_content: str) -> dict[str, Any]:
     content = (raw_content or "").strip()
     if content.startswith("```"):
@@ -548,38 +711,45 @@ def generate_post(
         raise
 
     evaluation = _evaluate_generation(result, source_post, evidence_pack, target_slide_count)
-    quality_report = evaluation["quality_report"]
-    problems = evaluation["problems"]
-    if problems or quality_report["score"] < 0.78:
-        logger.warning(
-            "Generated content for post %s failed quality gate: %s",
-            source_post.id,
-            "; ".join(problems) if problems else format_quality_feedback(quality_report),
-        )
-        retry_prompt = (
-            f"{user_prompt}\n\n"
-            f"RASCUNHO ANTERIOR:\n{_format_json(evaluation['normalized_result'])}\n\n"
-            f"DIAGNOSTICO DE QUALIDADE:\n{_format_json(quality_report)}\n\n"
-            f"LEITURA HUMANA DO DIAGNOSTICO:\n{format_quality_feedback(quality_report)}\n\n"
-            f"O rascunho anterior falhou nestes pontos: {', '.join(problems) if problems else 'score abaixo da meta'}.\n"
-            "Reescreva do zero, preservando apenas dados que estejam no catalogo validado, reforcando a prova tecnica e melhorando retencao slide a slide."
-        )
-        result = _request_generation(system_prompt, retry_prompt)
-        evaluation = _evaluate_generation(result, source_post, evidence_pack, target_slide_count)
-        if evaluation["problems"] or evaluation["quality_report"]["score"] < 0.78:
-            if _should_attempt_caption_repair(evaluation):
-                logger.warning(
-                    "Generated content for post %s needs caption repair after retry: %s",
-                    source_post.id,
-                    "; ".join(evaluation["problems"] or evaluation["quality_report"]["issues"]),
-                )
-                repaired_result = _repair_caption(system_prompt, user_prompt, evaluation, validated_data_catalog)
-                evaluation = _evaluate_generation(repaired_result, source_post, evidence_pack, target_slide_count)
+    best_evaluation = evaluation
+    attempt_number = 1
 
-        if evaluation["problems"] or evaluation["quality_report"]["score"] < 0.78:
+    while not _passes_quality_gate(evaluation) and attempt_number < _MAX_GENERATION_ATTEMPTS:
+        issues = _combine_issues(evaluation)
+        logger.warning(
+            "Generated content for post %s failed quality gate on attempt %s: %s",
+            source_post.id,
+            attempt_number,
+            "; ".join(issues) if issues else format_quality_feedback(evaluation["quality_report"]),
+        )
+        if _should_attempt_caption_repair(evaluation):
+            revised_result = _repair_caption(system_prompt, user_prompt, evaluation, validated_data_catalog)
+        else:
+            refinement_prompt = _build_refinement_prompt(
+                user_prompt,
+                evaluation,
+                validated_data_catalog,
+                attempt_number=attempt_number + 1,
+            )
+            revised_result = _request_generation(system_prompt, refinement_prompt)
+
+        evaluation = _evaluate_generation(revised_result, source_post, evidence_pack, target_slide_count)
+        best_evaluation = _pick_better_evaluation(best_evaluation, evaluation)
+        attempt_number += 1
+
+    if not _passes_quality_gate(evaluation):
+        if _is_usable_best_effort(best_evaluation):
+            evaluation = best_evaluation
+            logger.warning(
+                "Returning best-effort studio carousel for post %s after %s attempts. Remaining issues: %s",
+                source_post.id,
+                attempt_number,
+                "; ".join(_combine_issues(evaluation)),
+            )
+        else:
             raise ValueError(
-                "Geracao de carrossel do studio nao passou no quality gate: "
-                + "; ".join(evaluation["problems"] or evaluation["quality_report"]["issues"])
+                "Geracao de carrossel do studio nao passou no quality gate apos refinamento: "
+                + "; ".join(_combine_issues(best_evaluation))
             )
 
     normalized_result = evaluation["normalized_result"]
