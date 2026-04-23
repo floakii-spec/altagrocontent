@@ -93,3 +93,4 @@ def test_generate_includes_news_in_prompt():
     call_kwargs = mock_create.call_args
     user_content = call_kwargs[1]["messages"][1]["content"]
     assert "Soja em alta" in user_content
+    assert "inteligencia_criativa_agro" in user_content

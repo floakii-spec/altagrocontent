@@ -4,8 +4,8 @@ from datetime import datetime, timezone
 from unittest.mock import MagicMock, patch
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
-from src.models import Base, Profile, WeeklyReport, ProfileVoice, Carousel
-from src.carousel.generator import generate_carousel
+from src.models import Base, Profile, WeeklyReport, ProfileVoice, Carousel, Post, PostAnalysis, PostIntelligence
+from src.carousel.generator import _build_validated_theme_catalog, generate_carousel
 
 
 @pytest.fixture
@@ -63,6 +63,9 @@ def test_generate_carousel_returns_slides(session_with_context):
             session=session,
         )
 
+    context = json.loads(mock_client.chat.completions.create.call_args.kwargs["messages"][1]["content"])
+    assert "inteligencia_criativa_agro" in context
+    assert context["inteligencia_criativa_agro"]["mandato_criativo"]
     assert len(carousel.slides) == 5
     assert carousel.slides[0]["title"] == "Você sabia?"
     assert carousel.slides[0]["slide_type"] == "CAPA"
@@ -94,3 +97,40 @@ def test_generate_carousel_retries_when_initial_draft_is_weak(session_with_conte
 
     assert mock_client.chat.completions.create.call_count == 2
     assert carousel.slides[-2]["slide_type"] == "PROVA"
+
+
+def test_theme_catalog_includes_visual_transcript(session_with_context):
+    session, profile, voice, report = session_with_context
+    competitor = Profile(handle="concorrente", type="competitor", follower_count=10000)
+    session.add(competitor)
+    session.flush()
+    post = Post(
+        profile_id=competitor.id,
+        instagram_id="TRANSCRIPT-1",
+        image_url="https://example.com/card.jpg",
+        caption="Legenda do concorrente",
+        hashtags=["soja"],
+        likes=900,
+        comments=40,
+        post_type="carousel",
+        published_at=datetime(2026, 4, 20, tzinfo=timezone.utc),
+    )
+    session.add(post)
+    session.flush()
+    session.add_all([
+        PostAnalysis(post_id=post.id, virality_score=0.91, raw_analysis={}),
+        PostIntelligence(
+            post_id=post.id,
+            agro_topic_cluster="gestão",
+            agro_segment="grãos",
+            technical_claims=["12% de margem muda a decisão comercial."],
+            data_points=[{"value": "12%", "context": "diferença de margem", "source": "levantamento interno"}],
+            sources_referenced=["levantamento interno"],
+            visual_transcript="Slide 1: 12% de margem muda o jogo.\nSlide 2: R$ 18/sc no resultado líquido.",
+        ),
+    ])
+    session.commit()
+
+    catalog = _build_validated_theme_catalog("margem na soja", [], [post], report)
+
+    assert catalog["provas_de_posts_virais"][0]["visual_transcript"].startswith("Slide 1: 12%")

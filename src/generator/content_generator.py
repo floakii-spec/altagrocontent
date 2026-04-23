@@ -16,6 +16,7 @@ from src.carousel_quality import (
     score_carousel_draft,
 )
 from src.generator.obsidian_context import load_studio_context
+from src.generator.creative_intelligence import build_source_creative_brief
 from src.slide_utils import extract_carousel_cta, extract_carousel_hook, normalize_carousel_slides
 
 logger = logging.getLogger(__name__)
@@ -113,6 +114,7 @@ _USER_PROMPT = """POST DO CONCORRENTE PARA INSPIRAÇÃO:
 - Lacunas do conteúdo original: {content_gaps}
 - Breakdown slide a slide: {slide_breakdown}
 - Complexidade do carrossel: {carousel_complexity}
+- Transcrição literal dos cards/slides: {visual_transcript}
 - Legenda original: {source_caption}
 - Hashtags originais: {hashtags}
 
@@ -127,6 +129,9 @@ EXEMPLOS ESTRUTURAIS DE POSTS FORTES DO BANCO:
 CATÁLOGO DE DADOS VALIDADOS QUE VOCÊ PODE USAR:
 {validated_data_catalog}
 
+INTELIGÊNCIA CRIATIVA AGRO:
+{creative_brief}
+
 BLUEPRINT RECOMENDADO DO CARROSSEL:
 {slide_blueprint}
 
@@ -134,7 +139,8 @@ CHECKLIST DE QUALIDADE:
 {quality_guardrails}
 
 Adapte a estrutura e os dados acima para a voz e realidade do autor.
-Saída obrigatória: texto denso, específico e útil. Não resuma demais e não apague os dados do material-base.
+Saída obrigatória: texto denso, específico e útil. Use a transcrição literal dos cards como fonte primária para dados, sequência lógica e nuances do material-base.
+Não resuma demais e não apague os dados do material-base.
 Se um dado não estiver no catálogo validado, não use."""
 
 _CAPTION_ISSUE_PREFIXES = (
@@ -208,6 +214,15 @@ def _format_json(value: Any) -> str:
     return json.dumps(value, ensure_ascii=False)
 
 
+def _trim_for_prompt(text: str | None, limit: int = 6000) -> str:
+    value = (text or "").strip()
+    if not value:
+        return "—"
+    if len(value) <= limit:
+        return value
+    return f"{value[:limit].rstrip()}\n...[transcrição truncada para caber no prompt]"
+
+
 def _select_top_arguments(session: Session, source_post: Post) -> list[ArgumentBank]:
     intel = source_post.intelligence
     score_expr = ArgumentBank.virality_weight * ArgumentBank.quality_score
@@ -259,6 +274,7 @@ def _build_validated_data_catalog(source_post: Post, top_args: list[ArgumentBank
         "afirmacoes_tecnicas_permitidas": technical_claims,
         "fontes_disponiveis": source_labels,
         "argumento_central": intel.core_argument or "",
+        "transcricao_literal_dos_cards": _trim_for_prompt(getattr(intel, "visual_transcript", None), limit=4000),
         "referencias_opcionais_do_banco": optional_bank_references,
         "instrucao": "Nao invente dado fora deste catalogo. Quando usar numero, deixe claro o que ele mede.",
     }
@@ -274,6 +290,7 @@ def _load_structural_patterns(source_post: Post, top_args: list[ArgumentBank]) -
         "technical_depth": intel.technical_depth or "—",
         "slide_breakdown": getattr(intel, "slide_breakdown", []) or [],
         "carousel_complexity": getattr(intel, "carousel_complexity", {}) or {},
+        "visual_transcript": _trim_for_prompt(getattr(intel, "visual_transcript", None), limit=2500),
     }]
 
     for arg in top_args:
@@ -323,11 +340,13 @@ def _build_evidence_pack(
 
 def _build_quality_guardrails() -> list[str]:
     return [
-        "Cada slide precisa ter uma funcao unica e empurrar a leitura para o proximo card.",
-        "Nos slides de desenvolvimento, traduza o dado em implicacao pratica para o agro.",
-        "O slide de PROVA precisa ancorar numero, comparativo, caso ou fonte do catalogo.",
-        "O CTA final deve ter uma unica acao e combinar com o funil escolhido.",
-        "Evite frase vazia, promessa de coach e generalidade sem criterio tecnico.",
+    "Cada slide precisa ter uma funcao unica e empurrar a leitura para o proximo card.",
+    "Nos slides de desenvolvimento, traduza o dado em implicacao pratica para o agro.",
+    "Cada carrossel precisa ter uma tensao criativa clara: erro caro, decisao dificil, contraste tecnico/comercial ou risco de margem.",
+    "Use linguagem de situacao real do agro: campo, safra, talhao, revenda, carteira, produtor ou negociacao.",
+    "O slide de PROVA precisa ancorar numero, comparativo, caso ou fonte do catalogo.",
+    "O CTA final deve ter uma unica acao e combinar com o funil escolhido.",
+    "Evite frase vazia, promessa de coach e generalidade sem criterio tecnico.",
     ]
 
 
@@ -518,6 +537,8 @@ def _build_revision_directives(issues: list[str]) -> list[str]:
         directives.append("Deixe cada slide de DESENVOLVIMENTO com mais densidade tecnica, evitando frases curtas demais ou genricas.")
     if any("hook generico" in issue for issue in normalized_issues):
         directives.append("Fortaleca o HOOK com numero, contraste, risco concreto ou pergunta especifica do agro.")
+    if any("tensao criativa" in issue for issue in normalized_issues):
+        directives.append("Construa uma tensao central clara: erro caro, decisao atrasada, risco de margem ou contraste entre achismo e criterio.")
     if any("poucos dados validados" in issue for issue in normalized_issues):
         directives.append("Reincorpore pelo menos dois dados validados do catalogo no texto final e deixe claro o que cada numero mede.")
     if any("slide de prova sem ancora tecnica forte" in issue for issue in normalized_issues):
@@ -707,6 +728,7 @@ def generate_post(
     slide_blueprint = build_slide_blueprint(target_slide_count)
     quality_guardrails = _build_quality_guardrails()
     evidence_pack = _build_evidence_pack(source_post, top_args, validated_data_catalog)
+    creative_brief = build_source_creative_brief(source_post, top_args, validated_data_catalog)
     vault_context = load_studio_context()
 
     system_prompt = _SYSTEM_PROMPT.format(
@@ -747,12 +769,14 @@ def generate_post(
         content_gaps=intel.content_gaps or "—",
         slide_breakdown=_format_json(getattr(intel, "slide_breakdown", []) or []),
         carousel_complexity=_format_json(getattr(intel, "carousel_complexity", {}) or {}),
+        visual_transcript=_trim_for_prompt(getattr(intel, "visual_transcript", None)),
         source_caption=(source_post.caption or "—")[:1200],
         hashtags=_format_json(source_post.hashtags or []),
         virality_score=virality,
         top_arguments=top_arg_texts,
         structural_patterns=_format_json(_load_structural_patterns(source_post, top_args[:3])),
         validated_data_catalog=_format_json(validated_data_catalog),
+        creative_brief=_format_json(creative_brief),
         slide_blueprint=_format_json(slide_blueprint),
         quality_guardrails="\n".join(f"- {item}" for item in quality_guardrails),
     )

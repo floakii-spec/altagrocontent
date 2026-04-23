@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 from unittest.mock import MagicMock, patch
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
-from src.models import Base, Profile, Post, PostAnalysis, WeeklyReport
+from src.models import Base, Profile, Post, PostAnalysis, PostIntelligence, WeeklyReport
 from src.reporter.weekly_report import generate_weekly_report
 
 
@@ -39,7 +39,20 @@ def session_with_analyses():
                 virality_score=0.07 + i * 0.01,
                 raw_analysis={"summary": f"Post {i} resumo"},
             )
-            s.add(analysis)
+            intelligence = PostIntelligence(
+                post_id=post.id,
+                agro_topic_cluster="gestão",
+                agro_segment="grãos",
+                technical_depth="intermediário",
+                core_argument=f"Post {i} conecta resultado no campo com gestão.",
+                argument_structure="resultado -> contexto -> ação",
+                technical_claims=[f"Post {i} usa resultado no campo como prova."],
+                data_points=[],
+                sources_referenced=[],
+                replication_template="[resultado] + [contexto] + [ação]",
+                visual_transcript=f"Slide 1: Post {i} resumo visual.",
+            )
+            s.add_all([analysis, intelligence])
         s.commit()
         yield s
 

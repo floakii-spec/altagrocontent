@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 from unittest.mock import MagicMock, patch
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
-from src.models import Base, Profile, Post, ProfileVoice
+from src.models import Base, Profile, Post, PostIntelligence, ProfileVoice
 from src.reporter.voice_profiler import generate_voice_profile
 
 
@@ -29,6 +29,15 @@ def session_with_own_profile():
                 published_at=datetime(2026, 4, 10, tzinfo=timezone.utc),
             )
             s.add(post)
+            s.flush()
+            s.add(PostIntelligence(
+                post_id=post.id,
+                core_argument=f"Produção com {i+1} toneladas por hectare.",
+                technical_claims=[f"{i+1} toneladas por hectare"],
+                data_points=[{"value": f"{i+1}", "context": "toneladas por hectare", "source": None}],
+                sources_referenced=[],
+                visual_transcript=f"Slide 1: Nossa fazenda produz {i+1} toneladas por hectare.",
+            ))
         s.commit()
         yield s, profile
 

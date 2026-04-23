@@ -124,6 +124,7 @@ def test_analyze_stores_all_fields():
     assert result.knowledge_assumptions == "Produtor já conhece soja convencional"
     assert result.content_gaps == "Não mencionou impacto ambiental"
     assert result.replication_template == "[DADO] + [CAUSA] + [SOLUÇÃO] + [CTA]"
+    assert result.visual_transcript == "Slide 1: 20% de aumento segundo Embrapa."
     assert result.slide_breakdown[0]["role"] == "hook"
     assert result.carousel_complexity["complexity_score"] == 4
 
@@ -166,6 +167,7 @@ def test_analyze_persists_to_db():
         row = s.query(PostIntelligence).first()
     assert row is not None
     assert row.agro_segment == "grãos"
+    assert row.visual_transcript == "Slide 1: 20% de aumento segundo Embrapa."
     assert row.carousel_complexity["structure_style"] == "linear_argument"
 
 
@@ -180,6 +182,7 @@ def test_force_reanalysis_replaces_old_carousel_intelligence():
             technical_claims=["Velho argumento 10%"],
             data_points=[{"value": "10%", "context": "dado antigo", "source": "Fonte antiga"}],
             sources_referenced=["Fonte antiga"],
+            visual_transcript="Slide 1: dado antigo 10%",
             slide_breakdown=[{"slide_number": 1, "role": "hook", "summary": "antigo", "key_data": ["10%"]}],
             carousel_complexity={"complexity_score": 1},
             analyzed_at=datetime.now(timezone.utc),
@@ -194,4 +197,5 @@ def test_force_reanalysis_replaces_old_carousel_intelligence():
             result = analyze_post_intelligence(post, s, force=True)
 
     assert result.technical_claims == ["Aumento de 20% na produtividade com soja RR"]
+    assert result.visual_transcript == "Slide 1: 20% de aumento segundo Embrapa.\nSlide 2: Prova técnica."
     assert result.carousel_complexity["complexity_score"] == 4

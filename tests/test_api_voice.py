@@ -8,7 +8,7 @@ from unittest.mock import patch, MagicMock
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine, StaticPool
 from sqlalchemy.orm import Session
-from src.models import Base, Profile, ProfileVoice
+from src.models import Base, Profile, Post, ProfileVoice
 from api.main import app
 from api.deps import get_db
 from datetime import datetime, timezone
@@ -58,6 +58,18 @@ def test_analyze_voice():
     with Session(engine) as s:
         p = Profile(handle="myprofile", type="own")
         s.add(p)
+        s.flush()
+        s.add(Post(
+            profile_id=p.id,
+            instagram_id="OWN-VOICE",
+            image_url="https://example.com/voice.jpg",
+            caption="Post do perfil proprio",
+            hashtags=[],
+            likes=0,
+            comments=0,
+            post_type="feed",
+            published_at=datetime.now(timezone.utc),
+        ))
         s.commit()
     mock_voice = MagicMock()
     mock_voice.id = 1

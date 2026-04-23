@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session, joinedload
 
 from src.config import OPENAI_API_KEY
 from src.analyzer.gap_analyzer import compute_gaps
+from src.generator.creative_intelligence import build_theme_creative_brief
 from src.models import CarouselSuggestion, NewsItem, Post, PostAnalysis, PostIntelligence
 
 logger = logging.getLogger(__name__)
@@ -15,6 +16,7 @@ openai_client = OpenAI(api_key=OPENAI_API_KEY)
 _SYSTEM_PROMPT = """Você é especialista em marketing de conteúdo para o agronegócio brasileiro no Instagram.
 Crie exatamente 6 sugestões de tema para carrosséis com alta chance de viralização.
 Use os dados fornecidos (gaps, posts virais com estrutura de cards, notícias) e complemente com seu próprio conhecimento sobre sazonalidade, mercado e tendências agro.
+Cada sugestão precisa nascer de uma tensão real do agro: erro caro, margem, risco, decisão atrasada, oportunidade perdida ou contraste técnico/comercial.
 Retorne APENAS um JSON array com exatamente 6 objetos:
 [{"title": "<tema curto e impactante>", "rationale": "<uma frase explicando o sinal de dados>"}, ...]"""
 
@@ -39,6 +41,7 @@ def generate_theme_suggestions(session: Session) -> CarouselSuggestion:
             "core_argument": p.intelligence.core_argument,
             "replication_template": p.intelligence.replication_template,
             "agro_topic_cluster": p.intelligence.agro_topic_cluster,
+            "visual_transcript": (getattr(p.intelligence, "visual_transcript", "") or "")[:1200],
             "virality_score": p.analysis.virality_score,
         }
         for p in viral_posts
@@ -58,6 +61,12 @@ def generate_theme_suggestions(session: Session) -> CarouselSuggestion:
         "gap_topics": top_gaps,
         "viral_post_structures": viral_structures,
         "recent_news": news_titles,
+        "inteligencia_criativa_agro": build_theme_creative_brief(
+            "sugestoes de temas para carrossel",
+            viral_posts,
+            [],
+            None,
+        ),
     }, ensure_ascii=False)
 
     response = openai_client.chat.completions.create(

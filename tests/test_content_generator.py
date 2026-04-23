@@ -72,6 +72,11 @@ def session_with_generation_context():
             knowledge_assumptions="Leitor entende custo por hectare e margem.",
             content_gaps="Faltou mostrar exemplo de tomada de decisao.",
             replication_template="[dado] + [erro comum] + [implicacao] + [CTA]",
+            visual_transcript=(
+                "Slide 1: 12% de margem muda o jogo na safra.\n"
+                "Slide 2: R$ 18/sc de variação no resultado líquido.\n"
+                "Slide 3: Produtividade alta sem estratégia comercial destrói rentabilidade."
+            ),
         )
         voice = ProfileVoice(
             profile_id=own.id,
@@ -408,3 +413,7 @@ def test_generate_post_prioritizes_arguments_from_same_topic(session_with_genera
     assert "vaca leiteira precisa de conforto termico" not in user_prompt
     assert "CATÁLOGO DE DADOS VALIDADOS" in user_prompt
     assert "levantamento interno" in user_prompt
+    assert "Transcrição literal dos cards/slides" in user_prompt
+    assert "R$ 18/sc de variação no resultado líquido" in user_prompt
+    assert "INTELIGÊNCIA CRIATIVA AGRO" in user_prompt
+    assert "erro caro" in user_prompt

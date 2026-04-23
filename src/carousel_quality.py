@@ -33,6 +33,24 @@ _ENGAGEMENT_MARKERS = (
     "risco",
 )
 
+_CREATIVE_TENSION_MARKERS = (
+    "decisao",
+    "decisão",
+    "risco",
+    "margem",
+    "custo",
+    "erro",
+    "perda",
+    "perde",
+    "contraste",
+    "antes",
+    "depois",
+    "achismo",
+    "criterio",
+    "critério",
+    "oportunidade",
+)
+
 _FUNNEL_CTA_MARKERS = {
     "topo": ("salve", "compartilhe", "marque"),
     "meio": ("comenta", "me conta", "responde", "me diz"),
@@ -241,6 +259,15 @@ def score_carousel_draft(
     elif development_slides:
         issues.append("faltou traduzir o dado em implicacao pratica em parte do miolo")
 
+    creative_tension_hits = 0
+    for slide in normalized_slides:
+        body = " ".join([slide["title"], slide["copy"]])
+        if _find_hits(body, _CREATIVE_TENSION_MARKERS, min_chars=4):
+            creative_tension_hits += 1
+    if creative_tension_hits >= 2:
+        score += 0.05
+        strengths.append("tensao criativa agro presente")
+
     caption_text = (caption or "").strip()
     if min_caption_words is not None and max_caption_words is not None:
         if not caption_text:
@@ -333,6 +360,7 @@ def score_carousel_draft(
             "source_hits": len(source_hits),
             "proof_hits": len(proof_hits),
             "practical_hits": practical_hits,
+            "creative_tension_hits": creative_tension_hits,
         },
     }
 

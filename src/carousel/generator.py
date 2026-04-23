@@ -11,6 +11,7 @@ from src.carousel_quality import (
     score_carousel_draft,
 )
 from src.config import OPENAI_API_KEY
+from src.generator.creative_intelligence import build_theme_creative_brief
 from src.models import ArgumentBank, Carousel, Post, PostAnalysis, Profile, ProfileVoice, WeeklyReport
 from src.slide_utils import normalize_carousel_slides
 
@@ -26,6 +27,8 @@ SYSTEM_PROMPT = """Você é um copywriter especialista em carrosséis virais par
 Com base no perfil de voz do criador, nos templates e estruturas reais dos cards dos concorrentes de maior viralidade, e nas referências opcionais do banco de argumentos, crie um carrossel sobre o tema fornecido.
 
 Priorize replicar as estruturas de cards que mais performaram — argumento central forte, dado técnico específico, comparativo ou CTA claro.
+Use as transcrições literais dos cards concorrentes como fonte primária para entender ordem narrativa, densidade técnica e dados que podem inspirar o novo roteiro.
+Use a inteligência criativa agro para escolher uma tensão central memorável antes de escrever os slides.
 
 Retorne um JSON com a estrutura de slides:
 [
@@ -79,6 +82,15 @@ def _select_theme_arguments(session: Session, theme: str) -> list[ArgumentBank]:
 
     ranked.sort(key=lambda item: (item[0], item[1].virality_weight * item[1].quality_score), reverse=True)
     return [arg for _, arg in ranked[:5]]
+
+
+def _trim_for_prompt(text: str | None, limit: int = 2500) -> str:
+    value = (text or "").strip()
+    if not value:
+        return ""
+    if len(value) <= limit:
+        return value
+    return f"{value[:limit].rstrip()}\n...[transcrição truncada para caber no prompt]"
 
 
 def _extract_numeric_fragments(posts: list[Post]) -> list[str]:
@@ -146,6 +158,7 @@ def _build_validated_theme_catalog(
                 "technical_claims": (intel.technical_claims or [])[:2],
                 "data_points": (intel.data_points or [])[:3],
                 "sources_referenced": intel.sources_referenced or [],
+                "visual_transcript": _trim_for_prompt(getattr(intel, "visual_transcript", None), limit=1800),
                 "virality_score": post.analysis.virality_score if post.analysis else None,
             }
         )
@@ -185,6 +198,8 @@ def _build_quality_guardrails() -> list[str]:
     return [
         "A leitura precisa ganhar tensao a cada slide, sem repetir a mesma frase de jeitos diferentes.",
         "O miolo do carrossel precisa combinar dado tecnico e traducao pratica para o agro.",
+        "O carrossel precisa ter uma tensao central reconhecivel: erro caro, margem em risco, decisao atrasada, contraste campo/escritorio ou oportunidade perdida.",
+        "A criatividade deve nascer de situacoes reais do agro, nao de frase bonita sem lastro.",
         "O slide PROVA precisa ancorar um numero, comparativo ou fonte do catalogo validado.",
         "O CTA final deve pedir uma unica acao clara e nao pode soar generico.",
         "Evite frases vagas sem criterio tecnico ou prova concreta.",
@@ -281,6 +296,7 @@ def generate_carousel(theme: str, session: Session) -> Carousel:
             "argument_structure": p.intelligence.argument_structure,
             "core_argument": p.intelligence.core_argument,
             "technical_claims": (p.intelligence.technical_claims or [])[:2],
+            "visual_transcript": _trim_for_prompt(getattr(p.intelligence, "visual_transcript", None)),
             "slide_breakdown": (getattr(p.intelligence, "slide_breakdown", []) or [])[:6],
             "carousel_complexity": getattr(p.intelligence, "carousel_complexity", {}) or {},
             "virality_score": p.analysis.virality_score,
@@ -299,6 +315,7 @@ def generate_carousel(theme: str, session: Session) -> Carousel:
     target_slide_count = _estimate_theme_slide_count(top_competitor_posts)
     evidence_pack = _build_theme_evidence_pack(theme, top_args, top_competitor_posts)
     validated_catalog = _build_validated_theme_catalog(theme, top_args, top_competitor_posts, report)
+    creative_brief = build_theme_creative_brief(theme, top_competitor_posts, top_args, report)
     slide_blueprint = build_slide_blueprint(target_slide_count)
     quality_guardrails = _build_quality_guardrails()
 
@@ -318,6 +335,7 @@ def generate_carousel(theme: str, session: Session) -> Carousel:
         } if report else {},
         "referencias_opcionais_do_banco": [a.text for a in top_args],
         "catalogo_de_dados_validados": validated_catalog,
+        "inteligencia_criativa_agro": creative_brief,
         "blueprint_ideal": slide_blueprint,
         "metas_de_qualidade": quality_guardrails,
     }

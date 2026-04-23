@@ -111,7 +111,7 @@ def _transcribe_visual_assets(post: Post) -> str:
                 "role": "user",
                 "content": content,
             }],
-            max_tokens=1400,
+            max_tokens=3200,
         )
         return response.choices[0].message.content or ""
     except Exception as exc:
@@ -185,6 +185,7 @@ def analyze_post_intelligence(post: Post, session: Session, force: bool = False)
     intelligence.knowledge_assumptions = data.get("knowledge_assumptions")
     intelligence.content_gaps = data.get("content_gaps")
     intelligence.replication_template = data.get("replication_template")
+    intelligence.visual_transcript = visual_transcript.strip() or None
     intelligence.slide_breakdown = data.get("slide_breakdown", [])
     intelligence.carousel_complexity = data.get("carousel_complexity", {})
     session.add(intelligence)
