@@ -48,7 +48,7 @@ function SidebarContent({
               AGRO INTEL
             </p>
             <p className="text-[12px] mt-1" style={{ color: 'rgba(255,255,255,0.38)' }}>
-              Coleta, analisa e cria com contexto.
+              Central interna do Nathan.
             </p>
           </div>
         )}
@@ -194,7 +194,7 @@ function SidebarContent({
               <div className="min-w-0">
                 <p className="text-[12px] font-semibold text-white">Nathan</p>
                 <p className="text-[11px]" style={{ color: 'rgba(255,255,255,0.35)' }}>
-                  Perfil operacional ativo
+                  Operação privada ativa
                 </p>
               </div>
             </div>
