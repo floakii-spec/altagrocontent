@@ -11,7 +11,7 @@
 | **Fase 1** | Data Lock + Pledge + Validation Gate | Garantir que dados do post-fonte sobrevivem ao Studio |
 | **Fase 2** | PatternBank + Self-Refinement Loop | Aprender com posts aprovados para melhorar gerações futuras |
 
-Fase 2 depende de Fase 1 (requer `source_data_inventory` persistido e posts aprovados acumulados).
+Fase 2 depende de Fase 1 e de pré-requisitos de infraestrutura detalhados abaixo.
 
 ---
 
@@ -21,45 +21,53 @@ O Studio gera posts adaptando conteúdo de concorrentes, mas não tem garantia d
 
 ---
 
-## Solução em três camadas
+## Fase 1 — Data Lock + Pledge + Validation Gate
 
-### 1. Data Lock — inventário congelado por geração
+### 1. Data Lock — evidência nasce na análise, geração tira snapshot
 
-Ao iniciar uma geração no Studio, os dados críticos do post-fonte são extraídos e persistidos como `source_data_inventory` no `GeneratedPost`. O inventário é imutável — se o `PostIntelligence` do post-fonte for re-analisado depois, o contrato daquela geração específica não muda.
+A extração de evidências acontece **quando o post é analisado** (pipeline de análise), não na geração. Isso cria uma biblioteca de estudos reutilizável e evita recalcular evidência a cada geração.
 
-**Campos do inventário:**
+**`PostIntelligence` ganha o campo `evidence_inventory`** — estruturado em `required` e `optional`:
 
 ```json
 {
-  "numeros_obrigatoriamente_ancorados": ["R$ 2,5bi", "R$ 427mi", "R$ 1,4bi"],
-  "mecanismos_que_nao_podem_sumir": ["recuperação judicial", "patrimônio líquido negativo"],
-  "afirmacoes_tecnicas": ["dívidas maiores que todos os ativos somados"],
-  "argumento_central": "modelo dependia de capital externo que nunca chegou",
-  "fontes_disponiveis": ["BDO", "Demonstrações Contábeis SAF"],
-  "cadeia_causal": [
-    "Textor compra SAF em 2022 com promessa de capital externo contínuo",
-    "Clube ganha Libertadores em novembro de 2024",
-    "BDO já alertava desde 2024: patrimônio negativo e capital de giro deficiente",
-    "Capital prometido não chegou — Cork Gully bloqueia novos investidores",
-    "R$ 2,5bi em passivos, R$ 427mi de patrimônio negativo",
-    "Recuperação judicial protocolada no TJRJ"
-  ],
-  "definicoes_ensinadas": [
-    {"termo": "recuperação judicial", "definicao": "proteção temporária contra credores — não é falência"},
-    {"termo": "patrimônio líquido negativo", "definicao": "dívidas maiores que todos os ativos somados"}
-  ]
+  "required": {
+    "numbers": ["R$ 2,5bi", "R$ 427mi", "R$ 1,4bi"],
+    "mechanisms": ["recuperação judicial", "patrimônio líquido negativo", "capital de giro"],
+    "causal_steps": [
+      "Textor compra SAF em 2022 com promessa de capital externo contínuo",
+      "Clube ganha Libertadores em novembro de 2024",
+      "BDO já alertava desde 2024: patrimônio negativo e capital de giro deficiente",
+      "Capital prometido não chegou — Cork Gully bloqueia novos investidores",
+      "R$ 2,5bi em passivos, R$ 427mi de patrimônio negativo",
+      "Recuperação judicial protocolada no TJRJ"
+    ],
+    "definitions": [
+      {"term": "recuperação judicial", "definition": "proteção temporária contra credores — não é falência"},
+      {"term": "patrimônio líquido negativo", "definition": "dívidas maiores que todos os ativos somados"}
+    ]
+  },
+  "optional": {
+    "claims": ["dívidas maiores que todos os ativos somados"],
+    "sources": ["BDO", "Demonstrações Contábeis SAF"],
+    "context": "modelo dependia de capital externo contínuo que nunca chegou"
+  }
 }
 ```
 
-`cadeia_causal` e `definicoes_ensinadas` são extraídos via GPT call sobre o `visual_transcript` no momento da geração (não no pipeline de análise — nenhuma migração no `PostIntelligence`). Posts sem estrutura educacional retornam listas vazias.
+**Severidade explícita:**
+- `required` — o Validation Gate exige presença no post gerado. Ausência é issue bloqueante.
+- `optional` — sugerido ao modelo via prompt, mas ausência não bloqueia. Evita reprovar adaptações boas.
 
-Os demais campos vêm de `_build_validated_data_catalog()` já existente.
+**`GeneratedPost.source_data_inventory`** é um snapshot imutável do `PostIntelligence.evidence_inventory` no momento da geração. Se o `PostIntelligence` for re-analisado depois, o contrato daquela geração específica não muda.
+
+**Extração do `evidence_inventory`:** GPT call sobre o `visual_transcript` durante o pipeline de análise de posts (junto com os demais campos de `PostIntelligence`). `causal_steps` e `definitions` são novos; `numbers`, `mechanisms`, `claims`, `sources` são reorganizações dos campos já extraídos hoje. Posts sem estrutura educacional retornam `definitions: []` e `causal_steps: []`.
 
 ---
 
 ### 2. Pledge — compromisso pré-escrita dentro do `planejamento_narrativo`
 
-Nova seção obrigatória `dados_prometidos` dentro do `planejamento_narrativo` existente. O modelo recebe o `source_data_inventory` no prompt e deve comprometer-se, para cada item crítico que vai usar, **onde vai aparecer e como será adaptado** — antes de escrever qualquer slide.
+Nova seção obrigatória `dados_prometidos` dentro do `planejamento_narrativo` existente. O modelo recebe o `source_data_inventory` no prompt e deve comprometer-se, **para cada item `required`**, onde vai aparecer e como será adaptado — antes de escrever qualquer slide.
 
 **Estrutura:**
 
@@ -68,19 +76,19 @@ Nova seção obrigatória `dados_prometidos` dentro do `planejamento_narrativo` 
   {
     "item_type": "numero",
     "item": "R$ 2,5bi",
-    "slide_index": 4,
+    "slide_number": 4,
     "como_vai_aparecer": "convertido para equivalente em custo de safra de soja"
   },
   {
     "item_type": "cadeia_causal",
     "item": "capital prometido não chegou — estrutura colapsou",
-    "slide_index": 7,
+    "slide_number": 7,
     "como_vai_aparecer": "crédito rural previsto no plano que nunca saiu"
   },
   {
     "item_type": "definicao",
     "item": "recuperação judicial",
-    "slide_index": 9,
+    "slide_number": 9,
     "como_vai_aparecer": "analogia com renegociação de dívida rural — proteção, não colapso"
   }
 ]
@@ -88,82 +96,94 @@ Nova seção obrigatória `dados_prometidos` dentro do `planejamento_narrativo` 
 
 **Três `item_type` suportados:** `numero`, `cadeia_causal`, `definicao`.
 
-O pledge trava o *dado*, não a *copy*. "R$ 2,5bi" pode virar "o equivalente a 3 safras de uma fazenda média do Mato Grosso" — o número ancora, a linguagem é Nathan.
+**Regra explícita sobre números:** números `required` devem aparecer **verbatim pelo menos uma vez** no texto final. Analogias e conversões de escala podem complementar o número, mas não o substituem. O número original ancora a credibilidade; a analogia ensina a escala.
+
+**`slide_number` é 1-based** — CAPA é slide 1, CTA é slide `len(slides)`. O pledge usa `slide_number`, não índice zero.
 
 ---
 
-### 3. Validation Gate — cadeia completa de verificação
+### 3. Validation Gate — cinco funções em cadeia
 
-Quatro funções de validação em sequência, integradas ao pipeline existente como fontes adicionais de issues:
-
-#### 3a. `_validate_pledge_coverage(dados_prometidos, source_data_inventory)`
-Verifica que o pledge cobre o inventário — não o contrário.
-
-| Item do inventário | Regra |
-|---|---|
-| Todos os `numeros_obrigatoriamente_ancorados` | Ao menos 1 pledge item referencia cada número |
-| Todos os `mecanismos_que_nao_podem_sumir` | Ao menos 1 pledge item referencia cada mecanismo |
-| `cadeia_causal` com N passos | Ao menos max(1, ⌊N × 0.7⌋) passos cobertos por pledge items |
-| `definicoes_ensinadas` (se não vazia) | Ao menos 1 definição representada |
-
-Issues bloqueantes → dispara reescrita do `planejamento_narrativo`.
-
-#### 3b. `_validate_pledge_traceability(dados_prometidos, source_data_inventory)`
-Verifica que cada item no pledge rastreia de volta ao inventário — impede que o modelo invente itens para satisfazer a cobertura.
-
-| `item_type` | Regra de rastreabilidade |
-|---|---|
-| `numero` | `item` deve ser substring de algum valor em `numeros_obrigatoriamente_ancorados` |
-| `cadeia_causal` | `item` deve compartilhar ao menos 2 substantivos com algum passo da `cadeia_causal` |
-| `definicao` | `item` deve referenciar um `termo` de `definicoes_ensinadas` |
-
-Issues bloqueantes → dispara reescrita do `planejamento_narrativo`.
-
-#### 3c. `_validate_pledge_fulfillment(dados_prometidos, slides, caption, cta)`
-Verifica que o que foi prometido aparece no texto final.
-
-| `item_type` | Regra de fulfillment |
-|---|---|
-| `numero` | Número aparece verbatim nos slides `slide_index ±1`; fallback: texto completo |
-| `cadeia_causal` | Ao menos 1 dos 2-3 termos-chave do item aparece nos slides `slide_index ±2` |
-| `definicao` | Slide em `slide_index ±1` contém estrutura definitória: "significa", "não é", "≠", "em outras palavras", "na prática" |
-
-`numero` e `cadeia_causal` ausentes → bloqueantes. `definicao` ausente → revisão (não bloqueia).
-
-#### 3d. `_validate_number_context(dados_prometidos, slides)`
-Verifica que números pledgeados aparecem com contexto semântico correto — não apenas presença textual.
-
-Para cada pledge item do tipo `numero`: examinar janela de 15 palavras ao redor do número no texto final. Ao menos um termo dos `mecanismos_que_nao_podem_sumir` ou da `cadeia_causal` correspondente deve aparecer nessa janela.
-
-Issue bloqueante: `"pledge violado — numero 'X' presente mas sem contexto semântico correto (possível inversão)"`.
-
-**Pipeline de validação completo:**
-
-Toda a validação acontece pós-chamada de API (planning + slides chegam em um único JSON). As funções de cobertura e rastreabilidade examinam o `planejamento_narrativo.dados_prometidos` retornado; se falharem, os slides não são avaliados e a resposta inteira vai para revisão.
+Toda a validação acontece pós-chamada de API (planning + slides chegam em um único JSON). Funções 3a–3c examinam o `planejamento_narrativo.dados_prometidos`; se falharem, os slides não são avaliados e a resposta inteira vai para revisão.
 
 ```
 GPT retorna JSON { planejamento_narrativo + slides }
         ↓
-_validate_pledge_coverage()       ← dados_prometidos cobre o inventário?
-_validate_pledge_traceability()   ← cada item do pledge rastreia ao inventário?
-_validate_pledge_slide_bounds()   ← slide_index de cada item está dentro do range real?
-   se falhar → revisão do planejamento_narrativo (slides não avaliados)
+3a. _validate_pledge_coverage()       ← required do inventário coberto pelo pledge?
+3b. _validate_pledge_traceability()   ← cada item do pledge rastreia ao inventário?
+3c. _validate_pledge_slide_bounds()   ← slide_number existe no carrossel real?
+    se qualquer falhar → revisão do planejamento_narrativo (slides não avaliados)
         ↓
-_validate_pledge_fulfillment()    ← pledge honrado no output?
-_validate_number_context()        ← números com contexto semântico correto?
+3d. _validate_pledge_fulfillment()    ← pledge honrado no output?
+3e. _validate_number_context()        ← números com contexto semântico correto?
         ↓
-_evaluate_generation()            ← quality gate existente (sem mudança)
+_evaluate_generation()                ← quality gate existente (sem mudança)
 ```
 
-`_validate_pledge_slide_bounds`: cada `slide_index` em `dados_prometidos` deve estar em `[1, len(slides)-1]` (0 é CAPA, reservado). Issue bloqueante se fora do range.
+#### 3a. `_validate_pledge_coverage(dados_prometidos, source_data_inventory)`
+
+Apenas campos `required` são exigidos no pledge. `optional` não é verificado.
+
+| Campo `required` | Regra de cobertura |
+|---|---|
+| `numbers` | Ao menos 1 pledge item do tipo `numero` por número |
+| `mechanisms` | Ao menos 1 pledge item referencia cada mecanismo |
+| `causal_steps` com N itens | Ao menos max(1, ⌊N × 0.7⌋) passos cobertos |
+| `definitions` (se não vazia) | Ao menos 1 definição representada |
+
+Issues bloqueantes com prefixo `"pledge incompleto —"`.
+
+#### 3b. `_validate_pledge_traceability(dados_prometidos, source_data_inventory)`
+
+Impede que o modelo invente itens no pledge para parecer que cobre o inventário.
+
+| `item_type` | Regra |
+|---|---|
+| `numero` | `item` é substring de algum valor em `required.numbers` |
+| `cadeia_causal` | `item` compartilha ao menos 2 substantivos com algum passo de `required.causal_steps` |
+| `definicao` | `item` referencia um `term` de `required.definitions` |
+
+Issues bloqueantes com prefixo `"pledge inválido —"`.
+
+#### 3c. `_validate_pledge_slide_bounds(dados_prometidos, slides)`
+
+`slide_number` de cada item deve estar em `[1, len(slides)]`. Issue bloqueante se fora do range.
+
+#### 3d. `_validate_pledge_fulfillment(dados_prometidos, slides, caption, cta)`
+
+| `item_type` | Regra de fulfillment |
+|---|---|
+| `numero` | Número aparece **verbatim** nos slides `slide_number ±1`; fallback: texto completo. Analogias complementam mas não substituem. |
+| `cadeia_causal` | Ao menos 1 dos 2-3 termos-chave do item aparece nos slides `slide_number ±2` |
+| `definicao` | Slide em `slide_number ±1` contém estrutura definitória: "significa", "não é", "≠", "em outras palavras", "na prática" |
+
+`numero` e `cadeia_causal` ausentes → bloqueantes. `definicao` ausente → revisão (não bloqueia).
+
+#### 3e. `_validate_number_context(dados_prometidos, slides)`
+
+Para cada pledge item do tipo `numero`: janela de 15 palavras ao redor do número no texto final deve conter ao menos 1 termo de `required.mechanisms` ou do `causal_step` correspondente.
+
+Issue bloqueante: `"pledge violado — numero 'X' presente mas contexto semântico ausente (possível inversão)"`.
 
 **Prefixos bloqueantes adicionados a `_BLOCKING_ISSUE_PREFIXES`:**
 - `"pledge incompleto —"`
+- `"pledge inválido —"`
 - `"pledge violado —"`
 
 ---
 
-## PatternBank + Self-Refinement Loop
+## Fase 2 — PatternBank + Self-Refinement Loop (futura)
+
+### Pré-requisitos antes de iniciar Fase 2
+
+A Fase 2 depende de infraestrutura que ainda não existe:
+
+1. **Endpoint de aprovação no Studio** — `PATCH /generated-posts/{id}` com `status="approved"` (hoje a aprovação não tem endpoint dedicado)
+2. **Persistência de métricas de qualidade em `GeneratedPost`** — colunas `quality_score`, `quality_issues` (JSON), `strict_pass` (bool). Hoje esses dados só existem em memória durante a geração.
+
+Esses dois itens devem ser entregues antes ou junto com a Fase 2.
+
+---
 
 ### Model `GenerationPattern`
 
@@ -176,14 +196,14 @@ class GenerationPattern(Base):
     hook_archetype: str        # um dos 5 archetypes Varos
     narrative_arc: str         # um dos 3 arcos narrativos
     slide_type_sequence: list  # JSON: sequência de tipos de slide
-    pledge_fulfillment_rate: float  # % de itens do pledge honrados
+    pledge_fulfillment_rate: float  # % de itens required do pledge honrados
     quality_score: float
     weight: float              # 1.0 = strict_pass / 2.0 = approved manual
     structural_insights: dict  # JSON: análise GPT do que funcionou
     extracted_at: datetime
 ```
 
-**`structural_insights` extraído por GPT após aprovação:**
+**`structural_insights` extraído por GPT:**
 
 ```json
 {
@@ -199,83 +219,42 @@ class GenerationPattern(Base):
 
 | Evento | Weight | Trigger |
 |---|---|---|
-| `GeneratedPost.status → "approved"` | 2.0 | Imediato — chamado em `PATCH /generated-posts/{id}` quando `status="approved"` |
-| `strict_pass=True`, status `"generated"` | 1.0 | APScheduler diário (06:30 UTC) — processa GeneratedPosts com strict_pass sem GenerationPattern |
+| `GeneratedPost.status → "approved"` | 2.0 | Imediato — hook em `PATCH /generated-posts/{id}` |
+| `strict_pass=True`, status `"generated"` | 1.0 | APScheduler diário (06:30 UTC) |
 
-Função `extract_and_store_pattern(generated_post_id, session)` em `src/generator/pattern_extractor.py` (novo):
-1. Carrega `GeneratedPost` com `planning_narrative`, `slides`, `source_data_inventory`
-2. Extrai `hook_archetype` e `narrative_arc` do `planning_narrative`
-3. Calcula `pledge_fulfillment_rate`
-4. Chama GPT para `structural_insights`
-5. Persiste em `GenerationPattern`
+### Recuperação e injeção na geração
 
-### Recuperação na geração
-
-```python
-def _retrieve_top_patterns(session, hook_archetype, limit=3):
-    patterns = (query
-        .filter_by(hook_archetype=hook_archetype)
-        .order_by(weight.desc(), quality_score.desc())
-        .limit(limit).all())
-    if len(patterns) < 2:
-        patterns = query.order_by(weight.desc()).limit(limit).all()
-    return patterns
-```
-
-Filtro por `hook_archetype` primeiro (relevância estrutural), depois `weight` (qualidade comprovada). Fallback global se menos de 2 resultados no archetype.
-
-### Injeção no SYSTEM_PROMPT
-
-Nova seção antes do ETAPA 1, em ambos os geradores (`content_generator.py` e `carousel/generator.py`):
-
-```
-PADRÕES QUE FUNCIONARAM EM POSTS APROVADOS
-Use como referência de raciocínio — não como template de copy.
-
-Hook archetype: paradoxo por comparação
-Arco narrativo: espiral descendente de revelações
-Sequência: CAPA → HOOK → ESCALADA → DADO → REVELACAO → MECANISMO → SINTESE → CTA
-Ancoragem de dados: número absoluto primeiro, contexto de escala depois
-Arco emocional: espanto (1-3) → análise fria (4-8) → síntese (10-11) → ação (12)
-Pledge fulfillment: 96%
-```
-
-### Crescimento do refinamento
-
-- **Semana 1**: sem padrões → geração usa só metodologia Varos
-- **~10 aprovados**: padrões começam a influenciar planejamento narrativo
-- **~50 aprovados**: sistema conhece técnicas específicas para voz do Nathan e público agro
-
-Não é fine-tuning — é few-shot learning estruturado que cresce com uso real.
+Filtro por `hook_archetype` primeiro, depois `weight` descrescente. Fallback global se menos de 2 resultados no archetype. Top 3 injetados como nova seção no SYSTEM_PROMPT antes do ETAPA 1, em ambos os geradores.
 
 ---
 
 ## Arquivos afetados
 
-### Fase 1 — Data Lock + Pledge + Validation Gate
+### Fase 1
 
 | Arquivo | Mudança |
 |---|---|
-| `src/models.py` | `source_data_inventory` em `GeneratedPost` |
-| `src/generator/content_generator.py` | extração do inventário, pledge no SYSTEM_PROMPT, 5 validadores |
-| `alembic/versions/011_source_data_inventory.py` | `ADD COLUMN source_data_inventory JSON` em `generated_posts` |
+| `src/models.py` | `evidence_inventory` em `PostIntelligence` + `source_data_inventory` em `GeneratedPost` |
+| `src/intelligence/analyzer.py` (ou equivalente) | extração de `evidence_inventory` durante análise do post |
+| `src/generator/content_generator.py` | snapshot do inventário, pledge no SYSTEM_PROMPT, 5 validadores |
+| `alembic/versions/011_evidence_inventory.py` | `evidence_inventory` em `post_intelligence` + `source_data_inventory` em `generated_posts` |
 
-### Fase 2 — PatternBank + Self-Refinement (futura)
+### Fase 2 (futura)
 
 | Arquivo | Mudança |
 |---|---|
-| `src/models.py` | `GenerationPattern` (novo) |
+| `src/models.py` | `GenerationPattern` (novo) + `quality_score`, `quality_issues`, `strict_pass` em `GeneratedPost` |
 | `src/generator/pattern_extractor.py` | novo — `extract_and_store_pattern()` |
-| `src/generator/content_generator.py` | retrieval e injeção de padrões no SYSTEM_PROMPT |
-| `src/carousel/generator.py` | injeção de padrões no SYSTEM_PROMPT |
-| `alembic/versions/012_generation_patterns.py` | tabela `generation_patterns` |
-| Endpoint de aprovação (API) | hook para `extract_and_store_pattern()` |
+| `src/generator/content_generator.py` | retrieval e injeção de padrões |
+| `src/carousel/generator.py` | injeção de padrões |
+| `alembic/versions/012_generation_patterns.py` | tabela `generation_patterns` + colunas de qualidade em `generated_posts` |
+| API | endpoint `PATCH /generated-posts/{id}` com hook de aprovação |
 
 ---
 
 ## Fora de escopo
 
 - Fine-tuning do modelo GPT
-- Validação semântica profunda do conteúdo (além da verificação de vizinhança)
-- Interface no frontend para visualizar `GenerationPattern`
+- Validação semântica profunda além da verificação de vizinhança
+- Interface no frontend para visualizar `GenerationPattern` ou `evidence_inventory`
 - Exportação do PatternBank
