@@ -280,6 +280,11 @@ def analyze_post_intelligence(post: Post, session: Session, force: bool = False)
     intelligence.visual_transcript = visual_transcript.strip() or None
     intelligence.slide_breakdown = data.get("slide_breakdown", [])
     intelligence.carousel_complexity = data.get("carousel_complexity", {})
+    intelligence.evidence_inventory = _extract_evidence_inventory(
+        visual_transcript or "",
+        data,
+        caption,
+    )
     session.add(intelligence)
 
     from src.analyzer.argument_extractor import upsert_arguments
