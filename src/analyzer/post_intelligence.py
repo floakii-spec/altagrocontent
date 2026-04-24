@@ -81,10 +81,99 @@ Retorne APENAS um JSON com esta estrutura:
 Responda APENAS com o JSON."""
 
 
+_MECHANISM_PATTERNS = [
+    "recuperação judicial",
+    "capital de giro",
+    "patrimônio líquido",
+    "patrimônio líquido negativo",
+    "direito de voto",
+    "acionista majoritário",
+    "capital externo",
+    "fluxo de caixa",
+    "gestão financeira",
+    "estrutura financeira",
+    "passivos",
+    "dívidas",
+    "credores",
+    "investidores",
+    "margem",
+    "custos de produção",
+    "produtividade",
+    "crédito rural",
+    "seguro rural",
+    "barter",
+    "correção do solo",
+    "gestão hídrica",
+    "sementes adaptadas",
+    "fixação biológica",
+    "plantio direto",
+    "rotação de culturas",
+]
+
+
+def _append_unique(values: list[str], value: str, limit: int | None = None) -> None:
+    clean = " ".join(str(value).strip().split())
+    if not clean or clean in values:
+        return
+    if limit is not None and len(values) >= limit:
+        return
+    values.append(clean)
+
+
+def _extract_number_fragments(text: str) -> list[str]:
+    pattern = (
+        r"R\$\s*[\d.,]+(?:\s*(?:bi|mi|mil|bilh[õo]es|milh[õo]es))?"
+        r"|\b\d+[.,]?\d*\s*(?:%|bi|mi|mil|bilh[õo]es|milh[õo]es|sacas?|hectares?|ha|"
+        r"anos?|meses?|dias?|toneladas?|t/ha|kg/ha)\b"
+    )
+    return [match.strip() for match in _re.findall(pattern, text, flags=_re.IGNORECASE)]
+
+
+def _fallback_mechanisms(data: dict, caption: str, visual_transcript: str) -> list[str]:
+    haystack_parts = [
+        data.get("core_argument") or "",
+        data.get("argument_structure") or "",
+        caption or "",
+        visual_transcript or "",
+    ]
+    haystack_parts.extend(c for c in (data.get("technical_claims") or []) if isinstance(c, str))
+    haystack = "\n".join(haystack_parts).lower()
+
+    mechanisms: list[str] = []
+    for pattern in _MECHANISM_PATTERNS:
+        if pattern in haystack:
+            _append_unique(mechanisms, pattern, limit=8)
+    return mechanisms
+
+
+def _fallback_causal_steps(data: dict) -> list[str]:
+    steps: list[str] = []
+    structure = str(data.get("argument_structure") or "").strip()
+    if structure:
+        parts = _re.split(r"\s*(?:→|->|=>|;|\n)\s*", structure)
+        for part in parts:
+            _append_unique(steps, part, limit=8)
+
+    if len(steps) < 3:
+        for slide in data.get("slide_breakdown") or []:
+            if not isinstance(slide, dict):
+                continue
+            summary = slide.get("summary") or ""
+            _append_unique(steps, summary, limit=8)
+
+    if len(steps) < 3:
+        for claim in data.get("technical_claims") or []:
+            if isinstance(claim, str):
+                _append_unique(steps, claim, limit=8)
+
+    return steps
+
+
 def _extract_evidence_inventory(
     visual_transcript: str,
     data: dict,
     caption: str,
+    use_gpt: bool = True,
 ) -> dict:
     # Extract numbers from data_points
     numbers: list[str] = []
@@ -98,14 +187,13 @@ def _extract_evidence_inventory(
     for claim in data.get("technical_claims") or []:
         if not isinstance(claim, str):
             continue
-        for match in _re.findall(r"R\$\s*[\d.,]+(?:\s*(?:bi|mi|mil|bilh[õo]es|milh[õo]es))?|\d+[.,]?\d*%", claim):
+        for match in _extract_number_fragments(claim):
             if match not in seen_numbers:
                 seen_numbers.add(match)
                 numbers.append(match)
 
-    # Call GPT for mechanisms, causal_steps, definitions
-    mechanisms: list[str] = []
-    causal_steps: list[str] = []
+    mechanisms = _fallback_mechanisms(data, caption, visual_transcript)
+    causal_steps = _fallback_causal_steps(data)
     definitions: list[dict] = []
 
     content_parts = []
@@ -115,7 +203,7 @@ def _extract_evidence_inventory(
         content_parts.append(f"Legenda: {caption}")
     content = "\n\n".join(content_parts)
 
-    if content.strip():
+    if use_gpt and content.strip():
         try:
             response = openai_client.chat.completions.create(
                 model="gpt-4o",
@@ -132,8 +220,13 @@ def _extract_evidence_inventory(
                     raw = raw[4:]
                 raw = raw.rstrip("`").strip()
             evidence_data = json.loads(raw)
-            mechanisms = [str(m).strip() for m in evidence_data.get("mechanisms") or [] if str(m).strip()]
-            causal_steps = [str(s).strip() for s in evidence_data.get("causal_steps") or [] if str(s).strip()]
+            for mechanism in evidence_data.get("mechanisms") or []:
+                _append_unique(mechanisms, mechanism, limit=8)
+            gpt_steps = [str(s).strip() for s in evidence_data.get("causal_steps") or [] if str(s).strip()]
+            if gpt_steps:
+                causal_steps = []
+                for step in gpt_steps:
+                    _append_unique(causal_steps, step, limit=8)
             definitions = [
                 d for d in (evidence_data.get("definitions") or [])
                 if isinstance(d, dict) and d.get("term") and d.get("definition")

@@ -9,7 +9,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/postcss.config.mjs",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_web_postcss_config_mjs",
-      "community": 51,
+      "community": 53,
       "norm_label": "postcss.config.mjs"
     },
     {
@@ -18,7 +18,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/next-env.d.ts",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_web_next_env_d_ts",
-      "community": 52,
+      "community": 54,
       "norm_label": "next-env.d.ts"
     },
     {
@@ -27,7 +27,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/proxy.ts",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_web_proxy_ts",
-      "community": 35,
+      "community": 37,
       "norm_label": "proxy.ts"
     },
     {
@@ -36,7 +36,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/proxy.ts",
       "source_location": "L3",
       "id": "proxy_sha256hex",
-      "community": 35,
+      "community": 37,
       "norm_label": "sha256hex()"
     },
     {
@@ -45,7 +45,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/proxy.ts",
       "source_location": "L11",
       "id": "proxy_proxy",
-      "community": 35,
+      "community": 37,
       "norm_label": "proxy()"
     },
     {
@@ -54,7 +54,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/next.config.ts",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_web_next_config_ts",
-      "community": 53,
+      "community": 55,
       "norm_label": "next.config.ts"
     },
     {
@@ -63,7 +63,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/app/layout.tsx",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_web_app_layout_tsx",
-      "community": 43,
+      "community": 45,
       "norm_label": "layout.tsx"
     },
     {
@@ -72,7 +72,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/app/layout.tsx",
       "source_location": "L20",
       "id": "layout_rootlayout",
-      "community": 43,
+      "community": 45,
       "norm_label": "rootlayout()"
     },
     {
@@ -81,7 +81,7 @@
       "source_file": "web/app/page.tsx",
       "source_location": "L1",
       "id": "web_app_page_tsx",
-      "community": 44,
+      "community": 46,
       "norm_label": "page.tsx"
     },
     {
@@ -90,7 +90,7 @@
       "source_file": "web/app/page.tsx",
       "source_location": "L11",
       "id": "page_resolvemodule",
-      "community": 44,
+      "community": 46,
       "norm_label": "resolvemodule()"
     },
     {
@@ -99,7 +99,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/app/api/auth/logout/route.ts",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_web_app_api_auth_logout_route_ts",
-      "community": 36,
+      "community": 38,
       "norm_label": "route.ts"
     },
     {
@@ -108,7 +108,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/app/api/auth/login/route.ts",
       "source_location": "L4",
       "id": "route_post",
-      "community": 36,
+      "community": 38,
       "norm_label": "post()"
     },
     {
@@ -117,7 +117,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/app/api/auth/login/route.ts",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_web_app_api_auth_login_route_ts",
-      "community": 36,
+      "community": 38,
       "norm_label": "route.ts"
     },
     {
@@ -126,7 +126,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/app/api/[...proxy]/route.ts",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_web_app_api_proxy_route_ts",
-      "community": 45,
+      "community": 47,
       "norm_label": "route.ts"
     },
     {
@@ -135,7 +135,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/app/api/[...proxy]/route.ts",
       "source_location": "L5",
       "id": "route_proxy",
-      "community": 45,
+      "community": 47,
       "norm_label": "proxy()"
     },
     {
@@ -144,7 +144,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/app/login/page.tsx",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_web_app_login_page_tsx",
-      "community": 46,
+      "community": 48,
       "norm_label": "page.tsx"
     },
     {
@@ -153,7 +153,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/app/login/page.tsx",
       "source_location": "L12",
       "id": "page_handlesubmit",
-      "community": 46,
+      "community": 48,
       "norm_label": "handlesubmit()"
     },
     {
@@ -162,7 +162,7 @@
       "source_file": "web/components/sidebar/Sidebar.tsx",
       "source_location": "L1",
       "id": "web_components_sidebar_sidebar_tsx",
-      "community": 54,
+      "community": 56,
       "norm_label": "sidebar.tsx"
     },
     {
@@ -171,7 +171,7 @@
       "source_file": "web/components/ui/sheet.tsx",
       "source_location": "L1",
       "id": "web_components_ui_sheet_tsx",
-      "community": 14,
+      "community": 15,
       "norm_label": "sheet.tsx"
     },
     {
@@ -180,7 +180,7 @@
       "source_file": "web/components/ui/sheet.tsx",
       "source_location": "L10",
       "id": "sheet_sheet",
-      "community": 14,
+      "community": 15,
       "norm_label": "sheet()"
     },
     {
@@ -189,7 +189,7 @@
       "source_file": "web/components/ui/sheet.tsx",
       "source_location": "L14",
       "id": "sheet_sheettrigger",
-      "community": 14,
+      "community": 15,
       "norm_label": "sheettrigger()"
     },
     {
@@ -198,7 +198,7 @@
       "source_file": "web/components/ui/sheet.tsx",
       "source_location": "L18",
       "id": "sheet_sheetclose",
-      "community": 14,
+      "community": 15,
       "norm_label": "sheetclose()"
     },
     {
@@ -207,7 +207,7 @@
       "source_file": "web/components/ui/sheet.tsx",
       "source_location": "L22",
       "id": "sheet_sheetportal",
-      "community": 14,
+      "community": 15,
       "norm_label": "sheetportal()"
     },
     {
@@ -216,7 +216,7 @@
       "source_file": "web/components/ui/sheet.tsx",
       "source_location": "L55",
       "id": "sheet_cn",
-      "community": 14,
+      "community": 15,
       "norm_label": "cn()"
     },
     {
@@ -225,7 +225,7 @@
       "source_file": "web/components/ui/sheet.tsx",
       "source_location": "L103",
       "id": "sheet_sheettitle",
-      "community": 14,
+      "community": 15,
       "norm_label": "sheettitle()"
     },
     {
@@ -234,7 +234,7 @@
       "source_file": "web/components/ui/sheet.tsx",
       "source_location": "L116",
       "id": "sheet_sheetdescription",
-      "community": 14,
+      "community": 15,
       "norm_label": "sheetdescription()"
     },
     {
@@ -243,7 +243,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/components/ui/badge.tsx",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_web_components_ui_badge_tsx",
-      "community": 21,
+      "community": 26,
       "norm_label": "badge.tsx"
     },
     {
@@ -252,7 +252,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/components/ui/badge.tsx",
       "source_location": "L30",
       "id": "badge_badge",
-      "community": 21,
+      "community": 26,
       "norm_label": "badge()"
     },
     {
@@ -261,7 +261,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/components/ui/button.tsx",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_web_components_ui_button_tsx",
-      "community": 47,
+      "community": 49,
       "norm_label": "button.tsx"
     },
     {
@@ -270,7 +270,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/components/ui/button.tsx",
       "source_location": "L52",
       "id": "button_cn",
-      "community": 47,
+      "community": 49,
       "norm_label": "cn()"
     },
     {
@@ -279,7 +279,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/components/orbital/OrbitalTree.tsx",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_web_components_orbital_orbitaltree_tsx",
-      "community": 12,
+      "community": 13,
       "norm_label": "orbitaltree.tsx"
     },
     {
@@ -288,7 +288,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/components/orbital/OrbitalTree.tsx",
       "source_location": "L49",
       "id": "orbitaltree_setpos",
-      "community": 12,
+      "community": 13,
       "norm_label": "setpos()"
     },
     {
@@ -297,7 +297,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/components/orbital/OrbitalTree.tsx",
       "source_location": "L55",
       "id": "orbitaltree_fadein",
-      "community": 12,
+      "community": 13,
       "norm_label": "fadein()"
     },
     {
@@ -306,7 +306,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/components/orbital/OrbitalTree.tsx",
       "source_location": "L64",
       "id": "orbitaltree_fadeout",
-      "community": 12,
+      "community": 13,
       "norm_label": "fadeout()"
     },
     {
@@ -315,7 +315,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/components/orbital/OrbitalTree.tsx",
       "source_location": "L73",
       "id": "orbitaltree_makenode",
-      "community": 12,
+      "community": 13,
       "norm_label": "makenode()"
     },
     {
@@ -324,7 +324,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/components/orbital/OrbitalTree.tsx",
       "source_location": "L133",
       "id": "orbitaltree_makerings",
-      "community": 12,
+      "community": 13,
       "norm_label": "makerings()"
     },
     {
@@ -333,7 +333,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/components/orbital/OrbitalTree.tsx",
       "source_location": "L150",
       "id": "orbitaltree_makepulse",
-      "community": 12,
+      "community": 13,
       "norm_label": "makepulse()"
     },
     {
@@ -342,7 +342,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/components/orbital/OrbitalTree.tsx",
       "source_location": "L166",
       "id": "orbitaltree_startorbit",
-      "community": 12,
+      "community": 13,
       "norm_label": "startorbit()"
     },
     {
@@ -351,7 +351,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/components/orbital/OrbitalTree.tsx",
       "source_location": "L187",
       "id": "orbitaltree_stoporbit",
-      "community": 12,
+      "community": 13,
       "norm_label": "stoporbit()"
     },
     {
@@ -360,7 +360,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/components/orbital/OrbitalTree.tsx",
       "source_location": "L192",
       "id": "orbitaltree_handofftoraf",
-      "community": 12,
+      "community": 13,
       "norm_label": "handofftoraf()"
     },
     {
@@ -369,7 +369,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/components/orbital/OrbitalTree.tsx",
       "source_location": "L199",
       "id": "orbitaltree_renderhome",
-      "community": 12,
+      "community": 13,
       "norm_label": "renderhome()"
     },
     {
@@ -378,7 +378,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/components/orbital/OrbitalTree.tsx",
       "source_location": "L233",
       "id": "orbitaltree_drillinto",
-      "community": 12,
+      "community": 13,
       "norm_label": "drillinto()"
     },
     {
@@ -387,7 +387,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/components/drawers/DrawerComingSoon.tsx",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_web_components_drawers_drawercomingsoon_tsx",
-      "community": 55,
+      "community": 57,
       "norm_label": "drawercomingsoon.tsx"
     },
     {
@@ -396,7 +396,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/components/drawers/DrawerInteligenciaArgumentos.tsx",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_web_components_drawers_drawerinteligenciaargumentos_tsx",
-      "community": 22,
+      "community": 23,
       "norm_label": "drawerinteligenciaargumentos.tsx"
     },
     {
@@ -405,7 +405,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/components/drawers/DrawerInteligenciaArgumentos.tsx",
       "source_location": "L20",
       "id": "drawerinteligenciaargumentos_scorebar",
-      "community": 22,
+      "community": 23,
       "norm_label": "scorebar()"
     },
     {
@@ -414,7 +414,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/components/drawers/DrawerInteligenciaArgumentos.tsx",
       "source_location": "L40",
       "id": "drawerinteligenciaargumentos_load",
-      "community": 22,
+      "community": 23,
       "norm_label": "load()"
     },
     {
@@ -423,7 +423,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/components/drawers/DrawerInteligenciaArgumentos.tsx",
       "source_location": "L53",
       "id": "drawerinteligenciaargumentos_copyarg",
-      "community": 22,
+      "community": 23,
       "norm_label": "copyarg()"
     },
     {
@@ -432,7 +432,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/components/drawers/DrawerNoticias.tsx",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_web_components_drawers_drawernoticias_tsx",
-      "community": 6,
+      "community": 4,
       "norm_label": "drawernoticias.tsx"
     },
     {
@@ -441,7 +441,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/components/drawers/DrawerNoticias.tsx",
       "source_location": "L27",
       "id": "drawernoticias_timeago",
-      "community": 6,
+      "community": 4,
       "norm_label": "timeago()"
     },
     {
@@ -450,7 +450,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/components/drawers/DrawerNoticias.tsx",
       "source_location": "L40",
       "id": "drawernoticias_load",
-      "community": 6,
+      "community": 4,
       "norm_label": "load()"
     },
     {
@@ -459,7 +459,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/components/drawers/DrawerNoticias.tsx",
       "source_location": "L48",
       "id": "drawernoticias_refresh",
-      "community": 6,
+      "community": 4,
       "norm_label": "refresh()"
     },
     {
@@ -468,7 +468,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/components/drawers/DrawerRelatorios.tsx",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_web_components_drawers_drawerrelatorios_tsx",
-      "community": 23,
+      "community": 24,
       "norm_label": "drawerrelatorios.tsx"
     },
     {
@@ -477,7 +477,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/components/drawers/DrawerRelatorios.tsx",
       "source_location": "L16",
       "id": "drawerrelatorios_formatdate",
-      "community": 23,
+      "community": 24,
       "norm_label": "formatdate()"
     },
     {
@@ -486,7 +486,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/components/drawers/DrawerRelatorios.tsx",
       "source_location": "L26",
       "id": "drawerrelatorios_load",
-      "community": 23,
+      "community": 24,
       "norm_label": "load()"
     },
     {
@@ -495,7 +495,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/components/drawers/DrawerRelatorios.tsx",
       "source_location": "L38",
       "id": "drawerrelatorios_generate",
-      "community": 23,
+      "community": 24,
       "norm_label": "generate()"
     },
     {
@@ -504,7 +504,7 @@
       "source_file": "web/components/drawers/DrawerIdentidade.tsx",
       "source_location": "L1",
       "id": "web_components_drawers_draweridentidade_tsx",
-      "community": 18,
+      "community": 19,
       "norm_label": "draweridentidade.tsx"
     },
     {
@@ -513,7 +513,7 @@
       "source_file": "web/components/drawers/DrawerIdentidade.tsx",
       "source_location": "L23",
       "id": "draweridentidade_formatdate",
-      "community": 18,
+      "community": 19,
       "norm_label": "formatdate()"
     },
     {
@@ -522,7 +522,7 @@
       "source_file": "web/components/drawers/DrawerIdentidade.tsx",
       "source_location": "L39",
       "id": "draweridentidade_load",
-      "community": 18,
+      "community": 19,
       "norm_label": "load()"
     },
     {
@@ -531,7 +531,7 @@
       "source_file": "web/components/drawers/DrawerIdentidade.tsx",
       "source_location": "L67",
       "id": "draweridentidade_saveownprofile",
-      "community": 18,
+      "community": 19,
       "norm_label": "saveownprofile()"
     },
     {
@@ -540,7 +540,7 @@
       "source_file": "web/components/drawers/DrawerIdentidade.tsx",
       "source_location": "L86",
       "id": "draweridentidade_syncownprofile",
-      "community": 18,
+      "community": 19,
       "norm_label": "syncownprofile()"
     },
     {
@@ -549,7 +549,7 @@
       "source_file": "web/components/drawers/DrawerIdentidade.tsx",
       "source_location": "L100",
       "id": "draweridentidade_removeownprofile",
-      "community": 18,
+      "community": 19,
       "norm_label": "removeownprofile()"
     },
     {
@@ -558,7 +558,7 @@
       "source_file": "web/components/drawers/DrawerIdentidade.tsx",
       "source_location": "L115",
       "id": "draweridentidade_analyze",
-      "community": 18,
+      "community": 19,
       "norm_label": "analyze()"
     },
     {
@@ -567,7 +567,7 @@
       "source_file": "web/components/drawers/DrawerStudio.tsx",
       "source_location": "L1",
       "id": "web_components_drawers_drawerstudio_tsx",
-      "community": 24,
+      "community": 25,
       "norm_label": "drawerstudio.tsx"
     },
     {
@@ -576,7 +576,7 @@
       "source_file": "web/components/drawers/DrawerStudio.tsx",
       "source_location": "L68",
       "id": "drawerstudio_formatdate",
-      "community": 24,
+      "community": 25,
       "norm_label": "formatdate()"
     },
     {
@@ -585,7 +585,7 @@
       "source_file": "web/components/drawers/DrawerStudio.tsx",
       "source_location": "L76",
       "id": "drawerstudio_formatvirality",
-      "community": 24,
+      "community": 25,
       "norm_label": "formatvirality()"
     },
     {
@@ -594,7 +594,7 @@
       "source_file": "web/components/drawers/DrawerStudio.tsx",
       "source_location": "L81",
       "id": "drawerstudio_getdepthmeta",
-      "community": 24,
+      "community": 25,
       "norm_label": "getdepthmeta()"
     },
     {
@@ -603,7 +603,7 @@
       "source_file": "web/components/drawers/DrawerInteligenciaPosts.tsx",
       "source_location": "L1",
       "id": "web_components_drawers_drawerinteligenciaposts_tsx",
-      "community": 37,
+      "community": 39,
       "norm_label": "drawerinteligenciaposts.tsx"
     },
     {
@@ -612,7 +612,7 @@
       "source_file": "web/components/drawers/DrawerInteligenciaPosts.tsx",
       "source_location": "L95",
       "id": "drawerinteligenciaposts_jobprogress",
-      "community": 37,
+      "community": 39,
       "norm_label": "jobprogress()"
     },
     {
@@ -621,7 +621,7 @@
       "source_file": "web/components/drawers/DrawerInteligenciaPosts.tsx",
       "source_location": "L101",
       "id": "drawerinteligenciaposts_drawerinteligenciaposts",
-      "community": 37,
+      "community": 39,
       "norm_label": "drawerinteligenciaposts()"
     },
     {
@@ -630,7 +630,7 @@
       "source_file": "web/components/drawers/DrawerConcorrentes.tsx",
       "source_location": "L1",
       "id": "web_components_drawers_drawerconcorrentes_tsx",
-      "community": 48,
+      "community": 50,
       "norm_label": "drawerconcorrentes.tsx"
     },
     {
@@ -639,7 +639,7 @@
       "source_file": "web/components/drawers/DrawerConcorrentes.tsx",
       "source_location": "L58",
       "id": "drawerconcorrentes_formatdate",
-      "community": 48,
+      "community": 50,
       "norm_label": "formatdate()"
     },
     {
@@ -648,7 +648,7 @@
       "source_file": "web/components/drawers/DrawerCarrossel.tsx",
       "source_location": "L1",
       "id": "web_components_drawers_drawercarrossel_tsx",
-      "community": 20,
+      "community": 21,
       "norm_label": "drawercarrossel.tsx"
     },
     {
@@ -657,7 +657,7 @@
       "source_file": "web/components/drawers/DrawerCarrossel.tsx",
       "source_location": "L40",
       "id": "drawercarrossel_loadhistory",
-      "community": 20,
+      "community": 21,
       "norm_label": "loadhistory()"
     },
     {
@@ -666,7 +666,7 @@
       "source_file": "web/components/drawers/DrawerCarrossel.tsx",
       "source_location": "L46",
       "id": "drawercarrossel_loadsuggestions",
-      "community": 20,
+      "community": 21,
       "norm_label": "loadsuggestions()"
     },
     {
@@ -675,7 +675,7 @@
       "source_file": "web/components/drawers/DrawerCarrossel.tsx",
       "source_location": "L59",
       "id": "drawercarrossel_generate",
-      "community": 20,
+      "community": 21,
       "norm_label": "generate()"
     },
     {
@@ -684,7 +684,7 @@
       "source_file": "web/components/drawers/DrawerCarrossel.tsx",
       "source_location": "L75",
       "id": "drawercarrossel_refreshsuggestions",
-      "community": 20,
+      "community": 21,
       "norm_label": "refreshsuggestions()"
     },
     {
@@ -693,7 +693,7 @@
       "source_file": "web/components/drawers/ModuleDrawer.tsx",
       "source_location": "L1",
       "id": "web_components_drawers_moduledrawer_tsx",
-      "community": 49,
+      "community": 51,
       "norm_label": "moduledrawer.tsx"
     },
     {
@@ -702,7 +702,7 @@
       "source_file": "web/components/drawers/ModuleDrawer.tsx",
       "source_location": "L33",
       "id": "moduledrawer_moduledrawer",
-      "community": 49,
+      "community": 51,
       "norm_label": "moduledrawer()"
     },
     {
@@ -711,7 +711,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/lib/utils.ts",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_web_lib_utils_ts",
-      "community": 21,
+      "community": 26,
       "norm_label": "utils.ts"
     },
     {
@@ -720,7 +720,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/web/lib/utils.ts",
       "source_location": "L4",
       "id": "utils_cn",
-      "community": 21,
+      "community": 26,
       "norm_label": "cn()"
     },
     {
@@ -729,7 +729,7 @@
       "source_file": "web/lib/tree-data.ts",
       "source_location": "L1",
       "id": "web_lib_tree_data_ts",
-      "community": 38,
+      "community": 40,
       "norm_label": "tree-data.ts"
     },
     {
@@ -738,7 +738,7 @@
       "source_file": "web/lib/tree-data.ts",
       "source_location": "L145",
       "id": "tree_data_findmodule",
-      "community": 38,
+      "community": 40,
       "norm_label": "findmodule()"
     },
     {
@@ -747,7 +747,7 @@
       "source_file": "web/lib/tree-data.ts",
       "source_location": "L149",
       "id": "tree_data_findgroup",
-      "community": 38,
+      "community": 40,
       "norm_label": "findgroup()"
     },
     {
@@ -846,7 +846,7 @@
       "source_file": "tests/test_api_intelligence.py",
       "source_location": "L1",
       "id": "tests_test_api_intelligence_py",
-      "community": 11,
+      "community": 12,
       "norm_label": "test_api_intelligence.py"
     },
     {
@@ -855,7 +855,7 @@
       "source_file": "tests/test_api_intelligence.py",
       "source_location": "L24",
       "id": "test_api_intelligence_override_db",
-      "community": 11,
+      "community": 12,
       "norm_label": "override_db()"
     },
     {
@@ -864,7 +864,7 @@
       "source_file": "tests/test_api_intelligence.py",
       "source_location": "L32",
       "id": "test_api_intelligence_clean_db",
-      "community": 11,
+      "community": 12,
       "norm_label": "clean_db()"
     },
     {
@@ -873,7 +873,7 @@
       "source_file": "tests/test_api_intelligence.py",
       "source_location": "L40",
       "id": "test_api_intelligence_seed_intelligence",
-      "community": 11,
+      "community": 12,
       "norm_label": "_seed_intelligence()"
     },
     {
@@ -882,7 +882,7 @@
       "source_file": "tests/test_api_intelligence.py",
       "source_location": "L84",
       "id": "test_api_intelligence_test_list_intelligence_empty",
-      "community": 11,
+      "community": 12,
       "norm_label": "test_list_intelligence_empty()"
     },
     {
@@ -891,7 +891,7 @@
       "source_file": "tests/test_api_intelligence.py",
       "source_location": "L90",
       "id": "test_api_intelligence_test_list_intelligence_returns_data",
-      "community": 11,
+      "community": 12,
       "norm_label": "test_list_intelligence_returns_data()"
     },
     {
@@ -900,7 +900,7 @@
       "source_file": "tests/test_api_intelligence.py",
       "source_location": "L103",
       "id": "test_api_intelligence_test_list_intelligence_prioritizes_competitors_before_own_profile",
-      "community": 11,
+      "community": 12,
       "norm_label": "test_list_intelligence_prioritizes_competitors_before_own_profile()"
     },
     {
@@ -909,7 +909,7 @@
       "source_file": "tests/test_api_intelligence.py",
       "source_location": "L128",
       "id": "test_api_intelligence_test_get_intelligence_by_post_id",
-      "community": 11,
+      "community": 12,
       "norm_label": "test_get_intelligence_by_post_id()"
     },
     {
@@ -918,7 +918,7 @@
       "source_file": "tests/test_api_intelligence.py",
       "source_location": "L137",
       "id": "test_api_intelligence_test_get_intelligence_not_found",
-      "community": 11,
+      "community": 12,
       "norm_label": "test_get_intelligence_not_found()"
     },
     {
@@ -927,7 +927,7 @@
       "source_file": "tests/test_api_intelligence.py",
       "source_location": "L142",
       "id": "test_api_intelligence_test_list_arguments_empty",
-      "community": 11,
+      "community": 12,
       "norm_label": "test_list_arguments_empty()"
     },
     {
@@ -963,7 +963,7 @@
       "source_file": "tests/test_api_intelligence.py",
       "source_location": "L245",
       "id": "test_api_intelligence_test_start_analysis_job_returns_live_job",
-      "community": 11,
+      "community": 12,
       "norm_label": "test_start_analysis_job_returns_live_job()"
     },
     {
@@ -972,7 +972,7 @@
       "source_file": "tests/test_api_intelligence.py",
       "source_location": "L284",
       "id": "test_api_intelligence_test_get_analysis_job_status_returns_job",
-      "community": 11,
+      "community": 12,
       "norm_label": "test_get_analysis_job_status_returns_job()"
     },
     {
@@ -981,7 +981,7 @@
       "source_file": "tests/test_api_intelligence.py",
       "source_location": "L318",
       "id": "test_api_intelligence_test_get_analysis_job_status_404",
-      "community": 11,
+      "community": 12,
       "norm_label": "test_get_analysis_job_status_404()"
     },
     {
@@ -990,7 +990,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_api_news.py",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_tests_test_api_news_py",
-      "community": 7,
+      "community": 6,
       "norm_label": "test_api_news.py"
     },
     {
@@ -999,7 +999,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_api_news.py",
       "source_location": "L19",
       "id": "test_api_news_override_db",
-      "community": 7,
+      "community": 6,
       "norm_label": "override_db()"
     },
     {
@@ -1008,7 +1008,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_api_news.py",
       "source_location": "L26",
       "id": "test_api_news_clean_db",
-      "community": 7,
+      "community": 6,
       "norm_label": "clean_db()"
     },
     {
@@ -1017,7 +1017,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_api_news.py",
       "source_location": "L33",
       "id": "test_api_news_test_list_news_empty",
-      "community": 7,
+      "community": 6,
       "norm_label": "test_list_news_empty()"
     },
     {
@@ -1026,7 +1026,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_api_news.py",
       "source_location": "L38",
       "id": "test_api_news_test_list_news_returns_items",
-      "community": 7,
+      "community": 6,
       "norm_label": "test_list_news_returns_items()"
     },
     {
@@ -1035,7 +1035,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_api_news.py",
       "source_location": "L53",
       "id": "test_api_news_test_refresh_news",
-      "community": 7,
+      "community": 6,
       "norm_label": "test_refresh_news()"
     },
     {
@@ -1044,7 +1044,7 @@
       "source_file": "tests/test_post_intelligence.py",
       "source_location": "L1",
       "id": "tests_test_post_intelligence_py",
-      "community": 8,
+      "community": 5,
       "norm_label": "test_post_intelligence.py"
     },
     {
@@ -1053,7 +1053,7 @@
       "source_file": "tests/test_post_intelligence.py",
       "source_location": "L24",
       "id": "test_post_intelligence_clean_db",
-      "community": 8,
+      "community": 5,
       "norm_label": "clean_db()"
     },
     {
@@ -1062,7 +1062,7 @@
       "source_file": "tests/test_post_intelligence.py",
       "source_location": "L30",
       "id": "test_post_intelligence_make_post",
-      "community": 8,
+      "community": 5,
       "norm_label": "_make_post()"
     },
     {
@@ -1071,7 +1071,7 @@
       "source_file": "tests/test_post_intelligence.py",
       "source_location": "L50",
       "id": "test_post_intelligence_mock_gpt",
-      "community": 8,
+      "community": 5,
       "norm_label": "_mock_gpt()"
     },
     {
@@ -1080,7 +1080,7 @@
       "source_file": "tests/test_post_intelligence.py",
       "source_location": "L60",
       "id": "test_post_intelligence_mock_text",
-      "community": 8,
+      "community": 5,
       "norm_label": "_mock_text()"
     },
     {
@@ -1089,7 +1089,7 @@
       "source_file": "tests/test_post_intelligence.py",
       "source_location": "L100",
       "id": "test_post_intelligence_test_analyze_stores_all_fields",
-      "community": 8,
+      "community": 5,
       "norm_label": "test_analyze_stores_all_fields()"
     },
     {
@@ -1098,7 +1098,7 @@
       "source_file": "tests/test_post_intelligence.py",
       "source_location": "L132",
       "id": "test_post_intelligence_test_analyze_skips_if_already_done",
-      "community": 8,
+      "community": 5,
       "norm_label": "test_analyze_skips_if_already_done()"
     },
     {
@@ -1107,7 +1107,7 @@
       "source_file": "tests/test_post_intelligence.py",
       "source_location": "L151",
       "id": "test_post_intelligence_test_analyze_persists_to_db",
-      "community": 8,
+      "community": 5,
       "norm_label": "test_analyze_persists_to_db()"
     },
     {
@@ -1116,7 +1116,7 @@
       "source_file": "tests/test_post_intelligence.py",
       "source_location": "L174",
       "id": "test_post_intelligence_test_force_reanalysis_replaces_old_carousel_intelligence",
-      "community": 8,
+      "community": 5,
       "norm_label": "test_force_reanalysis_replaces_old_carousel_intelligence()"
     },
     {
@@ -1215,7 +1215,7 @@
       "source_file": "tests/test_carousel_suggestions.py",
       "source_location": "L1",
       "id": "tests_test_carousel_suggestions_py",
-      "community": 6,
+      "community": 4,
       "norm_label": "test_carousel_suggestions.py"
     },
     {
@@ -1224,7 +1224,7 @@
       "source_file": "tests/test_carousel_suggestions.py",
       "source_location": "L23",
       "id": "test_carousel_suggestions_clean_db",
-      "community": 6,
+      "community": 4,
       "norm_label": "clean_db()"
     },
     {
@@ -1233,7 +1233,7 @@
       "source_file": "tests/test_carousel_suggestions.py",
       "source_location": "L29",
       "id": "test_carousel_suggestions_mock_openai",
-      "community": 6,
+      "community": 4,
       "norm_label": "_mock_openai()"
     },
     {
@@ -1242,7 +1242,7 @@
       "source_file": "tests/test_carousel_suggestions.py",
       "source_location": "L40",
       "id": "test_carousel_suggestions_test_generate_stores_six_suggestions",
-      "community": 6,
+      "community": 4,
       "norm_label": "test_generate_stores_six_suggestions()"
     },
     {
@@ -1251,7 +1251,7 @@
       "source_file": "tests/test_carousel_suggestions.py",
       "source_location": "L51",
       "id": "test_carousel_suggestions_test_generate_persists_to_db",
-      "community": 6,
+      "community": 4,
       "norm_label": "test_generate_persists_to_db()"
     },
     {
@@ -1260,7 +1260,7 @@
       "source_file": "tests/test_carousel_suggestions.py",
       "source_location": "L64",
       "id": "test_carousel_suggestions_test_generate_fallback_when_db_empty",
-      "community": 6,
+      "community": 4,
       "norm_label": "test_generate_fallback_when_db_empty()"
     },
     {
@@ -1269,7 +1269,7 @@
       "source_file": "tests/test_carousel_suggestions.py",
       "source_location": "L75",
       "id": "test_carousel_suggestions_test_generate_includes_news_in_prompt",
-      "community": 6,
+      "community": 4,
       "norm_label": "test_generate_includes_news_in_prompt()"
     },
     {
@@ -1278,7 +1278,7 @@
       "source_file": "tests/conftest.py",
       "source_location": "L1",
       "id": "tests_conftest_py",
-      "community": 39,
+      "community": 41,
       "norm_label": "conftest.py"
     },
     {
@@ -1287,7 +1287,7 @@
       "source_file": "tests/conftest.py",
       "source_location": "L13",
       "id": "conftest_engine",
-      "community": 39,
+      "community": 41,
       "norm_label": "engine()"
     },
     {
@@ -1296,7 +1296,7 @@
       "source_file": "tests/conftest.py",
       "source_location": "L21",
       "id": "conftest_session",
-      "community": 39,
+      "community": 41,
       "norm_label": "session()"
     },
     {
@@ -1305,7 +1305,7 @@
       "source_file": "tests/test_weekly_report.py",
       "source_location": "L1",
       "id": "tests_test_weekly_report_py",
-      "community": 15,
+      "community": 17,
       "norm_label": "test_weekly_report.py"
     },
     {
@@ -1323,7 +1323,7 @@
       "source_file": "tests/test_weekly_report.py",
       "source_location": "L70",
       "id": "test_weekly_report_test_generate_weekly_report_creates_report",
-      "community": 15,
+      "community": 17,
       "norm_label": "test_generate_weekly_report_creates_report()"
     },
     {
@@ -1332,7 +1332,7 @@
       "source_file": "tests/test_virality.py",
       "source_location": "L1",
       "id": "tests_test_virality_py",
-      "community": 4,
+      "community": 7,
       "norm_label": "test_virality.py"
     },
     {
@@ -1341,7 +1341,7 @@
       "source_file": "tests/test_virality.py",
       "source_location": "L5",
       "id": "test_virality_test_basic_score",
-      "community": 4,
+      "community": 7,
       "norm_label": "test_basic_score()"
     },
     {
@@ -1350,7 +1350,7 @@
       "source_file": "tests/test_virality.py",
       "source_location": "L11",
       "id": "test_virality_test_score_clamped_to_one",
-      "community": 4,
+      "community": 7,
       "norm_label": "test_score_clamped_to_one()"
     },
     {
@@ -1359,7 +1359,7 @@
       "source_file": "tests/test_virality.py",
       "source_location": "L16",
       "id": "test_virality_test_zero_followers_returns_zero",
-      "community": 4,
+      "community": 7,
       "norm_label": "test_zero_followers_returns_zero()"
     },
     {
@@ -1368,7 +1368,7 @@
       "source_file": "tests/test_virality.py",
       "source_location": "L21",
       "id": "test_virality_test_zero_engagement_returns_zero",
-      "community": 4,
+      "community": 7,
       "norm_label": "test_zero_engagement_returns_zero()"
     },
     {
@@ -1377,7 +1377,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_api_main.py",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_tests_test_api_main_py",
-      "community": 50,
+      "community": 52,
       "norm_label": "test_api_main.py"
     },
     {
@@ -1386,7 +1386,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_api_main.py",
       "source_location": "L11",
       "id": "test_api_main_test_health",
-      "community": 50,
+      "community": 52,
       "norm_label": "test_health()"
     },
     {
@@ -1449,7 +1449,7 @@
       "source_file": "tests/test_carousel_generator.py",
       "source_location": "L1",
       "id": "tests_test_carousel_generator_py",
-      "community": 5,
+      "community": 3,
       "norm_label": "test_carousel_generator.py"
     },
     {
@@ -1467,7 +1467,7 @@
       "source_file": "tests/test_carousel_generator.py",
       "source_location": "L52",
       "id": "test_carousel_generator_with_planning_narrative",
-      "community": 5,
+      "community": 3,
       "norm_label": "_with_planning_narrative()"
     },
     {
@@ -1476,7 +1476,7 @@
       "source_file": "tests/test_carousel_generator.py",
       "source_location": "L74",
       "id": "test_carousel_generator_test_generate_carousel_returns_slides",
-      "community": 5,
+      "community": 3,
       "norm_label": "test_generate_carousel_returns_slides()"
     },
     {
@@ -1485,7 +1485,7 @@
       "source_file": "tests/test_carousel_generator.py",
       "source_location": "L100",
       "id": "test_carousel_generator_test_generate_carousel_retries_when_initial_draft_is_weak",
-      "community": 5,
+      "community": 3,
       "norm_label": "test_generate_carousel_retries_when_initial_draft_is_weak()"
     },
     {
@@ -1503,7 +1503,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_tests_test_gap_analyzer_py",
-      "community": 13,
+      "community": 14,
       "norm_label": "test_gap_analyzer.py"
     },
     {
@@ -1512,7 +1512,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
       "source_location": "L7",
       "id": "test_gap_analyzer_make_profile",
-      "community": 13,
+      "community": 14,
       "norm_label": "_make_profile()"
     },
     {
@@ -1521,7 +1521,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
       "source_location": "L14",
       "id": "test_gap_analyzer_make_post_with_analysis",
-      "community": 13,
+      "community": 14,
       "norm_label": "_make_post_with_analysis()"
     },
     {
@@ -1530,7 +1530,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
       "source_location": "L38",
       "id": "test_gap_analyzer_test_extract_topics_from_raw_analysis",
-      "community": 13,
+      "community": 14,
       "norm_label": "test_extract_topics_from_raw_analysis()"
     },
     {
@@ -1539,7 +1539,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
       "source_location": "L45",
       "id": "test_gap_analyzer_test_extract_topics_empty",
-      "community": 13,
+      "community": 14,
       "norm_label": "test_extract_topics_empty()"
     },
     {
@@ -1548,7 +1548,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
       "source_location": "L50",
       "id": "test_gap_analyzer_test_compute_gaps_returns_list",
-      "community": 13,
+      "community": 14,
       "norm_label": "test_compute_gaps_returns_list()"
     },
     {
@@ -1557,7 +1557,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
       "source_location": "L65",
       "id": "test_gap_analyzer_test_compute_gaps_identifies_uncovered_topic",
-      "community": 13,
+      "community": 14,
       "norm_label": "test_compute_gaps_identifies_uncovered_topic()"
     },
     {
@@ -1566,7 +1566,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_gap_analyzer.py",
       "source_location": "L80",
       "id": "test_gap_analyzer_test_compute_gaps_no_competitors_returns_empty",
-      "community": 13,
+      "community": 14,
       "norm_label": "test_compute_gaps_no_competitors_returns_empty()"
     },
     {
@@ -1575,7 +1575,7 @@
       "source_file": "tests/__init__.py",
       "source_location": "L1",
       "id": "tests_init_py",
-      "community": 56,
+      "community": 58,
       "norm_label": "__init__.py"
     },
     {
@@ -1754,9 +1754,9 @@
       "file_type": "rationale",
       "source_file": "tests/test_content_generator.py",
       "source_location": "L765",
-      "id": "test_content_generator_rationale_765",
       "community": 0,
-      "norm_label": "generatedpost.source_data_inventory must be a copy of the source intelligence ev"
+      "norm_label": "generatedpost.source_data_inventory must be a copy of the source intelligence ev",
+      "id": "test_content_generator_rationale_765"
     },
     {
       "label": "test_api_studio.py",
@@ -1833,74 +1833,83 @@
     {
       "label": "test_post_intelligence_evidence.py",
       "file_type": "code",
-      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_post_intelligence_evidence.py",
+      "source_file": "tests/test_post_intelligence_evidence.py",
       "source_location": "L1",
-      "id": "users_floakii_claudio_agro_content_tests_test_post_intelligence_evidence_py",
-      "community": 8,
+      "id": "tests_test_post_intelligence_evidence_py",
+      "community": 5,
       "norm_label": "test_post_intelligence_evidence.py"
     },
     {
       "label": "_mock_gpt_response()",
       "file_type": "code",
-      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_post_intelligence_evidence.py",
+      "source_file": "tests/test_post_intelligence_evidence.py",
       "source_location": "L7",
       "id": "test_post_intelligence_evidence_mock_gpt_response",
-      "community": 8,
+      "community": 5,
       "norm_label": "_mock_gpt_response()"
     },
     {
       "label": "test_extract_evidence_inventory_required_numbers()",
       "file_type": "code",
-      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_post_intelligence_evidence.py",
+      "source_file": "tests/test_post_intelligence_evidence.py",
       "source_location": "L40",
       "id": "test_post_intelligence_evidence_test_extract_evidence_inventory_required_numbers",
-      "community": 8,
+      "community": 5,
       "norm_label": "test_extract_evidence_inventory_required_numbers()"
     },
     {
       "label": "test_extract_evidence_inventory_required_mechanisms()",
       "file_type": "code",
-      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_post_intelligence_evidence.py",
+      "source_file": "tests/test_post_intelligence_evidence.py",
       "source_location": "L48",
       "id": "test_post_intelligence_evidence_test_extract_evidence_inventory_required_mechanisms",
-      "community": 8,
+      "community": 5,
       "norm_label": "test_extract_evidence_inventory_required_mechanisms()"
     },
     {
       "label": "test_extract_evidence_inventory_causal_steps()",
       "file_type": "code",
-      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_post_intelligence_evidence.py",
+      "source_file": "tests/test_post_intelligence_evidence.py",
       "source_location": "L56",
       "id": "test_post_intelligence_evidence_test_extract_evidence_inventory_causal_steps",
-      "community": 8,
+      "community": 5,
       "norm_label": "test_extract_evidence_inventory_causal_steps()"
     },
     {
       "label": "test_extract_evidence_inventory_definitions()",
       "file_type": "code",
-      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_post_intelligence_evidence.py",
+      "source_file": "tests/test_post_intelligence_evidence.py",
       "source_location": "L64",
       "id": "test_post_intelligence_evidence_test_extract_evidence_inventory_definitions",
-      "community": 8,
+      "community": 5,
       "norm_label": "test_extract_evidence_inventory_definitions()"
     },
     {
       "label": "test_extract_evidence_inventory_optional_fields()",
       "file_type": "code",
-      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_post_intelligence_evidence.py",
+      "source_file": "tests/test_post_intelligence_evidence.py",
       "source_location": "L71",
       "id": "test_post_intelligence_evidence_test_extract_evidence_inventory_optional_fields",
-      "community": 8,
+      "community": 5,
       "norm_label": "test_extract_evidence_inventory_optional_fields()"
     },
     {
       "label": "test_extract_evidence_inventory_gpt_failure_returns_partial()",
       "file_type": "code",
-      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_post_intelligence_evidence.py",
+      "source_file": "tests/test_post_intelligence_evidence.py",
       "source_location": "L79",
       "id": "test_post_intelligence_evidence_test_extract_evidence_inventory_gpt_failure_returns_partial",
-      "community": 8,
+      "community": 5,
       "norm_label": "test_extract_evidence_inventory_gpt_failure_returns_partial()"
+    },
+    {
+      "label": "test_extract_evidence_inventory_fallback_causal_steps_from_structure()",
+      "file_type": "code",
+      "source_file": "tests/test_post_intelligence_evidence.py",
+      "source_location": "L89",
+      "id": "test_post_intelligence_evidence_test_extract_evidence_inventory_fallback_causal_steps_from_structure",
+      "community": 5,
+      "norm_label": "test_extract_evidence_inventory_fallback_causal_steps_from_structure()"
     },
     {
       "label": "test_voice_profiler.py",
@@ -1935,7 +1944,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_tests_test_news_monitor_py",
-      "community": 7,
+      "community": 6,
       "norm_label": "test_news_monitor.py"
     },
     {
@@ -1944,7 +1953,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
       "source_location": "L13",
       "id": "test_news_monitor_test_extract_tags_soja",
-      "community": 7,
+      "community": 6,
       "norm_label": "test_extract_tags_soja()"
     },
     {
@@ -1953,7 +1962,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
       "source_location": "L19",
       "id": "test_news_monitor_test_extract_tags_milho",
-      "community": 7,
+      "community": 6,
       "norm_label": "test_extract_tags_milho()"
     },
     {
@@ -1962,7 +1971,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
       "source_location": "L25",
       "id": "test_news_monitor_test_extract_tags_mercado",
-      "community": 7,
+      "community": 6,
       "norm_label": "test_extract_tags_mercado()"
     },
     {
@@ -1971,7 +1980,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
       "source_location": "L31",
       "id": "test_news_monitor_test_extract_tags_no_match",
-      "community": 7,
+      "community": 6,
       "norm_label": "test_extract_tags_no_match()"
     },
     {
@@ -1980,7 +1989,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
       "source_location": "L37",
       "id": "test_news_monitor_test_parse_feed_returns_dicts",
-      "community": 7,
+      "community": 6,
       "norm_label": "test_parse_feed_returns_dicts()"
     },
     {
@@ -1989,7 +1998,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
       "source_location": "L57",
       "id": "test_news_monitor_test_fetch_all_feeds_saves_new_skips_duplicates",
-      "community": 7,
+      "community": 6,
       "norm_label": "test_fetch_all_feeds_saves_new_skips_duplicates()"
     },
     {
@@ -1998,7 +2007,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
       "source_location": "L94",
       "id": "test_news_monitor_test_get_recent_news_filters_by_days",
-      "community": 7,
+      "community": 6,
       "norm_label": "test_get_recent_news_filters_by_days()"
     },
     {
@@ -2007,7 +2016,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_news_monitor.py",
       "source_location": "L108",
       "id": "test_news_monitor_test_get_recent_news_filters_by_tag",
-      "community": 7,
+      "community": 6,
       "norm_label": "test_get_recent_news_filters_by_tag()"
     },
     {
@@ -2016,7 +2025,7 @@
       "source_file": "tests/test_api_carousel.py",
       "source_location": "L1",
       "id": "tests_test_api_carousel_py",
-      "community": 6,
+      "community": 4,
       "norm_label": "test_api_carousel.py"
     },
     {
@@ -2025,7 +2034,7 @@
       "source_file": "tests/test_api_carousel.py",
       "source_location": "L24",
       "id": "test_api_carousel_override_db",
-      "community": 6,
+      "community": 4,
       "norm_label": "override_db()"
     },
     {
@@ -2034,7 +2043,7 @@
       "source_file": "tests/test_api_carousel.py",
       "source_location": "L32",
       "id": "test_api_carousel_clean_db",
-      "community": 6,
+      "community": 4,
       "norm_label": "clean_db()"
     },
     {
@@ -2043,7 +2052,7 @@
       "source_file": "tests/test_api_carousel.py",
       "source_location": "L40",
       "id": "test_api_carousel_test_list_carousels_empty",
-      "community": 6,
+      "community": 4,
       "norm_label": "test_list_carousels_empty()"
     },
     {
@@ -2052,7 +2061,7 @@
       "source_file": "tests/test_api_carousel.py",
       "source_location": "L46",
       "id": "test_api_carousel_test_list_carousels_returns_history",
-      "community": 6,
+      "community": 4,
       "norm_label": "test_list_carousels_returns_history()"
     },
     {
@@ -2061,7 +2070,7 @@
       "source_file": "tests/test_api_carousel.py",
       "source_location": "L58",
       "id": "test_api_carousel_test_generate_carousel",
-      "community": 6,
+      "community": 4,
       "norm_label": "test_generate_carousel()"
     },
     {
@@ -2070,7 +2079,7 @@
       "source_file": "tests/test_api_carousel.py",
       "source_location": "L76",
       "id": "test_api_carousel_test_get_suggestions_empty",
-      "community": 6,
+      "community": 4,
       "norm_label": "test_get_suggestions_empty()"
     },
     {
@@ -2079,7 +2088,7 @@
       "source_file": "tests/test_api_carousel.py",
       "source_location": "L81",
       "id": "test_api_carousel_test_get_suggestions_returns_latest",
-      "community": 6,
+      "community": 4,
       "norm_label": "test_get_suggestions_returns_latest()"
     },
     {
@@ -2088,7 +2097,7 @@
       "source_file": "tests/test_api_carousel.py",
       "source_location": "L98",
       "id": "test_api_carousel_test_refresh_suggestions",
-      "community": 6,
+      "community": 4,
       "norm_label": "test_refresh_suggestions()"
     },
     {
@@ -2097,7 +2106,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_config.py",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_tests_test_config_py",
-      "community": 40,
+      "community": 42,
       "norm_label": "test_config.py"
     },
     {
@@ -2106,7 +2115,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_config.py",
       "source_location": "L6",
       "id": "test_config_test_config_loads_from_env",
-      "community": 40,
+      "community": 42,
       "norm_label": "test_config_loads_from_env()"
     },
     {
@@ -2115,7 +2124,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_config.py",
       "source_location": "L21",
       "id": "test_config_test_config_raises_if_missing_key",
-      "community": 40,
+      "community": 42,
       "norm_label": "test_config_raises_if_missing_key()"
     },
     {
@@ -2223,7 +2232,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_models.py",
       "source_location": "L194",
       "id": "test_models_test_news_item_create",
-      "community": 7,
+      "community": 6,
       "norm_label": "test_news_item_create()"
     },
     {
@@ -2259,7 +2268,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_seasonal.py",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_tests_test_seasonal_py",
-      "community": 17,
+      "community": 18,
       "norm_label": "test_seasonal.py"
     },
     {
@@ -2268,7 +2277,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_seasonal.py",
       "source_location": "L5",
       "id": "test_seasonal_test_returns_string",
-      "community": 17,
+      "community": 18,
       "norm_label": "test_returns_string()"
     },
     {
@@ -2277,7 +2286,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_seasonal.py",
       "source_location": "L11",
       "id": "test_seasonal_test_march_april_context",
-      "community": 17,
+      "community": 18,
       "norm_label": "test_march_april_context()"
     },
     {
@@ -2286,7 +2295,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_seasonal.py",
       "source_location": "L19",
       "id": "test_seasonal_test_july_august_context",
-      "community": 17,
+      "community": 18,
       "norm_label": "test_july_august_context()"
     },
     {
@@ -2295,7 +2304,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_seasonal.py",
       "source_location": "L27",
       "id": "test_seasonal_test_november_december_context",
-      "community": 17,
+      "community": 18,
       "norm_label": "test_november_december_context()"
     },
     {
@@ -2304,7 +2313,7 @@
       "source_file": "tests/test_collector.py",
       "source_location": "L1",
       "id": "tests_test_collector_py",
-      "community": 3,
+      "community": 8,
       "norm_label": "test_collector.py"
     },
     {
@@ -2313,7 +2322,7 @@
       "source_file": "tests/test_collector.py",
       "source_location": "L47",
       "id": "test_collector_test_fetch_posts_apify_returns_normalized_posts",
-      "community": 3,
+      "community": 8,
       "norm_label": "test_fetch_posts_apify_returns_normalized_posts()"
     },
     {
@@ -2322,7 +2331,7 @@
       "source_file": "tests/test_collector.py",
       "source_location": "L72",
       "id": "test_collector_test_fetch_posts_apify_maps_video_to_reel",
-      "community": 3,
+      "community": 8,
       "norm_label": "test_fetch_posts_apify_maps_video_to_reel()"
     },
     {
@@ -2331,7 +2340,7 @@
       "source_file": "tests/test_collector.py",
       "source_location": "L89",
       "id": "test_collector_test_fetch_posts_apify_extracts_carousel_slides",
-      "community": 3,
+      "community": 8,
       "norm_label": "test_fetch_posts_apify_extracts_carousel_slides()"
     },
     {
@@ -2340,7 +2349,7 @@
       "source_file": "tests/test_collector.py",
       "source_location": "L111",
       "id": "test_collector_test_fetch_posts_apify_can_keep_high_actor_limit_and_filter_to_carousels",
-      "community": 3,
+      "community": 8,
       "norm_label": "test_fetch_posts_apify_can_keep_high_actor_limit_and_filter_to_carousels()"
     },
     {
@@ -2349,7 +2358,7 @@
       "source_file": "tests/test_collector.py",
       "source_location": "L137",
       "id": "test_collector_test_fetch_posts_instaloader_returns_normalized_posts",
-      "community": 3,
+      "community": 8,
       "norm_label": "test_fetch_posts_instaloader_returns_normalized_posts()"
     },
     {
@@ -2358,7 +2367,7 @@
       "source_file": "tests/test_collector.py",
       "source_location": "L162",
       "id": "test_collector_test_fetch_posts_instaloader_extracts_sidecar_slides",
-      "community": 3,
+      "community": 8,
       "norm_label": "test_fetch_posts_instaloader_extracts_sidecar_slides()"
     },
     {
@@ -2367,7 +2376,7 @@
       "source_file": "tests/test_collector.py",
       "source_location": "L197",
       "id": "test_collector_db_session",
-      "community": 3,
+      "community": 8,
       "norm_label": "db_session()"
     },
     {
@@ -2376,7 +2385,7 @@
       "source_file": "tests/test_collector.py",
       "source_location": "L204",
       "id": "test_collector_test_collect_profile_saves_new_posts",
-      "community": 3,
+      "community": 0,
       "norm_label": "test_collect_profile_saves_new_posts()"
     },
     {
@@ -2385,7 +2394,7 @@
       "source_file": "tests/test_collector.py",
       "source_location": "L236",
       "id": "test_collector_test_collect_profile_defaults_to_carousels_only",
-      "community": 3,
+      "community": 0,
       "norm_label": "test_collect_profile_defaults_to_carousels_only()"
     },
     {
@@ -2421,7 +2430,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_image_analyzer.py",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_tests_test_image_analyzer_py",
-      "community": 4,
+      "community": 7,
       "norm_label": "test_image_analyzer.py"
     },
     {
@@ -2439,7 +2448,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_image_analyzer.py",
       "source_location": "L43",
       "id": "test_image_analyzer_test_analyze_post_creates_analysis",
-      "community": 4,
+      "community": 7,
       "norm_label": "test_analyze_post_creates_analysis()"
     },
     {
@@ -2448,7 +2457,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_image_analyzer.py",
       "source_location": "L72",
       "id": "test_image_analyzer_test_analyze_post_skips_already_analyzed",
-      "community": 4,
+      "community": 7,
       "norm_label": "test_analyze_post_skips_already_analyzed()"
     },
     {
@@ -2655,7 +2664,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_api_reports.py",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_tests_test_api_reports_py",
-      "community": 0,
+      "community": 22,
       "norm_label": "test_api_reports.py"
     },
     {
@@ -2664,7 +2673,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_api_reports.py",
       "source_location": "L19",
       "id": "test_api_reports_override_db",
-      "community": 0,
+      "community": 22,
       "norm_label": "override_db()"
     },
     {
@@ -2673,7 +2682,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_api_reports.py",
       "source_location": "L26",
       "id": "test_api_reports_clean_db",
-      "community": 0,
+      "community": 22,
       "norm_label": "clean_db()"
     },
     {
@@ -2682,7 +2691,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_api_reports.py",
       "source_location": "L33",
       "id": "test_api_reports_test_list_reports_empty",
-      "community": 0,
+      "community": 22,
       "norm_label": "test_list_reports_empty()"
     },
     {
@@ -2700,7 +2709,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_api_reports.py",
       "source_location": "L57",
       "id": "test_api_reports_test_generate_report",
-      "community": 0,
+      "community": 22,
       "norm_label": "test_generate_report()"
     },
     {
@@ -2709,7 +2718,7 @@
       "source_file": "scripts/sync_local.py",
       "source_location": "L1",
       "id": "scripts_sync_local_py",
-      "community": 3,
+      "community": 8,
       "norm_label": "sync_local.py"
     },
     {
@@ -2718,8 +2727,53 @@
       "source_file": "scripts/sync_local.py",
       "source_location": "L25",
       "id": "sync_local_sync_all",
-      "community": 3,
+      "community": 8,
       "norm_label": "sync_all()"
+    },
+    {
+      "label": "backfill_evidence_inventory.py",
+      "file_type": "code",
+      "source_file": "scripts/backfill_evidence_inventory.py",
+      "source_location": "L1",
+      "id": "scripts_backfill_evidence_inventory_py",
+      "community": 10,
+      "norm_label": "backfill_evidence_inventory.py"
+    },
+    {
+      "label": "_has_inventory()",
+      "file_type": "code",
+      "source_file": "scripts/backfill_evidence_inventory.py",
+      "source_location": "L30",
+      "id": "backfill_evidence_inventory_has_inventory",
+      "community": 10,
+      "norm_label": "_has_inventory()"
+    },
+    {
+      "label": "_analysis_payload()",
+      "file_type": "code",
+      "source_file": "scripts/backfill_evidence_inventory.py",
+      "source_location": "L42",
+      "id": "backfill_evidence_inventory_analysis_payload",
+      "community": 10,
+      "norm_label": "_analysis_payload()"
+    },
+    {
+      "label": "backfill_evidence_inventory()",
+      "file_type": "code",
+      "source_file": "scripts/backfill_evidence_inventory.py",
+      "source_location": "L51",
+      "id": "backfill_evidence_inventory_backfill_evidence_inventory",
+      "community": 10,
+      "norm_label": "backfill_evidence_inventory()"
+    },
+    {
+      "label": "main()",
+      "file_type": "code",
+      "source_file": "scripts/backfill_evidence_inventory.py",
+      "source_location": "L126",
+      "id": "backfill_evidence_inventory_main",
+      "community": 10,
+      "norm_label": "main()"
     },
     {
       "label": "benchmark_varos.py",
@@ -2781,7 +2835,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/api/deps.py",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_api_deps_py",
-      "community": 3,
+      "community": 10,
       "norm_label": "deps.py"
     },
     {
@@ -2790,7 +2844,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/api/deps.py",
       "source_location": "L6",
       "id": "deps_get_db",
-      "community": 3,
+      "community": 10,
       "norm_label": "get_db()"
     },
     {
@@ -2799,7 +2853,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/api/__init__.py",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_api_init_py",
-      "community": 57,
+      "community": 59,
       "norm_label": "__init__.py"
     },
     {
@@ -2808,7 +2862,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/api/main.py",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_api_main_py",
-      "community": 3,
+      "community": 10,
       "norm_label": "main.py"
     },
     {
@@ -2817,7 +2871,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/api/main.py",
       "source_location": "L14",
       "id": "main_run_daily_suggestions",
-      "community": 3,
+      "community": 10,
       "norm_label": "_run_daily_suggestions()"
     },
     {
@@ -2826,7 +2880,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/api/main.py",
       "source_location": "L25",
       "id": "main_run_daily_intelligence",
-      "community": 3,
+      "community": 10,
       "norm_label": "_run_daily_intelligence()"
     },
     {
@@ -2835,7 +2889,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/api/main.py",
       "source_location": "L54",
       "id": "main_lifespan",
-      "community": 3,
+      "community": 10,
       "norm_label": "lifespan()"
     },
     {
@@ -2844,7 +2898,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/api/main.py",
       "source_location": "L81",
       "id": "main_health",
-      "community": 3,
+      "community": 10,
       "norm_label": "health()"
     },
     {
@@ -2943,7 +2997,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/api/routers/__init__.py",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_api_routers_init_py",
-      "community": 58,
+      "community": 60,
       "norm_label": "__init__.py"
     },
     {
@@ -2952,7 +3006,7 @@
       "source_file": "api/routers/intelligence.py",
       "source_location": "L1",
       "id": "api_routers_intelligence_py",
-      "community": 4,
+      "community": 0,
       "norm_label": "intelligence.py"
     },
     {
@@ -2997,7 +3051,7 @@
       "source_file": "api/routers/intelligence.py",
       "source_location": "L69",
       "id": "intelligence_analyzejobout",
-      "community": 4,
+      "community": 0,
       "norm_label": "analyzejobout"
     },
     {
@@ -3006,7 +3060,7 @@
       "source_file": "api/routers/intelligence.py",
       "source_location": "L94",
       "id": "intelligence_intel_to_out",
-      "community": 4,
+      "community": 0,
       "norm_label": "_intel_to_out()"
     },
     {
@@ -3015,7 +3069,7 @@
       "source_file": "api/routers/intelligence.py",
       "source_location": "L122",
       "id": "intelligence_list_intelligence",
-      "community": 4,
+      "community": 0,
       "norm_label": "list_intelligence()"
     },
     {
@@ -3024,7 +3078,7 @@
       "source_file": "api/routers/intelligence.py",
       "source_location": "L152",
       "id": "intelligence_get_intelligence",
-      "community": 4,
+      "community": 0,
       "norm_label": "get_intelligence()"
     },
     {
@@ -3033,7 +3087,7 @@
       "source_file": "api/routers/intelligence.py",
       "source_location": "L168",
       "id": "intelligence_list_arguments",
-      "community": 4,
+      "community": 0,
       "norm_label": "list_arguments()"
     },
     {
@@ -3042,7 +3096,7 @@
       "source_file": "api/routers/intelligence.py",
       "source_location": "L198",
       "id": "intelligence_trigger_analysis",
-      "community": 4,
+      "community": 0,
       "norm_label": "trigger_analysis()"
     },
     {
@@ -3051,7 +3105,7 @@
       "source_file": "api/routers/intelligence.py",
       "source_location": "L209",
       "id": "intelligence_start_analysis_job",
-      "community": 4,
+      "community": 0,
       "norm_label": "start_analysis_job()"
     },
     {
@@ -3060,7 +3114,7 @@
       "source_file": "api/routers/intelligence.py",
       "source_location": "L219",
       "id": "intelligence_get_analysis_job_status",
-      "community": 4,
+      "community": 0,
       "norm_label": "get_analysis_job_status()"
     },
     {
@@ -3105,7 +3159,7 @@
       "source_file": "api/routers/carousel.py",
       "source_location": "L1",
       "id": "api_routers_carousel_py",
-      "community": 6,
+      "community": 4,
       "norm_label": "carousel.py"
     },
     {
@@ -3114,7 +3168,7 @@
       "source_file": "api/routers/carousel.py",
       "source_location": "L15",
       "id": "carousel_carouselgeneratein",
-      "community": 6,
+      "community": 4,
       "norm_label": "carouselgeneratein"
     },
     {
@@ -3123,7 +3177,7 @@
       "source_file": "api/routers/carousel.py",
       "source_location": "L19",
       "id": "carousel_slideout",
-      "community": 6,
+      "community": 4,
       "norm_label": "slideout"
     },
     {
@@ -3132,7 +3186,7 @@
       "source_file": "api/routers/carousel.py",
       "source_location": "L29",
       "id": "carousel_carouselout",
-      "community": 6,
+      "community": 4,
       "norm_label": "carouselout"
     },
     {
@@ -3141,7 +3195,7 @@
       "source_file": "api/routers/carousel.py",
       "source_location": "L36",
       "id": "carousel_suggestionitem",
-      "community": 6,
+      "community": 4,
       "norm_label": "suggestionitem"
     },
     {
@@ -3150,7 +3204,7 @@
       "source_file": "api/routers/carousel.py",
       "source_location": "L41",
       "id": "carousel_carouselsuggestionout",
-      "community": 6,
+      "community": 4,
       "norm_label": "carouselsuggestionout"
     },
     {
@@ -3159,7 +3213,7 @@
       "source_file": "api/routers/carousel.py",
       "source_location": "L48",
       "id": "carousel_list_carousels",
-      "community": 6,
+      "community": 4,
       "norm_label": "list_carousels()"
     },
     {
@@ -3168,7 +3222,7 @@
       "source_file": "api/routers/carousel.py",
       "source_location": "L62",
       "id": "carousel_generate",
-      "community": 6,
+      "community": 4,
       "norm_label": "generate()"
     },
     {
@@ -3177,7 +3231,7 @@
       "source_file": "api/routers/carousel.py",
       "source_location": "L73",
       "id": "carousel_get_suggestions",
-      "community": 6,
+      "community": 4,
       "norm_label": "get_suggestions()"
     },
     {
@@ -3186,7 +3240,7 @@
       "source_file": "api/routers/carousel.py",
       "source_location": "L82",
       "id": "carousel_refresh_suggestions",
-      "community": 6,
+      "community": 4,
       "norm_label": "refresh_suggestions()"
     },
     {
@@ -3195,7 +3249,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/api/routers/reports.py",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_api_routers_reports_py",
-      "community": 15,
+      "community": 17,
       "norm_label": "reports.py"
     },
     {
@@ -3204,7 +3258,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/api/routers/reports.py",
       "source_location": "L13",
       "id": "reports_reportout",
-      "community": 15,
+      "community": 17,
       "norm_label": "reportout"
     },
     {
@@ -3213,7 +3267,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/api/routers/reports.py",
       "source_location": "L26",
       "id": "reports_list_reports",
-      "community": 15,
+      "community": 17,
       "norm_label": "list_reports()"
     },
     {
@@ -3222,7 +3276,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/api/routers/reports.py",
       "source_location": "L40",
       "id": "reports_generate_report",
-      "community": 15,
+      "community": 17,
       "norm_label": "generate_report()"
     },
     {
@@ -3348,7 +3402,7 @@
       "source_file": "api/routers/competitors.py",
       "source_location": "L203",
       "id": "competitors_sync_profiles",
-      "community": 4,
+      "community": 0,
       "norm_label": "sync_profiles()"
     },
     {
@@ -3366,7 +3420,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/api/routers/news.py",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_api_routers_news_py",
-      "community": 7,
+      "community": 6,
       "norm_label": "news.py"
     },
     {
@@ -3375,7 +3429,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/api/routers/news.py",
       "source_location": "L13",
       "id": "news_newsitemout",
-      "community": 7,
+      "community": 6,
       "norm_label": "newsitemout"
     },
     {
@@ -3384,7 +3438,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/api/routers/news.py",
       "source_location": "L24",
       "id": "news_list_news",
-      "community": 7,
+      "community": 6,
       "norm_label": "list_news()"
     },
     {
@@ -3393,7 +3447,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/api/routers/news.py",
       "source_location": "L34",
       "id": "news_refresh_news",
-      "community": 7,
+      "community": 6,
       "norm_label": "refresh_news()"
     },
     {
@@ -3402,7 +3456,7 @@
       "source_file": "alembic/env.py",
       "source_location": "L1",
       "id": "alembic_env_py",
-      "community": 41,
+      "community": 43,
       "norm_label": "env.py"
     },
     {
@@ -3411,7 +3465,7 @@
       "source_file": "alembic/env.py",
       "source_location": "L20",
       "id": "env_run_migrations_offline",
-      "community": 41,
+      "community": 43,
       "norm_label": "run_migrations_offline()"
     },
     {
@@ -3420,7 +3474,7 @@
       "source_file": "alembic/env.py",
       "source_location": "L27",
       "id": "env_run_migrations_online",
-      "community": 41,
+      "community": 43,
       "norm_label": "run_migrations_online()"
     },
     {
@@ -3429,7 +3483,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/alembic/versions/003_content_strategy.py",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_alembic_versions_003_content_strategy_py",
-      "community": 25,
+      "community": 27,
       "norm_label": "003_content_strategy.py"
     },
     {
@@ -3438,7 +3492,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/alembic/versions/003_content_strategy.py",
       "source_location": "L18",
       "id": "003_content_strategy_upgrade",
-      "community": 25,
+      "community": 27,
       "norm_label": "upgrade()"
     },
     {
@@ -3447,7 +3501,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/alembic/versions/003_content_strategy.py",
       "source_location": "L56",
       "id": "003_content_strategy_downgrade",
-      "community": 25,
+      "community": 27,
       "norm_label": "downgrade()"
     },
     {
@@ -3455,7 +3509,7 @@
       "file_type": "rationale",
       "source_file": "/Users/floakii/Claudio/agro-content/alembic/versions/003_content_strategy.py",
       "source_location": "L1",
-      "community": 25,
+      "community": 27,
       "norm_label": "content_strategy_engine  revision id: 003 revises: 002 create date: 2026-04-17 0",
       "id": "003_content_strategy_rationale_1"
     },
@@ -3465,7 +3519,7 @@
       "source_file": "alembic/versions/009_post_intelligence_visual_transcript.py",
       "source_location": "L1",
       "id": "alembic_versions_009_post_intelligence_visual_transcript_py",
-      "community": 26,
+      "community": 28,
       "norm_label": "009_post_intelligence_visual_transcript.py"
     },
     {
@@ -3474,7 +3528,7 @@
       "source_file": "alembic/versions/009_post_intelligence_visual_transcript.py",
       "source_location": "L18",
       "id": "009_post_intelligence_visual_transcript_upgrade",
-      "community": 26,
+      "community": 28,
       "norm_label": "upgrade()"
     },
     {
@@ -3483,7 +3537,7 @@
       "source_file": "alembic/versions/009_post_intelligence_visual_transcript.py",
       "source_location": "L22",
       "id": "009_post_intelligence_visual_transcript_downgrade",
-      "community": 26,
+      "community": 28,
       "norm_label": "downgrade()"
     },
     {
@@ -3491,7 +3545,7 @@
       "file_type": "rationale",
       "source_file": "alembic/versions/009_post_intelligence_visual_transcript.py",
       "source_location": "L1",
-      "community": 26,
+      "community": 28,
       "norm_label": "add visual transcript to post intelligence  revision id: 009 revises: 008 create",
       "id": "009_post_intelligence_visual_transcript_rationale_1"
     },
@@ -3501,7 +3555,7 @@
       "source_file": "alembic/versions/008_generated_post_slides.py",
       "source_location": "L1",
       "id": "alembic_versions_008_generated_post_slides_py",
-      "community": 27,
+      "community": 29,
       "norm_label": "008_generated_post_slides.py"
     },
     {
@@ -3510,7 +3564,7 @@
       "source_file": "alembic/versions/008_generated_post_slides.py",
       "source_location": "L18",
       "id": "008_generated_post_slides_upgrade",
-      "community": 27,
+      "community": 29,
       "norm_label": "upgrade()"
     },
     {
@@ -3519,7 +3573,7 @@
       "source_file": "alembic/versions/008_generated_post_slides.py",
       "source_location": "L25",
       "id": "008_generated_post_slides_downgrade",
-      "community": 27,
+      "community": 29,
       "norm_label": "downgrade()"
     },
     {
@@ -3527,7 +3581,7 @@
       "file_type": "rationale",
       "source_file": "alembic/versions/008_generated_post_slides.py",
       "source_location": "L1",
-      "community": 27,
+      "community": 29,
       "norm_label": "add slides to generated_posts  revision id: 008 revises: 007 create date: 2026-0",
       "id": "008_generated_post_slides_rationale_1"
     },
@@ -3537,7 +3591,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/alembic/versions/006_fix_voice_tone_type.py",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_alembic_versions_006_fix_voice_tone_type_py",
-      "community": 28,
+      "community": 30,
       "norm_label": "006_fix_voice_tone_type.py"
     },
     {
@@ -3546,7 +3600,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/alembic/versions/006_fix_voice_tone_type.py",
       "source_location": "L16",
       "id": "006_fix_voice_tone_type_upgrade",
-      "community": 28,
+      "community": 30,
       "norm_label": "upgrade()"
     },
     {
@@ -3555,7 +3609,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/alembic/versions/006_fix_voice_tone_type.py",
       "source_location": "L26",
       "id": "006_fix_voice_tone_type_downgrade",
-      "community": 28,
+      "community": 30,
       "norm_label": "downgrade()"
     },
     {
@@ -3563,7 +3617,7 @@
       "file_type": "rationale",
       "source_file": "/Users/floakii/Claudio/agro-content/alembic/versions/006_fix_voice_tone_type.py",
       "source_location": "L1",
-      "community": 28,
+      "community": 30,
       "norm_label": "fix profile_voice tone column from varchar(100) to text  revision id: 006 revise",
       "id": "006_fix_voice_tone_type_rationale_1"
     },
@@ -3573,7 +3627,7 @@
       "source_file": "alembic/versions/001_initial_schema.py",
       "source_location": "L1",
       "id": "alembic_versions_001_initial_schema_py",
-      "community": 29,
+      "community": 31,
       "norm_label": "001_initial_schema.py"
     },
     {
@@ -3582,7 +3636,7 @@
       "source_file": "alembic/versions/001_initial_schema.py",
       "source_location": "L20",
       "id": "001_initial_schema_upgrade",
-      "community": 29,
+      "community": 31,
       "norm_label": "upgrade()"
     },
     {
@@ -3591,7 +3645,7 @@
       "source_file": "alembic/versions/001_initial_schema.py",
       "source_location": "L107",
       "id": "001_initial_schema_downgrade",
-      "community": 29,
+      "community": 31,
       "norm_label": "downgrade()"
     },
     {
@@ -3599,7 +3653,7 @@
       "file_type": "rationale",
       "source_file": "alembic/versions/001_initial_schema.py",
       "source_location": "L1",
-      "community": 29,
+      "community": 31,
       "norm_label": "initial_schema  revision id: 001 revises: create date: 2026-04-14 00:00:00.00000",
       "id": "001_initial_schema_rationale_1"
     },
@@ -3609,7 +3663,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/alembic/versions/011_evidence_inventory.py",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_alembic_versions_011_evidence_inventory_py",
-      "community": 42,
+      "community": 44,
       "norm_label": "011_evidence_inventory.py"
     },
     {
@@ -3618,7 +3672,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/alembic/versions/011_evidence_inventory.py",
       "source_location": "L19",
       "id": "011_evidence_inventory_upgrade",
-      "community": 42,
+      "community": 44,
       "norm_label": "upgrade()"
     },
     {
@@ -3627,7 +3681,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/alembic/versions/011_evidence_inventory.py",
       "source_location": "L30",
       "id": "011_evidence_inventory_downgrade",
-      "community": 42,
+      "community": 44,
       "norm_label": "downgrade()"
     },
     {
@@ -3636,7 +3690,7 @@
       "source_file": "alembic/versions/002_content_studio.py",
       "source_location": "L1",
       "id": "alembic_versions_002_content_studio_py",
-      "community": 30,
+      "community": 32,
       "norm_label": "002_content_studio.py"
     },
     {
@@ -3645,7 +3699,7 @@
       "source_file": "alembic/versions/002_content_studio.py",
       "source_location": "L18",
       "id": "002_content_studio_upgrade",
-      "community": 30,
+      "community": 32,
       "norm_label": "upgrade()"
     },
     {
@@ -3654,7 +3708,7 @@
       "source_file": "alembic/versions/002_content_studio.py",
       "source_location": "L35",
       "id": "002_content_studio_downgrade",
-      "community": 30,
+      "community": 32,
       "norm_label": "downgrade()"
     },
     {
@@ -3662,7 +3716,7 @@
       "file_type": "rationale",
       "source_file": "alembic/versions/002_content_studio.py",
       "source_location": "L1",
-      "community": 30,
+      "community": 32,
       "norm_label": "content_studio  revision id: 002 revises: a1b2c3d4e5f6 create date: 2026-04-15 0",
       "id": "002_content_studio_rationale_1"
     },
@@ -3672,7 +3726,7 @@
       "source_file": "alembic/versions/007_carousel_intelligence_fields.py",
       "source_location": "L1",
       "id": "alembic_versions_007_carousel_intelligence_fields_py",
-      "community": 31,
+      "community": 33,
       "norm_label": "007_carousel_intelligence_fields.py"
     },
     {
@@ -3681,7 +3735,7 @@
       "source_file": "alembic/versions/007_carousel_intelligence_fields.py",
       "source_location": "L18",
       "id": "007_carousel_intelligence_fields_upgrade",
-      "community": 31,
+      "community": 33,
       "norm_label": "upgrade()"
     },
     {
@@ -3690,7 +3744,7 @@
       "source_file": "alembic/versions/007_carousel_intelligence_fields.py",
       "source_location": "L29",
       "id": "007_carousel_intelligence_fields_downgrade",
-      "community": 31,
+      "community": 33,
       "norm_label": "downgrade()"
     },
     {
@@ -3698,7 +3752,7 @@
       "file_type": "rationale",
       "source_file": "alembic/versions/007_carousel_intelligence_fields.py",
       "source_location": "L1",
-      "community": 31,
+      "community": 33,
       "norm_label": "add carousel intelligence fields  revision id: 007 revises: 006 create date: 202",
       "id": "007_carousel_intelligence_fields_rationale_1"
     },
@@ -3708,7 +3762,7 @@
       "source_file": "alembic/versions/010_generated_post_planning_narrative.py",
       "source_location": "L1",
       "id": "alembic_versions_010_generated_post_planning_narrative_py",
-      "community": 32,
+      "community": 34,
       "norm_label": "010_generated_post_planning_narrative.py"
     },
     {
@@ -3717,7 +3771,7 @@
       "source_file": "alembic/versions/010_generated_post_planning_narrative.py",
       "source_location": "L18",
       "id": "010_generated_post_planning_narrative_upgrade",
-      "community": 32,
+      "community": 34,
       "norm_label": "upgrade()"
     },
     {
@@ -3726,7 +3780,7 @@
       "source_file": "alembic/versions/010_generated_post_planning_narrative.py",
       "source_location": "L25",
       "id": "010_generated_post_planning_narrative_downgrade",
-      "community": 32,
+      "community": 34,
       "norm_label": "downgrade()"
     },
     {
@@ -3734,7 +3788,7 @@
       "file_type": "rationale",
       "source_file": "alembic/versions/010_generated_post_planning_narrative.py",
       "source_location": "L1",
-      "community": 32,
+      "community": 34,
       "norm_label": "add planning narrative to generated posts  revision id: 010 revises: 009 create",
       "id": "010_generated_post_planning_narrative_rationale_1"
     },
@@ -3744,7 +3798,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/alembic/versions/005_post_intelligence.py",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_alembic_versions_005_post_intelligence_py",
-      "community": 33,
+      "community": 35,
       "norm_label": "005_post_intelligence.py"
     },
     {
@@ -3753,7 +3807,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/alembic/versions/005_post_intelligence.py",
       "source_location": "L18",
       "id": "005_post_intelligence_upgrade",
-      "community": 33,
+      "community": 35,
       "norm_label": "upgrade()"
     },
     {
@@ -3762,7 +3816,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/alembic/versions/005_post_intelligence.py",
       "source_location": "L52",
       "id": "005_post_intelligence_downgrade",
-      "community": 33,
+      "community": 35,
       "norm_label": "downgrade()"
     },
     {
@@ -3770,7 +3824,7 @@
       "file_type": "rationale",
       "source_file": "/Users/floakii/Claudio/agro-content/alembic/versions/005_post_intelligence.py",
       "source_location": "L1",
-      "community": 33,
+      "community": 35,
       "norm_label": "post_intelligence and argument_bank tables  revision id: 005 revises: 004 create",
       "id": "005_post_intelligence_rationale_1"
     },
@@ -3780,7 +3834,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/alembic/versions/004_carousel_suggestions.py",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_alembic_versions_004_carousel_suggestions_py",
-      "community": 34,
+      "community": 36,
       "norm_label": "004_carousel_suggestions.py"
     },
     {
@@ -3789,7 +3843,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/alembic/versions/004_carousel_suggestions.py",
       "source_location": "L18",
       "id": "004_carousel_suggestions_upgrade",
-      "community": 34,
+      "community": 36,
       "norm_label": "upgrade()"
     },
     {
@@ -3798,7 +3852,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/alembic/versions/004_carousel_suggestions.py",
       "source_location": "L27",
       "id": "004_carousel_suggestions_downgrade",
-      "community": 34,
+      "community": 36,
       "norm_label": "downgrade()"
     },
     {
@@ -3806,7 +3860,7 @@
       "file_type": "rationale",
       "source_file": "/Users/floakii/Claudio/agro-content/alembic/versions/004_carousel_suggestions.py",
       "source_location": "L1",
-      "community": 34,
+      "community": 36,
       "norm_label": "carousel_suggestions table  revision id: 004 revises: 003 create date: 2026-04-1",
       "id": "004_carousel_suggestions_rationale_1"
     },
@@ -3816,7 +3870,7 @@
       "source_file": "src/config.py",
       "source_location": "L1",
       "id": "src_config_py",
-      "community": 59,
+      "community": 61,
       "norm_label": "config.py"
     },
     {
@@ -3906,7 +3960,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
       "source_location": "L118",
       "id": "models_carousel",
-      "community": 6,
+      "community": 4,
       "norm_label": "carousel"
     },
     {
@@ -3915,7 +3969,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
       "source_location": "L128",
       "id": "models_newsitem",
-      "community": 7,
+      "community": 6,
       "norm_label": "newsitem"
     },
     {
@@ -3933,7 +3987,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/models.py",
       "source_location": "L150",
       "id": "models_carouselsuggestion",
-      "community": 6,
+      "community": 4,
       "norm_label": "carouselsuggestion"
     },
     {
@@ -3960,7 +4014,7 @@
       "source_file": "src/database.py",
       "source_location": "L1",
       "id": "src_database_py",
-      "community": 3,
+      "community": 10,
       "norm_label": "database.py"
     },
     {
@@ -3969,7 +4023,7 @@
       "source_file": "src/database.py",
       "source_location": "L8",
       "id": "database_get_engine",
-      "community": 3,
+      "community": 10,
       "norm_label": "_get_engine()"
     },
     {
@@ -3978,7 +4032,7 @@
       "source_file": "src/database.py",
       "source_location": "L13",
       "id": "database_get_session",
-      "community": 3,
+      "community": 10,
       "norm_label": "get_session()"
     },
     {
@@ -3987,7 +4041,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/carousel_quality.py",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_src_carousel_quality_py",
-      "community": 5,
+      "community": 3,
       "norm_label": "carousel_quality.py"
     },
     {
@@ -4005,7 +4059,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/carousel_quality.py",
       "source_location": "L159",
       "id": "carousel_quality_normalize_text",
-      "community": 5,
+      "community": 3,
       "norm_label": "_normalize_text()"
     },
     {
@@ -4014,7 +4068,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/carousel_quality.py",
       "source_location": "L164",
       "id": "carousel_quality_unique",
-      "community": 5,
+      "community": 3,
       "norm_label": "_unique()"
     },
     {
@@ -4023,7 +4077,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/carousel_quality.py",
       "source_location": "L177",
       "id": "carousel_quality_find_hits",
-      "community": 5,
+      "community": 3,
       "norm_label": "_find_hits()"
     },
     {
@@ -4032,7 +4086,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/carousel_quality.py",
       "source_location": "L186",
       "id": "carousel_quality_tokenize",
-      "community": 5,
+      "community": 3,
       "norm_label": "_tokenize()"
     },
     {
@@ -4041,7 +4095,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/carousel_quality.py",
       "source_location": "L194",
       "id": "carousel_quality_find_token_overlap_hits",
-      "community": 5,
+      "community": 3,
       "norm_label": "_find_token_overlap_hits()"
     },
     {
@@ -4050,7 +4104,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/carousel_quality.py",
       "source_location": "L207",
       "id": "carousel_quality_cta_matches_funnel",
-      "community": 5,
+      "community": 3,
       "norm_label": "_cta_matches_funnel()"
     },
     {
@@ -4059,7 +4113,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/carousel_quality.py",
       "source_location": "L215",
       "id": "carousel_quality_estimate_target_slide_count",
-      "community": 5,
+      "community": 3,
       "norm_label": "estimate_target_slide_count()"
     },
     {
@@ -4068,7 +4122,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/carousel_quality.py",
       "source_location": "L235",
       "id": "carousel_quality_build_slide_blueprint",
-      "community": 5,
+      "community": 3,
       "norm_label": "build_slide_blueprint()"
     },
     {
@@ -4077,7 +4131,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/carousel_quality.py",
       "source_location": "L287",
       "id": "carousel_quality_score_carousel_draft",
-      "community": 5,
+      "community": 3,
       "norm_label": "score_carousel_draft()"
     },
     {
@@ -4094,7 +4148,7 @@
       "file_type": "rationale",
       "source_file": "/Users/floakii/Claudio/agro-content/src/carousel_quality.py",
       "source_location": "L221",
-      "community": 5,
+      "community": 3,
       "norm_label": "estimate how many slides the argument needs. no upper cap \u2014 depth drives count.",
       "id": "carousel_quality_rationale_221"
     },
@@ -4103,7 +4157,7 @@
       "file_type": "rationale",
       "source_file": "/Users/floakii/Claudio/agro-content/src/carousel_quality.py",
       "source_location": "L236",
-      "community": 5,
+      "community": 3,
       "norm_label": "build a narrative blueprint. no upper cap \u2014 argument depth determines slide coun",
       "id": "carousel_quality_rationale_236"
     },
@@ -4113,7 +4167,7 @@
       "source_file": "src/__init__.py",
       "source_location": "L1",
       "id": "src_init_py",
-      "community": 60,
+      "community": 62,
       "norm_label": "__init__.py"
     },
     {
@@ -4122,7 +4176,7 @@
       "source_file": "src/openai_utils.py",
       "source_location": "L1",
       "id": "src_openai_utils_py",
-      "community": 5,
+      "community": 3,
       "norm_label": "openai_utils.py"
     },
     {
@@ -4131,7 +4185,7 @@
       "source_file": "src/openai_utils.py",
       "source_location": "L6",
       "id": "openai_utils_is_rate_limit_error",
-      "community": 5,
+      "community": 3,
       "norm_label": "is_rate_limit_error()"
     },
     {
@@ -4140,7 +4194,7 @@
       "source_file": "src/openai_utils.py",
       "source_location": "L20",
       "id": "openai_utils_compute_retry_delay",
-      "community": 5,
+      "community": 3,
       "norm_label": "compute_retry_delay()"
     },
     {
@@ -4149,7 +4203,7 @@
       "source_file": "src/openai_utils.py",
       "source_location": "L28",
       "id": "openai_utils_call_chat_completion_with_backoff",
-      "community": 5,
+      "community": 3,
       "norm_label": "call_chat_completion_with_backoff()"
     },
     {
@@ -4221,7 +4275,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/reporter/weekly_report.py",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_src_reporter_weekly_report_py",
-      "community": 15,
+      "community": 17,
       "norm_label": "weekly_report.py"
     },
     {
@@ -4230,7 +4284,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/reporter/weekly_report.py",
       "source_location": "L25",
       "id": "weekly_report_generate_weekly_report",
-      "community": 15,
+      "community": 17,
       "norm_label": "generate_weekly_report()"
     },
     {
@@ -4239,7 +4293,7 @@
       "source_file": "src/reporter/__init__.py",
       "source_location": "L1",
       "id": "src_reporter_init_py",
-      "community": 61,
+      "community": 63,
       "norm_label": "__init__.py"
     },
     {
@@ -4266,7 +4320,7 @@
       "source_file": "src/collector/collector.py",
       "source_location": "L1",
       "id": "src_collector_collector_py",
-      "community": 3,
+      "community": 0,
       "norm_label": "collector.py"
     },
     {
@@ -4275,7 +4329,7 @@
       "source_file": "src/collector/collector.py",
       "source_location": "L11",
       "id": "collector_merge_post",
-      "community": 3,
+      "community": 0,
       "norm_label": "_merge_post()"
     },
     {
@@ -4284,7 +4338,7 @@
       "source_file": "src/collector/collector.py",
       "source_location": "L56",
       "id": "collector_collect_profile",
-      "community": 3,
+      "community": 0,
       "norm_label": "collect_profile()"
     },
     {
@@ -4302,7 +4356,7 @@
       "source_file": "src/collector/__init__.py",
       "source_location": "L1",
       "id": "src_collector_init_py",
-      "community": 62,
+      "community": 64,
       "norm_label": "__init__.py"
     },
     {
@@ -4311,7 +4365,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/collector/news_monitor.py",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_src_collector_news_monitor_py",
-      "community": 7,
+      "community": 6,
       "norm_label": "news_monitor.py"
     },
     {
@@ -4320,7 +4374,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/collector/news_monitor.py",
       "source_location": "L36",
       "id": "news_monitor_extract_tags",
-      "community": 7,
+      "community": 6,
       "norm_label": "_extract_tags()"
     },
     {
@@ -4329,7 +4383,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/collector/news_monitor.py",
       "source_location": "L45",
       "id": "news_monitor_parse_feed",
-      "community": 7,
+      "community": 6,
       "norm_label": "_parse_feed()"
     },
     {
@@ -4338,7 +4392,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/collector/news_monitor.py",
       "source_location": "L69",
       "id": "news_monitor_fetch_all_raw",
-      "community": 7,
+      "community": 6,
       "norm_label": "_fetch_all_raw()"
     },
     {
@@ -4347,7 +4401,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/collector/news_monitor.py",
       "source_location": "L81",
       "id": "news_monitor_fetch_all_feeds",
-      "community": 7,
+      "community": 6,
       "norm_label": "fetch_all_feeds()"
     },
     {
@@ -4356,7 +4410,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/collector/news_monitor.py",
       "source_location": "L98",
       "id": "news_monitor_get_recent_news",
-      "community": 7,
+      "community": 6,
       "norm_label": "get_recent_news()"
     },
     {
@@ -4364,7 +4418,7 @@
       "file_type": "rationale",
       "source_file": "/Users/floakii/Claudio/agro-content/src/collector/news_monitor.py",
       "source_location": "L82",
-      "community": 7,
+      "community": 6,
       "norm_label": "poll all rss feeds and save new items. returns count of new items saved.",
       "id": "news_monitor_rationale_82"
     },
@@ -4373,7 +4427,7 @@
       "file_type": "rationale",
       "source_file": "/Users/floakii/Claudio/agro-content/src/collector/news_monitor.py",
       "source_location": "L103",
-      "community": 7,
+      "community": 6,
       "norm_label": "return news items from the last `days` days, optionally filtered by tags.",
       "id": "news_monitor_rationale_103"
     },
@@ -4383,7 +4437,7 @@
       "source_file": "src/collector/apify_client.py",
       "source_location": "L1",
       "id": "src_collector_apify_client_py",
-      "community": 3,
+      "community": 8,
       "norm_label": "apify_client.py"
     },
     {
@@ -4392,7 +4446,7 @@
       "source_file": "src/collector/apify_client.py",
       "source_location": "L13",
       "id": "apify_client_append_unique",
-      "community": 3,
+      "community": 8,
       "norm_label": "_append_unique()"
     },
     {
@@ -4401,7 +4455,7 @@
       "source_file": "src/collector/apify_client.py",
       "source_location": "L20",
       "id": "apify_client_extract_slide_urls",
-      "community": 3,
+      "community": 8,
       "norm_label": "_extract_slide_urls()"
     },
     {
@@ -4410,7 +4464,7 @@
       "source_file": "src/collector/apify_client.py",
       "source_location": "L39",
       "id": "apify_client_fetch_posts_apify",
-      "community": 3,
+      "community": 8,
       "norm_label": "fetch_posts_apify()"
     },
     {
@@ -4418,7 +4472,7 @@
       "file_type": "rationale",
       "source_file": "src/collector/apify_client.py",
       "source_location": "L47",
-      "community": 3,
+      "community": 8,
       "norm_label": "busca posts de um perfil via apify instagram scraper.     se since_date for forn",
       "id": "apify_client_rationale_47"
     },
@@ -4428,7 +4482,7 @@
       "source_file": "src/collector/instaloader_client.py",
       "source_location": "L1",
       "id": "src_collector_instaloader_client_py",
-      "community": 3,
+      "community": 8,
       "norm_label": "instaloader_client.py"
     },
     {
@@ -4437,7 +4491,7 @@
       "source_file": "src/collector/instaloader_client.py",
       "source_location": "L15",
       "id": "instaloader_client_append_unique",
-      "community": 3,
+      "community": 8,
       "norm_label": "_append_unique()"
     },
     {
@@ -4446,7 +4500,7 @@
       "source_file": "src/collector/instaloader_client.py",
       "source_location": "L22",
       "id": "instaloader_client_extract_sidecar_slide_urls",
-      "community": 3,
+      "community": 8,
       "norm_label": "_extract_sidecar_slide_urls()"
     },
     {
@@ -4455,7 +4509,7 @@
       "source_file": "src/collector/instaloader_client.py",
       "source_location": "L42",
       "id": "instaloader_client_get_loader",
-      "community": 3,
+      "community": 8,
       "norm_label": "_get_loader()"
     },
     {
@@ -4464,7 +4518,7 @@
       "source_file": "src/collector/instaloader_client.py",
       "source_location": "L70",
       "id": "instaloader_client_fetch_posts_instaloader",
-      "community": 3,
+      "community": 8,
       "norm_label": "fetch_posts_instaloader()"
     },
     {
@@ -4472,7 +4526,7 @@
       "file_type": "rationale",
       "source_file": "src/collector/instaloader_client.py",
       "source_location": "L75",
-      "community": 3,
+      "community": 8,
       "norm_label": "busca posts via instaloader com login para evitar bloqueios.     retorna lista d",
       "id": "instaloader_client_rationale_75"
     },
@@ -4482,7 +4536,7 @@
       "source_file": "src/workflows/intelligence_jobs.py",
       "source_location": "L1",
       "id": "src_workflows_intelligence_jobs_py",
-      "community": 4,
+      "community": 7,
       "norm_label": "intelligence_jobs.py"
     },
     {
@@ -4491,7 +4545,7 @@
       "source_file": "src/workflows/intelligence_jobs.py",
       "source_location": "L25",
       "id": "intelligence_jobs_utcnow",
-      "community": 4,
+      "community": 7,
       "norm_label": "_utcnow()"
     },
     {
@@ -4500,7 +4554,7 @@
       "source_file": "src/workflows/intelligence_jobs.py",
       "source_location": "L29",
       "id": "intelligence_jobs_copy_job",
-      "community": 4,
+      "community": 7,
       "norm_label": "_copy_job()"
     },
     {
@@ -4509,7 +4563,7 @@
       "source_file": "src/workflows/intelligence_jobs.py",
       "source_location": "L33",
       "id": "intelligence_jobs_set_job",
-      "community": 4,
+      "community": 7,
       "norm_label": "_set_job()"
     },
     {
@@ -4518,7 +4572,7 @@
       "source_file": "src/workflows/intelligence_jobs.py",
       "source_location": "L41",
       "id": "intelligence_jobs_append_error",
-      "community": 4,
+      "community": 7,
       "norm_label": "_append_error()"
     },
     {
@@ -4527,7 +4581,7 @@
       "source_file": "src/workflows/intelligence_jobs.py",
       "source_location": "L51",
       "id": "intelligence_jobs_get_analysis_job",
-      "community": 4,
+      "community": 7,
       "norm_label": "get_analysis_job()"
     },
     {
@@ -4536,7 +4590,7 @@
       "source_file": "src/workflows/intelligence_jobs.py",
       "source_location": "L57",
       "id": "intelligence_jobs_emit",
-      "community": 4,
+      "community": 7,
       "norm_label": "_emit()"
     },
     {
@@ -4545,7 +4599,7 @@
       "source_file": "src/workflows/intelligence_jobs.py",
       "source_location": "L62",
       "id": "intelligence_jobs_sync_profiles_workflow",
-      "community": 4,
+      "community": 7,
       "norm_label": "sync_profiles_workflow()"
     },
     {
@@ -4554,7 +4608,7 @@
       "source_file": "src/workflows/intelligence_jobs.py",
       "source_location": "L249",
       "id": "intelligence_jobs_intelligence_analysis_workflow",
-      "community": 4,
+      "community": 7,
       "norm_label": "intelligence_analysis_workflow()"
     },
     {
@@ -4563,7 +4617,7 @@
       "source_file": "src/workflows/intelligence_jobs.py",
       "source_location": "L314",
       "id": "intelligence_jobs_new_job_state",
-      "community": 4,
+      "community": 7,
       "norm_label": "_new_job_state()"
     },
     {
@@ -4572,7 +4626,7 @@
       "source_file": "src/workflows/intelligence_jobs.py",
       "source_location": "L348",
       "id": "intelligence_jobs_progress_updater",
-      "community": 4,
+      "community": 7,
       "norm_label": "_progress_updater()"
     },
     {
@@ -4581,7 +4635,7 @@
       "source_file": "src/workflows/intelligence_jobs.py",
       "source_location": "L354",
       "id": "intelligence_jobs_run_analysis_job",
-      "community": 4,
+      "community": 7,
       "norm_label": "_run_analysis_job()"
     },
     {
@@ -4590,7 +4644,7 @@
       "source_file": "src/workflows/intelligence_jobs.py",
       "source_location": "L415",
       "id": "intelligence_jobs_create_analysis_job",
-      "community": 4,
+      "community": 7,
       "norm_label": "create_analysis_job()"
     },
     {
@@ -4599,7 +4653,7 @@
       "source_file": "src/carousel/theme_suggester.py",
       "source_location": "L1",
       "id": "src_carousel_theme_suggester_py",
-      "community": 6,
+      "community": 4,
       "norm_label": "theme_suggester.py"
     },
     {
@@ -4608,7 +4662,7 @@
       "source_file": "src/carousel/theme_suggester.py",
       "source_location": "L24",
       "id": "theme_suggester_generate_theme_suggestions",
-      "community": 6,
+      "community": 4,
       "norm_label": "generate_theme_suggestions()"
     },
     {
@@ -4617,7 +4671,7 @@
       "source_file": "src/carousel/__init__.py",
       "source_location": "L1",
       "id": "src_carousel_init_py",
-      "community": 63,
+      "community": 65,
       "norm_label": "__init__.py"
     },
     {
@@ -4626,7 +4680,7 @@
       "source_file": "src/carousel/generator.py",
       "source_location": "L1",
       "id": "src_carousel_generator_py",
-      "community": 5,
+      "community": 3,
       "norm_label": "generator.py"
     },
     {
@@ -4635,7 +4689,7 @@
       "source_file": "src/carousel/generator.py",
       "source_location": "L130",
       "id": "generator_tokenize_theme",
-      "community": 5,
+      "community": 3,
       "norm_label": "_tokenize_theme()"
     },
     {
@@ -4644,7 +4698,7 @@
       "source_file": "src/carousel/generator.py",
       "source_location": "L139",
       "id": "generator_select_theme_arguments",
-      "community": 5,
+      "community": 3,
       "norm_label": "_select_theme_arguments()"
     },
     {
@@ -4653,7 +4707,7 @@
       "source_file": "src/carousel/generator.py",
       "source_location": "L165",
       "id": "generator_trim_for_prompt",
-      "community": 5,
+      "community": 3,
       "norm_label": "_trim_for_prompt()"
     },
     {
@@ -4662,7 +4716,7 @@
       "source_file": "src/carousel/generator.py",
       "source_location": "L174",
       "id": "generator_extract_numeric_fragments",
-      "community": 5,
+      "community": 3,
       "norm_label": "_extract_numeric_fragments()"
     },
     {
@@ -4671,7 +4725,7 @@
       "source_file": "src/carousel/generator.py",
       "source_location": "L193",
       "id": "generator_estimate_theme_slide_count",
-      "community": 5,
+      "community": 3,
       "norm_label": "_estimate_theme_slide_count()"
     },
     {
@@ -4680,7 +4734,7 @@
       "source_file": "src/carousel/generator.py",
       "source_location": "L205",
       "id": "generator_extract_theme_mechanism_terms",
-      "community": 5,
+      "community": 3,
       "norm_label": "_extract_theme_mechanism_terms()"
     },
     {
@@ -4689,7 +4743,7 @@
       "source_file": "src/carousel/generator.py",
       "source_location": "L226",
       "id": "generator_build_theme_evidence_pack",
-      "community": 5,
+      "community": 3,
       "norm_label": "_build_theme_evidence_pack()"
     },
     {
@@ -4698,7 +4752,7 @@
       "source_file": "src/carousel/generator.py",
       "source_location": "L245",
       "id": "generator_build_validated_theme_catalog",
-      "community": 5,
+      "community": 3,
       "norm_label": "_build_validated_theme_catalog()"
     },
     {
@@ -4707,7 +4761,7 @@
       "source_file": "src/carousel/generator.py",
       "source_location": "L296",
       "id": "generator_build_quality_guardrails",
-      "community": 5,
+      "community": 3,
       "norm_label": "_build_quality_guardrails()"
     },
     {
@@ -4716,7 +4770,7 @@
       "source_file": "src/carousel/generator.py",
       "source_location": "L309",
       "id": "generator_request_carousel",
-      "community": 5,
+      "community": 3,
       "norm_label": "_request_carousel()"
     },
     {
@@ -4725,7 +4779,7 @@
       "source_file": "src/carousel/generator.py",
       "source_location": "L332",
       "id": "generator_build_legacy_theme_planning",
-      "community": 5,
+      "community": 3,
       "norm_label": "_build_legacy_theme_planning()"
     },
     {
@@ -4734,7 +4788,7 @@
       "source_file": "src/carousel/generator.py",
       "source_location": "L368",
       "id": "generator_upgrade_legacy_theme_payload",
-      "community": 5,
+      "community": 3,
       "norm_label": "_upgrade_legacy_theme_payload()"
     },
     {
@@ -4743,7 +4797,7 @@
       "source_file": "src/carousel/generator.py",
       "source_location": "L390",
       "id": "generator_validate_planning",
-      "community": 5,
+      "community": 3,
       "norm_label": "_validate_planning()"
     },
     {
@@ -4752,7 +4806,7 @@
       "source_file": "src/carousel/generator.py",
       "source_location": "L406",
       "id": "generator_evaluate_theme_carousel",
-      "community": 5,
+      "community": 3,
       "norm_label": "_evaluate_theme_carousel()"
     },
     {
@@ -4761,7 +4815,7 @@
       "source_file": "src/carousel/generator.py",
       "source_location": "L448",
       "id": "generator_generate_carousel",
-      "community": 5,
+      "community": 3,
       "norm_label": "generate_carousel()"
     },
     {
@@ -4896,7 +4950,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/generator/creative_intelligence.py",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_src_generator_creative_intelligence_py",
-      "community": 10,
+      "community": 11,
       "norm_label": "creative_intelligence.py"
     },
     {
@@ -4905,7 +4959,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/generator/creative_intelligence.py",
       "source_location": "L150",
       "id": "creative_intelligence_clean",
-      "community": 10,
+      "community": 11,
       "norm_label": "_clean()"
     },
     {
@@ -4914,7 +4968,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/generator/creative_intelligence.py",
       "source_location": "L154",
       "id": "creative_intelligence_trim",
-      "community": 10,
+      "community": 11,
       "norm_label": "_trim()"
     },
     {
@@ -4923,7 +4977,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/generator/creative_intelligence.py",
       "source_location": "L161",
       "id": "creative_intelligence_unique",
-      "community": 10,
+      "community": 11,
       "norm_label": "_unique()"
     },
     {
@@ -4932,7 +4986,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/generator/creative_intelligence.py",
       "source_location": "L176",
       "id": "creative_intelligence_data_labels",
-      "community": 10,
+      "community": 11,
       "norm_label": "_data_labels()"
     },
     {
@@ -4941,7 +4995,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/generator/creative_intelligence.py",
       "source_location": "L193",
       "id": "creative_intelligence_field_contexts",
-      "community": 10,
+      "community": 11,
       "norm_label": "_field_contexts()"
     },
     {
@@ -4950,7 +5004,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/generator/creative_intelligence.py",
       "source_location": "L198",
       "id": "creative_intelligence_tokenize",
-      "community": 10,
+      "community": 11,
       "norm_label": "_tokenize()"
     },
     {
@@ -4959,7 +5013,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/generator/creative_intelligence.py",
       "source_location": "L206",
       "id": "creative_intelligence_salient_terms",
-      "community": 10,
+      "community": 11,
       "norm_label": "_salient_terms()"
     },
     {
@@ -4968,7 +5022,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/generator/creative_intelligence.py",
       "source_location": "L224",
       "id": "creative_intelligence_extract_causal_chain",
-      "community": 10,
+      "community": 11,
       "norm_label": "_extract_causal_chain()"
     },
     {
@@ -4977,7 +5031,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/generator/creative_intelligence.py",
       "source_location": "L260",
       "id": "creative_intelligence_select_hook_archetype",
-      "community": 10,
+      "community": 11,
       "norm_label": "_select_hook_archetype()"
     },
     {
@@ -4986,7 +5040,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/generator/creative_intelligence.py",
       "source_location": "L288",
       "id": "creative_intelligence_select_narrative_arc",
-      "community": 10,
+      "community": 11,
       "norm_label": "_select_narrative_arc()"
     },
     {
@@ -4995,7 +5049,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/generator/creative_intelligence.py",
       "source_location": "L305",
       "id": "creative_intelligence_build_source_creative_brief",
-      "community": 10,
+      "community": 11,
       "norm_label": "build_source_creative_brief()"
     },
     {
@@ -5004,7 +5058,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/generator/creative_intelligence.py",
       "source_location": "L369",
       "id": "creative_intelligence_build_theme_creative_brief",
-      "community": 10,
+      "community": 11,
       "norm_label": "build_theme_creative_brief()"
     },
     {
@@ -5012,7 +5066,7 @@
       "file_type": "rationale",
       "source_file": "/Users/floakii/Claudio/agro-content/src/generator/creative_intelligence.py",
       "source_location": "L261",
-      "community": 10,
+      "community": 11,
       "norm_label": "select the most fitting hook archetype based on post intelligence signals.",
       "id": "creative_intelligence_rationale_261"
     },
@@ -5021,7 +5075,7 @@
       "file_type": "rationale",
       "source_file": "/Users/floakii/Claudio/agro-content/src/generator/creative_intelligence.py",
       "source_location": "L289",
-      "community": 10,
+      "community": 11,
       "norm_label": "select the most fitting narrative arc based on post intelligence signals.",
       "id": "creative_intelligence_rationale_289"
     },
@@ -5031,7 +5085,7 @@
       "source_file": "src/generator/__init__.py",
       "source_location": "L1",
       "id": "src_generator_init_py",
-      "community": 64,
+      "community": 66,
       "norm_label": "__init__.py"
     },
     {
@@ -5040,7 +5094,7 @@
       "source_file": "src/generator/obsidian_context.py",
       "source_location": "L1",
       "id": "src_generator_obsidian_context_py",
-      "community": 19,
+      "community": 20,
       "norm_label": "obsidian_context.py"
     },
     {
@@ -5049,7 +5103,7 @@
       "source_file": "src/generator/obsidian_context.py",
       "source_location": "L14",
       "id": "obsidian_context_repo_root",
-      "community": 19,
+      "community": 20,
       "norm_label": "_repo_root()"
     },
     {
@@ -5058,7 +5112,7 @@
       "source_file": "src/generator/obsidian_context.py",
       "source_location": "L18",
       "id": "obsidian_context_candidate_vault_paths",
-      "community": 19,
+      "community": 20,
       "norm_label": "_candidate_vault_paths()"
     },
     {
@@ -5067,7 +5121,7 @@
       "source_file": "src/generator/obsidian_context.py",
       "source_location": "L35",
       "id": "obsidian_context_resolve_vault_path",
-      "community": 19,
+      "community": 20,
       "norm_label": "_resolve_vault_path()"
     },
     {
@@ -5076,7 +5130,7 @@
       "source_file": "src/generator/obsidian_context.py",
       "source_location": "L42",
       "id": "obsidian_context_read_note",
-      "community": 19,
+      "community": 20,
       "norm_label": "_read_note()"
     },
     {
@@ -5085,7 +5139,7 @@
       "source_file": "src/generator/obsidian_context.py",
       "source_location": "L54",
       "id": "obsidian_context_load_studio_context",
-      "community": 19,
+      "community": 20,
       "norm_label": "load_studio_context()"
     },
     {
@@ -5094,7 +5148,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/generator/seasonal.py",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_src_generator_seasonal_py",
-      "community": 17,
+      "community": 18,
       "norm_label": "seasonal.py"
     },
     {
@@ -5103,7 +5157,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/generator/seasonal.py",
       "source_location": "L79",
       "id": "seasonal_get_seasonal_context",
-      "community": 17,
+      "community": 18,
       "norm_label": "get_seasonal_context()"
     },
     {
@@ -5111,7 +5165,7 @@
       "file_type": "rationale",
       "source_file": "/Users/floakii/Claudio/agro-content/src/generator/seasonal.py",
       "source_location": "L80",
-      "community": 17,
+      "community": 18,
       "norm_label": "return the current month's agro seasonal context string.",
       "id": "seasonal_rationale_80"
     },
@@ -5651,9 +5705,9 @@
       "file_type": "rationale",
       "source_file": "src/generator/content_generator.py",
       "source_location": "L644",
-      "id": "content_generator_rationale_644",
       "community": 0,
-      "norm_label": "validate that the narrative planning phase was completed before slide writing."
+      "norm_label": "validate that the narrative planning phase was completed before slide writing.",
+      "id": "content_generator_rationale_644"
     },
     {
       "label": "image_analyzer.py",
@@ -5661,7 +5715,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/image_analyzer.py",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_src_analyzer_image_analyzer_py",
-      "community": 4,
+      "community": 7,
       "norm_label": "image_analyzer.py"
     },
     {
@@ -5670,7 +5724,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/image_analyzer.py",
       "source_location": "L38",
       "id": "image_analyzer_analyze_post",
-      "community": 4,
+      "community": 7,
       "norm_label": "analyze_post()"
     },
     {
@@ -5678,7 +5732,7 @@
       "file_type": "rationale",
       "source_file": "src/analyzer/image_analyzer.py",
       "source_location": "L39",
-      "community": 0,
+      "community": 7,
       "norm_label": "analisa um post com gpt-4o vision. se ja analisado, retorna analise existente.",
       "id": "image_analyzer_rationale_39"
     },
@@ -5688,7 +5742,7 @@
       "source_file": "src/analyzer/virality.py",
       "source_location": "L1",
       "id": "src_analyzer_virality_py",
-      "community": 4,
+      "community": 7,
       "norm_label": "virality.py"
     },
     {
@@ -5697,7 +5751,7 @@
       "source_file": "src/analyzer/virality.py",
       "source_location": "L1",
       "id": "virality_calculate_virality_score",
-      "community": 4,
+      "community": 7,
       "norm_label": "calculate_virality_score()"
     },
     {
@@ -5705,7 +5759,7 @@
       "file_type": "rationale",
       "source_file": "src/analyzer/virality.py",
       "source_location": "L2",
-      "community": 4,
+      "community": 7,
       "norm_label": "normaliza engajamento pelo numero de seguidores. retorna valor entre 0 e 1.",
       "id": "virality_rationale_2"
     },
@@ -5715,70 +5769,106 @@
       "source_file": "src/analyzer/__init__.py",
       "source_location": "L1",
       "id": "src_analyzer_init_py",
-      "community": 65,
+      "community": 67,
       "norm_label": "__init__.py"
     },
     {
       "label": "post_intelligence.py",
       "file_type": "code",
-      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/post_intelligence.py",
+      "source_file": "src/analyzer/post_intelligence.py",
       "source_location": "L1",
-      "id": "users_floakii_claudio_agro_content_src_analyzer_post_intelligence_py",
-      "community": 8,
+      "id": "src_analyzer_post_intelligence_py",
+      "community": 5,
       "norm_label": "post_intelligence.py"
+    },
+    {
+      "label": "_append_unique()",
+      "file_type": "code",
+      "source_file": "src/analyzer/post_intelligence.py",
+      "source_location": "L114",
+      "id": "post_intelligence_append_unique",
+      "community": 5,
+      "norm_label": "_append_unique()"
+    },
+    {
+      "label": "_extract_number_fragments()",
+      "file_type": "code",
+      "source_file": "src/analyzer/post_intelligence.py",
+      "source_location": "L123",
+      "id": "post_intelligence_extract_number_fragments",
+      "community": 5,
+      "norm_label": "_extract_number_fragments()"
+    },
+    {
+      "label": "_fallback_mechanisms()",
+      "file_type": "code",
+      "source_file": "src/analyzer/post_intelligence.py",
+      "source_location": "L132",
+      "id": "post_intelligence_fallback_mechanisms",
+      "community": 5,
+      "norm_label": "_fallback_mechanisms()"
+    },
+    {
+      "label": "_fallback_causal_steps()",
+      "file_type": "code",
+      "source_file": "src/analyzer/post_intelligence.py",
+      "source_location": "L149",
+      "id": "post_intelligence_fallback_causal_steps",
+      "community": 5,
+      "norm_label": "_fallback_causal_steps()"
     },
     {
       "label": "_extract_evidence_inventory()",
       "file_type": "code",
-      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/post_intelligence.py",
-      "source_location": "L84",
+      "source_file": "src/analyzer/post_intelligence.py",
+      "source_location": "L172",
       "id": "post_intelligence_extract_evidence_inventory",
-      "community": 8,
+      "community": 5,
       "norm_label": "_extract_evidence_inventory()"
     },
     {
       "label": "_to_data_url()",
       "file_type": "code",
-      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/post_intelligence.py",
-      "source_location": "L159",
+      "source_file": "src/analyzer/post_intelligence.py",
+      "source_location": "L252",
       "id": "post_intelligence_to_data_url",
-      "community": 8,
+      "community": 5,
       "norm_label": "_to_data_url()"
     },
     {
       "label": "_coerce_slide_urls()",
       "file_type": "code",
-      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/post_intelligence.py",
-      "source_location": "L167",
+      "source_file": "src/analyzer/post_intelligence.py",
+      "source_location": "L260",
       "id": "post_intelligence_coerce_slide_urls",
-      "community": 8,
+      "community": 5,
       "norm_label": "_coerce_slide_urls()"
     },
     {
       "label": "_transcribe_visual_assets()",
       "file_type": "code",
-      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/post_intelligence.py",
-      "source_location": "L187",
+      "source_file": "src/analyzer/post_intelligence.py",
+      "source_location": "L280",
       "id": "post_intelligence_transcribe_visual_assets",
-      "community": 8,
+      "community": 5,
       "norm_label": "_transcribe_visual_assets()"
     },
     {
       "label": "_snapshot_intelligence()",
       "file_type": "code",
-      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/post_intelligence.py",
-      "source_location": "L214",
+      "source_file": "src/analyzer/post_intelligence.py",
+      "source_location": "L307",
       "id": "post_intelligence_snapshot_intelligence",
-      "community": 8,
+      "community": 5,
       "norm_label": "_snapshot_intelligence()"
     },
     {
       "label": "analyze_post_intelligence()",
       "file_type": "code",
-      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/post_intelligence.py",
-      "source_location": "L222",
+      "source_file": "src/analyzer/post_intelligence.py",
+      "source_location": "L315",
       "id": "post_intelligence_analyze_post_intelligence",
-      "community": 8,
+      "community": 5,
       "norm_label": "analyze_post_intelligence()"
     },
     {
@@ -5787,7 +5877,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/gap_analyzer.py",
       "source_location": "L1",
       "id": "users_floakii_claudio_agro_content_src_analyzer_gap_analyzer_py",
-      "community": 13,
+      "community": 14,
       "norm_label": "gap_analyzer.py"
     },
     {
@@ -5796,7 +5886,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/gap_analyzer.py",
       "source_location": "L12",
       "id": "gap_analyzer_extract_topics",
-      "community": 13,
+      "community": 14,
       "norm_label": "_extract_topics()"
     },
     {
@@ -5805,7 +5895,7 @@
       "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/gap_analyzer.py",
       "source_location": "L20",
       "id": "gap_analyzer_compute_gaps",
-      "community": 13,
+      "community": 14,
       "norm_label": "compute_gaps()"
     },
     {
@@ -5948,7 +6038,7 @@
       "file_type": "rationale",
       "source_file": "src/collector/apify_client.py",
       "source_location": "L45",
-      "community": 66,
+      "community": 68,
       "norm_label": "busca posts de um perfil via apify instagram scraper.     se since_date for forn",
       "id": "apify_client_rationale_45"
     },
@@ -5957,7 +6047,7 @@
       "file_type": "rationale",
       "source_file": "src/collector/instaloader_client.py",
       "source_location": "L71",
-      "community": 67,
+      "community": 69,
       "norm_label": "busca posts via instaloader com login para evitar bloqueios.     retorna lista d",
       "id": "instaloader_client_rationale_71"
     },
@@ -6029,7 +6119,7 @@
       "file_type": "rationale",
       "source_file": "/Users/floakii/Claudio/agro-content/src/collector/apify_client.py",
       "source_location": "L19",
-      "community": 68,
+      "community": 70,
       "norm_label": "busca posts de um perfil via apify instagram scraper.     se since_date for forn",
       "id": "apify_client_rationale_19"
     },
@@ -6038,7 +6128,7 @@
       "file_type": "rationale",
       "source_file": "src/collector/instaloader_client.py",
       "source_location": "L47",
-      "community": 69,
+      "community": 71,
       "norm_label": "busca posts via instaloader com login para evitar bloqueios.     retorna lista d",
       "id": "instaloader_client_rationale_47"
     },
@@ -6092,7 +6182,7 @@
       "file_type": "rationale",
       "source_file": "/Users/floakii/Claudio/agro-content/src/collector/apify_client.py",
       "source_location": "L13",
-      "community": 70,
+      "community": 72,
       "norm_label": "busca posts de um perfil via apify instagram scraper.     retorna lista de dicts",
       "id": "apify_client_rationale_13"
     },
@@ -6110,7 +6200,7 @@
       "file_type": "rationale",
       "source_file": "src/collector/apify_client.py",
       "source_location": "L14",
-      "community": 71,
+      "community": 73,
       "norm_label": "busca posts de um perfil via apify instagram scraper.     retorna lista de dicts",
       "id": "apify_client_rationale_14"
     }
@@ -10480,9 +10570,9 @@
       "weight": 0.8,
       "_src": "test_content_generator_rationale_765",
       "_tgt": "models_argumentbank",
+      "confidence_score": 0.5,
       "source": "test_content_generator_rationale_765",
-      "target": "models_argumentbank",
-      "confidence_score": 0.5
+      "target": "models_argumentbank"
     },
     {
       "relation": "uses",
@@ -10492,9 +10582,9 @@
       "weight": 0.8,
       "_src": "test_content_generator_rationale_765",
       "_tgt": "models_base",
+      "confidence_score": 0.5,
       "source": "test_content_generator_rationale_765",
-      "target": "models_base",
-      "confidence_score": 0.5
+      "target": "models_base"
     },
     {
       "relation": "uses",
@@ -10504,9 +10594,9 @@
       "weight": 0.8,
       "_src": "test_content_generator_rationale_765",
       "_tgt": "models_post",
+      "confidence_score": 0.5,
       "source": "test_content_generator_rationale_765",
-      "target": "models_post",
-      "confidence_score": 0.5
+      "target": "models_post"
     },
     {
       "relation": "uses",
@@ -10516,9 +10606,9 @@
       "weight": 0.8,
       "_src": "test_content_generator_rationale_765",
       "_tgt": "models_postanalysis",
+      "confidence_score": 0.5,
       "source": "test_content_generator_rationale_765",
-      "target": "models_postanalysis",
-      "confidence_score": 0.5
+      "target": "models_postanalysis"
     },
     {
       "relation": "uses",
@@ -10528,9 +10618,9 @@
       "weight": 0.8,
       "_src": "test_content_generator_rationale_765",
       "_tgt": "models_postintelligence",
+      "confidence_score": 0.5,
       "source": "test_content_generator_rationale_765",
-      "target": "models_postintelligence",
-      "confidence_score": 0.5
+      "target": "models_postintelligence"
     },
     {
       "relation": "uses",
@@ -10540,9 +10630,9 @@
       "weight": 0.8,
       "_src": "test_content_generator_rationale_765",
       "_tgt": "models_profile",
+      "confidence_score": 0.5,
       "source": "test_content_generator_rationale_765",
-      "target": "models_profile",
-      "confidence_score": 0.5
+      "target": "models_profile"
     },
     {
       "relation": "uses",
@@ -10552,9 +10642,9 @@
       "weight": 0.8,
       "_src": "test_content_generator_rationale_765",
       "_tgt": "models_profilevoice",
+      "confidence_score": 0.5,
       "source": "test_content_generator_rationale_765",
-      "target": "models_profilevoice",
-      "confidence_score": 0.5
+      "target": "models_profilevoice"
     },
     {
       "relation": "contains",
@@ -10883,91 +10973,103 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_post_intelligence_evidence.py",
+      "source_file": "tests/test_post_intelligence_evidence.py",
       "source_location": "L7",
       "weight": 1.0,
-      "_src": "users_floakii_claudio_agro_content_tests_test_post_intelligence_evidence_py",
+      "_src": "tests_test_post_intelligence_evidence_py",
       "_tgt": "test_post_intelligence_evidence_mock_gpt_response",
-      "source": "users_floakii_claudio_agro_content_tests_test_post_intelligence_evidence_py",
+      "source": "tests_test_post_intelligence_evidence_py",
       "target": "test_post_intelligence_evidence_mock_gpt_response",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_post_intelligence_evidence.py",
+      "source_file": "tests/test_post_intelligence_evidence.py",
       "source_location": "L40",
       "weight": 1.0,
-      "_src": "users_floakii_claudio_agro_content_tests_test_post_intelligence_evidence_py",
+      "_src": "tests_test_post_intelligence_evidence_py",
       "_tgt": "test_post_intelligence_evidence_test_extract_evidence_inventory_required_numbers",
-      "source": "users_floakii_claudio_agro_content_tests_test_post_intelligence_evidence_py",
+      "source": "tests_test_post_intelligence_evidence_py",
       "target": "test_post_intelligence_evidence_test_extract_evidence_inventory_required_numbers",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_post_intelligence_evidence.py",
+      "source_file": "tests/test_post_intelligence_evidence.py",
       "source_location": "L48",
       "weight": 1.0,
-      "_src": "users_floakii_claudio_agro_content_tests_test_post_intelligence_evidence_py",
+      "_src": "tests_test_post_intelligence_evidence_py",
       "_tgt": "test_post_intelligence_evidence_test_extract_evidence_inventory_required_mechanisms",
-      "source": "users_floakii_claudio_agro_content_tests_test_post_intelligence_evidence_py",
+      "source": "tests_test_post_intelligence_evidence_py",
       "target": "test_post_intelligence_evidence_test_extract_evidence_inventory_required_mechanisms",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_post_intelligence_evidence.py",
+      "source_file": "tests/test_post_intelligence_evidence.py",
       "source_location": "L56",
       "weight": 1.0,
-      "_src": "users_floakii_claudio_agro_content_tests_test_post_intelligence_evidence_py",
+      "_src": "tests_test_post_intelligence_evidence_py",
       "_tgt": "test_post_intelligence_evidence_test_extract_evidence_inventory_causal_steps",
-      "source": "users_floakii_claudio_agro_content_tests_test_post_intelligence_evidence_py",
+      "source": "tests_test_post_intelligence_evidence_py",
       "target": "test_post_intelligence_evidence_test_extract_evidence_inventory_causal_steps",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_post_intelligence_evidence.py",
+      "source_file": "tests/test_post_intelligence_evidence.py",
       "source_location": "L64",
       "weight": 1.0,
-      "_src": "users_floakii_claudio_agro_content_tests_test_post_intelligence_evidence_py",
+      "_src": "tests_test_post_intelligence_evidence_py",
       "_tgt": "test_post_intelligence_evidence_test_extract_evidence_inventory_definitions",
-      "source": "users_floakii_claudio_agro_content_tests_test_post_intelligence_evidence_py",
+      "source": "tests_test_post_intelligence_evidence_py",
       "target": "test_post_intelligence_evidence_test_extract_evidence_inventory_definitions",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_post_intelligence_evidence.py",
+      "source_file": "tests/test_post_intelligence_evidence.py",
       "source_location": "L71",
       "weight": 1.0,
-      "_src": "users_floakii_claudio_agro_content_tests_test_post_intelligence_evidence_py",
+      "_src": "tests_test_post_intelligence_evidence_py",
       "_tgt": "test_post_intelligence_evidence_test_extract_evidence_inventory_optional_fields",
-      "source": "users_floakii_claudio_agro_content_tests_test_post_intelligence_evidence_py",
+      "source": "tests_test_post_intelligence_evidence_py",
       "target": "test_post_intelligence_evidence_test_extract_evidence_inventory_optional_fields",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_post_intelligence_evidence.py",
+      "source_file": "tests/test_post_intelligence_evidence.py",
       "source_location": "L79",
       "weight": 1.0,
-      "_src": "users_floakii_claudio_agro_content_tests_test_post_intelligence_evidence_py",
+      "_src": "tests_test_post_intelligence_evidence_py",
       "_tgt": "test_post_intelligence_evidence_test_extract_evidence_inventory_gpt_failure_returns_partial",
-      "source": "users_floakii_claudio_agro_content_tests_test_post_intelligence_evidence_py",
+      "source": "tests_test_post_intelligence_evidence_py",
       "target": "test_post_intelligence_evidence_test_extract_evidence_inventory_gpt_failure_returns_partial",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_post_intelligence_evidence.py",
+      "source_location": "L89",
+      "weight": 1.0,
+      "_src": "tests_test_post_intelligence_evidence_py",
+      "_tgt": "test_post_intelligence_evidence_test_extract_evidence_inventory_fallback_causal_steps_from_structure",
+      "source": "tests_test_post_intelligence_evidence_py",
+      "target": "test_post_intelligence_evidence_test_extract_evidence_inventory_fallback_causal_steps_from_structure",
       "confidence_score": 1.0
     },
     {
       "relation": "calls",
       "confidence": "EXTRACTED",
-      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_post_intelligence_evidence.py",
+      "source_file": "tests/test_post_intelligence_evidence.py",
       "source_location": "L42",
       "weight": 1.0,
       "_src": "test_post_intelligence_evidence_test_extract_evidence_inventory_required_numbers",
@@ -10979,7 +11081,7 @@
     {
       "relation": "calls",
       "confidence": "EXTRACTED",
-      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_post_intelligence_evidence.py",
+      "source_file": "tests/test_post_intelligence_evidence.py",
       "source_location": "L50",
       "weight": 1.0,
       "_src": "test_post_intelligence_evidence_test_extract_evidence_inventory_required_mechanisms",
@@ -10991,7 +11093,7 @@
     {
       "relation": "calls",
       "confidence": "EXTRACTED",
-      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_post_intelligence_evidence.py",
+      "source_file": "tests/test_post_intelligence_evidence.py",
       "source_location": "L58",
       "weight": 1.0,
       "_src": "test_post_intelligence_evidence_test_extract_evidence_inventory_causal_steps",
@@ -11003,7 +11105,7 @@
     {
       "relation": "calls",
       "confidence": "EXTRACTED",
-      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_post_intelligence_evidence.py",
+      "source_file": "tests/test_post_intelligence_evidence.py",
       "source_location": "L66",
       "weight": 1.0,
       "_src": "test_post_intelligence_evidence_test_extract_evidence_inventory_definitions",
@@ -11015,7 +11117,7 @@
     {
       "relation": "calls",
       "confidence": "EXTRACTED",
-      "source_file": "/Users/floakii/Claudio/agro-content/tests/test_post_intelligence_evidence.py",
+      "source_file": "tests/test_post_intelligence_evidence.py",
       "source_location": "L73",
       "weight": 1.0,
       "_src": "test_post_intelligence_evidence_test_extract_evidence_inventory_optional_fields",
@@ -11094,6 +11196,18 @@
       "_src": "test_post_intelligence_evidence_test_extract_evidence_inventory_gpt_failure_returns_partial",
       "_tgt": "post_intelligence_extract_evidence_inventory",
       "source": "test_post_intelligence_evidence_test_extract_evidence_inventory_gpt_failure_returns_partial",
+      "target": "post_intelligence_extract_evidence_inventory"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "tests/test_post_intelligence_evidence.py",
+      "source_location": "L96",
+      "weight": 1.0,
+      "_src": "test_post_intelligence_evidence_test_extract_evidence_inventory_fallback_causal_steps_from_structure",
+      "_tgt": "post_intelligence_extract_evidence_inventory",
+      "source": "test_post_intelligence_evidence_test_extract_evidence_inventory_fallback_causal_steps_from_structure",
       "target": "post_intelligence_extract_evidence_inventory"
     },
     {
@@ -13291,6 +13405,114 @@
       "_tgt": "models_post",
       "source": "sync_local_sync_all",
       "target": "models_post"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/backfill_evidence_inventory.py",
+      "source_location": "L30",
+      "weight": 1.0,
+      "_src": "scripts_backfill_evidence_inventory_py",
+      "_tgt": "backfill_evidence_inventory_has_inventory",
+      "source": "scripts_backfill_evidence_inventory_py",
+      "target": "backfill_evidence_inventory_has_inventory",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/backfill_evidence_inventory.py",
+      "source_location": "L42",
+      "weight": 1.0,
+      "_src": "scripts_backfill_evidence_inventory_py",
+      "_tgt": "backfill_evidence_inventory_analysis_payload",
+      "source": "scripts_backfill_evidence_inventory_py",
+      "target": "backfill_evidence_inventory_analysis_payload",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/backfill_evidence_inventory.py",
+      "source_location": "L51",
+      "weight": 1.0,
+      "_src": "scripts_backfill_evidence_inventory_py",
+      "_tgt": "backfill_evidence_inventory_backfill_evidence_inventory",
+      "source": "scripts_backfill_evidence_inventory_py",
+      "target": "backfill_evidence_inventory_backfill_evidence_inventory",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/backfill_evidence_inventory.py",
+      "source_location": "L126",
+      "weight": 1.0,
+      "_src": "scripts_backfill_evidence_inventory_py",
+      "_tgt": "backfill_evidence_inventory_main",
+      "source": "scripts_backfill_evidence_inventory_py",
+      "target": "backfill_evidence_inventory_main",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/backfill_evidence_inventory.py",
+      "source_location": "L77",
+      "weight": 1.0,
+      "_src": "backfill_evidence_inventory_backfill_evidence_inventory",
+      "_tgt": "backfill_evidence_inventory_has_inventory",
+      "source": "backfill_evidence_inventory_has_inventory",
+      "target": "backfill_evidence_inventory_backfill_evidence_inventory",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/backfill_evidence_inventory.py",
+      "source_location": "L92",
+      "weight": 1.0,
+      "_src": "backfill_evidence_inventory_backfill_evidence_inventory",
+      "_tgt": "backfill_evidence_inventory_analysis_payload",
+      "source": "backfill_evidence_inventory_analysis_payload",
+      "target": "backfill_evidence_inventory_backfill_evidence_inventory",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/backfill_evidence_inventory.py",
+      "source_location": "L136",
+      "weight": 1.0,
+      "_src": "backfill_evidence_inventory_main",
+      "_tgt": "backfill_evidence_inventory_backfill_evidence_inventory",
+      "source": "backfill_evidence_inventory_backfill_evidence_inventory",
+      "target": "backfill_evidence_inventory_main",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "scripts/backfill_evidence_inventory.py",
+      "source_location": "L59",
+      "weight": 1.0,
+      "_src": "backfill_evidence_inventory_backfill_evidence_inventory",
+      "_tgt": "database_get_session",
+      "source": "backfill_evidence_inventory_backfill_evidence_inventory",
+      "target": "database_get_session"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "scripts/backfill_evidence_inventory.py",
+      "source_location": "L90",
+      "weight": 1.0,
+      "_src": "backfill_evidence_inventory_backfill_evidence_inventory",
+      "_tgt": "post_intelligence_extract_evidence_inventory",
+      "source": "backfill_evidence_inventory_backfill_evidence_inventory",
+      "target": "post_intelligence_extract_evidence_inventory"
     },
     {
       "relation": "contains",
@@ -16790,8 +17012,8 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_content_generator.py",
       "source_location": "L21",
       "weight": 0.8,
-      "_src": "test_content_generator_rationale_691",
-      "_tgt": "models_base",
+      "_src": "models_base",
+      "_tgt": "test_content_generator_rationale_691",
       "confidence_score": 0.5,
       "source": "models_base",
       "target": "test_content_generator_rationale_691"
@@ -16838,8 +17060,8 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_content_generator.py",
       "source_location": "L21",
       "weight": 0.8,
-      "_src": "test_content_generator_rationale_691",
-      "_tgt": "models_profile",
+      "_src": "models_profile",
+      "_tgt": "test_content_generator_rationale_691",
       "confidence_score": 0.5,
       "source": "models_profile",
       "target": "test_content_generator_rationale_691"
@@ -16970,11 +17192,11 @@
       "source_file": "src/generator/content_generator.py",
       "source_location": "L11",
       "weight": 0.8,
-      "_src": "content_generator_rationale_644",
-      "_tgt": "models_post",
+      "_src": "models_post",
+      "_tgt": "content_generator_rationale_644",
+      "confidence_score": 0.5,
       "source": "models_post",
-      "target": "content_generator_rationale_644",
-      "confidence_score": 0.5
+      "target": "content_generator_rationale_644"
     },
     {
       "relation": "uses",
@@ -17006,8 +17228,8 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_content_generator.py",
       "source_location": "L21",
       "weight": 0.8,
-      "_src": "test_content_generator_rationale_691",
-      "_tgt": "models_post",
+      "_src": "models_post",
+      "_tgt": "test_content_generator_rationale_691",
       "confidence_score": 0.5,
       "source": "models_post",
       "target": "test_content_generator_rationale_691"
@@ -17246,8 +17468,8 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_content_generator.py",
       "source_location": "L21",
       "weight": 0.8,
-      "_src": "test_content_generator_rationale_691",
-      "_tgt": "models_postanalysis",
+      "_src": "models_postanalysis",
+      "_tgt": "test_content_generator_rationale_691",
       "confidence_score": 0.5,
       "source": "models_postanalysis",
       "target": "test_content_generator_rationale_691"
@@ -17354,11 +17576,11 @@
       "source_file": "src/generator/content_generator.py",
       "source_location": "L11",
       "weight": 0.8,
-      "_src": "content_generator_rationale_644",
-      "_tgt": "models_profilevoice",
+      "_src": "models_profilevoice",
+      "_tgt": "content_generator_rationale_644",
+      "confidence_score": 0.5,
       "source": "models_profilevoice",
-      "target": "content_generator_rationale_644",
-      "confidence_score": 0.5
+      "target": "content_generator_rationale_644"
     },
     {
       "relation": "uses",
@@ -17402,8 +17624,8 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_content_generator.py",
       "source_location": "L21",
       "weight": 0.8,
-      "_src": "test_content_generator_rationale_691",
-      "_tgt": "models_profilevoice",
+      "_src": "models_profilevoice",
+      "_tgt": "test_content_generator_rationale_691",
       "confidence_score": 0.5,
       "source": "models_profilevoice",
       "target": "test_content_generator_rationale_691"
@@ -17546,11 +17768,11 @@
       "source_file": "src/generator/content_generator.py",
       "source_location": "L11",
       "weight": 0.8,
-      "_src": "content_generator_rationale_644",
-      "_tgt": "models_generatedpost",
+      "_src": "models_generatedpost",
+      "_tgt": "content_generator_rationale_644",
+      "confidence_score": 0.5,
       "source": "models_generatedpost",
-      "target": "content_generator_rationale_644",
-      "confidence_score": 0.5
+      "target": "content_generator_rationale_644"
     },
     {
       "relation": "calls",
@@ -17858,8 +18080,8 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_content_generator.py",
       "source_location": "L21",
       "weight": 0.8,
-      "_src": "test_content_generator_rationale_691",
-      "_tgt": "models_postintelligence",
+      "_src": "models_postintelligence",
+      "_tgt": "test_content_generator_rationale_691",
       "confidence_score": 0.5,
       "source": "models_postintelligence",
       "target": "test_content_generator_rationale_691"
@@ -17882,11 +18104,11 @@
       "source_file": "src/generator/content_generator.py",
       "source_location": "L11",
       "weight": 0.8,
-      "_src": "content_generator_rationale_644",
-      "_tgt": "models_argumentbank",
+      "_src": "models_argumentbank",
+      "_tgt": "content_generator_rationale_644",
+      "confidence_score": 0.5,
       "source": "models_argumentbank",
-      "target": "content_generator_rationale_644",
-      "confidence_score": 0.5
+      "target": "content_generator_rationale_644"
     },
     {
       "relation": "calls",
@@ -17906,8 +18128,8 @@
       "source_file": "/Users/floakii/Claudio/agro-content/tests/test_content_generator.py",
       "source_location": "L21",
       "weight": 0.8,
-      "_src": "test_content_generator_rationale_691",
-      "_tgt": "models_argumentbank",
+      "_src": "models_argumentbank",
+      "_tgt": "test_content_generator_rationale_691",
       "confidence_score": 0.5,
       "source": "models_argumentbank",
       "target": "test_content_generator_rationale_691"
@@ -18206,11 +18428,11 @@
       "source_file": "src/generator/content_generator.py",
       "source_location": "L12",
       "weight": 0.8,
-      "_src": "content_generator_rationale_644",
-      "_tgt": "carousel_quality_carouselevidencepack",
+      "_src": "carousel_quality_carouselevidencepack",
+      "_tgt": "content_generator_rationale_644",
+      "confidence_score": 0.5,
       "source": "carousel_quality_carouselevidencepack",
-      "target": "content_generator_rationale_644",
-      "confidence_score": 0.5
+      "target": "content_generator_rationale_644"
     },
     {
       "relation": "calls",
@@ -20343,8 +20565,8 @@
       "source_file": "src/generator/content_generator.py",
       "source_location": "L867",
       "weight": 1.0,
-      "_src": "content_generator_validate_data_pledge",
-      "_tgt": "pledge_validator_validate_pledge_coverage",
+      "_src": "pledge_validator_validate_pledge_coverage",
+      "_tgt": "content_generator_validate_data_pledge",
       "source": "pledge_validator_validate_pledge_coverage",
       "target": "content_generator_validate_data_pledge"
     },
@@ -20367,8 +20589,8 @@
       "source_file": "src/generator/content_generator.py",
       "source_location": "L868",
       "weight": 1.0,
-      "_src": "content_generator_validate_data_pledge",
-      "_tgt": "pledge_validator_validate_pledge_traceability",
+      "_src": "pledge_validator_validate_pledge_traceability",
+      "_tgt": "content_generator_validate_data_pledge",
       "source": "pledge_validator_validate_pledge_traceability",
       "target": "content_generator_validate_data_pledge"
     },
@@ -20391,8 +20613,8 @@
       "source_file": "src/generator/content_generator.py",
       "source_location": "L869",
       "weight": 1.0,
-      "_src": "content_generator_validate_data_pledge",
-      "_tgt": "pledge_validator_validate_pledge_slide_bounds",
+      "_src": "pledge_validator_validate_pledge_slide_bounds",
+      "_tgt": "content_generator_validate_data_pledge",
       "source": "pledge_validator_validate_pledge_slide_bounds",
       "target": "content_generator_validate_data_pledge"
     },
@@ -20439,8 +20661,8 @@
       "source_file": "src/generator/content_generator.py",
       "source_location": "L873",
       "weight": 1.0,
-      "_src": "content_generator_validate_data_pledge",
-      "_tgt": "pledge_validator_validate_pledge_fulfillment",
+      "_src": "pledge_validator_validate_pledge_fulfillment",
+      "_tgt": "content_generator_validate_data_pledge",
       "source": "pledge_validator_validate_pledge_fulfillment",
       "target": "content_generator_validate_data_pledge"
     },
@@ -20463,8 +20685,8 @@
       "source_file": "src/generator/content_generator.py",
       "source_location": "L874",
       "weight": 1.0,
-      "_src": "content_generator_validate_data_pledge",
-      "_tgt": "pledge_validator_validate_number_context",
+      "_src": "pledge_validator_validate_number_context",
+      "_tgt": "content_generator_validate_data_pledge",
       "source": "pledge_validator_validate_number_context",
       "target": "content_generator_validate_data_pledge"
     },
@@ -23099,80 +23321,200 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/post_intelligence.py",
-      "source_location": "L84",
+      "source_file": "src/analyzer/post_intelligence.py",
+      "source_location": "L114",
       "weight": 1.0,
-      "_src": "users_floakii_claudio_agro_content_src_analyzer_post_intelligence_py",
+      "_src": "src_analyzer_post_intelligence_py",
+      "_tgt": "post_intelligence_append_unique",
+      "source": "src_analyzer_post_intelligence_py",
+      "target": "post_intelligence_append_unique",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/analyzer/post_intelligence.py",
+      "source_location": "L123",
+      "weight": 1.0,
+      "_src": "src_analyzer_post_intelligence_py",
+      "_tgt": "post_intelligence_extract_number_fragments",
+      "source": "src_analyzer_post_intelligence_py",
+      "target": "post_intelligence_extract_number_fragments",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/analyzer/post_intelligence.py",
+      "source_location": "L132",
+      "weight": 1.0,
+      "_src": "src_analyzer_post_intelligence_py",
+      "_tgt": "post_intelligence_fallback_mechanisms",
+      "source": "src_analyzer_post_intelligence_py",
+      "target": "post_intelligence_fallback_mechanisms",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/analyzer/post_intelligence.py",
+      "source_location": "L149",
+      "weight": 1.0,
+      "_src": "src_analyzer_post_intelligence_py",
+      "_tgt": "post_intelligence_fallback_causal_steps",
+      "source": "src_analyzer_post_intelligence_py",
+      "target": "post_intelligence_fallback_causal_steps",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/analyzer/post_intelligence.py",
+      "source_location": "L172",
+      "weight": 1.0,
+      "_src": "src_analyzer_post_intelligence_py",
       "_tgt": "post_intelligence_extract_evidence_inventory",
-      "source": "users_floakii_claudio_agro_content_src_analyzer_post_intelligence_py",
+      "source": "src_analyzer_post_intelligence_py",
       "target": "post_intelligence_extract_evidence_inventory",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/post_intelligence.py",
-      "source_location": "L159",
+      "source_file": "src/analyzer/post_intelligence.py",
+      "source_location": "L252",
       "weight": 1.0,
-      "_src": "users_floakii_claudio_agro_content_src_analyzer_post_intelligence_py",
+      "_src": "src_analyzer_post_intelligence_py",
       "_tgt": "post_intelligence_to_data_url",
-      "source": "users_floakii_claudio_agro_content_src_analyzer_post_intelligence_py",
+      "source": "src_analyzer_post_intelligence_py",
       "target": "post_intelligence_to_data_url",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/post_intelligence.py",
-      "source_location": "L167",
+      "source_file": "src/analyzer/post_intelligence.py",
+      "source_location": "L260",
       "weight": 1.0,
-      "_src": "users_floakii_claudio_agro_content_src_analyzer_post_intelligence_py",
+      "_src": "src_analyzer_post_intelligence_py",
       "_tgt": "post_intelligence_coerce_slide_urls",
-      "source": "users_floakii_claudio_agro_content_src_analyzer_post_intelligence_py",
+      "source": "src_analyzer_post_intelligence_py",
       "target": "post_intelligence_coerce_slide_urls",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/post_intelligence.py",
-      "source_location": "L187",
+      "source_file": "src/analyzer/post_intelligence.py",
+      "source_location": "L280",
       "weight": 1.0,
-      "_src": "users_floakii_claudio_agro_content_src_analyzer_post_intelligence_py",
+      "_src": "src_analyzer_post_intelligence_py",
       "_tgt": "post_intelligence_transcribe_visual_assets",
-      "source": "users_floakii_claudio_agro_content_src_analyzer_post_intelligence_py",
+      "source": "src_analyzer_post_intelligence_py",
       "target": "post_intelligence_transcribe_visual_assets",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/post_intelligence.py",
-      "source_location": "L214",
+      "source_file": "src/analyzer/post_intelligence.py",
+      "source_location": "L307",
       "weight": 1.0,
-      "_src": "users_floakii_claudio_agro_content_src_analyzer_post_intelligence_py",
+      "_src": "src_analyzer_post_intelligence_py",
       "_tgt": "post_intelligence_snapshot_intelligence",
-      "source": "users_floakii_claudio_agro_content_src_analyzer_post_intelligence_py",
+      "source": "src_analyzer_post_intelligence_py",
       "target": "post_intelligence_snapshot_intelligence",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/post_intelligence.py",
-      "source_location": "L222",
+      "source_file": "src/analyzer/post_intelligence.py",
+      "source_location": "L315",
       "weight": 1.0,
-      "_src": "users_floakii_claudio_agro_content_src_analyzer_post_intelligence_py",
+      "_src": "src_analyzer_post_intelligence_py",
       "_tgt": "post_intelligence_analyze_post_intelligence",
-      "source": "users_floakii_claudio_agro_content_src_analyzer_post_intelligence_py",
+      "source": "src_analyzer_post_intelligence_py",
       "target": "post_intelligence_analyze_post_intelligence",
       "confidence_score": 1.0
     },
     {
       "relation": "calls",
       "confidence": "EXTRACTED",
-      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/post_intelligence.py",
-      "source_location": "L283",
+      "source_file": "src/analyzer/post_intelligence.py",
+      "source_location": "L145",
+      "weight": 1.0,
+      "_src": "post_intelligence_fallback_mechanisms",
+      "_tgt": "post_intelligence_append_unique",
+      "source": "post_intelligence_append_unique",
+      "target": "post_intelligence_fallback_mechanisms",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/analyzer/post_intelligence.py",
+      "source_location": "L155",
+      "weight": 1.0,
+      "_src": "post_intelligence_fallback_causal_steps",
+      "_tgt": "post_intelligence_append_unique",
+      "source": "post_intelligence_append_unique",
+      "target": "post_intelligence_fallback_causal_steps",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/analyzer/post_intelligence.py",
+      "source_location": "L224",
+      "weight": 1.0,
+      "_src": "post_intelligence_extract_evidence_inventory",
+      "_tgt": "post_intelligence_append_unique",
+      "source": "post_intelligence_append_unique",
+      "target": "post_intelligence_extract_evidence_inventory",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/analyzer/post_intelligence.py",
+      "source_location": "L190",
+      "weight": 1.0,
+      "_src": "post_intelligence_extract_evidence_inventory",
+      "_tgt": "post_intelligence_extract_number_fragments",
+      "source": "post_intelligence_extract_number_fragments",
+      "target": "post_intelligence_extract_evidence_inventory",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/analyzer/post_intelligence.py",
+      "source_location": "L195",
+      "weight": 1.0,
+      "_src": "post_intelligence_extract_evidence_inventory",
+      "_tgt": "post_intelligence_fallback_mechanisms",
+      "source": "post_intelligence_fallback_mechanisms",
+      "target": "post_intelligence_extract_evidence_inventory",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/analyzer/post_intelligence.py",
+      "source_location": "L196",
+      "weight": 1.0,
+      "_src": "post_intelligence_extract_evidence_inventory",
+      "_tgt": "post_intelligence_fallback_causal_steps",
+      "source": "post_intelligence_fallback_causal_steps",
+      "target": "post_intelligence_extract_evidence_inventory",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src/analyzer/post_intelligence.py",
+      "source_location": "L376",
       "weight": 1.0,
       "_src": "post_intelligence_analyze_post_intelligence",
       "_tgt": "post_intelligence_extract_evidence_inventory",
@@ -23183,8 +23525,8 @@
     {
       "relation": "calls",
       "confidence": "EXTRACTED",
-      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/post_intelligence.py",
-      "source_location": "L197",
+      "source_file": "src/analyzer/post_intelligence.py",
+      "source_location": "L290",
       "weight": 1.0,
       "_src": "post_intelligence_transcribe_visual_assets",
       "_tgt": "post_intelligence_to_data_url",
@@ -23195,8 +23537,8 @@
     {
       "relation": "calls",
       "confidence": "EXTRACTED",
-      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/post_intelligence.py",
-      "source_location": "L189",
+      "source_file": "src/analyzer/post_intelligence.py",
+      "source_location": "L282",
       "weight": 1.0,
       "_src": "post_intelligence_transcribe_visual_assets",
       "_tgt": "post_intelligence_coerce_slide_urls",
@@ -23207,8 +23549,8 @@
     {
       "relation": "calls",
       "confidence": "EXTRACTED",
-      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/post_intelligence.py",
-      "source_location": "L230",
+      "source_file": "src/analyzer/post_intelligence.py",
+      "source_location": "L323",
       "weight": 1.0,
       "_src": "post_intelligence_analyze_post_intelligence",
       "_tgt": "post_intelligence_transcribe_visual_assets",
@@ -23219,8 +23561,8 @@
     {
       "relation": "calls",
       "confidence": "EXTRACTED",
-      "source_file": "/Users/floakii/Claudio/agro-content/src/analyzer/post_intelligence.py",
-      "source_location": "L267",
+      "source_file": "src/analyzer/post_intelligence.py",
+      "source_location": "L360",
       "weight": 1.0,
       "_src": "post_intelligence_analyze_post_intelligence",
       "_tgt": "post_intelligence_snapshot_intelligence",

@@ -1,12 +1,12 @@
 # Graph Report - .  (2026-04-24)
 
 ## Corpus Check
-- 111 files · ~359,523 words
+- 112 files · ~360,210 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 679 nodes · 1449 edges · 72 communities detected
-- Extraction: 62% EXTRACTED · 38% INFERRED · 0% AMBIGUOUS · INFERRED: 555 edges (avg confidence: 0.7)
+- 689 nodes · 1470 edges · 74 communities detected
+- Extraction: 62% EXTRACTED · 38% INFERRED · 0% AMBIGUOUS · INFERRED: 558 edges (avg confidence: 0.7)
 - Token cost: 0 input · 0 output
 
 ## Community Hubs (Navigation)
@@ -82,6 +82,8 @@
 - [[_COMMUNITY_Community 69|Community 69]]
 - [[_COMMUNITY_Community 70|Community 70]]
 - [[_COMMUNITY_Community 71|Community 71]]
+- [[_COMMUNITY_Community 72|Community 72]]
+- [[_COMMUNITY_Community 73|Community 73]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `Post` - 79 edges
@@ -111,7 +113,7 @@
 
 ### Community 0 - "Community 0"
 Cohesion: 0.05
-Nodes (104): BaseModel, CarouselEvidencePack, Coleta posts novos de um perfil. Tenta Apify primeiro, cai para Instaloader em c, Coleta posts novos de um perfil. Tenta Apify primeiro, cai para Instaloader em c, Coleta posts novos de um perfil. Tenta Apify primeiro, cai para Instaloader em c, add_profile(), _build_post_status(), _build_post_title() (+96 more)
+Nodes (114): BaseModel, CarouselEvidencePack, collect_profile(), _merge_post(), Coleta posts novos de um perfil. Tenta Apify primeiro, cai para Instaloader em c, Coleta posts novos de um perfil. Tenta Apify primeiro, cai para Instaloader em c, Coleta posts novos de um perfil. Tenta Apify primeiro, cai para Instaloader em c, add_profile() (+106 more)
 
 ### Community 1 - "Community 1"
 Cohesion: 0.07
@@ -122,84 +124,84 @@ Cohesion: 0.09
 Nodes (36): _extract_promised_data(), _required_inventory_has_items(), _validate_data_pledge(), _full_text(), Checks that each slide_number in the pledge exists in the carousel (1-based)., Checks that each pledged item appears in the generated content., Checks that all required inventory items have at least one pledge entry., Checks that pledged numbers appear with correct semantic context (not inverted). (+28 more)
 
 ### Community 3 - "Community 3"
-Cohesion: 0.08
-Nodes (26): _append_unique(), _extract_slide_urls(), fetch_posts_apify(), Busca posts de um perfil via Apify Instagram Scraper.     Se since_date for forn, collect_profile(), _merge_post(), _get_engine(), get_session() (+18 more)
-
-### Community 4 - "Community 4"
-Cohesion: 0.1
-Nodes (30): sync_profiles(), analyze_post(), AnalyzeJobOut, get_analysis_job_status(), get_intelligence(), _intel_to_out(), _append_error(), _copy_job() (+22 more)
-
-### Community 5 - "Community 5"
 Cohesion: 0.11
 Nodes (32): build_slide_blueprint(), _cta_matches_funnel(), estimate_target_slide_count(), _find_hits(), _find_token_overlap_hits(), _normalize_text(), Estimate how many slides the argument needs. No upper cap — depth drives count., Build a narrative blueprint. No upper cap — argument depth determines slide coun (+24 more)
 
-### Community 6 - "Community 6"
+### Community 4 - "Community 4"
 Cohesion: 0.1
 Nodes (24): CarouselGenerateIn, CarouselOut, CarouselSuggestionOut, generate(), get_suggestions(), list_carousels(), refresh_suggestions(), SlideOut (+16 more)
 
-### Community 7 - "Community 7"
+### Community 5 - "Community 5"
+Cohesion: 0.15
+Nodes (24): analyze_post_intelligence(), _append_unique(), _coerce_slide_urls(), _extract_evidence_inventory(), _extract_number_fragments(), _fallback_causal_steps(), _fallback_mechanisms(), _snapshot_intelligence() (+16 more)
+
+### Community 6 - "Community 6"
 Cohesion: 0.11
 Nodes (23): NewsItem, list_news(), _extract_tags(), fetch_all_feeds(), _fetch_all_raw(), get_recent_news(), _parse_feed(), Return news items from the last `days` days, optionally filtered by tags. (+15 more)
 
+### Community 7 - "Community 7"
+Cohesion: 0.13
+Nodes (22): analyze_post(), Analisa um post com GPT-4o Vision. Se já analisado, retorna análise existente., _append_error(), _copy_job(), create_analysis_job(), _emit(), get_analysis_job(), intelligence_analysis_workflow() (+14 more)
+
 ### Community 8 - "Community 8"
-Cohesion: 0.17
-Nodes (19): analyze_post_intelligence(), _coerce_slide_urls(), _extract_evidence_inventory(), _snapshot_intelligence(), _to_data_url(), _transcribe_visual_assets(), _mock_gpt_response(), test_extract_evidence_inventory_causal_steps() (+11 more)
+Cohesion: 0.14
+Nodes (17): _append_unique(), _extract_slide_urls(), fetch_posts_apify(), Busca posts de um perfil via Apify Instagram Scraper.     Se since_date for forn, _append_unique(), _extract_sidecar_slide_urls(), fetch_posts_instaloader(), _get_loader() (+9 more)
 
 ### Community 9 - "Community 9"
 Cohesion: 0.31
 Nodes (14): _average_virality(), _candidate_texts(), _compute_quality_score(), _normalize(), remove_arguments_for_post(), upsert_arguments(), _make_intelligence(), _make_post_with_analysis() (+6 more)
 
 ### Community 10 - "Community 10"
+Cohesion: 0.18
+Nodes (9): _analysis_payload(), backfill_evidence_inventory(), _has_inventory(), main(), _get_engine(), get_session(), get_db(), _run_daily_intelligence() (+1 more)
+
+### Community 11 - "Community 11"
 Cohesion: 0.35
 Nodes (14): build_source_creative_brief(), build_theme_creative_brief(), _clean(), _data_labels(), _extract_causal_chain(), _field_contexts(), Select the most fitting hook archetype based on post intelligence signals., Select the most fitting narrative arc based on post intelligence signals. (+6 more)
 
-### Community 11 - "Community 11"
+### Community 12 - "Community 12"
 Cohesion: 0.19
 Nodes (6): override_db(), _seed_intelligence(), test_get_intelligence_by_post_id(), test_list_intelligence_prioritizes_competitors_before_own_profile(), test_list_intelligence_returns_data(), test_start_analysis_job_returns_live_job()
 
-### Community 12 - "Community 12"
+### Community 13 - "Community 13"
 Cohesion: 0.3
 Nodes (9): drillInto(), fadeIn(), makeNode(), makePulse(), makeRings(), renderHome(), setPos(), startOrbit() (+1 more)
 
-### Community 13 - "Community 13"
+### Community 14 - "Community 14"
 Cohesion: 0.38
 Nodes (9): compute_gaps(), _extract_topics(), _make_post_with_analysis(), _make_profile(), test_compute_gaps_identifies_uncovered_topic(), test_compute_gaps_no_competitors_returns_empty(), test_compute_gaps_returns_list(), test_extract_topics_empty() (+1 more)
 
-### Community 14 - "Community 14"
+### Community 15 - "Community 15"
 Cohesion: 0.25
 Nodes (0):
-
-### Community 15 - "Community 15"
-Cohesion: 0.32
-Nodes (5): generate_report(), list_reports(), ReportOut, test_generate_weekly_report_creates_report(), generate_weekly_report()
 
 ### Community 16 - "Community 16"
 Cohesion: 0.32
 Nodes (5): test_generate_voice_profile_creates_profile(), analyze_voice(), get_voice(), generate_voice_profile(), VoiceOut
 
 ### Community 17 - "Community 17"
+Cohesion: 0.32
+Nodes (5): generate_report(), list_reports(), ReportOut, test_generate_weekly_report_creates_report(), generate_weekly_report()
+
+### Community 18 - "Community 18"
 Cohesion: 0.36
 Nodes (6): get_seasonal_context(), Return the current month's agro seasonal context string., test_july_august_context(), test_march_april_context(), test_november_december_context(), test_returns_string()
 
-### Community 18 - "Community 18"
+### Community 19 - "Community 19"
 Cohesion: 0.48
 Nodes (5): analyze(), load(), removeOwnProfile(), saveOwnProfile(), syncOwnProfile()
 
-### Community 19 - "Community 19"
+### Community 20 - "Community 20"
 Cohesion: 0.6
 Nodes (5): _candidate_vault_paths(), load_studio_context(), _read_note(), _repo_root(), _resolve_vault_path()
 
-### Community 20 - "Community 20"
+### Community 21 - "Community 21"
 Cohesion: 0.5
 Nodes (2): generate(), loadHistory()
 
-### Community 21 - "Community 21"
-Cohesion: 0.5
-Nodes (2): Badge(), cn()
-
 ### Community 22 - "Community 22"
-Cohesion: 0.5
-Nodes (0):
+Cohesion: 0.4
+Nodes (2): override_db(), test_generate_report()
 
 ### Community 23 - "Community 23"
 Cohesion: 0.5
@@ -211,59 +213,59 @@ Nodes (0):
 
 ### Community 25 - "Community 25"
 Cohesion: 0.5
-Nodes (1): content_strategy_engine  Revision ID: 003 Revises: 002 Create Date: 2026-04-17 0
+Nodes (0):
 
 ### Community 26 - "Community 26"
 Cohesion: 0.5
-Nodes (1): add visual transcript to post intelligence  Revision ID: 009 Revises: 008 Create
+Nodes (2): Badge(), cn()
 
 ### Community 27 - "Community 27"
 Cohesion: 0.5
-Nodes (1): add slides to generated_posts  Revision ID: 008 Revises: 007 Create Date: 2026-0
+Nodes (1): content_strategy_engine  Revision ID: 003 Revises: 002 Create Date: 2026-04-17 0
 
 ### Community 28 - "Community 28"
 Cohesion: 0.5
-Nodes (1): fix profile_voice tone column from VARCHAR(100) to TEXT  Revision ID: 006 Revise
+Nodes (1): add visual transcript to post intelligence  Revision ID: 009 Revises: 008 Create
 
 ### Community 29 - "Community 29"
 Cohesion: 0.5
-Nodes (1): initial_schema  Revision ID: 001 Revises: Create Date: 2026-04-14 00:00:00.00000
+Nodes (1): add slides to generated_posts  Revision ID: 008 Revises: 007 Create Date: 2026-0
 
 ### Community 30 - "Community 30"
 Cohesion: 0.5
-Nodes (1): content_studio  Revision ID: 002 Revises: a1b2c3d4e5f6 Create Date: 2026-04-15 0
+Nodes (1): fix profile_voice tone column from VARCHAR(100) to TEXT  Revision ID: 006 Revise
 
 ### Community 31 - "Community 31"
 Cohesion: 0.5
-Nodes (1): add carousel intelligence fields  Revision ID: 007 Revises: 006 Create Date: 202
+Nodes (1): initial_schema  Revision ID: 001 Revises: Create Date: 2026-04-14 00:00:00.00000
 
 ### Community 32 - "Community 32"
 Cohesion: 0.5
-Nodes (1): add planning narrative to generated posts  Revision ID: 010 Revises: 009 Create
+Nodes (1): content_studio  Revision ID: 002 Revises: a1b2c3d4e5f6 Create Date: 2026-04-15 0
 
 ### Community 33 - "Community 33"
 Cohesion: 0.5
-Nodes (1): post_intelligence and argument_bank tables  Revision ID: 005 Revises: 004 Create
+Nodes (1): add carousel intelligence fields  Revision ID: 007 Revises: 006 Create Date: 202
 
 ### Community 34 - "Community 34"
 Cohesion: 0.5
-Nodes (1): carousel_suggestions table  Revision ID: 004 Revises: 003 Create Date: 2026-04-1
+Nodes (1): add planning narrative to generated posts  Revision ID: 010 Revises: 009 Create
 
 ### Community 35 - "Community 35"
+Cohesion: 0.5
+Nodes (1): post_intelligence and argument_bank tables  Revision ID: 005 Revises: 004 Create
+
+### Community 36 - "Community 36"
+Cohesion: 0.5
+Nodes (1): carousel_suggestions table  Revision ID: 004 Revises: 003 Create Date: 2026-04-1
+
+### Community 37 - "Community 37"
 Cohesion: 1.0
 Nodes (2): proxy(), sha256hex()
 
-### Community 36 - "Community 36"
-Cohesion: 0.67
-Nodes (1): POST()
-
-### Community 37 - "Community 37"
-Cohesion: 0.67
-Nodes (0):
-
 ### Community 38 - "Community 38"
 Cohesion: 0.67
-Nodes (0):
+Nodes (1): POST()
 
 ### Community 39 - "Community 39"
 Cohesion: 0.67
@@ -282,11 +284,11 @@ Cohesion: 0.67
 Nodes (0):
 
 ### Community 43 - "Community 43"
-Cohesion: 1.0
+Cohesion: 0.67
 Nodes (0):
 
 ### Community 44 - "Community 44"
-Cohesion: 1.0
+Cohesion: 0.67
 Nodes (0):
 
 ### Community 45 - "Community 45"
@@ -375,11 +377,11 @@ Nodes (0):
 
 ### Community 66 - "Community 66"
 Cohesion: 1.0
-Nodes (1): Busca posts de um perfil via Apify Instagram Scraper.     Se since_date for forn
+Nodes (0):
 
 ### Community 67 - "Community 67"
 Cohesion: 1.0
-Nodes (1): Busca posts via Instaloader com login para evitar bloqueios.     Retorna lista d
+Nodes (0):
 
 ### Community 68 - "Community 68"
 Cohesion: 1.0
@@ -391,52 +393,56 @@ Nodes (1): Busca posts via Instaloader com login para evitar bloqueios.     Reto
 
 ### Community 70 - "Community 70"
 Cohesion: 1.0
-Nodes (1): Busca posts de um perfil via Apify Instagram Scraper.     Retorna lista de dicts
+Nodes (1): Busca posts de um perfil via Apify Instagram Scraper.     Se since_date for forn
 
 ### Community 71 - "Community 71"
+Cohesion: 1.0
+Nodes (1): Busca posts via Instaloader com login para evitar bloqueios.     Retorna lista d
+
+### Community 72 - "Community 72"
+Cohesion: 1.0
+Nodes (1): Busca posts de um perfil via Apify Instagram Scraper.     Retorna lista de dicts
+
+### Community 73 - "Community 73"
 Cohesion: 1.0
 Nodes (1): Busca posts de um perfil via Apify Instagram Scraper.     Retorna lista de dicts
 
 ## Knowledge Gaps
 - **29 isolated node(s):** `content_strategy_engine  Revision ID: 003 Revises: 002 Create Date: 2026-04-17 0`, `add visual transcript to post intelligence  Revision ID: 009 Revises: 008 Create`, `add slides to generated_posts  Revision ID: 008 Revises: 007 Create Date: 2026-0`, `fix profile_voice tone column from VARCHAR(100) to TEXT  Revision ID: 006 Revise`, `initial_schema  Revision ID: 001 Revises: Create Date: 2026-04-14 00:00:00.00000` (+24 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **Thin community `Community 43`** (2 nodes): `RootLayout()`, `layout.tsx`
+- **Thin community `Community 45`** (2 nodes): `RootLayout()`, `layout.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 44`** (2 nodes): `resolveModule()`, `page.tsx`
+- **Thin community `Community 46`** (2 nodes): `resolveModule()`, `page.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 45`** (2 nodes): `proxy()`, `route.ts`
+- **Thin community `Community 47`** (2 nodes): `proxy()`, `route.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 46`** (2 nodes): `handleSubmit()`, `page.tsx`
+- **Thin community `Community 48`** (2 nodes): `handleSubmit()`, `page.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 47`** (2 nodes): `cn()`, `button.tsx`
+- **Thin community `Community 49`** (2 nodes): `cn()`, `button.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 48`** (2 nodes): `formatDate()`, `DrawerConcorrentes.tsx`
+- **Thin community `Community 50`** (2 nodes): `formatDate()`, `DrawerConcorrentes.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 49`** (2 nodes): `ModuleDrawer()`, `ModuleDrawer.tsx`
+- **Thin community `Community 51`** (2 nodes): `ModuleDrawer()`, `ModuleDrawer.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 50`** (2 nodes): `test_health()`, `test_api_main.py`
+- **Thin community `Community 52`** (2 nodes): `test_health()`, `test_api_main.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 51`** (1 nodes): `postcss.config.mjs`
+- **Thin community `Community 53`** (1 nodes): `postcss.config.mjs`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 52`** (1 nodes): `next-env.d.ts`
+- **Thin community `Community 54`** (1 nodes): `next-env.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 53`** (1 nodes): `next.config.ts`
+- **Thin community `Community 55`** (1 nodes): `next.config.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 54`** (1 nodes): `Sidebar.tsx`
+- **Thin community `Community 56`** (1 nodes): `Sidebar.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 55`** (1 nodes): `DrawerComingSoon.tsx`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 56`** (1 nodes): `__init__.py`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 57`** (1 nodes): `__init__.py`
+- **Thin community `Community 57`** (1 nodes): `DrawerComingSoon.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 58`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 59`** (1 nodes): `config.py`
+- **Thin community `Community 59`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 60`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 61`** (1 nodes): `__init__.py`
+- **Thin community `Community 61`** (1 nodes): `config.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 62`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
@@ -446,25 +452,29 @@ Nodes (1): Busca posts de um perfil via Apify Instagram Scraper.     Retorna lis
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 65`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 66`** (1 nodes): `Busca posts de um perfil via Apify Instagram Scraper.     Se since_date for forn`
+- **Thin community `Community 66`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 67`** (1 nodes): `Busca posts via Instaloader com login para evitar bloqueios.     Retorna lista d`
+- **Thin community `Community 67`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 68`** (1 nodes): `Busca posts de um perfil via Apify Instagram Scraper.     Se since_date for forn`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 69`** (1 nodes): `Busca posts via Instaloader com login para evitar bloqueios.     Retorna lista d`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 70`** (1 nodes): `Busca posts de um perfil via Apify Instagram Scraper.     Retorna lista de dicts`
+- **Thin community `Community 70`** (1 nodes): `Busca posts de um perfil via Apify Instagram Scraper.     Se since_date for forn`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 71`** (1 nodes): `Busca posts de um perfil via Apify Instagram Scraper.     Retorna lista de dicts`
+- **Thin community `Community 71`** (1 nodes): `Busca posts via Instaloader com login para evitar bloqueios.     Retorna lista d`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 72`** (1 nodes): `Busca posts de um perfil via Apify Instagram Scraper.     Retorna lista de dicts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 73`** (1 nodes): `Busca posts de um perfil via Apify Instagram Scraper.     Retorna lista de dicts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Post` connect `Community 0` to `Community 3`, `Community 4`, `Community 6`, `Community 7`, `Community 8`, `Community 9`, `Community 11`, `Community 13`, `Community 16`?**
-  _High betweenness centrality (0.156) - this node is a cross-community bridge._
-- **Why does `generate_post()` connect `Community 1` to `Community 0`, `Community 10`, `Community 19`, `Community 5`?**
+- **Why does `Post` connect `Community 0` to `Community 4`, `Community 5`, `Community 6`, `Community 7`, `Community 8`, `Community 9`, `Community 12`, `Community 14`, `Community 16`, `Community 22`?**
+  _High betweenness centrality (0.155) - this node is a cross-community bridge._
+- **Why does `generate_post()` connect `Community 1` to `Community 0`, `Community 11`, `Community 3`, `Community 20`?**
   _High betweenness centrality (0.121) - this node is a cross-community bridge._
 - **Why does `_validate_data_pledge()` connect `Community 2` to `Community 1`?**
   _High betweenness centrality (0.074) - this node is a cross-community bridge._

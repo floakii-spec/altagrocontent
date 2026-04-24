@@ -80,7 +80,22 @@ def test_extract_evidence_inventory_gpt_failure_returns_partial():
     with patch("src.analyzer.post_intelligence.openai_client") as mock_client:
         mock_client.chat.completions.create.side_effect = Exception("timeout")
         result = _extract_evidence_inventory("Slide 1", _SAMPLE_DATA, "legenda")
-    # numbers still extracted from data_points even if GPT fails
+    # structured fallbacks still preserve usable inventory if GPT fails
     assert "R$ 2,5bi" in result["required"]["numbers"]
-    assert result["required"]["causal_steps"] == []
+    assert "capital externo" in result["required"]["mechanisms"]
     assert result["required"]["definitions"] == []
+
+
+def test_extract_evidence_inventory_fallback_causal_steps_from_structure():
+    data = {
+        **_SAMPLE_DATA,
+        "argument_structure": "promessa de capital -> dinheiro não entrou -> dívidas cresceram",
+    }
+    with patch("src.analyzer.post_intelligence.openai_client") as mock_client:
+        mock_client.chat.completions.create.side_effect = Exception("quota")
+        result = _extract_evidence_inventory("", data, "")
+    assert result["required"]["causal_steps"] == [
+        "promessa de capital",
+        "dinheiro não entrou",
+        "dívidas cresceram",
+    ]
