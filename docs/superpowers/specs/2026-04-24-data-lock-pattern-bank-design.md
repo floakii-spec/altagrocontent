@@ -2,7 +2,16 @@
 
 **Data:** 2026-04-24  
 **Módulo:** Content Studio (`src/generator/content_generator.py`) + Carousel (`src/carousel/generator.py`)  
-**Status:** Aprovado — pronto para implementação
+**Status:** Aprovado — implementação em duas fases
+
+## Fases de implementação
+
+| Fase | Escopo | Objetivo |
+|---|---|---|
+| **Fase 1** | Data Lock + Pledge + Validation Gate | Garantir que dados do post-fonte sobrevivem ao Studio |
+| **Fase 2** | PatternBank + Self-Refinement Loop | Aprender com posts aprovados para melhorar gerações futuras |
+
+Fase 2 depende de Fase 1 (requer `source_data_inventory` persistido e posts aprovados acumulados).
 
 ---
 
@@ -243,13 +252,23 @@ Não é fine-tuning — é few-shot learning estruturado que cresce com uso real
 
 ## Arquivos afetados
 
+### Fase 1 — Data Lock + Pledge + Validation Gate
+
 | Arquivo | Mudança |
 |---|---|
-| `src/models.py` | `GenerationPattern` (novo) + `source_data_inventory` em `GeneratedPost` |
-| `src/generator/content_generator.py` | extração do inventário, pledge, 4 validadores, retrieval de padrões |
-| `src/carousel/generator.py` | injeção de padrões no SYSTEM_PROMPT |
+| `src/models.py` | `source_data_inventory` em `GeneratedPost` |
+| `src/generator/content_generator.py` | extração do inventário, pledge no SYSTEM_PROMPT, 5 validadores |
+| `alembic/versions/011_source_data_inventory.py` | `ADD COLUMN source_data_inventory JSON` em `generated_posts` |
+
+### Fase 2 — PatternBank + Self-Refinement (futura)
+
+| Arquivo | Mudança |
+|---|---|
+| `src/models.py` | `GenerationPattern` (novo) |
 | `src/generator/pattern_extractor.py` | novo — `extract_and_store_pattern()` |
-| `alembic/versions/011_data_lock_pattern_bank.py` | `generation_patterns` + `source_data_inventory` |
+| `src/generator/content_generator.py` | retrieval e injeção de padrões no SYSTEM_PROMPT |
+| `src/carousel/generator.py` | injeção de padrões no SYSTEM_PROMPT |
+| `alembic/versions/012_generation_patterns.py` | tabela `generation_patterns` |
 | Endpoint de aprovação (API) | hook para `extract_and_store_pattern()` |
 
 ---
