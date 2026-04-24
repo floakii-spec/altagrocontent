@@ -93,6 +93,7 @@ class GeneratedPost(Base):
     format: Mapped[Optional[str]] = mapped_column(String(20))
     slides: Mapped[list] = mapped_column(JSON, default=list)
     planning_narrative: Mapped[dict] = mapped_column(JSON, default=dict)
+    source_data_inventory: Mapped[dict] = mapped_column(JSON, default=dict)
     hook_variations: Mapped[dict] = mapped_column(JSON, default=dict)
     news_item_ids: Mapped[list] = mapped_column(JSON, default=list)
 
@@ -173,6 +174,7 @@ class PostIntelligence(Base):
     visual_transcript: Mapped[Optional[str]] = mapped_column(Text)
     slide_breakdown: Mapped[list] = mapped_column(JSON, default=list)
     carousel_complexity: Mapped[dict] = mapped_column(JSON, default=dict)
+    evidence_inventory: Mapped[dict] = mapped_column(JSON, default=dict)
     analyzed_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
     post: Mapped["Post"] = relationship(back_populates="intelligence")

@@ -223,3 +223,29 @@ def test_content_calendar_create(session):
     session.add(cal)
     session.commit()
     assert len(cal.entries) == 2
+
+
+def test_post_intelligence_has_evidence_inventory_field(session):
+    from src.models import PostIntelligence, Post, Profile
+    p = Profile(handle="h_intel", type="competitor", niche="agro", follower_count=100)
+    session.add(p)
+    session.flush()
+    post = Post(profile_id=p.id, instagram_id="IG_INTEL", image_url="u", caption="c",
+                hashtags=[], likes=0, comments=0, post_type="feed",
+                published_at=datetime.now(timezone.utc))
+    session.add(post)
+    session.flush()
+    intel = PostIntelligence(post_id=post.id)
+    session.add(intel)
+    session.commit()
+    assert hasattr(intel, "evidence_inventory")
+    assert intel.evidence_inventory == {}
+
+
+def test_generated_post_has_source_data_inventory_field(session):
+    from src.models import GeneratedPost
+    gp = GeneratedPost()
+    session.add(gp)
+    session.commit()
+    assert hasattr(gp, "source_data_inventory")
+    assert gp.source_data_inventory == {}
