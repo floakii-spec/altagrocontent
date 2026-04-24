@@ -108,6 +108,29 @@ def test_fetch_posts_apify_extracts_carousel_slides():
     ]
 
 
+def test_fetch_posts_apify_can_keep_high_actor_limit_and_filter_to_carousels():
+    mock_dataset = MagicMock()
+    mock_dataset.iterate_items.return_value = iter(MOCK_APIFY_ITEMS)
+
+    mock_actor = MagicMock()
+    mock_actor.call.return_value = {"defaultDatasetId": "test-dataset-id"}
+
+    mock_client = MagicMock()
+    mock_client.actor.return_value = mock_actor
+    mock_client.dataset.return_value = mock_dataset
+
+    with patch("src.collector.apify_client.ApifyClient", return_value=mock_client):
+        posts = fetch_posts_apify(
+            handle="agro_example",
+            token="fake-token",
+            months_back=6,
+            post_types={"carousel"},
+        )
+
+    assert [post["instagram_id"] for post in posts] == ["IG003"]
+    assert mock_actor.call.call_args.kwargs["run_input"]["resultsLimit"] == 100
+
+
 from src.collector.instaloader_client import fetch_posts_instaloader
 
 
@@ -196,12 +219,57 @@ def test_collect_profile_saves_new_posts(db_session):
     }]
 
     with patch("src.collector.collector.fetch_posts_apify", return_value=fake_posts):
-        count = collect_profile(profile=profile, session=db_session, apify_token="tok", months_back=6)
+        count = collect_profile(
+            profile=profile,
+            session=db_session,
+            apify_token="tok",
+            months_back=6,
+            post_types={"feed", "carousel"},
+        )
     assert count == 1
 
     posts = db_session.query(Post).filter_by(profile_id=profile.id).all()
     assert len(posts) == 1
     assert posts[0].instagram_id == "NEW001"
+
+
+def test_collect_profile_defaults_to_carousels_only(db_session):
+    profile = Profile(handle="agro_carousel_only", type="competitor", niche="agro", follower_count=5000)
+    db_session.add(profile)
+    db_session.commit()
+
+    fake_posts = [
+        {
+            "instagram_id": "FEED001",
+            "image_url": "https://example.com/img.jpg",
+            "caption": "Post estatico",
+            "hashtags": ["agro"],
+            "likes": 100,
+            "comments": 5,
+            "post_type": "feed",
+            "published_at": datetime(2026, 4, 10, tzinfo=timezone.utc),
+            "slides": [],
+        },
+        {
+            "instagram_id": "CAR001",
+            "image_url": "https://example.com/cover.jpg",
+            "caption": "Carrossel",
+            "hashtags": ["agro"],
+            "likes": 200,
+            "comments": 10,
+            "post_type": "carousel",
+            "published_at": datetime(2026, 4, 11, tzinfo=timezone.utc),
+            "slides": ["https://example.com/cover.jpg", "https://example.com/slide2.jpg"],
+        },
+    ]
+
+    with patch("src.collector.collector.fetch_posts_apify", return_value=fake_posts) as mock_fetch:
+        count = collect_profile(profile=profile, session=db_session, apify_token="tok", months_back=6)
+
+    assert count == 1
+    assert mock_fetch.call_args.kwargs["post_types"] == {"carousel"}
+    posts = db_session.query(Post).filter_by(profile_id=profile.id).all()
+    assert [post.instagram_id for post in posts] == ["CAR001"]
 
 
 def test_collect_profile_skips_existing_posts(db_session):

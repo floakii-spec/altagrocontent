@@ -1,4 +1,5 @@
 import logging
+from typing import Optional
 from sqlalchemy.orm import Session
 from src.models import Profile, Post
 from src.collector.apify_client import fetch_posts_apify
@@ -52,12 +53,20 @@ def _merge_post(existing: Post, raw: dict) -> bool:
     return changed
 
 
-def collect_profile(profile: Profile, session: Session, apify_token: str, months_back: int = 1) -> int:
+def collect_profile(
+    profile: Profile,
+    session: Session,
+    apify_token: str,
+    months_back: int = 1,
+    post_types: Optional[set[str]] = None,
+    apify_results_limit: Optional[int] = None,
+) -> int:
     """
     Coleta posts novos de um perfil. Tenta Apify primeiro, cai para Instaloader em caso de falha.
     Se o perfil já tem posts, busca apenas a partir do post mais recente (economiza créditos Apify).
     Retorna número de novos posts salvos.
     """
+    allowed_post_types = set(post_types or {"carousel"})
     existing_post_rows = session.query(Post).filter_by(profile_id=profile.id).all()
     needs_slide_backfill = any(p.post_type == "carousel" and not (p.slides or []) for p in existing_post_rows)
     latest = None
@@ -76,16 +85,24 @@ def collect_profile(profile: Profile, session: Session, apify_token: str, months
             token=apify_token,
             months_back=months_back,
             since_date=since_date,
+            post_types=allowed_post_types,
+            results_limit=apify_results_limit,
         )
     except Exception as exc:
         logger.warning("Apify collection failed for %s, falling back to Instaloader: %s", profile.handle, exc)
-        raw_posts = fetch_posts_instaloader(handle=profile.handle, months_back=months_back)
+        raw_posts = fetch_posts_instaloader(
+            handle=profile.handle,
+            months_back=months_back,
+            post_types=allowed_post_types,
+        )
 
     existing_posts = {row.instagram_id: row for row in existing_post_rows}
 
     new_posts = []
     updated_count = 0
     for raw in raw_posts:
+        if allowed_post_types and raw.get("post_type") not in allowed_post_types:
+            continue
         existing = existing_posts.get(raw["instagram_id"])
         if existing:
             if _merge_post(existing, raw):

@@ -41,6 +41,8 @@ def fetch_posts_apify(
     token: str,
     months_back: int = 1,
     since_date: Optional[datetime] = None,
+    post_types: Optional[set[str]] = None,
+    results_limit: Optional[int] = None,
 ) -> list[dict]:
     """
     Busca posts de um perfil via Apify Instagram Scraper.
@@ -49,11 +51,13 @@ def fetch_posts_apify(
     """
     client = ApifyClient(token)
     cutoff = since_date or (datetime.now(timezone.utc) - timedelta(days=months_back * 30))
+    allowed_types = set(post_types or [])
+    default_limit = 100 if since_date is None else 20
 
     run_input = {
         "directUrls": [f"https://www.instagram.com/{handle}/"],
         "resultsType": "posts",
-        "resultsLimit": 100 if since_date is None else 20,
+        "resultsLimit": results_limit or default_limit,
     }
     if since_date:
         run_input["onlyPostsNewerThan"] = since_date.strftime("%Y-%m-%d")
@@ -67,6 +71,8 @@ def fetch_posts_apify(
     posts = []
     for item in client.dataset(dataset_id).iterate_items():
         post_type = _TYPE_MAP.get(item.get("type", ""), "feed")
+        if allowed_types and post_type not in allowed_types:
+            continue
         timestamp = item.get("timestamp", "")
         if not timestamp:
             continue

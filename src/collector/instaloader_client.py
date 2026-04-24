@@ -67,7 +67,11 @@ def _get_loader() -> instaloader.Instaloader:
     return _loader
 
 
-def fetch_posts_instaloader(handle: str, months_back: int = 1) -> list[dict]:
+def fetch_posts_instaloader(
+    handle: str,
+    months_back: int = 1,
+    post_types: Optional[set[str]] = None,
+) -> list[dict]:
     """
     Busca posts via Instaloader com login para evitar bloqueios.
     Retorna lista de dicts normalizados.
@@ -75,10 +79,14 @@ def fetch_posts_instaloader(handle: str, months_back: int = 1) -> list[dict]:
     loader = _get_loader()
     profile = instaloader.Profile.from_username(loader.context, handle)
     cutoff = datetime.now(timezone.utc) - timedelta(days=months_back * 30)
+    allowed_types = set(post_types or [])
 
     posts = []
     for post in profile.get_posts():
         if post.typename not in _ALLOWED_TYPES:
+            continue
+        post_type = _TYPE_MAP.get(post.typename, "feed")
+        if allowed_types and post_type not in allowed_types:
             continue
         published_at = post.date_utc.replace(tzinfo=timezone.utc)
         if published_at < cutoff:
@@ -91,7 +99,7 @@ def fetch_posts_instaloader(handle: str, months_back: int = 1) -> list[dict]:
             "hashtags": list(post.caption_hashtags),
             "likes": post.likes,
             "comments": post.comments,
-            "post_type": _TYPE_MAP.get(post.typename, "feed"),
+            "post_type": post_type,
             "published_at": published_at,
             "slides": slide_urls,
         })

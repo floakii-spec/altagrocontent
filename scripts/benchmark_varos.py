@@ -46,7 +46,7 @@ def _evaluate_generated_output(session, source_post: Post, generated: GeneratedP
     target_slide_count = estimate_target_slide_count(
         source_post.intelligence.technical_depth,
         getattr(source_post.intelligence, "carousel_complexity", {}).get("complexity_score"),
-        minimum=6,
+        minimum=10 if (source_post.post_type or "").strip().lower() == "carousel" else 6,
     )
     evaluation = _evaluate_generation(
         {
@@ -61,6 +61,7 @@ def _evaluate_generated_output(session, source_post: Post, generated: GeneratedP
         source_post,
         evidence_pack,
         target_slide_count,
+        generated.source_data_inventory or getattr(source_post.intelligence, "evidence_inventory", {}) or {},
     )
     return evaluation
 

@@ -207,6 +207,80 @@ def test_evaluate_generation_rejects_short_generic_carousel_source(session_with_
     assert any(issue.startswith("copy em formato de roteiro generico") for issue in evaluation["problems"])
 
 
+def test_evaluate_generation_requires_pledge_when_source_inventory_has_required_items(session_with_generation_context):
+    session, post, _voice = session_with_generation_context
+    top_args = _select_top_arguments(session, post)
+    catalog = _build_validated_data_catalog(post, top_args)
+    evidence_pack = _build_evidence_pack(post, top_args, catalog)
+    inventory = {
+        "required": {
+            "numbers": ["12%"],
+            "mechanisms": ["margem"],
+            "causal_steps": [],
+            "definitions": [],
+        },
+        "optional": {},
+    }
+    payload = _with_planning_narrative(
+        {
+            "slides": [
+                {"slide_number": 1, "slide_type": "CAPA", "title": "Margem muda tudo", "copy": "Boa safra tambem perde dinheiro.", "cta": ""},
+                {"slide_number": 2, "slide_type": "HOOK", "title": "12% de margem mudam o caixa", "copy": "Esse dado muda a decisao comercial.", "cta": ""},
+                {"slide_number": 3, "slide_type": "MECANISMO", "title": "O mecanismo e margem", "copy": "Na pratica, margem conecta preco, custo e timing.", "cta": ""},
+                {"slide_number": 4, "slide_type": "DADO", "title": "O levantamento interno mostrou R$ 18/sc", "copy": "Quando a margem falha, o caixa sente.", "cta": ""},
+                {"slide_number": 5, "slide_type": "CTA", "title": "Aprenda a defender margem", "copy": "Metodo protege resultado.", "cta": "Entre na Confraria e aprenda a defender margem no agro."},
+            ],
+            "caption": " ".join(["margem"] * 150),
+            "cta": "Entre na Confraria e aprenda a defender margem no agro.",
+            "funnel_stage": "fundo",
+            "format": "carousel",
+        }
+    )
+
+    evaluation = _evaluate_generation(payload, post, evidence_pack, target_slide_count=5, source_data_inventory=inventory)
+
+    assert any(issue.startswith("pledge incompleto") for issue in evaluation["problems"])
+
+
+def test_evaluate_generation_accepts_fulfilled_pledge(session_with_generation_context):
+    session, post, _voice = session_with_generation_context
+    top_args = _select_top_arguments(session, post)
+    catalog = _build_validated_data_catalog(post, top_args)
+    evidence_pack = _build_evidence_pack(post, top_args, catalog)
+    inventory = {
+        "required": {
+            "numbers": ["12%"],
+            "mechanisms": ["margem"],
+            "causal_steps": [],
+            "definitions": [],
+        },
+        "optional": {},
+    }
+    payload = _with_planning_narrative(
+        {
+            "slides": [
+                {"slide_number": 1, "slide_type": "CAPA", "title": "Margem muda tudo", "copy": "Boa safra tambem perde dinheiro.", "cta": ""},
+                {"slide_number": 2, "slide_type": "HOOK", "title": "12% de margem mudam o caixa", "copy": "Esse dado muda a decisao comercial.", "cta": ""},
+                {"slide_number": 3, "slide_type": "MECANISMO", "title": "O mecanismo e margem", "copy": "Na pratica, margem conecta preco, custo e timing.", "cta": ""},
+                {"slide_number": 4, "slide_type": "DADO", "title": "O levantamento interno mostrou R$ 18/sc", "copy": "Quando a margem falha, o caixa sente.", "cta": ""},
+                {"slide_number": 5, "slide_type": "CTA", "title": "Aprenda a defender margem", "copy": "Metodo protege resultado.", "cta": "Entre na Confraria e aprenda a defender margem no agro."},
+            ],
+            "caption": " ".join(["margem"] * 150),
+            "cta": "Entre na Confraria e aprenda a defender margem no agro.",
+            "funnel_stage": "fundo",
+            "format": "carousel",
+        }
+    )
+    payload["planejamento_narrativo"]["dados_prometidos"] = [
+        {"item_type": "numero", "item": "12%", "slide_number": 2, "como_vai_aparecer": "dado de margem"},
+        {"item_type": "mecanismo", "item": "margem", "slide_number": 3, "como_vai_aparecer": "mecanismo central"},
+    ]
+
+    evaluation = _evaluate_generation(payload, post, evidence_pack, target_slide_count=5, source_data_inventory=inventory)
+
+    assert not any(issue.startswith("pledge ") for issue in evaluation["problems"])
+
+
 def test_generate_post_retries_when_initial_draft_is_weak(session_with_generation_context):
     session, post, voice = session_with_generation_context
     weak = {
@@ -706,7 +780,7 @@ def test_generate_post_snapshots_source_data_inventory(session_with_generation_c
         "slides": [
             {"slide_number": 1, "slide_type": "CAPA", "title": "Margem ruim pode destruir uma boa safra", "copy": "O problema nao esta so na produtividade.", "cta": ""},
             {"slide_number": 2, "slide_type": "HOOK", "title": "12% de diferenca na margem muda o jogo", "copy": "Quando isso acontece, a conversa precisa sair do volume e entrar na decisao. 12%", "cta": ""},
-            {"slide_number": 3, "slide_type": "DESENVOLVIMENTO", "title": "R$ 18/sc mostram o tamanho do erro", "copy": "Na pratica, essa variacao de R$ 18/sc aparece quando estrategia comercial e leitura de risco falham.", "cta": ""},
+            {"slide_number": 3, "slide_type": "DESENVOLVIMENTO", "title": "Margem de R$ 18/sc mostra o tamanho do erro", "copy": "Na pratica, essa variacao de margem de R$ 18/sc aparece quando estrategia comercial e leitura de risco falham.", "cta": ""},
             {"slide_number": 4, "slide_type": "DESENVOLVIMENTO", "title": "Volume nao protege caixa sozinho", "copy": "Produtividade alta nao impede erro de leitura comercial. A margem define o resultado.", "cta": ""},
             {"slide_number": 5, "slide_type": "DESENVOLVIMENTO", "title": "Preco sem criterio enfraquece venda", "copy": "Separar custo e negociacao cria leitura fraca do mercado no agro.", "cta": ""},
             {"slide_number": 6, "slide_type": "PROVA", "title": "Levantamento interno confirmou a diferenca", "copy": "Quando a margem cede 12% no levantamento interno, a pressao comercial fica evidente para o produtor.", "cta": ""},
@@ -723,6 +797,11 @@ def test_generate_post_snapshots_source_data_inventory(session_with_generation_c
         "format": "carousel",
         "hook": "12% de diferenca na margem muda o jogo",
     })
+    good_response["planejamento_narrativo"]["dados_prometidos"] = [
+        {"item_type": "numero", "item": "12%", "slide_number": 2, "como_vai_aparecer": "diferenca de margem"},
+        {"item_type": "numero", "item": "R$ 18/sc", "slide_number": 3, "como_vai_aparecer": "variacao de margem"},
+        {"item_type": "mecanismo", "item": "margem", "slide_number": 4, "como_vai_aparecer": "mecanismo de resultado"},
+    ]
 
     with patch("src.generator.content_generator.load_studio_context", return_value={}), patch(
         "src.generator.content_generator.openai_client.chat.completions.create",

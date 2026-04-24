@@ -72,6 +72,10 @@ def sync_profiles_workflow(
     apify_token = os.environ.get("APIFY_API_TOKEN")
     if not apify_token:
         raise ValueError("APIFY_API_TOKEN not configured")
+    try:
+        apify_results_limit = int(os.environ.get("APIFY_RESULTS_LIMIT", "100"))
+    except ValueError:
+        apify_results_limit = 100
 
     errors: list[dict] = []
     total_new = 0
@@ -108,7 +112,13 @@ def sync_profiles_workflow(
         })
 
         try:
-            collect_profile(profile, db, apify_token)
+            collect_profile(
+                profile,
+                db,
+                apify_token,
+                post_types={"carousel"},
+                apify_results_limit=apify_results_limit,
+            )
         except Exception as exc:
             db.rollback()
             error = {"handle": profile.handle, "error": str(exc)}

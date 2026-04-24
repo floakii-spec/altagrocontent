@@ -20,6 +20,13 @@ from src.generator.obsidian_context import load_studio_context
 from src.generator.creative_intelligence import build_source_creative_brief
 from src.openai_utils import call_chat_completion_with_backoff
 from src.slide_utils import extract_carousel_cta, extract_carousel_hook, normalize_carousel_slides
+from src.generator.pledge_validator import (
+    validate_number_context,
+    validate_pledge_coverage,
+    validate_pledge_fulfillment,
+    validate_pledge_slide_bounds,
+    validate_pledge_traceability,
+)
 
 logger = logging.getLogger(__name__)
 openai_client = OpenAI(api_key=OPENAI_API_KEY)
@@ -75,6 +82,7 @@ Antes de qualquer copy, mapeie:
 4. ARCO EMOCIONAL: Qual emoção cada slide deve provocar? O tom varia: espanto → admiração → revelação → indignação → análise → leveza → síntese → ação. Nunca tom uniforme.
 5. PROVAS QUE NÃO PODEM SUMIR: Quais números, fontes e claims do material original são inegociáveis?
 6. PONTO DE TÉRMINO: O argumento termina quando o leitor não tem mais nenhuma pergunta em aberto.
+7. DADOS PROMETIDOS: Para cada item obrigatório do inventário travado, prometa onde ele aparecerá e como será adaptado.
 
 ETAPA 2 — ESCRITA DOS SLIDES
 Escreva tantos slides quantos o argumento exigir. O número de slides emerge do planejamento — nunca de um limite pré-definido.
@@ -126,6 +134,14 @@ Retorne JSON com esta estrutura EXATA:
     ],
     "total_slides": "<N>",
     "provas_que_nao_podem_sumir": ["<numero/fonte/claim 1>", "<numero/fonte/claim 2>"],
+    "dados_prometidos": [
+      {{
+        "item_type": "numero|mecanismo|cadeia_causal|definicao",
+        "item": "<item required do inventário travado>",
+        "slide_number": 3,
+        "como_vai_aparecer": "<como o dado será usado sem distorcer o sentido original>"
+      }}
+    ],
     "onde_termina": "<quando o argumento está completo>"
   }},
   "slides": [
@@ -143,6 +159,8 @@ Retorne JSON com esta estrutura EXATA:
 - O número de slides é determinado pelo planejamento_narrativo
 - `format` deve ser sempre `carousel`
 - Monte primeiro o `planejamento_narrativo` e use esse mapa para escrever slides e legenda.
+- `dados_prometidos` é obrigatório quando houver INVENTÁRIO DE DADOS TRAVADOS. Cubra todos os itens `required`.
+- Números `required` devem aparecer verbatim pelo menos uma vez. Analogia pode complementar, nunca substituir o número original.
 Responda APENAS com o JSON, sem markdown."""
 
 _USER_PROMPT = """POST DO CONCORRENTE PARA INSPIRAÇÃO:
@@ -185,6 +203,12 @@ EXEMPLOS ESTRUTURAIS DE POSTS FORTES DO BANCO:
 
 CATÁLOGO DE DADOS VALIDADOS QUE VOCÊ PODE USAR:
 {validated_data_catalog}
+
+INVENTÁRIO DE DADOS TRAVADOS DO POST-FONTE:
+- Estes itens são o contrato de evidência desta geração.
+- Cubra todos os itens `required` em `planejamento_narrativo.dados_prometidos`.
+- Use `optional` apenas como contexto, sem obrigação de cobertura.
+{source_data_inventory}
 
 INTELIGÊNCIA CRIATIVA AGRO:
 {creative_brief}
@@ -235,6 +259,9 @@ _BLOCKING_ISSUE_PREFIXES = (
     "planejamento_narrativo ausente",
     "planejamento_narrativo sem tensao_central",
     "planejamento_narrativo com menos de 3 camadas",
+    "pledge incompleto",
+    "pledge inválido",
+    "pledge violado —",
 )
 
 _FULL_REWRITE_ISSUE_PREFIXES = (
@@ -253,6 +280,9 @@ _FULL_REWRITE_ISSUE_PREFIXES = (
     "planejamento_narrativo ausente",
     "planejamento_narrativo sem tensao_central",
     "planejamento_narrativo com menos de 3 camadas",
+    "pledge incompleto",
+    "pledge inválido",
+    "pledge violado —",
 )
 
 _TARGETED_POLISH_MARKERS = (
@@ -801,6 +831,50 @@ def _normalize_generation_result(result: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _required_inventory_has_items(inventory: dict[str, Any] | None) -> bool:
+    if not isinstance(inventory, dict):
+        return False
+    required = inventory.get("required")
+    if not isinstance(required, dict):
+        return False
+    return any(bool(required.get(key)) for key in ("numbers", "mechanisms", "causal_steps", "definitions"))
+
+
+def _extract_promised_data(planning: Any) -> list[dict[str, Any]]:
+    if not isinstance(planning, dict):
+        return []
+    promised = planning.get("dados_prometidos")
+    return promised if isinstance(promised, list) else []
+
+
+def _validate_data_pledge(
+    planning: Any,
+    slides: list[dict[str, Any]],
+    caption: str,
+    cta: str,
+    source_data_inventory: dict[str, Any] | None,
+) -> list[str]:
+    if not _required_inventory_has_items(source_data_inventory):
+        return []
+
+    promised = _extract_promised_data(planning)
+    issues: list[str] = []
+    if not promised:
+        return ["pledge incompleto — planejamento_narrativo.dados_prometidos ausente"]
+
+    inventory = source_data_inventory or {}
+    early_issues = []
+    early_issues.extend(validate_pledge_coverage(promised, inventory))
+    early_issues.extend(validate_pledge_traceability(promised, inventory))
+    early_issues.extend(validate_pledge_slide_bounds(promised, slides))
+    if early_issues:
+        return list(dict.fromkeys(early_issues))
+
+    issues.extend(validate_pledge_fulfillment(promised, slides, caption, cta))
+    issues.extend(validate_number_context(promised, slides, inventory))
+    return list(dict.fromkeys(issues))
+
+
 def _count_generic_studio_markers(slides: list[dict[str, Any]], caption: str, cta: str) -> int:
     combined = " ".join(
         [caption, cta]
@@ -821,6 +895,7 @@ def _evaluate_generation(
     source_post: Post,
     evidence_pack: CarouselEvidencePack,
     target_slide_count: int,
+    source_data_inventory: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     problems: list[str] = []
     normalized_result = _normalize_generation_result(result)
@@ -875,6 +950,17 @@ def _evaluate_generation(
 
     planning_issues = _validate_planning_narrative(result.get("planejamento_narrativo"), source_post)
     for issue in planning_issues:
+        if issue not in problems:
+            problems.append(issue)
+
+    pledge_issues = _validate_data_pledge(
+        result.get("planejamento_narrativo"),
+        slides,
+        caption,
+        cta,
+        source_data_inventory,
+    )
+    for issue in pledge_issues:
         if issue not in problems:
             problems.append(issue)
 
@@ -1042,6 +1128,21 @@ def _build_revision_directives(issues: list[str]) -> list[str]:
         directives.append(
             "Monte o planejamento_narrativo completo antes dos slides: tensao_central, angulo_de_adaptacao, "
             "camadas com emocao_alvo distinta por slide, provas_que_nao_podem_sumir e onde_termina."
+        )
+    if any(issue.startswith("pledge incompleto") for issue in normalized_issues):
+        directives.append(
+            "Reconstrua planejamento_narrativo.dados_prometidos cobrindo todos os itens required do inventario travado: "
+            "numeros, mecanismos, cadeia causal e definicoes."
+        )
+    if any(issue.startswith("pledge inválido") or issue.startswith("pledge invalido") for issue in normalized_issues):
+        directives.append(
+            "Corrija dados_prometidos: cada item prometido deve rastrear literalmente ou semanticamente para o inventario travado. "
+            "Nao invente numeros, mecanismos, definicoes nem passos causais."
+        )
+    if any(issue.startswith("pledge violado") for issue in normalized_issues):
+        directives.append(
+            "Honre dados_prometidos no texto final: numeros required aparecem verbatim, mecanismos e passos causais aparecem perto "
+            "dos slides prometidos e com contexto semantico correto."
         )
     if any("nao preservou os mecanismos" in issue for issue in normalized_issues):
         directives.append("Reescreva o planejamento_narrativo preservando os mecanismos centrais do material-base.")
@@ -1235,6 +1336,7 @@ def _sync_planning_with_slides(result: dict[str, Any]) -> dict[str, Any]:
             "camadas": synced_layers,
             "total_slides": len(slides),
             "provas_que_nao_podem_sumir": planning.get("provas_que_nao_podem_sumir") or [],
+            "dados_prometidos": planning.get("dados_prometidos") or [],
             "onde_termina": _first_non_empty(
                 planning.get("onde_termina"),
                 slides[-2]["title"] if len(slides) > 1 else "",
@@ -1549,6 +1651,7 @@ def _repair_evaluation_locally(
     evidence_pack: CarouselEvidencePack,
     target_slide_count: int,
     validated_data_catalog: dict[str, Any],
+    source_data_inventory: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     issues = _combine_issues(evaluation)
     if not issues or not _should_apply_local_repairs(issues):
@@ -1559,7 +1662,13 @@ def _repair_evaluation_locally(
         issues,
         validated_data_catalog,
     )
-    local_evaluation = _evaluate_generation(local_result, source_post, evidence_pack, target_slide_count)
+    local_evaluation = _evaluate_generation(
+        local_result,
+        source_post,
+        evidence_pack,
+        target_slide_count,
+        source_data_inventory,
+    )
     return _pick_better_evaluation(evaluation, local_evaluation)
 
 
@@ -1748,6 +1857,7 @@ def generate_post(
         if top_args else "—"
     )
     validated_data_catalog = _build_validated_data_catalog(source_post, top_args)
+    source_data_inventory = deepcopy(getattr(intel, "evidence_inventory", None) or {})
     target_slide_count = estimate_target_slide_count(
         intel.technical_depth,
         getattr(intel, "carousel_complexity", {}).get("complexity_score"),
@@ -1812,6 +1922,7 @@ def generate_post(
         top_arguments=top_arg_texts,
         structural_patterns=_format_json(_load_structural_patterns(source_post, top_args[:3])),
         validated_data_catalog=_format_json(validated_data_catalog),
+        source_data_inventory=_format_json(source_data_inventory),
         creative_brief=_format_json(creative_brief),
         structural_transfer_map=_format_json(structural_transfer_map),
         slide_blueprint=_format_json(slide_blueprint),
@@ -1824,13 +1935,14 @@ def generate_post(
         logger.error("GPT-4o returned invalid JSON for content generation: %s", exc)
         raise
 
-    evaluation = _evaluate_generation(result, source_post, evidence_pack, target_slide_count)
+    evaluation = _evaluate_generation(result, source_post, evidence_pack, target_slide_count, source_data_inventory)
     evaluation = _repair_evaluation_locally(
         evaluation,
         source_post,
         evidence_pack,
         target_slide_count,
         validated_data_catalog,
+        source_data_inventory,
     )
     best_evaluation = evaluation
     attempt_number = 1
@@ -1875,13 +1987,20 @@ def generate_post(
                 validated_data_catalog,
             )
 
-        evaluation = _evaluate_generation(revised_result, source_post, evidence_pack, target_slide_count)
+        evaluation = _evaluate_generation(
+            revised_result,
+            source_post,
+            evidence_pack,
+            target_slide_count,
+            source_data_inventory,
+        )
         evaluation = _repair_evaluation_locally(
             evaluation,
             source_post,
             evidence_pack,
             target_slide_count,
             validated_data_catalog,
+            source_data_inventory,
         )
         best_evaluation = _pick_better_evaluation(best_evaluation, evaluation)
         attempt_number += 1
@@ -1913,7 +2032,7 @@ def generate_post(
         format=normalized_result.get("format"),
         slides=normalized_result.get("slides") or [],
         planning_narrative=deepcopy(normalized_result.get("planejamento_narrativo") or {}),
-        source_data_inventory=deepcopy(getattr(intel, "evidence_inventory", None) or {}),
+        source_data_inventory=deepcopy(source_data_inventory),
     )
     session.add(generated)
     session.commit()
