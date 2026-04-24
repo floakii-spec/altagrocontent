@@ -94,7 +94,7 @@ Nova seção obrigatória `dados_prometidos` dentro do `planejamento_narrativo` 
 ]
 ```
 
-**Três `item_type` suportados:** `numero`, `cadeia_causal`, `definicao`.
+**Quatro `item_type` suportados:** `numero`, `mecanismo`, `cadeia_causal`, `definicao`.
 
 **Regra explícita sobre números:** números `required` devem aparecer **verbatim pelo menos uma vez** no texto final. Analogias e conversões de escala podem complementar o número, mas não o substituem. O número original ancora a credibilidade; a analogia ensina a escala.
 
@@ -127,9 +127,9 @@ Apenas campos `required` são exigidos no pledge. `optional` não é verificado.
 | Campo `required` | Regra de cobertura |
 |---|---|
 | `numbers` | Ao menos 1 pledge item do tipo `numero` por número |
-| `mechanisms` | Ao menos 1 pledge item referencia cada mecanismo |
-| `causal_steps` com N itens | Ao menos max(1, ⌊N × 0.7⌋) passos cobertos |
-| `definitions` (se não vazia) | Ao menos 1 definição representada |
+| `mechanisms` | Ao menos 1 pledge item do tipo `mecanismo` por mecanismo |
+| `causal_steps` com N itens | Ao menos max(1, ⌊N × 0.7⌋) passos cobertos por pledge items do tipo `cadeia_causal` |
+| `definitions` (se não vazia) | Ao menos 1 pledge item do tipo `definicao` representado |
 
 Issues bloqueantes com prefixo `"pledge incompleto —"`.
 
@@ -140,6 +140,7 @@ Impede que o modelo invente itens no pledge para parecer que cobre o inventário
 | `item_type` | Regra |
 |---|---|
 | `numero` | `item` é substring de algum valor em `required.numbers` |
+| `mecanismo` | `item` é substring de algum valor em `required.mechanisms` |
 | `cadeia_causal` | `item` compartilha ao menos 2 substantivos com algum passo de `required.causal_steps` |
 | `definicao` | `item` referencia um `term` de `required.definitions` |
 
@@ -154,10 +155,11 @@ Issues bloqueantes com prefixo `"pledge inválido —"`.
 | `item_type` | Regra de fulfillment |
 |---|---|
 | `numero` | Número aparece **verbatim** nos slides `slide_number ±1`; fallback: texto completo. Analogias complementam mas não substituem. |
+| `mecanismo` | Termo aparece (ou sinônimo direto) nos slides `slide_number ±1`; fallback: texto completo |
 | `cadeia_causal` | Ao menos 1 dos 2-3 termos-chave do item aparece nos slides `slide_number ±2` |
 | `definicao` | Slide em `slide_number ±1` contém estrutura definitória: "significa", "não é", "≠", "em outras palavras", "na prática" |
 
-`numero` e `cadeia_causal` ausentes → bloqueantes. `definicao` ausente → revisão (não bloqueia).
+`numero`, `mecanismo` e `cadeia_causal` ausentes → bloqueantes. `definicao` ausente → revisão (não bloqueia).
 
 #### 3e. `_validate_number_context(dados_prometidos, slides)`
 
@@ -235,7 +237,7 @@ Filtro por `hook_archetype` primeiro, depois `weight` descrescente. Fallback glo
 | Arquivo | Mudança |
 |---|---|
 | `src/models.py` | `evidence_inventory` em `PostIntelligence` + `source_data_inventory` em `GeneratedPost` |
-| `src/intelligence/analyzer.py` (ou equivalente) | extração de `evidence_inventory` durante análise do post |
+| `src/analyzer/post_intelligence.py` | extração de `evidence_inventory` durante análise do post |
 | `src/generator/content_generator.py` | snapshot do inventário, pledge no SYSTEM_PROMPT, 5 validadores |
 | `alembic/versions/011_evidence_inventory.py` | `evidence_inventory` em `post_intelligence` + `source_data_inventory` em `generated_posts` |
 
