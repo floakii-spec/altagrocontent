@@ -1,6 +1,7 @@
 import base64
 import json
 import logging
+import re as _re
 from types import SimpleNamespace
 from typing import Any
 
@@ -62,6 +63,97 @@ Analise com profundidade técnica e retorne APENAS um JSON:
     "replication_risk": "<o principal risco ao tentar replicar esse formato sem o mesmo contexto>"
   }
 }"""
+
+_EVIDENCE_PROMPT = """Analise o conteúdo do post abaixo e extraia o inventário de evidências.
+
+Retorne APENAS um JSON com esta estrutura:
+{
+  "mechanisms": ["<termo ou conceito-chave central ao argumento, ex: 'recuperação judicial'>"],
+  "causal_steps": ["<passo 1 da cadeia lógica>", "<passo 2>"],
+  "definitions": [
+    {"term": "<termo técnico>", "definition": "<como o post define em linguagem simples>"}
+  ]
+}
+
+- "mechanisms": máximo 8 termos curtos (2-4 palavras) que são conceitos centrais do argumento.
+- "causal_steps": 3-8 eventos em ordem lógica que constroem o argumento. Lista vazia se não houver cadeia causal.
+- "definitions": termos que o post explica explicitamente. Lista vazia se não houver.
+Responda APENAS com o JSON."""
+
+
+def _extract_evidence_inventory(
+    visual_transcript: str,
+    data: dict,
+    caption: str,
+) -> dict:
+    # Extract numbers from data_points
+    numbers: list[str] = []
+    seen_numbers: set[str] = set()
+    for point in data.get("data_points") or []:
+        if isinstance(point, dict):
+            value = str(point.get("value", "")).strip()
+            if value and value not in seen_numbers:
+                seen_numbers.add(value)
+                numbers.append(value)
+    for claim in data.get("technical_claims") or []:
+        if not isinstance(claim, str):
+            continue
+        for match in _re.findall(r"R\$\s*[\d.,]+(?:\s*(?:bi|mi|mil|bilh[õo]es|milh[õo]es))?|\d+[.,]?\d*%", claim):
+            if match not in seen_numbers:
+                seen_numbers.add(match)
+                numbers.append(match)
+
+    # Call GPT for mechanisms, causal_steps, definitions
+    mechanisms: list[str] = []
+    causal_steps: list[str] = []
+    definitions: list[dict] = []
+
+    content_parts = []
+    if visual_transcript:
+        content_parts.append(f"Conteúdo visual:\n{visual_transcript}")
+    if caption:
+        content_parts.append(f"Legenda: {caption}")
+    content = "\n\n".join(content_parts)
+
+    if content.strip():
+        try:
+            response = openai_client.chat.completions.create(
+                model="gpt-4o",
+                messages=[
+                    {"role": "system", "content": _EVIDENCE_PROMPT},
+                    {"role": "user", "content": content[:6000]},
+                ],
+                max_tokens=600,
+            )
+            raw = (response.choices[0].message.content or "").strip()
+            if raw.startswith("```"):
+                raw = raw.split("```", 2)[1]
+                if raw.startswith("json"):
+                    raw = raw[4:]
+                raw = raw.rstrip("`").strip()
+            evidence_data = json.loads(raw)
+            mechanisms = [str(m).strip() for m in evidence_data.get("mechanisms") or [] if str(m).strip()]
+            causal_steps = [str(s).strip() for s in evidence_data.get("causal_steps") or [] if str(s).strip()]
+            definitions = [
+                d for d in (evidence_data.get("definitions") or [])
+                if isinstance(d, dict) and d.get("term") and d.get("definition")
+            ]
+        except Exception as exc:
+            logger.warning("Evidence inventory GPT extraction failed for post: %s", exc)
+
+    return {
+        "required": {
+            "numbers": numbers,
+            "mechanisms": mechanisms,
+            "causal_steps": causal_steps,
+            "definitions": definitions,
+        },
+        "optional": {
+            "claims": [c.strip() for c in (data.get("technical_claims") or []) if isinstance(c, str) and c.strip()],
+            "sources": [str(s).strip() for s in (data.get("sources_referenced") or []) if str(s).strip()],
+            "context": data.get("core_argument") or "",
+        },
+    }
 
 
 def _to_data_url(image_url: str) -> str:
