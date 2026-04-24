@@ -90,6 +90,14 @@ REGRAS INVIOLÁVEIS DE COPYWRITING:
 8. SÍNTESE NO PENÚLTIMO SLIDE: A tese central vem quando o leitor já a construiu mentalmente.
 9. CTA COMO EXTENSÃO LÓGICA: O desejo foi construído pelo conteúdo — o CTA captura, nunca interrompe.
 
+BENCHMARK DE QUALIDADE — ESTILO VAROS:
+- Pense em carrossel como sequência investigativa, não como outline de aula.
+- Cada slide deve parecer um post textual completo: 2 a 5 blocos curtos, uma revelação concreta e uma lacuna para o próximo.
+- O padrão desejado é: fato específico → contexto → complicador → prova → consequência → tese → CTA.
+- Evite títulos genéricos de apresentação ("Impacto Atual", "Transformação Econômica", "3 Inovações Cruciais").
+- Evite perguntas abstratas repetidas ("Como você pode aplicar?", "Qual estratégia usar?"). Pergunta só entra quando nasce de uma tensão concreta.
+- Se o material-base for um carrossel denso, preserve a escala editorial. Não comprima 10+ cards em 5 ou 6 slides.
+
 REGRAS INEGOCIÁVEIS DE CONTEÚDO:
 - Escreva como alguém do agro brasileiro. Nunca use tom de coach, autoajuda ou texto genérico.
 - Preserve os dados técnicos do material de origem. Números, percentuais, fontes e comparativos devem aparecer.
@@ -97,6 +105,7 @@ REGRAS INEGOCIÁVEIS DE CONTEÚDO:
 - Troque o cenário, não a lógica. Nunca reduza um caso analítico a sermão genérico.
 - Não invente fatos, estatísticas, safras, preços ou fontes.
 - CTA em fundo de funil aponta diretamente para a Confraria.
+- Não entregue "CAPA/HOOK/MODELO" como esqueleto aparente. Esses rótulos são metadados; o leitor deve receber uma narrativa fluida.
 
 TIPOS DE SLIDE DISPONÍVEIS:
 CAPA | HOOK | MODELO | ESCALADA | DADO | MECANISMO | REVELACAO | DADOS_HISTORICOS | CASO_HUMANO | CONSEQUENCIA | RESPIRO | POLITICA | SINTESE | CTA
@@ -209,6 +218,8 @@ _BLOCKING_ISSUE_PREFIXES = (
     "faltou cta",
     "faltaram slides",
     "carrossel raso demais",
+    "carrossel curto demais",
+    "copy em formato de roteiro generico",
     "o slide 1 precisa ser capa",
     "o slide 2 precisa ser hook",
     "o ultimo slide precisa ser cta",
@@ -231,6 +242,8 @@ _FULL_REWRITE_ISSUE_PREFIXES = (
     "faltou cta",
     "faltaram slides",
     "carrossel raso demais",
+    "carrossel curto demais",
+    "copy em formato de roteiro generico",
     "o slide 1 precisa ser capa",
     "o slide 2 precisa ser hook",
     "o ultimo slide precisa ser cta",
@@ -268,6 +281,30 @@ _LOCAL_REPAIR_MARKERS = (
 _PRACTICAL_REPAIR_SUFFIX = (
     "Na pratica, isso muda a decisao de produtor, consultor, revenda e vendedor "
     "porque mexe em margem, risco e timing comercial."
+)
+
+_GENERIC_STUDIO_PHRASES = (
+    "como voce pode",
+    "como você pode",
+    "qual estrategia voce pode",
+    "qual estratégia você pode",
+    "como essas inovacoes podem",
+    "como essas inovações podem",
+    "como voce pode replicar",
+    "como você pode replicar",
+    "desafios se tornam oportunidades",
+    "vamos juntos",
+    "transforme desafios em resultados",
+)
+
+_GENERIC_PRESENTATION_TITLES = (
+    "impacto atual",
+    "transformacao economica",
+    "transformação econômica",
+    "a hora da acao",
+    "a hora da ação",
+    "3 inovacoes cruciais",
+    "3 inovações cruciais",
 )
 
 _QUALITY_SCORE_THRESHOLD = 0.78
@@ -736,6 +773,8 @@ def _build_evidence_pack(
 def _build_quality_guardrails() -> list[str]:
     return [
         "O numero de slides e determinado pelo argumento — nao existe limite superior.",
+        "Se a fonte e carrossel analitico, o output precisa manter profundidade de carrossel analitico; 5 ou 6 slides viram resumo, nao adaptacao.",
+        "Benchmark Varos: cada card deve trazer fato, contexto, virada ou prova; nao aceite card com uma pergunta generica como desenvolvimento.",
         "Cada slide tem funcao narrativa unica. Se dois slides revelam a mesma coisa, um deles nao existe.",
         "O tom varia a cada slide — nunca uniforme. Espanto, admiracao, indignacao, analise, leveza, sintese.",
         "A sintese central vem no penultimo slide, nunca no primeiro.",
@@ -762,6 +801,21 @@ def _normalize_generation_result(result: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _count_generic_studio_markers(slides: list[dict[str, Any]], caption: str, cta: str) -> int:
+    combined = " ".join(
+        [caption, cta]
+        + [slide.get("title", "") for slide in slides]
+        + [slide.get("copy", "") for slide in slides]
+    ).lower()
+    phrase_hits = sum(1 for phrase in _GENERIC_STUDIO_PHRASES if phrase in combined)
+    title_hits = sum(
+        1
+        for slide in slides
+        if str(slide.get("title") or "").strip().lower() in _GENERIC_PRESENTATION_TITLES
+    )
+    return phrase_hits + title_hits
+
+
 def _evaluate_generation(
     result: dict[str, Any],
     source_post: Post,
@@ -786,12 +840,18 @@ def _evaluate_generation(
     else:
         if len(slides) < 5:
             problems.append(f"carrossel raso demais ({len(slides)} slides — argumento incompleto)")
+        if (source_post.post_type or "").strip().lower() == "carousel" and len(slides) < max(8, target_slide_count - 2):
+            problems.append(
+                f"carrossel curto demais ({len(slides)} slides — fonte pedia cerca de {target_slide_count})"
+            )
         if slides[0]["slide_type"] != "CAPA":
             problems.append("o slide 1 precisa ser CAPA")
         if len(slides) < 2 or slides[1]["slide_type"] != "HOOK":
             problems.append("o slide 2 precisa ser HOOK")
         if slides[-1]["slide_type"] != "CTA":
             problems.append("o ultimo slide precisa ser CTA")
+        if _count_generic_studio_markers(slides, caption, cta) >= 2:
+            problems.append("copy em formato de roteiro generico — falta tensao, prova e progressao estilo Varos")
     if not caption:
         problems.append("faltou legenda")
     else:
@@ -1691,7 +1751,7 @@ def generate_post(
     target_slide_count = estimate_target_slide_count(
         intel.technical_depth,
         getattr(intel, "carousel_complexity", {}).get("complexity_score"),
-        minimum=6,
+        minimum=10 if (source_post.post_type or "").strip().lower() == "carousel" else 6,
     )
     slide_blueprint = build_slide_blueprint(target_slide_count)
     quality_guardrails = _build_quality_guardrails()
@@ -1853,6 +1913,7 @@ def generate_post(
         format=normalized_result.get("format"),
         slides=normalized_result.get("slides") or [],
         planning_narrative=deepcopy(normalized_result.get("planejamento_narrativo") or {}),
+        source_data_inventory=deepcopy(getattr(intel, "evidence_inventory", None) or {}),
     )
     session.add(generated)
     session.commit()

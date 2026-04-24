@@ -11,7 +11,13 @@ os.environ.setdefault("DATABASE_URL", "sqlite:///:memory:")
 os.environ.setdefault("OPENAI_API_KEY", "sk-test")
 os.environ.setdefault("APIFY_API_TOKEN", "apify-test")
 
-from src.generator.content_generator import generate_post
+from src.generator.content_generator import (
+    _build_evidence_pack,
+    _build_validated_data_catalog,
+    _evaluate_generation,
+    _select_top_arguments,
+    generate_post,
+)
 from src.models import ArgumentBank, Base, Post, PostAnalysis, PostIntelligence, Profile, ProfileVoice
 
 
@@ -165,6 +171,40 @@ def _with_planning_narrative(payload: dict, *, thesis: str = "Margem boa depende
 
 
 _with_adaptation_map = _with_planning_narrative
+
+
+def test_evaluate_generation_rejects_short_generic_carousel_source(session_with_generation_context):
+    session, post, _voice = session_with_generation_context
+    post.post_type = "carousel"
+    top_args = _select_top_arguments(session, post)
+    catalog = _build_validated_data_catalog(post, top_args)
+    evidence_pack = _build_evidence_pack(post, top_args, catalog)
+    generic = _with_planning_narrative(
+        {
+            "slides": [
+                {"slide_number": 1, "slide_type": "CAPA", "title": "De Importador a Potencia Agro", "copy": "O Brasil mudou sua historia.", "cta": ""},
+                {"slide_number": 2, "slide_type": "HOOK", "title": "A Revolucao da Embrapa", "copy": "Mas qual foi o impacto real dessa historia?", "cta": ""},
+                {"slide_number": 3, "slide_type": "MODELO", "title": "3 Inovacoes Cruciais", "copy": "Como essas inovacoes podem ser usadas hoje?", "cta": ""},
+                {"slide_number": 4, "slide_type": "ESCALADA", "title": "Impacto Atual", "copy": "Qual estrategia voce pode aplicar ja?", "cta": ""},
+                {"slide_number": 5, "slide_type": "SINTESE", "title": "Transformacao Economica", "copy": "Desafios se tornam oportunidades.", "cta": ""},
+                {"slide_number": 6, "slide_type": "CTA", "title": "A Hora da Acao", "copy": "Vamos juntos?", "cta": "Entre na Confraria e transforme desafios em resultados."},
+            ],
+            "caption": (
+                "O agro brasileiro mudou muito nas ultimas decadas e essa transformacao mostra a importancia da tecnologia.\n\n"
+                "Quando olhamos para sementes, solo e gestao hidrica, percebemos que desafios podem se tornar oportunidades para quem sabe aplicar conhecimento.\n\n"
+                "Na pratica, isso inspira produtores, consultores e vendedores a buscarem mais estrategia no campo e mais resultado no caixa.\n\n"
+                "Se voce quer transformar desafios em resultados, conheca a Confraria de Vendas no Agro e domine o comercial no agro."
+            ),
+            "cta": "Entre na Confraria e transforme desafios em resultados.",
+            "funnel_stage": "fundo",
+            "format": "carousel",
+        }
+    )
+
+    evaluation = _evaluate_generation(generic, post, evidence_pack, target_slide_count=12)
+
+    assert any(issue.startswith("carrossel curto demais") for issue in evaluation["problems"])
+    assert any(issue.startswith("copy em formato de roteiro generico") for issue in evaluation["problems"])
 
 
 def test_generate_post_retries_when_initial_draft_is_weak(session_with_generation_context):
@@ -645,3 +685,49 @@ def test_generate_post_requires_planning_narrative_before_approving(session_with
     revision_prompt = mock_create.call_args_list[-1].kwargs["messages"][1]["content"]
     assert "planejamento_narrativo" in revision_prompt
     assert "Monte o planejamento_narrativo completo antes dos slides" in revision_prompt
+
+
+def test_generate_post_snapshots_source_data_inventory(session_with_generation_context):
+    """GeneratedPost.source_data_inventory must be a copy of the source intelligence evidence_inventory."""
+    session, post, voice = session_with_generation_context
+
+    inventory = {
+        "required": {
+            "numbers": ["12%", "R$ 18/sc"],
+            "mechanisms": ["margem"],
+            "causal_steps": [],
+            "definitions": [],
+        },
+        "optional": {"claims": [], "sources": [], "context": ""},
+    }
+    post.intelligence.evidence_inventory = inventory
+
+    good_response = _with_adaptation_map({
+        "slides": [
+            {"slide_number": 1, "slide_type": "CAPA", "title": "Margem ruim pode destruir uma boa safra", "copy": "O problema nao esta so na produtividade.", "cta": ""},
+            {"slide_number": 2, "slide_type": "HOOK", "title": "12% de diferenca na margem muda o jogo", "copy": "Quando isso acontece, a conversa precisa sair do volume e entrar na decisao. 12%", "cta": ""},
+            {"slide_number": 3, "slide_type": "DESENVOLVIMENTO", "title": "R$ 18/sc mostram o tamanho do erro", "copy": "Na pratica, essa variacao de R$ 18/sc aparece quando estrategia comercial e leitura de risco falham.", "cta": ""},
+            {"slide_number": 4, "slide_type": "DESENVOLVIMENTO", "title": "Volume nao protege caixa sozinho", "copy": "Produtividade alta nao impede erro de leitura comercial. A margem define o resultado.", "cta": ""},
+            {"slide_number": 5, "slide_type": "DESENVOLVIMENTO", "title": "Preco sem criterio enfraquece venda", "copy": "Separar custo e negociacao cria leitura fraca do mercado no agro.", "cta": ""},
+            {"slide_number": 6, "slide_type": "PROVA", "title": "Levantamento interno confirmou a diferenca", "copy": "Quando a margem cede 12% no levantamento interno, a pressao comercial fica evidente para o produtor.", "cta": ""},
+            {"slide_number": 7, "slide_type": "CTA", "title": "Quer aprender a defender margem?", "copy": "A decisao comercial precisa de metodo no agro.", "cta": "Entre na Confraria e aprenda a defender margem no agro."},
+        ],
+        "caption": (
+            "Tem produtor comemorando produtividade enquanto a margem escorre pelo comercial.\n\n"
+            "Quando a diferenca de margem chega a 12%, a decisao comercial muda o caixa da safra.\n\n"
+            "No levantamento interno, essa variacao chegou a R$ 18/sc e mostrou que vender melhor protege a rentabilidade.\n\n"
+            "Se voce trabalha com vendas no agro, precisa olhar margem com mais criterio e menos impulso."
+        ),
+        "cta": "Entre na Confraria e aprenda a defender margem no agro.",
+        "funnel_stage": "fundo",
+        "format": "carousel",
+        "hook": "12% de diferenca na margem muda o jogo",
+    })
+
+    with patch("src.generator.content_generator.load_studio_context", return_value={}), patch(
+        "src.generator.content_generator.openai_client.chat.completions.create",
+        return_value=_mock_response(good_response),
+    ):
+        generated = generate_post(post, voice, approved_examples=[], session=session)
+
+    assert generated.source_data_inventory == inventory
